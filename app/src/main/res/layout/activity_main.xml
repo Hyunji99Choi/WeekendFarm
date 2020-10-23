@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="409dp"
+        android:layout_height="679dp"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="51dp">
+
+        <EditText
+            android:id="@+id/emailInput"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="151dp"
+            android:hint="Email" />
+
+        <EditText
+            android:id="@+id/passwordInput"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/emailInput"
+            android:layout_centerHorizontal="true"
+            android:hint="Password" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="55dp"
+            android:text="Log in"
+            android:id="@+id/loginButton"
+            android:textAllCaps="false"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/passwordInput"
+            android:layout_toStartOf="@+id/signupButton" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="55dp"
+            android:text="Sign up"
+            android:id="@+id/signupButton"
+            android:textAllCaps="false"
+            android:layout_alignTop="@+id/loginButton"
+            android:layout_alignEnd="@+id/passwordInput" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember login"
+            android:id="@+id/checkBox"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/loginButton"
+            android:layout_centerHorizontal="true" />
+
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

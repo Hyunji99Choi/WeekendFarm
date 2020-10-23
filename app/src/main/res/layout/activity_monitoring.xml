@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dl_main_drawer_root"
+    tools:context=".MonitoringPage">
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <!-- AppBar도 material 라이브러리가 있어야 사용 가능하다. -->
+        <!-- AppBar는 기존 제목 색을 갖는다. 그래서 Toolbar에 색상을 입혀졌다.-->
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.Appbar">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="0dp">
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:id="@+id/toolbar_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:onClick="onClickTextView"
+                        android:clickable="true"
+                        android:text="1번 밭"
+                        android:textColor="#ffffff"
+                        android:textSize="20sp" />
+                </FrameLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+
+
+            <!-- tap layout -->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/layout_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabTextColor="@color/white"
+                app:tabSelectedTextColor="#FF8800"
+                app:tabIndicatorColor="#FF8800"
+                app:tabIndicatorHeight="4dp">
+            </com.google.android.material.tabs.TabLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!--tab adater로 페이지 연결 -->
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+
+        <!--베너 -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/baner"
+            android:clipToPadding="false"
+            android:clipChildren="false"
+            android:layout_margin="-65dp"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"/>
+    </FrameLayout>
+
+    <!-- 왼쪽 사이드 메뉴 -->
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/navi_header"
+            app:menu="@menu/drawer"
+            />
+
+</androidx.drawerlayout.widget.DrawerLayout>

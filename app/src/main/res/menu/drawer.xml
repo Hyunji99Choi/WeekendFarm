@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/today"
+        android:title="오늘의 작물"
+        android:icon="@android:drawable/ic_menu_today"></item>
+
+    <item android:id="@+id/community"
+        android:title="커뮤니티"
+        android:icon="@android:drawable/ic_menu_edit"></item>
+
+    <item android:title="관리자 목록">
+        <menu>
+            <group>
+                <item android:id="@+id/menu_admin"
+                    android:title="key 번호 생성"/>
+                <item android:id="@+id/menu_goood"
+                    android:title="회원정보 열람"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:id="@+id/setting"
+        android:title="설정"
+        android:icon="@android:drawable/ic_menu_help"/>
+
+</menu>
