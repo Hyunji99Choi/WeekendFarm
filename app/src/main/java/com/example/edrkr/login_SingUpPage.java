@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.concurrent.ExecutionException;
+
 public class login_SingUpPage extends AppCompatActivity {
 
     TextView sing_id;
@@ -27,17 +29,19 @@ public class login_SingUpPage extends AppCompatActivity {
     boolean id_double_ck = false; //아이디 중복 확인
     boolean nk_double_ck = false; //닉네임 중복 확인
 
-    String Sign_URL;
-    String doubleck_URL;
+    String Sign_URL="http://192.168.43.10:3000/users/";
+    String doubleck_URL="http://192.168.43.10:3000/users/search";
 
     NetworkTask signPage_networkTask;
+
+    private String NetworkRESULT=null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_signup);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_sign);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("회원가입"); // 툴바 이름 변경
 
@@ -89,7 +93,7 @@ public class login_SingUpPage extends AppCompatActivity {
         });
 
     }
-    public void onClickdbCkButton(View view){
+    public void onClickdbCkButton(View view) throws ExecutionException, InterruptedException {
         switch (view.getId()){
             case R.id.sign_iddubButton:
                 //id 중복 확인
@@ -97,12 +101,13 @@ public class login_SingUpPage extends AppCompatActivity {
                 dbckIDvalues.put("id",sing_id.getText().toString());
 
                 signPage_networkTask = new NetworkTask(doubleck_URL,dbckIDvalues);
-                signPage_networkTask.execute();
+                NetworkRESULT=signPage_networkTask.execute().get();
 
-                if(signPage_networkTask.result=="중복 안됨"){
+                if(NetworkRESULT.equals("중복 안됨")){
+                    //task에서 ui 수정해주기. (빨갛게)
                     Toast.makeText(this,"사용 가능한 id 입니다.",Toast.LENGTH_LONG).show();
                     id_double_ck=true;
-                }else if(signPage_networkTask.result=="중복됨"){
+                }else if(NetworkRESULT.equals("중복됨")){
                     Toast.makeText(this,"이미 사용중인 id 입니다..",Toast.LENGTH_LONG).show();
                     //나중에 추가할 수 있으면 빨간 테두리(drawable 사용)
                 }else{
@@ -115,15 +120,15 @@ public class login_SingUpPage extends AppCompatActivity {
             case R.id.sign_nkdubButton:
                 //닉네임 중복 확인
                 ContentValues dbckNKvalues = new ContentValues();
-                dbckNKvalues.put("id",sing_id.getText().toString());
+                dbckNKvalues.put("nkname",sing_id.getText().toString()); //닉네임 변수 확인
 
                 signPage_networkTask = new NetworkTask(doubleck_URL,dbckNKvalues);
-                signPage_networkTask.execute();
+                NetworkRESULT=signPage_networkTask.execute().get();
 
-                if(signPage_networkTask.result=="중복 안됨"){
+                if(NetworkRESULT.equals("중복 안됨")){
                     Toast.makeText(this,"사용 가능한 닉네임 입니다.",Toast.LENGTH_LONG).show();
                     nk_double_ck=true;
-                }else if(signPage_networkTask.result=="중복됨"){
+                }else if(NetworkRESULT.equals("중복됨")){
                     Toast.makeText(this,"이미 사용중인 닉네임 입니다..",Toast.LENGTH_LONG).show();
                     //나중에 추가할 수 있으면 빨간 테두리(drawable 사용)
                 }else{
@@ -136,7 +141,7 @@ public class login_SingUpPage extends AppCompatActivity {
 
         }
     }
-    public void onClickLoginButton(View view){
+    public void onClickLoginButton(View view) throws ExecutionException, InterruptedException {
 
         String pw=sing_pw.getText().toString();
         String pwck=sing_pwck.getText().toString();
@@ -147,27 +152,28 @@ public class login_SingUpPage extends AppCompatActivity {
             //Log.w("비번","비번틀림");
             return;
         }
+        /* 닉네임, id 중복확인 했는지 확인
         if(!(nk_double_ck==true&&id_double_ck==true)){
             Toast.makeText(this,"중복확인이 되지 않았습니다.",Toast.LENGTH_LONG).show();
             return;
         }
-
+        */
         ContentValues dbckIDvalues = new ContentValues();
-        dbckIDvalues.put("UserId",sing_id.getText().toString());
-        dbckIDvalues.put("UserPW",pw);
-        dbckIDvalues.put("UserName",sing_name.getText().toString());
-        dbckIDvalues.put("Usernknameee",sing_nkname.getText().toString());
-        dbckIDvalues.put("UserEmail",sing_email.getText().toString());
-        dbckIDvalues.put("UserPNum",sing_phon.getText().toString());
-        dbckIDvalues.put("Userkeyyyy",keyNumber.getText().toString());
+        dbckIDvalues.put("id",sing_id.getText().toString());
+        dbckIDvalues.put("pw",pw);
+        dbckIDvalues.put("name",sing_name.getText().toString());
+        dbckIDvalues.put("nkname",sing_nkname.getText().toString()); //변수 이름 바꿔야함
+        dbckIDvalues.put("email",sing_email.getText().toString());
+        dbckIDvalues.put("phone",sing_phon.getText().toString());
+        dbckIDvalues.put("key",keyNumber.getText().toString());
 
         signPage_networkTask = new NetworkTask(Sign_URL,dbckIDvalues);
-        signPage_networkTask.execute();
+        NetworkRESULT=signPage_networkTask.execute().get();
 
-        if(signPage_networkTask.result=="key권한 없음"){
+        if(NetworkRESULT.equals("key권한 없음")){
             Toast.makeText(this,"잘못된 key정보입니다.",Toast.LENGTH_LONG).show();
             id_double_ck=true;
-        }else if(signPage_networkTask.result=="승인"){
+        }else if(NetworkRESULT.equals("회원가입이 완료되었습니다.")){ //성공적인 가입
             Toast.makeText(this,"회원가입 완료",Toast.LENGTH_LONG).show();
             finish();
         }else{

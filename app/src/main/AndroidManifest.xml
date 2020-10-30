@@ -16,7 +16,8 @@
         android:usesCleartextTraffic="true">
         <!-- http 통신 트레픽 허용 -->
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

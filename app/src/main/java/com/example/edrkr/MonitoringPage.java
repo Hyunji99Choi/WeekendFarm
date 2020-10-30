@@ -145,6 +145,9 @@ public class MonitoringPage extends AppCompatActivity {
         Toast.makeText(this,"타이틀 클릭",Toast.LENGTH_SHORT).show();
     }
 
+    public void onClickHeader(View view){ //메뉴 헤더 클릭시
+        Toast.makeText(this,"헤더 클릭",Toast.LENGTH_SHORT).show();
+    }
 
 
 }
