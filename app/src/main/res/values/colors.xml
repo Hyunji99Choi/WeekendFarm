@@ -6,4 +6,21 @@
 
 
     <color name="white">#FFFFFF</color>
+
+    <!-- 조도 센서 컬러 -->
+    <color name="sunny_very_dack">#494D0E</color>
+    <color name="sunny_dack">#6C7816</color>
+    <color name="sunny_some_dack">#A39C0A</color>
+    <color name="sunny_some_bright">#D19C21</color>
+    <color name="sunny_bright">#D9AE14</color>
+    <color name="sunny_very_bright">#FFDD00</color>
+    
+    <!-- 대기 온도 센서 컬러 -->
+    <color name="hot_very_cold">#3A77F0</color>
+    <color name="hot_cold">#2DB1F7</color>
+    <color name="hot_some_cold">#34D9E0</color>
+    <color name="hot_some_hot">#F08E4D</color>
+    <color name="hot_hot">#F76940</color>
+    <color name="hot_very_hot">#E04D46</color>
+
 </resources>

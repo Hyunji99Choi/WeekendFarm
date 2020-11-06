@@ -49,7 +49,7 @@
                 app:progress_stroke_cap="round"
                 app:progress_stroke_width="10dp "
                 app:progress_text_color="#DA8C52"
-                app:progress_text_size="15sp"
+                app:progress_text_size="20sp"
                 app:style="solid_line"
                 app:progress_start_degree="150"/>
 

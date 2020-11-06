@@ -88,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
                         NetworkTask Login_networkTask = new NetworkTask(login_URL,values);
 
-
+                        //통신
+                        /*
                         try {
                             NetworkRESULT=Login_networkTask.execute().get();    //네트워크 통신(동기)
                         } catch (ExecutionException e) {
@@ -100,15 +101,12 @@ public class MainActivity extends AppCompatActivity {
 
 
                         if(NetworkRESULT.equals("성공")){
-                            Log.w("로그인 시도","성공");
-                            //쓰레드 문제 고민해보기
                             Log.w("result login페이지",""+Login_networkTask.result);
 
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_LONG).show();
                             NetworkTask UserData_networkTask=new NetworkTask(UserData_URL+UserID,null);// 고쳐야함
                             UserData_networkTask.execute();
 
-                            //값 넘겨주는 문제 고민해보기
                             Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
                             startActivity(intent1);
                             finish();
@@ -121,11 +119,11 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "인터넷 연결 불안정", Toast.LENGTH_LONG).show();
                         }
 
-
+                        */
                         //지워야하는 부분...
                         //페이지 넘어가기
-                        //Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
-                        //startActivity(intent1);
+                        Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
+                        startActivity(intent1);
                         //뒤로 버튼 나오면 바로 종료
                         //finish();
 

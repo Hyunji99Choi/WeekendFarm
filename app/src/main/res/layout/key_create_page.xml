@@ -3,4 +3,107 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.Appbar">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_keycreate"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="130dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/key_phonTextView"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="전화번호"
+                android:layout_marginRight="5dp"
+                android:textSize="22dp" />
+
+            <EditText
+                android:id="@+id/key_phonNumber"
+                android:layout_width="230dp"
+                android:layout_height="50dp"
+                android:hint="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:textSize="22dp"
+                android:text="1번 밭" />
+
+            <CheckBox
+                android:id="@+id/checkBox3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="15dp"
+                android:textSize="22dp"
+                android:text="2번 밭" />
+
+            <CheckBox
+                android:id="@+id/checkBox4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="15dp"
+                android:textSize="22dp"
+                android:text="3번 밭" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="350dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/TextKeyValue"
+                android:layout_width="300dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="생성된 키 번호"
+                android:textSize="20sp"
+                android:padding="10dp"
+                android:background="@drawable/border_round"/>
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="250dp"
+                android:layout_height="55dp"
+                android:layout_below="@+id/TextKeyValue"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:layout_toStartOf="@+id/signupButton"
+                android:textSize="18sp"
+                android:text="키 생성"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

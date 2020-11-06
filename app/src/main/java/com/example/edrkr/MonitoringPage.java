@@ -2,7 +2,9 @@ package com.example.edrkr;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -41,6 +43,10 @@ public class MonitoringPage extends AppCompatActivity {
 
     ViewPager pager;
     MyAdapter adapter;
+
+
+    CharSequence farmManu[]; //밭 list 다이로그
+
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -143,11 +149,35 @@ public class MonitoringPage extends AppCompatActivity {
         //case R.id.toolbar...
 
         Toast.makeText(this,"타이틀 클릭",Toast.LENGTH_SHORT).show();
+        FarmDialogSetting(); //다이로그 생성 함수
     }
 
     public void onClickHeader(View view){ //메뉴 헤더 클릭시
         Toast.makeText(this,"헤더 클릭",Toast.LENGTH_SHORT).show();
     }
 
+    public void FarmDialogSetting(){ //타이틀 밭 이동 리스트
+        farmManu=new CharSequence[]{"1번 밭","2번 밭","3번 밭"}; //밭 별명
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("밭 이동");
+        builder.setItems(farmManu, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) { //연동적으로 수정
+                switch (i){
+                    case 0:
+                        Toast.makeText(context, "1번밭", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        Toast.makeText(context, "2번밭", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(context, "3번밭", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                dialogInterface.dismiss();
+            }
+        });
 
+        builder.show();
+    }
 }
