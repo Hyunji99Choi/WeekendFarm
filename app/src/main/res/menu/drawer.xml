@@ -12,9 +12,9 @@
     <item android:title="관리자 목록">
         <menu>
             <group>
-                <item android:id="@+id/menu_admin"
+                <item android:id="@+id/menu_admin_key"
                     android:title="key 번호 생성"/>
-                <item android:id="@+id/menu_goood"
+                <item android:id="@+id/menu_admin_list"
                     android:title="회원정보 열람"/>
             </group>
         </menu>

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -115,17 +116,26 @@ public class MonitoringPage extends AppCompatActivity {
 
                 switch (menuItem.getItemId()){
                     case R.id.today:
+                        //다음학기
                         Toast.makeText(MonitoringPage.this,"today",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.community:
+                        //이아름
+
                         Toast.makeText(MonitoringPage.this,"community",Toast.LENGTH_SHORT).show();
                         break;
 
-                    case R.id.menu_admin:
-                        Toast.makeText(MonitoringPage.this,"admin",Toast.LENGTH_SHORT).show();
+                    case R.id.menu_admin_key:
+                        Intent keypage = new Intent(MonitoringPage.this,KeyCreatePage.class);
+                        startActivity(keypage);
+
+                        Toast.makeText(MonitoringPage.this,"key생성페이지",Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.menu_goood:
-                        Toast.makeText(MonitoringPage.this,"승인여부",Toast.LENGTH_SHORT).show();
+                    case R.id.menu_admin_list:
+                        //이아름
+
+
+                        Toast.makeText(MonitoringPage.this,"회원정보 열람",Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.setting:
@@ -147,8 +157,6 @@ public class MonitoringPage extends AppCompatActivity {
     public void onClickTextView(View view){
         //switch(view.getId())
         //case R.id.toolbar...
-
-        Toast.makeText(this,"타이틀 클릭",Toast.LENGTH_SHORT).show();
         FarmDialogSetting(); //다이로그 생성 함수
     }
 

@@ -30,6 +30,8 @@
 
         <activity android:name=".login_SingUpPage"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".KeyCreatePage"></activity>
     </application>
 
 </manifest>

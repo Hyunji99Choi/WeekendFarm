@@ -62,7 +62,7 @@ public class RequestHttpURLConnection {
 
             // [2-1]. urlConn 설정.
             urlConn.setReadTimeout(10000);
-            urlConn.setConnectTimeout(15000);
+            urlConn.setConnectTimeout(15000); //연결 타임아웃 설정, 수정함 원래값 15000
 
             //POST 통신 방법일 떄
             if(_params!=null){

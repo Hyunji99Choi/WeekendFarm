@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         NetworkTask Login_networkTask = new NetworkTask(login_URL,values);
 
                         //통신
-                        /*
+
                         try {
                             NetworkRESULT=Login_networkTask.execute().get();    //네트워크 통신(동기)
                         } catch (ExecutionException e) {
@@ -98,9 +98,10 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
-
-                        if(NetworkRESULT.equals("성공")){
+                        if(NetworkRESULT==null){
+                            Log.w("로그인 시도","실패 : "+NetworkRESULT);
+                            Toast.makeText(getApplicationContext(), "인터넷 연결 불안정", Toast.LENGTH_LONG).show();
+                        } else if(NetworkRESULT.equals("성공")){
                             Log.w("result login페이지",""+Login_networkTask.result);
 
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_LONG).show();
@@ -114,12 +115,12 @@ public class MainActivity extends AppCompatActivity {
                         }else if(NetworkRESULT.equals("실패")){
                             Log.w("로그인 시도","잘못된 정보 : "+NetworkRESULT);
                             Toast.makeText(getApplicationContext(), "잘못된 로그인 정보", Toast.LENGTH_LONG).show();
-                        }else{
+                        }else{ //중복 코드. 나중에 고치기
                             Log.w("로그인 시도","실패 : "+NetworkRESULT);
                             Toast.makeText(getApplicationContext(), "인터넷 연결 불안정", Toast.LENGTH_LONG).show();
                         }
 
-                        */
+
                         //지워야하는 부분...
                         //페이지 넘어가기
                         Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
