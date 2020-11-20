@@ -143,7 +143,8 @@ public class MonitoringPage extends AppCompatActivity {
                         break;
                     case R.id.community:
                         //이아름
-
+                        Intent intent = new Intent(MonitoringPage.this, NoticeBoardActivity.class);
+                        startActivity(intent);
                         Toast.makeText(MonitoringPage.this,"community",Toast.LENGTH_SHORT).show();
                         break;
 
@@ -155,8 +156,8 @@ public class MonitoringPage extends AppCompatActivity {
                         break;
                     case R.id.menu_admin_list:
                         //이아름
-
-
+                        intent = new Intent(MonitoringPage.this, Managerpage.class);
+                        startActivity(intent);
                         Toast.makeText(MonitoringPage.this,"회원정보 열람",Toast.LENGTH_SHORT).show();
                         break;
 

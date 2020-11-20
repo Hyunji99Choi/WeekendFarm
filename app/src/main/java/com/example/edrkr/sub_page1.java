@@ -141,8 +141,9 @@ public class sub_page1 extends Fragment {
         };
 
         timer=new Timer();
-        timer.schedule(timerTask,3000,5000); //3초 후의 실행 후 5초마다 반복
+        //timer.schedule(timerTask,5000,10000); //5초 후의 실행 후 10초마다 반복
     }
+
 
     @Override
     public void onDestroy() { //엑티비티 꺼졌을때
