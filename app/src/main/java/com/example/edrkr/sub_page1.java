@@ -1,8 +1,8 @@
 package com.example.edrkr;
 
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import me.relex.circleindicator.CircleIndicator3;
 
 
@@ -34,11 +37,13 @@ public class sub_page1 extends Fragment {
     public CircleProgressBar water_seneor;
     public TextView hot_text;
     public ImageView hot_sencor;
+    public TextView comment; // 총론
 
     GradientDrawable sunny_drawable; // 조도 센서 도형
     GradientDrawable hot_drawable; // 온도 센서
 
-    ControlMonitor controlMonitor; //클래스 객체 선언 - 센서 컨트롤
+    TimerTask timerTask;//센서통신할 타이머
+    Timer timer; //센서통신할 타이머
 
 
     @Nullable
@@ -52,11 +57,12 @@ public class sub_page1 extends Fragment {
         water_seneor=view.findViewById(R.id.water_sensor);
         hot_text=view.findViewById(R.id.hot_sensor);
         hot_sencor=view.findViewById(R.id.hot_sensor_color);
+        comment=view.findViewById(R.id.textViewComment);
         sunny_drawable = (GradientDrawable) ContextCompat.getDrawable(getContext(), R.drawable.sunny_circle); // 조도 센서 도형
         hot_drawable = (GradientDrawable) ContextCompat.getDrawable(getContext(), R.drawable.hot_circle); // 온도 센서
 
-        //클래스 객체 선언 - 센서 컨트롤
-        controlMonitor = new ControlMonitor(getContext());
+        //싱글턴 클래스 context 값, 현재 객체 넣어주기 - 센서 컨트롤
+        ControlMonitoring.GetInstance().setContextThis(getContext(),this);
 
 
 
@@ -110,31 +116,38 @@ public class sub_page1 extends Fragment {
             }
         });
 
-        //초기세팅
-        updateSencor(50,70,25.0,80);
 
+        //처음 센서값 요청
+        ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
+        Start_SensorTimer();//타이머 시작
+
+        //정민이 통신
+        //ControlMonitoring.GetInstance().NetworkManager(1);
 
         return view;
 
     }
-    public void updateSencor(int soil,int sunny,double hot,int water){
 
-        //토양센서
-        soil_sensor.setProgress(soil);
-        //조도센서
-        sunny_drawable.setColor(controlMonitor.sunny_color(sunny));
-        sunny_sensor.setImageDrawable(sunny_drawable);
+    public void Start_SensorTimer(){
+        timerTask = new TimerTask() {
+            int count=0;
+            @Override
+            public void run() {
 
-        //대기온도센서
-        hot_drawable.setColor(controlMonitor.hot_color(hot));
-        hot_sencor.setImageDrawable(hot_drawable);
-        hot_text.setText(hot+"c");
+                Log.w("timer",""+count++);
+                Log.w("현재 통신대상",""+UserIdent.GetInstance().getNowMontriongFarm());
+                ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
+            }
+        };
 
-        //대기습도센서
-        water_seneor.setProgress(water);
-
-        //총론 수정
-
+        timer=new Timer();
+        timer.schedule(timerTask,3000,5000); //3초 후의 실행 후 5초마다 반복
     }
 
+    @Override
+    public void onDestroy() { //엑티비티 꺼졌을때
+        Log.i("test","onDstory");
+        timer.cancel();
+        super.onDestroy();
+    }
 }

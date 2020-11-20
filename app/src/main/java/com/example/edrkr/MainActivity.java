@@ -18,6 +18,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
@@ -33,13 +36,14 @@ public class MainActivity extends AppCompatActivity {
     Button loginButton;
     Button signupButton;
 
-    public String login_URL="http://192.168.43.10:3000/users/login";
-    private String UserData_URL="http://192.168.43.10:3000/manage/";
+    public String login_URL="http://52.79.237.95:3000/users/login";
+    private String UserData_URL="http://52.79.237.95:3000/";
 
     String UserID="ghd";
     String UserPW="1234";
 
     String NetworkRESULT=null;
+    String userIdentResult=null;
 
 
     @Override
@@ -49,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         InitializeView();
         SetListener();
-
-
 
     }
 
@@ -77,10 +79,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 switch (view.getId()){
                     case R.id.loginButton:
-                        Toast.makeText(getApplicationContext(),"로그인 버튼 클릭",Toast.LENGTH_LONG).show();
 
                         UserID=idInput.getText().toString();
                         UserPW=passwordInput.getText().toString();
+
+                        if(UserID.getBytes().length<=0||UserPW.getBytes().length<=0){
+                            Toast.makeText(getApplicationContext(), "로그인 정보를 입력해주세요", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
 
                         ContentValues values = new ContentValues();
                         values.put("id",UserID);
@@ -88,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
                         NetworkTask Login_networkTask = new NetworkTask(login_URL,values);
 
-                        //통신
+                        //로그인 여부 확인 통신
 
                         try {
                             NetworkRESULT=Login_networkTask.execute().get();    //네트워크 통신(동기)
@@ -101,12 +108,39 @@ public class MainActivity extends AppCompatActivity {
                         if(NetworkRESULT==null){
                             Log.w("로그인 시도","실패 : "+NetworkRESULT);
                             Toast.makeText(getApplicationContext(), "인터넷 연결 불안정", Toast.LENGTH_LONG).show();
+
                         } else if(NetworkRESULT.equals("성공")){
                             Log.w("result login페이지",""+Login_networkTask.result);
 
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_LONG).show();
                             NetworkTask UserData_networkTask=new NetworkTask(UserData_URL+UserID,null);// 고쳐야함
-                            UserData_networkTask.execute();
+
+                            // 회원 정보 요청 통신
+                            try {
+                                userIdentResult=UserData_networkTask.execute().get(); //네트워크 통신(동기)
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            if(userIdentResult==null){
+                                Log.w("회원정보요청 통신","실패 : "+userIdentResult);
+                                Toast.makeText(getApplicationContext(), "인터넷 연결 불안정", Toast.LENGTH_LONG).show();
+                            }else{
+                                Log.w("회원정보","싱글턴 저장 중");
+                                try {
+                                    JSONObject USER = new JSONObject(userIdentResult);
+                                    UserIdent.GetInstance().setJSONUserIdent(USER);
+                                    UserIdent.GetInstance().printLog();
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            UserIdent.GetInstance().setId(UserID);
+                            UserIdent.GetInstance().setPw(UserPW);
 
                             Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
                             startActivity(intent1);
@@ -123,8 +157,8 @@ public class MainActivity extends AppCompatActivity {
 
                         //지워야하는 부분...
                         //페이지 넘어가기
-                        Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
-                        startActivity(intent1);
+                        //Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
+                        //startActivity(intent1);
                         //뒤로 버튼 나오면 바로 종료
                         //finish();
 

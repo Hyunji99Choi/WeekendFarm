@@ -29,8 +29,11 @@ public class login_SingUpPage extends AppCompatActivity {
     boolean id_double_ck = false; //아이디 중복 확인
     boolean nk_double_ck = false; //닉네임 중복 확인
 
-    String Sign_URL="http://192.168.43.10:3000/users/";
-    String doubleck_URL="http://192.168.43.10:3000/users/search";
+    String Sign_URL="http://52.79.237.95:3000/users/";
+
+    String doubleckID_URL="http://52.79.237.95:3000/users/search/ID";
+    String doubleckNK_URL="http://52.79.237.95:3000/users/search/NickName";
+
 
     NetworkTask signPage_networkTask;
 
@@ -100,7 +103,7 @@ public class login_SingUpPage extends AppCompatActivity {
                 ContentValues dbckIDvalues = new ContentValues();
                 dbckIDvalues.put("id",sing_id.getText().toString());
 
-                signPage_networkTask = new NetworkTask(doubleck_URL,dbckIDvalues);
+                signPage_networkTask = new NetworkTask(doubleckID_URL,dbckIDvalues);
                 NetworkRESULT=signPage_networkTask.execute().get();
 
                 if(NetworkRESULT.equals("중복 안됨")){
@@ -120,9 +123,9 @@ public class login_SingUpPage extends AppCompatActivity {
             case R.id.sign_nkdubButton:
                 //닉네임 중복 확인
                 ContentValues dbckNKvalues = new ContentValues();
-                dbckNKvalues.put("nkname",sing_id.getText().toString()); //닉네임 변수 확인
+                dbckNKvalues.put("nickname",sing_id.getText().toString()); //닉네임 변수 확인
 
-                signPage_networkTask = new NetworkTask(doubleck_URL,dbckNKvalues);
+                signPage_networkTask = new NetworkTask(doubleckNK_URL,dbckNKvalues);
                 NetworkRESULT=signPage_networkTask.execute().get();
 
                 if(NetworkRESULT.equals("중복 안됨")){
@@ -152,17 +155,17 @@ public class login_SingUpPage extends AppCompatActivity {
             //Log.w("비번","비번틀림");
             return;
         }
-        /* 닉네임, id 중복확인 했는지 확인
+        // 닉네임, id 중복확인 했는지 확인
         if(!(nk_double_ck==true&&id_double_ck==true)){
             Toast.makeText(this,"중복확인이 되지 않았습니다.",Toast.LENGTH_LONG).show();
             return;
         }
-        */
+
         ContentValues dbckIDvalues = new ContentValues();
         dbckIDvalues.put("id",sing_id.getText().toString());
         dbckIDvalues.put("pw",pw);
         dbckIDvalues.put("name",sing_name.getText().toString());
-        dbckIDvalues.put("nkname",sing_nkname.getText().toString()); //변수 이름 바꿔야함
+        dbckIDvalues.put("nickname",sing_nkname.getText().toString()); //변수 이름 바꿔야함
         dbckIDvalues.put("email",sing_email.getText().toString());
         dbckIDvalues.put("phone",sing_phon.getText().toString());
         dbckIDvalues.put("key",keyNumber.getText().toString());

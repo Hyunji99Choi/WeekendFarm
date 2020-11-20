@@ -40,13 +40,17 @@ public class MonitoringPage extends AppCompatActivity {
 
 
     TabLayout tabLayout;
-    TextView tooolbar_Textview;
 
     ViewPager pager;
     MyAdapter adapter;
 
 
     CharSequence farmManu[]; //밭 list 다이로그
+
+    TextView farmTitile; //타이틀 글자 (밭 별명)
+
+    TextView naviHeaderName;
+    TextView naviHeaderEmail;
 
 
     private DrawerLayout mDrawerLayout;
@@ -56,15 +60,32 @@ public class MonitoringPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitoring);
 
+        //textview
+        farmTitile = findViewById(R.id.toolbar_textView); // 툴바 타이틀
+        //첫번째 배열 값으로 툴바 textview 타이틀 수정
+        farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm())); //****** 통신 완료시 풀어줘야함
+
+
+
         //Toolbar를 액션 바로대체하기
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        tooolbar_Textview=findViewById(R.id.toolbar_textView); // 툴바 타이틀
 
 
         navigationView=findViewById(R.id.navView);
         navigationView.setItemIconTintList(null); //사이드 메뉴에 아이콘 색깔을 원래 아이콘 색으로
+
+        //슬라이드 메뉴 헤더 수정
+        //navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        Log.w("헤더 세팅","수정 전");
+        naviHeaderName = header.findViewById(R.id.navi_header_name);
+        naviHeaderName.setText(UserIdent.GetInstance().getNkname());
+        naviHeaderEmail = header.findViewById(R.id.navi_header_email);
+        naviHeaderEmail.setText(UserIdent.GetInstance().getEmail());
+        Log.w("헤더 세팅","완료");
+
 
         drawerLayout=findViewById(R.id.dl_main_drawer_root);
         drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);
@@ -165,23 +186,27 @@ public class MonitoringPage extends AppCompatActivity {
     }
 
     public void FarmDialogSetting(){ //타이틀 밭 이동 리스트
-        farmManu=new CharSequence[]{"1번 밭","2번 밭","3번 밭"}; //밭 별명
+        farmManu=new CharSequence[UserIdent.GetInstance().getFarmCount()]; //밭 별명
+        //밭 별명 주기
+        for(int i=0;i<UserIdent.GetInstance().getFarmCount();i++){
+            farmManu[i]=UserIdent.GetInstance().getFarmName(i);
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("밭 이동");
         builder.setItems(farmManu, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) { //연동적으로 수정
-                switch (i){
-                    case 0:
-                        Toast.makeText(context, "1번밭", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
-                        Toast.makeText(context, "2번밭", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 2:
-                        Toast.makeText(context, "3번밭", Toast.LENGTH_SHORT).show();
-                        break;
-                }
+
+                //i 배열에 있는 밭 번호
+                Toast.makeText(context, ""+UserIdent.GetInstance().getFarmName(i), Toast.LENGTH_SHORT).show();
+                UserIdent.GetInstance().setNowMontriongFarm(i); //이제 통신할 값은 이 밭이라고 선언.
+                farmTitile.setText(UserIdent.GetInstance().getFarmName(i));
+
+                //각 밭 선택에 따른 통신 및 센서값 세팅
+                ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(i));
+
+
                 dialogInterface.dismiss();
             }
         });
