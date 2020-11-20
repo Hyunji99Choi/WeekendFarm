@@ -45,7 +45,7 @@ public class MonitoringPage extends AppCompatActivity {
     MyAdapter adapter;
 
 
-    CharSequence farmManu[]; //밭 list 다이로그
+    CharSequence[] farmManu; //밭 list 다이로그
 
     TextView farmTitile; //타이틀 글자 (밭 별명)
 
@@ -63,6 +63,7 @@ public class MonitoringPage extends AppCompatActivity {
         //textview
         farmTitile = findViewById(R.id.toolbar_textView); // 툴바 타이틀
         //첫번째 배열 값으로 툴바 textview 타이틀 수정
+        Log.w("타이틀 세팅","수정 전");
         farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm())); //****** 통신 완료시 풀어줘야함
 
 
