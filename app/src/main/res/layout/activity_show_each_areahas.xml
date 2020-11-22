@@ -42,7 +42,7 @@
         android:layout_margin="30dp"
         android:backgroundTint="#527CFA"
         app:fabCustomSize="65dp"
-        app:maxImageSize="46dp"
+        app:maxImageSize="50dp"
         app:srcCompat="@drawable/ic_action_plus"
         tools:ignore="VectorDrawableCompat" />
 

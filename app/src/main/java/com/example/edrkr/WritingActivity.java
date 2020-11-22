@@ -48,6 +48,7 @@ public class WritingActivity extends AppCompatActivity {
                         Log.v("알림", "전송 버튼 눌림");
                         //현재 값을 저장
                         Board b = new Board();
+                        b.setName(UserIdent.GetInstance().getNkname());
                         b.setTitle(title.getText().toString());
                         b.setBody(body.getText().toString());
                         long now = System.currentTimeMillis();

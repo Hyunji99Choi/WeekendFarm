@@ -50,8 +50,8 @@ public class show_each_board extends Activity {
         Log.v("알림","sendto server확인");
 
         ContentValues values = new ContentValues();
-        String name = "이름";
-        Log.v("sendtoserver","name : "+name );
+        String name = UserIdent.GetInstance().getNkname();
+        Log.v("sendtoserver","name : "+ name );
         String content = show_EditText.getText().toString();
         Log.v("sendtoserver","content : "+content );
         if(b.getPos() == -1){
