@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
     Button loginButton;
     Button signupButton;
 
-    public String login_URL="http://52.79.237.95:3000/users/login";
-    private String UserData_URL="http://52.79.237.95:3000/";
+    public String login_URL="http://3.35.55.9:3000/users/login";
+    private String UserData_URL="http://3.35.55.9:3000/";
 
     String UserID="ghd";
     String UserPW="1234";
@@ -170,12 +170,6 @@ public class MainActivity extends AppCompatActivity {
                         }
 
 
-                        //지워야하는 부분...
-                        //페이지 넘어가기
-                        //Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
-                        //startActivity(intent1);
-                        //뒤로 버튼 나오면 바로 종료
-                        //finish();
 
                         break;
                     case R.id.signupButton:
