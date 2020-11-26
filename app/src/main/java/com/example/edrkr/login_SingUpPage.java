@@ -173,7 +173,7 @@ public class login_SingUpPage extends AppCompatActivity {
         signPage_networkTask = new NetworkTask(Sign_URL,dbckIDvalues);
         NetworkRESULT=signPage_networkTask.execute().get();
 
-        if(NetworkRESULT.equals("key권한 없음")){
+        if(NetworkRESULT.equals("Key권한 없음")){
             Toast.makeText(this,"잘못된 key정보입니다.",Toast.LENGTH_LONG).show();
             id_double_ck=true;
         }else if(NetworkRESULT.equals("회원가입이 완료되었습니다.")){ //성공적인 가입

@@ -11,6 +11,11 @@
         android:layout_height="@dimen/frameSize"
         android:orientation="vertical">
 
+        <WebView
+            android:id="@+id/cctvweb3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!--
         <ImageView
             android:id="@+id/imgBanner3"
             android:layout_centerInParent="true"
@@ -30,7 +35,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:text="Hello This is Page 3"/>
-
+        -->
     </RelativeLayout>
 
 

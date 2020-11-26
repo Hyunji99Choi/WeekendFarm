@@ -71,6 +71,20 @@ public class UserIdent {
         nowMontriongFarm=0;
     }
 
+
+
+    //디버그 무명 사용자 생성
+    public void settingNothing(){
+        nkname ="이름없음"; //닉네임
+        phon = "000-0000-0000"; //폰 번호
+        email = "이름없음@gmail.com"; //이메일
+
+
+        farmCount =  0; //밭 개수
+
+    }
+
+
     //디버그
     public void printLog(){
         //Log.w("id :",id);
