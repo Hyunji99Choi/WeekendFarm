@@ -88,6 +88,21 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
 
+                        //*********************************************
+                        //디비그를 위한 로컬 진입 **** 나중에 지워줘야함
+                        if(UserID.equals("111")&&UserPW.equals("111")){
+                            //무명 회원 (로컬) 회원가입
+                            UserIdent.GetInstance().settingNothing();
+
+                            Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
+                            startActivity(intent1);
+                            finish();
+
+                            return;
+
+                        }
+                        //*********************************************
+
 
                         ContentValues values = new ContentValues();
                         values.put("id",UserID);

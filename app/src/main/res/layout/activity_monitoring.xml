@@ -40,7 +40,7 @@
                         android:layout_gravity="center"
                         android:onClick="onClickTextView"
                         android:clickable="true"
-                        android:text="1번 밭"
+                        android:text="밭 정보 없음"
                         android:textColor="#ffffff"
                         android:textSize="20sp" />
                 </FrameLayout>
