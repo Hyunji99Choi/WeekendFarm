@@ -117,6 +117,9 @@ public class sub_page1 extends Fragment {
         });
 
 
+        //처음 cctv 링크 요청
+        ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
+
         //처음 센서값 요청
         ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
         Start_SensorTimer();//타이머 시작

@@ -9,7 +9,11 @@
         android:layout_marginRight="@dimen/pageMarginAndOffset"
         android:layout_height="@dimen/frameSize"
         android:orientation="vertical">
-
+        <WebView
+            android:id="@+id/cctvweb1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!--
         <ImageView
             android:id="@+id/imgBanner1"
             android:layout_width="match_parent"
@@ -28,7 +32,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:text="Hello This is Page 1"/>
-
+        -->
     </RelativeLayout>
 
 

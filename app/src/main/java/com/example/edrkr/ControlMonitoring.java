@@ -16,22 +16,31 @@ import java.util.Map;
 
 public class ControlMonitoring {
 
-    private static final ControlMonitoring Instance=new ControlMonitoring(); //싱글턴 문법
+    private static final ControlMonitoring Instance=new ControlMonitoring(); //싱글턴 문법, memory leak
     public static ControlMonitoring GetInstance(){
         return Instance;
     }
     private ControlMonitoring(){} //생성자 제한
 
 
-    private Context contex;
+    private Context contex; //이거 사용안하는것 같음...
     private sub_page1 page;
     //모니터링 화면의 context 가져오기
     public void setContextThis(Context contex, sub_page1 montoring){
         this.contex=contex; this.page=montoring;
     }
 
-    private String monitoring_URL="http://52.79.237.95:3000/sensor/field"; // 센서값 값 가져올 서버 url
+    private cctv_fragmentpage1 cctv1;
+    private cctv_fragmentpage2 cctv2;
+    private cctv_fragmentpage3 cctv3;
+    //모니터링 화면의 fragment 객체 가져오기
+    public void setFragmentPage1(cctv_fragmentpage1 s1){ this.cctv1=s1; }
+    public void setFragmentPage2(cctv_fragmentpage2 s2){ this.cctv2=s2; }
+    public void setFragmentPage3(cctv_fragmentpage3 s3){ this.cctv3=s3; }
 
+
+    private String monitoring_URL="http://52.79.237.95:3000/sensor/field"; // 센서값 값 가져올 서버 url
+    private String cctv_URL="";
 
 
 
@@ -44,12 +53,15 @@ public class ControlMonitoring {
 
     //cctv 통신하기
     public void NetworkCCTVCall(int farmid){
-
+        NetworkTask_cctv monitoring_cctv = new NetworkTask_cctv(cctv_URL+farmid,null);
+        monitoring_cctv.execute(); //비동기 통신,get
     }
 
     //cctv 세팅하기
-    public void SettingCCTV(String cctvURL){
-
+    public void SettingCCTV(String url1,String url2,String url3){
+        cctv1.cctvURLSetting(url1);
+        cctv2.cctvURLSetting(url2);
+        cctv3.cctvURLSetting(url3);
     }
 
 
