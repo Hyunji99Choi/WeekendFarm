@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="black">#000000</color> //추가한 검은색
+    <color name="gray">#969696</color> //추가한 회색
     <color name="white">#FFFFFF</color>
 
     <!-- 조도 센서 컬러 -->

@@ -39,8 +39,10 @@
         <activity android:name=".show_each_member" />
         <activity android:name=".Managerpage" /> <!-- http 통신 트레픽 허용 -->
         <activity android:name=".show_each_board" />
-        <activity android:name=".NoticeBoardActivity" />
-        <activity android:name=".WritingActivity" />
+        <activity android:name=".NoticeBoardActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".WritingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 

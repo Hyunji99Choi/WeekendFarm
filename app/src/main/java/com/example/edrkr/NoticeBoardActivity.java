@@ -1,12 +1,20 @@
 package com.example.edrkr;
 
 import android.app.Activity;
+import android.app.AppComponentFactory;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,50 +29,25 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 
-public class NoticeBoardActivity extends Activity implements LifecycleObserver {
+public class NoticeBoardActivity extends AppCompatActivity implements LifecycleObserver {
     //private ImageButton write;
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
     private CustomUsersAdapter mAdapter;
     private LinearLayoutManager layoutManager;
-//    private RecyclerView.LayoutManager layoutManager;
+    private ActionBar actionBar;
     private ArrayList<Board> myDataset = new ArrayList<>(); //리사이클러뷰에 표시할 데이터 리스트 생성 -> 서버 생기면 처음에 받아오는 코드 만들기
     private String URL = "http://52.79.237.95:3000/forum/test";
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
         Log.v("알림","onactivity 함수 실행 resultcode : "+resultCode);
-
-        myDataset = getfromserver();
+        myDataset = getfromlocal();
+        //myDataset = getfromserver();
         mAdapter.changeDataset(myDataset);
         recyclerView.removeAllViewsInLayout();
         recyclerView.setAdapter(mAdapter);
         Log.v("알림","새로고침 완료");
-
-//        switch(resultCode){
-//            case 2: //writing activity에서 신호를 받을 경우
-//                Log.v("알림","2 noticeboard에서 신호를 잡음");
-////                Board b = (Board)data.getSerializableExtra("Board");
-////                Log.v("알림","board 값 잘 받아옴");
-////                myDataset.add(b);
-////                Log.v("알림","데이터 값 추가 완료");
-//                recyclerView.removeAllViewsInLayout();;
-//                recyclerView.setAdapter(mAdapter);
-//                Log.v("알림","새로고침 완료");
-//                break;
-//
-//            case 1:
-//                Log.v("알림","1 noticeboard에서 신호를 잡음");
-////                String test = data.getStringExtra("test");
-////                Log.v("알림",test+"정상 프린트");
-////                Board board = (Board)data.getSerializableExtra("show_Board");
-////                Log.v("알림","Board값 잘 받음 / board의 body : "+board.getBody());
-////                myDataset.set(board.getPos(),board);
-////                Log.v("알림","mydataset 변경완료");
-//                recyclerView.removeAllViewsInLayout();;
-//                recyclerView.setAdapter(mAdapter);
-//                break;
-//        }
     }
 
     @Override
@@ -106,13 +89,16 @@ public class NoticeBoardActivity extends Activity implements LifecycleObserver {
                 startActivityForResult(intent,1); //writing activity에서 값을 다시 받아오기 위해서 사용
             }
         });
-        //list 초기화
-        /*for(int i=0;i<10;i++){
-            Board b = new Board();
-            b.setTitle(String.format("title %d",i));
-            b.setBody(String.format("body %d",i));
-            myDataset.add(b);
-         }*/
+
+        Log.v("noticeboard","toolbar 세팅 시작");
+        //toolbar를 액션바로 대체
+        Toolbar toolbar = findViewById(R.id.toolbar_noticeboard);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
+        Log.v("noticeboard","타이틀 보이게");
 
         recyclerView =(RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -128,7 +114,9 @@ public class NoticeBoardActivity extends Activity implements LifecycleObserver {
 
         //myDataset 받는 코드 들어가야함
        // myDataset = null;
-        myDataset = getfromserver();
+
+        myDataset = getfromlocal();
+        // myDataset = getfromserver();
 
         // specify an adapter (see also next example)
         mAdapter = new CustomUsersAdapter(myDataset);
@@ -165,6 +153,13 @@ public class NoticeBoardActivity extends Activity implements LifecycleObserver {
 //        write.setOnClickListener(Listener);
 
 //    }
+
+    public ArrayList<Board> getfromlocal(){
+        ArrayList<Board> dataset = new ArrayList<>();
+        Board b = new Board();
+        dataset.add(b);
+        return dataset;
+    }
 
     public ArrayList<Board> getfromserver(){//서버에서 게시글 표지 부분을 받아오는 코드
 
@@ -246,6 +241,33 @@ public class NoticeBoardActivity extends Activity implements LifecycleObserver {
             }
         }
         return dataset;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.noticeboard_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        switch (item.getItemId()){
+            case R.id.notice_patch:
+                Toast.makeText(getApplicationContext(),"patch onclick",Toast.LENGTH_SHORT);
+                break;
+            case R.id.notice_delete:
+                Toast.makeText(getApplicationContext(),"delete onclick",Toast.LENGTH_SHORT);
+                break;
+            case android.R.id.home:
+                Toast.makeText(getApplicationContext(),"home onclick",Toast.LENGTH_SHORT);
+                finish();
+                break;
+            case R.id.notice_search:
+                Toast.makeText(getApplicationContext(),"search onclick",Toast.LENGTH_SHORT);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
