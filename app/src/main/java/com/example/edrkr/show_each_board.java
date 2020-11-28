@@ -5,12 +5,19 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class show_each_board extends Activity {
+public class show_each_board extends AppCompatActivity {
     private TextView show_title;
     private TextView show_name;
     private TextView show_date;
@@ -31,13 +38,14 @@ public class show_each_board extends Activity {
     private RecyclerView show_recyclerview;
     private EditText show_EditText;
     private Button show_addbutton;
+    private ActionBar actionBar;
     private CommentAdapter mAdapter;
     private LinearLayoutManager layoutManager;
     private Board b = new Board(-1);
     private ArrayList<Comment> myDataset = new ArrayList<>();
     Intent intent;
 
-    private String URL = "http://52.79.237.95:3000/forum/";
+    private String URL = "http://3.35.55.9:3000/forum/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +54,51 @@ public class show_each_board extends Activity {
         this.InitializeView(); //필요 요소 선언해주는 함수
         this.SetListener(); //리스너 설정 함수
     }
+
+    public void InitializeView(){
+        show_title = (TextView) findViewById(R.id.show_title);
+        show_name = (TextView) findViewById(R.id.show_name);
+        show_date = (TextView) findViewById(R.id.show_date);
+        show_body = (TextView) findViewById(R.id.show_body);
+        show_goodcount = (TextView)findViewById(R.id.show_goodcount);
+        show_saycount = (TextView)findViewById(R.id.show_saycount);
+        show_recyclerview = (RecyclerView)findViewById(R.id.show_recyclerview);
+        show_EditText = (EditText)findViewById(R.id.show_edittext_write_comment);
+        show_addbutton = (Button)findViewById(R.id.show_button_add_comment);
+
+        intent = getIntent();
+
+        Log.v("showeachboard","toolbar 세팅 시작");
+        //toolbar를 액션바로 대체
+        Toolbar toolbar = findViewById(R.id.toolbar_eachboard);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
+        Log.v("showeachboard","toolbar 완료");
+
+        Log.v("알림","show_each_board 클래스 실행");
+        int pos = intent.getIntExtra("pos",0);
+        Log.v("show each board","pos : " + pos);
+        URL = URL + (pos);
+        Log.v("show_each","URL :"+URL);
+
+        show_recyclerview.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(false);
+        layoutManager.setStackFromEnd(true);
+        show_recyclerview.setLayoutManager(layoutManager);
+
+        //서버 통신 성공 할 시
+        myDataset = getfromserver();
+
+        // specify an adapter (see also next example)
+        mAdapter = new CommentAdapter(myDataset);
+        show_recyclerview.setAdapter(mAdapter);
+        Log.v("알림","adapter 설정 완료");
+    }
+
     public void sendtoserver(){ //서버로 보내는 코드
         Log.v("알림","sendto server확인");
 
@@ -173,40 +226,6 @@ public class show_each_board extends Activity {
         return dataset;
     }
 
-    public void InitializeView(){
-        show_title = (TextView) findViewById(R.id.show_title);
-        show_name = (TextView) findViewById(R.id.show_name);
-        show_date = (TextView) findViewById(R.id.show_date);
-        show_body = (TextView) findViewById(R.id.show_body);
-        show_goodcount = (TextView)findViewById(R.id.show_goodcount);
-        show_saycount = (TextView)findViewById(R.id.show_saycount);
-        show_recyclerview = (RecyclerView)findViewById(R.id.show_recyclerview);
-        show_EditText = (EditText)findViewById(R.id.show_edittext_write_comment);
-        show_addbutton = (Button)findViewById(R.id.show_button_add_comment);
-
-        intent = getIntent();
-
-        Log.v("알림","show_each_board 클래스 실행");
-        int pos = intent.getIntExtra("pos",0);
-        Log.v("show each board","pos : " + pos);
-        URL = URL + (pos);
-        Log.v("show_each","URL :"+URL);
-
-        show_recyclerview.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        layoutManager.setReverseLayout(false);
-        layoutManager.setStackFromEnd(true);
-        show_recyclerview.setLayoutManager(layoutManager);
-
-        //서버 통신 성공 할 시
-        myDataset = getfromserver();
-
-        // specify an adapter (see also next example)
-        mAdapter = new CommentAdapter(myDataset);
-        show_recyclerview.setAdapter(mAdapter);
-        Log.v("알림","adapter 설정 완료");
-    }
-
     public void setView(Board b){
         show_title.setText(b.getTitle());
         show_name.setText(b.getName());
@@ -263,5 +282,23 @@ public class show_each_board extends Activity {
         //setResult(1,intent); // intnet 전송 -> server 연동시 필요 x
         //Log.v("알림","intent 전송완료");
     }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu){
+//        MenuInflater menuInflater = getMenuInflater();
+//        menuInflater.inflate(R.menu.noticeboard_menu,menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        switch (item.getItemId()){
+
+            case android.R.id.home:
+                Log.v("nshoweachboard","home");
+                Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

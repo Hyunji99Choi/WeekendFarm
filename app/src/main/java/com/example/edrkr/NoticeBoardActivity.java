@@ -37,13 +37,13 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     private LinearLayoutManager layoutManager;
     private ActionBar actionBar;
     private ArrayList<Board> myDataset = new ArrayList<>(); //리사이클러뷰에 표시할 데이터 리스트 생성 -> 서버 생기면 처음에 받아오는 코드 만들기
-    private String URL = "http://52.79.237.95:3000/forum/test";
+    private String URL = "http://3.35.55.9:3000/forum/test";
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
         Log.v("알림","onactivity 함수 실행 resultcode : "+resultCode);
-        myDataset = getfromlocal();
-        //myDataset = getfromserver();
+        //myDataset = getfromlocal();
+        myDataset = getfromserver();
         mAdapter.changeDataset(myDataset);
         recyclerView.removeAllViewsInLayout();
         recyclerView.setAdapter(mAdapter);
@@ -98,7 +98,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
-        Log.v("noticeboard","타이틀 보이게");
+        Log.v("noticeboard","toolbar 완료");
 
         recyclerView =(RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -115,8 +115,8 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         //myDataset 받는 코드 들어가야함
        // myDataset = null;
 
-        myDataset = getfromlocal();
-        // myDataset = getfromserver();
+        //myDataset = getfromlocal();
+        myDataset = getfromserver();
 
         // specify an adapter (see also next example)
         mAdapter = new CustomUsersAdapter(myDataset);

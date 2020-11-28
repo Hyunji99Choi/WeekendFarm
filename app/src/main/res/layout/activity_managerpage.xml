@@ -4,6 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:theme="@style/AppTheme.Appbar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_manager"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"></androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <com.google.android.material.tabs.TabLayout
         android:id = "@+id/manager_tabLayout"
         android:layout_height="wrap_content"

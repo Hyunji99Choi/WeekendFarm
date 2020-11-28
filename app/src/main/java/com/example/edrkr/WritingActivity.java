@@ -29,7 +29,7 @@ public class WritingActivity extends AppCompatActivity {
     private EditText body;
     private Button buttonsend;
     private ActionBar actionBar;
-    private String URL = "http://52.79.237.95:3000/forum/create"; //url부분
+    private String URL = "http://3.35.55.9:3000/forum/create"; //url부분
 
 
     @Override

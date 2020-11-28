@@ -3,9 +3,16 @@ package com.example.edrkr;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +25,7 @@ public class show_each_areahas extends AppCompatActivity {
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
+    private ActionBar actionBar;
     private LinearLayoutManager layoutManager;
     private ArrayList<Member> myDataset = new ArrayList<>();
 
@@ -47,7 +55,7 @@ public class show_each_areahas extends AppCompatActivity {
 
     public void InitializeView(){
         // write = (ImageButton)findViewById(R.id.fab_write);
-        fab = (FloatingActionButton)findViewById(R.id.Button_areaAdd);
+        fab = (FloatingActionButton)findViewById(R.id.fab_areaAdd);
 
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -57,6 +65,16 @@ public class show_each_areahas extends AppCompatActivity {
                 startActivityForResult(intent,0); //writing activity에서 값을 다시 받아오기 위해서 사용
             }
         });
+
+        Log.v("show_each_area","toolbar 세팅 시작");
+        //toolbar를 액션바로 대체
+        Toolbar toolbar = findViewById(R.id.toolbar_eachareahas);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
+        Log.v("show_each_area","toolbar 완료");
 
         recyclerView =(RecyclerView) findViewById(R.id.recycler_areahaslist);
 
@@ -97,5 +115,25 @@ public class show_each_areahas extends AppCompatActivity {
         return tmp;
     }
 
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu){
+//        MenuInflater menuInflater = getMenuInflater();
+//        menuInflater.inflate(R.menu.noticeboard_menu,menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Log.v("show_each_areahas","home");
+                Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
+                finish();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
