@@ -254,17 +254,25 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
         switch (item.getItemId()){
             case R.id.notice_patch:
-                Toast.makeText(getApplicationContext(),"patch onclick",Toast.LENGTH_SHORT);
+                Log.v("noticeboard_menu","patch클릭");
+                Toast.makeText(this,"patch onclick",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.notice_delete:
-                Toast.makeText(getApplicationContext(),"delete onclick",Toast.LENGTH_SHORT);
+                Log.v("noticeboard_menu","delete클릭");
+                Toast.makeText(this,"delete onclick",Toast.LENGTH_SHORT).show();
                 break;
             case android.R.id.home:
-                Toast.makeText(getApplicationContext(),"home onclick",Toast.LENGTH_SHORT);
+                Log.v("noticeboard_menu","home");
+                Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             case R.id.notice_search:
-                Toast.makeText(getApplicationContext(),"search onclick",Toast.LENGTH_SHORT);
+                Log.v("noticeboard_menu","search");
+                Toast.makeText(this,"search onclick",Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Log.v("noticeboard_menu","default");
+                Toast.makeText(this,"오류 발생",Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

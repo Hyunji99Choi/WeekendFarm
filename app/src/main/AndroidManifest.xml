@@ -33,8 +33,10 @@
 
         <activity android:name=".KeyCreatePage"></activity>
         <!--이아름 병합-->
-        <activity android:name=".SelectArea"></activity>
-        <activity android:name=".SelectMember" />
+        <activity android:name=".SelectArea">
+            android:theme="@style/AppTheme.NoActionBar" </activity>
+        <activity android:name=".SelectMember"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".show_each_areahas" />
         <activity android:name=".show_each_member" />
         <activity android:name=".Managerpage" /> <!-- http 통신 트레픽 허용 -->
