@@ -8,51 +8,22 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:theme="@style/AppTheme.Appbar">
 
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_eachareahas"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="match_parent"></androidx.appcompat.widget.Toolbar>
+            android:id="@+id/toolbar_eachareahas"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"></androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_areahaslist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:text="소유자 목록"
-                android:layout_margin="20dp"
-                android:textSize="35dp" />
-
-            <View
-                android:id="@+id/view6"
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginBottom="20dp"
-                android:background="#000000" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_areahaslist"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+        android:layout_marginTop="?attr/actionBarSize"
+        android:scrollbars="vertical" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_areaAdd"
@@ -62,10 +33,9 @@
         android:layout_margin="30dp"
         android:backgroundTint="@color/black"
         android:clickable="true"
-        app:maxImageSize="46dp"
         app:fabCustomSize="65dp"
+        app:maxImageSize="46dp"
         app:srcCompat="@drawable/ic_action_plus"
-        tools:ignore="VectorDrawableCompat"
-        />
+        tools:ignore="VectorDrawableCompat" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -23,7 +23,6 @@ public class SelectArea extends AppCompatActivity {
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
-    private Button OK;
     private ActionBar actionBar;
     private ArrayList<Member> myDataset = new ArrayList<>();
     private String URL = "http://3.35.55.9:3000/forum/";
@@ -33,7 +32,6 @@ public class SelectArea extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_area);
 
-        OK = (Button)findViewById(R.id.buttonSelectAreaEnd);
         recyclerView = (RecyclerView)findViewById(R.id.recycler_selectArea);
         getfromserver();
         recycler_test(); //테스트용 데이터 저장
@@ -44,9 +42,10 @@ public class SelectArea extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_selectarea);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        actionBar.setTitle("소유밭 추가");
         actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
         Log.v("selectarea","toolbar 완료");
 
         recyclerView.setHasFixedSize(true);
@@ -60,7 +59,6 @@ public class SelectArea extends AppCompatActivity {
 
         Log.v("SelectMember","layout adapter 연결");
         recyclerView.setAdapter(mAdapter);
-        SetListener();
 
         mAdapter.setOnItemClickListener(new CustomUsersAdapter.OnItemClickListener() {
             @Override
@@ -75,22 +73,6 @@ public class SelectArea extends AppCompatActivity {
                 }
             }
         });
-    }
-    public void SetListener() {
-        //inputMethodManger 객체 선언
-        View.OnClickListener Listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.buttonSelectAreaEnd:
-                        Log.v("selectMember","선택완료버튼 눌림");
-                        //patch 코드
-                        puttoserver();
-                        finish();
-                }
-            }
-        };
-        OK.setOnClickListener(Listener);
     }
 
     public void recycler_test(){
@@ -111,12 +93,12 @@ public class SelectArea extends AppCompatActivity {
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        MenuInflater menuInflater = getMenuInflater();
-//        menuInflater.inflate(R.menu.noticeboard_menu,menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_writing,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
@@ -126,7 +108,12 @@ public class SelectArea extends AppCompatActivity {
                 Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
                 finish();
                 break;
-        }
+            case R.id.writing_next_button:
+                Log.v("selectMember","선택완료버튼 눌림");
+                //patch 코드
+                puttoserver();
+                finish();
+            }
         return super.onOptionsItemSelected(item);
     }
 

@@ -71,7 +71,8 @@ public class show_each_areahas extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_eachareahas);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        actionBar.setTitle("소유자 목록");
         actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
         Log.v("show_each_area","toolbar 완료");
