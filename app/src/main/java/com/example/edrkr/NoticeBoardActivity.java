@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -36,18 +37,14 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     private CustomUsersAdapter mAdapter;
     private LinearLayoutManager layoutManager;
     private ActionBar actionBar;
+    private SwipeRefreshLayout refreshLayout;
     private ArrayList<Board> myDataset = new ArrayList<>(); //리사이클러뷰에 표시할 데이터 리스트 생성 -> 서버 생기면 처음에 받아오는 코드 만들기
     private String URL = "http://3.35.55.9:3000/forum/test";
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
         Log.v("알림","onactivity 함수 실행 resultcode : "+resultCode);
-        //myDataset = getfromlocal();
-        myDataset = getfromserver();
-        mAdapter.changeDataset(myDataset);
-        recyclerView.removeAllViewsInLayout();
-        recyclerView.setAdapter(mAdapter);
-        Log.v("알림","새로고침 완료");
+        refresh();
     }
 
     @Override
@@ -90,6 +87,19 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
             }
         });
 
+        refreshLayout = (SwipeRefreshLayout)findViewById(R.id.refresh_notice);
+
+        refreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        Log.v("noticeboard","스와이프 확인");
+                        refresh();
+                        refreshLayout.setRefreshing(false); //새로고침
+                    }
+                }
+        );
+
         Log.v("noticeboard","toolbar 세팅 시작");
         //toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar_noticeboard);
@@ -115,7 +125,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         //myDataset 받는 코드 들어가야함
        // myDataset = null;
 
-        //myDataset = getfromlocal();
+//        myDataset = getfromlocal();
         myDataset = getfromserver();
 
         // specify an adapter (see also next example)
@@ -123,36 +133,16 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         recyclerView.setAdapter(mAdapter);
         Log.v("noticeboard","adapter설정완료");
 
-//        swipeContainer =(SwipeRefreshLayout) findViewById((R.id.swipeContainer);
-//        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                fetchTimelineAsync(0);
-//            }
-//        });
-
     }
 
-
-//    public void SetListener() {
-//        //inputMethodManger 객체 선언
-//        //final InputMethodManager keyboard = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//        View.OnClickListener Listener = new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                switch (v.getId()) {
-//                    case R.id.fab_write:
-//                        Log.v("알림","글쓰기 버튼 눌림");
-//                        Intent intent = new Intent(NoticeBoardActivity.this, WritingActivity.class);
-//                        startActivityForResult(intent,0); //writing activity에서 값을 다시 받아오기 위해서 사용
-//                }
-//
-//            }
-//        };
-//
-//        write.setOnClickListener(Listener);
-
-//    }
+    public void refresh(){
+        //        myDataset = getfromlocal();
+        myDataset = getfromserver();
+        mAdapter.changeDataset(myDataset);
+        recyclerView.removeAllViewsInLayout();
+        recyclerView.setAdapter(mAdapter);
+        Log.v("알림","새로고침 완료");
+    }
 
     public ArrayList<Board> getfromlocal(){
         ArrayList<Board> dataset = new ArrayList<>();

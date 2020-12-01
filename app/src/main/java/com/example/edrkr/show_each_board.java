@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +43,8 @@ public class show_each_board extends AppCompatActivity {
     private ActionBar actionBar;
     private CommentAdapter mAdapter;
     private LinearLayoutManager layoutManager;
+    private SwipeRefreshLayout refreshLayout;
+    private InputMethodManager manager;
     private Board b = new Board(-1);
     private ArrayList<Comment> myDataset = new ArrayList<>();
     Intent intent;
@@ -65,8 +69,22 @@ public class show_each_board extends AppCompatActivity {
         show_recyclerview = (RecyclerView)findViewById(R.id.show_recyclerview);
         show_EditText = (EditText)findViewById(R.id.show_edittext_write_comment);
         show_addbutton = (Button)findViewById(R.id.show_button_add_comment);
+        manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         intent = getIntent();
+
+        refreshLayout = (SwipeRefreshLayout)findViewById(R.id.refresh_board);
+
+        refreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        Log.v("showeachboard","스와이프 확인");
+                        refresh();
+                        refreshLayout.setRefreshing(false); //새로고침
+                    }
+                }
+        );
 
         Log.v("showeachboard","toolbar 세팅 시작");
         //toolbar를 액션바로 대체
@@ -226,6 +244,15 @@ public class show_each_board extends AppCompatActivity {
         return dataset;
     }
 
+    public void refresh(){
+        //        myDataset = getfromlocal();
+        myDataset = getfromserver();
+        mAdapter.changeDataset(myDataset);
+        show_recyclerview.removeAllViewsInLayout();
+        show_recyclerview.setAdapter(mAdapter);
+        Log.v("알림","새로고침 완료");
+    }
+
     public void setView(Board b){
         show_title.setText(b.getTitle());
         show_name.setText(b.getName());
@@ -249,6 +276,7 @@ public class show_each_board extends AppCompatActivity {
                             addcomment(); // comment를 board에 추가해주고 recycler view를 새로고침.
                             Log.v("알림", "add 완료");
                             show_EditText.setText("");
+                            manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         }
                 }
             }
