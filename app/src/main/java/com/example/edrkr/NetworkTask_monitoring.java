@@ -49,12 +49,10 @@ public class NetworkTask_monitoring extends AsyncTask<Void, Void, String> {
         int water=0; // 대기습도
 
         Log.w("센서 통신",result);
-        JSONArray sensorArray=null;
         JSONObject SENSOR = null;
         try {
-            sensorArray = new JSONArray(result);
+            SENSOR = new JSONObject(result);
 
-            SENSOR = sensorArray.getJSONObject(0);
             //Log.w("오브젝트 변환","오브젝트 변환 완료");
             soild = Integer.parseInt(SENSOR.getString("soil"));
             sunny = Integer.parseInt(SENSOR.getString("light"));

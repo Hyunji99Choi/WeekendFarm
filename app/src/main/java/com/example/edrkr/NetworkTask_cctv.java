@@ -46,17 +46,15 @@ public class NetworkTask_cctv extends AsyncTask<Void, Void, String> {
         String cctvURL2="";
         String cctvURL3="";
 
-        Log.w("센서 통신",result);
-        JSONArray cctvArray=null;
+        Log.w("cctv 통신",result);
         JSONObject CCTV = null;
         try {
-            cctvArray = new JSONArray(result);
-            CCTV = cctvArray.getJSONObject(0);
+            CCTV = new JSONObject(result);
 
             //Log.w("오브젝트 변환","오브젝트 변환 완료");
-            cctvURL1=CCTV.getString("url1"); //변수 이름*** 수정 요망
-            cctvURL2=CCTV.getString("url2");
-            cctvURL3=CCTV.getString("url3");
+            cctvURL1=CCTV.getString("camera1"); //변수 이름*** 수정 요망
+            cctvURL2=CCTV.getString("camera2");
+            cctvURL3=CCTV.getString("camera3");
 
 
         } catch (JSONException e) {
