@@ -29,10 +29,10 @@ public class login_SingUpPage extends AppCompatActivity {
     boolean id_double_ck = false; //아이디 중복 확인
     boolean nk_double_ck = false; //닉네임 중복 확인
 
-    String Sign_URL="http://52.79.237.95:3000/users/";
+    String Sign_URL="http://3.35.55.9:3000/users/";
 
-    String doubleckID_URL="http://52.79.237.95:3000/users/search/ID";
-    String doubleckNK_URL="http://52.79.237.95:3000/users/search/NickName";
+    String doubleckID_URL="http://3.35.55.9:3000/users/search/ID";
+    String doubleckNK_URL="http://3.35.55.9:3000/users/search/NickName";
 
 
     NetworkTask signPage_networkTask;

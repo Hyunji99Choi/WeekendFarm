@@ -1,5 +1,6 @@
 package com.example.edrkr;
 
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -120,10 +121,9 @@ public class sub_page1 extends Fragment {
         if(UserIdent.GetInstance().getFarmCount()!=0){ //밭이 0개이면 실행안함.
             //처음 cctv 링크 요청
             ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
-
             //처음 센서값 요청
-            ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
-            Start_SensorTimer();//타이머 시작
+            //ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
+            //Start_SensorTimer();//타이머 시작
 
         }else{
             //밭이 없으니 0으로 세팅
@@ -151,14 +151,40 @@ public class sub_page1 extends Fragment {
         };
 
         timer=new Timer();
-        //timer.schedule(timerTask,5000,10000); //5초 후의 실행 후 10초마다 반복
+        timer.schedule(timerTask,0,10000); //0초 후의 실행 후 10초마다 반복
+    }
+
+    //활동이 재개됨 상태
+    @Override
+    public void onResume() {
+        Log.i("test","onResume");
+        if(UserIdent.GetInstance().getFarmCount()!=0){ //밭이 존재햐아만 실행
+            Start_SensorTimer();//타이머 시작
+        }
+
+        super.onResume();
+
+
     }
 
 
+    //사용자가 활동을 떠나는 것을 나타내는 첫번째 신호
+    @Override
+    public void onPause() {
+        Log.i("test","onPause");
+        if(UserIdent.GetInstance().getFarmCount()!=0){ //밭이 존재햐아만 실행
+            timer.cancel();//타이머 중지
+        }
+
+        super.onPause();
+    }
+/*
     @Override
     public void onDestroy() { //엑티비티 꺼졌을때
         Log.i("test","onDstory");
         timer.cancel();
+
         super.onDestroy();
     }
+*/
 }

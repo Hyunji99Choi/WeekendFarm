@@ -39,7 +39,7 @@ public class ControlMonitoring {
     public void setFragmentPage3(cctv_fragmentpage3 s3){ this.cctv3=s3; }
 
 
-    private String monitoring_URL="http://52.79.237.95:3000/sensor/field"; // 센서값 값 가져올 서버 url
+    private String monitoring_URL="http://3.35.55.9:3000/sensor/field"; // 센서값 값 가져올 서버 url
     private String cctv_URL="";
 
 

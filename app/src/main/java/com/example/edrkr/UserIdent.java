@@ -75,6 +75,9 @@ public class UserIdent {
 
     //디버그 무명 사용자 생성
     public void settingNothing(){
+        id="111";
+        pw="111";
+
         nkname ="이름없음"; //닉네임
         phon = "000-0000-0000"; //폰 번호
         email = "이름없음@gmail.com"; //이메일
