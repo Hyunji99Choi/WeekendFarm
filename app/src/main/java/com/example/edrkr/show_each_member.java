@@ -3,12 +3,18 @@ package com.example.edrkr;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +31,7 @@ public class show_each_member extends AppCompatActivity {
     private TextView id;
     private TextView pw;
     private TextView phonenumber;
+    private ActionBar actionBar;
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<Member> myDataset = new ArrayList<>();
@@ -49,6 +56,16 @@ public class show_each_member extends AppCompatActivity {
                 startActivityForResult(intent,1); //writing activity에서 값을 다시 받아오기 위해서 사용
             }
         });
+
+        Log.v("eachmember","toolbar 세팅 시작");
+        //toolbar를 액션바로 대체
+        Toolbar toolbar = findViewById(R.id.toolbar_eachmember);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
+        Log.v("eachmember","toolbar 완료");
 
         reset = (Button)findViewById(R.id.buttonresetpw);
         name = (TextView) findViewById(R.id.member_name);
@@ -115,6 +132,25 @@ public class show_each_member extends AppCompatActivity {
 
     public void getfromserver(){
 
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu){
+//        MenuInflater menuInflater = getMenuInflater();
+//        menuInflater.inflate(R.menu.noticeboard_menu,menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Log.v("eachmember","home");
+                Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

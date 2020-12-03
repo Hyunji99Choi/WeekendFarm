@@ -1,46 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".show_each_areahas">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    <LinearLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.Appbar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_eachareahas"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"></androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_areahaslist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:scrollbars="vertical" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:text="소유자 목록"
-            android:layout_margin="20dp"
-            android:textSize="35dp"/>
-
-        <View
-            android:id="@+id/view6"
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:layout_marginBottom="20dp"
-            android:background="#000000" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_areahaslist"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
-
-    </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/Button_areaAdd"
-        android:layout_gravity="bottom|right"
+        android:id="@+id/fab_areaAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
         android:layout_margin="30dp"
-        android:backgroundTint="#527CFA"
+        android:backgroundTint="@color/black"
+        android:clickable="true"
         app:fabCustomSize="65dp"
         app:maxImageSize="46dp"
         app:srcCompat="@drawable/ic_action_plus"

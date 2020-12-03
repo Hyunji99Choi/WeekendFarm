@@ -4,7 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-
     <color name="white">#FFFFFF</color>
 
     <!-- 조도 센서 컬러 -->
@@ -22,5 +21,11 @@
     <color name="hot_some_hot">#F08E4D</color>
     <color name="hot_hot">#F76940</color>
     <color name="hot_very_hot">#E04D46</color>
+
+    <!-- 아이콘 -->
+    <color name="black">#000000</color> //추가한 검은색
+
+    <!-- view 선 -->
+    <color name="gray">#969696</color> //추가한 회색
 
 </resources>

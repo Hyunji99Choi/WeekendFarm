@@ -23,7 +23,7 @@ public class Listofarea extends Fragment {
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<Member> myDataset = new ArrayList<>();
-    private String URL = "http://52.79.237.95:3000/forum/";
+    private String URL = "http://3.35.55.9:3000/forum/";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -31,11 +31,10 @@ public class Listofarea extends Fragment {
 
         View view = inflater.inflate(R.layout.listofarea, container,false);
 
-        Log.v("listofare","fab 설정 완료");
-
-
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_arealist);
+
         recycler_test(); //테스트용 데이터 저장
+
         Log.v("listofare","recyclerview id 연결");
 
         recyclerView.setHasFixedSize(true);

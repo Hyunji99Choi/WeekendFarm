@@ -2,8 +2,15 @@ package com.example.edrkr;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -11,12 +18,24 @@ import com.google.android.material.tabs.TabLayout;
 public class Managerpage extends AppCompatActivity {
     PagerAdapter adapter; //adapter 변수 선언
     ViewPager viewPager; //viewPager 선언
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.v("managerpage","managerpage 도착");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_managerpage);
+
+        Log.v("managerpage","toolbar 세팅 시작");
+        //toolbar를 액션바로 대체
+        Toolbar toolbar = findViewById(R.id.toolbar_manager);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
+        Log.v("managerpage","toolbar 완료");
+
 
         //tablayout 참조, tab 추가
         TabLayout tabLayout = findViewById(R.id.manager_tabLayout);
@@ -51,5 +70,23 @@ public class Managerpage extends AppCompatActivity {
 
             }
         });
+    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu){
+//        MenuInflater menuInflater = getMenuInflater();
+//        menuInflater.inflate(R.menu.noticeboard_menu,menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Log.v("managerpage","home");
+                Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
