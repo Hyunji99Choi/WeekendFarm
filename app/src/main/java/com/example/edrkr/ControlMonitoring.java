@@ -51,12 +51,66 @@ public class ControlMonitoring {
         monitoring_networkTask.execute(); //비동기 통신,get
     }
 
+    //센서통신 josn 통신
+    public void SensorJsonConvert(String result){
+        //String cctvURL=""; //cctv url
+        int soild=0; //토양 습도
+        int sunny=0; //조도
+        float hot=0.0f; //온도
+        int water=0; // 대기습도
+
+        Log.w("센서 통신",result);
+        JSONObject SENSOR = null;
+        try {
+            SENSOR = new JSONObject(result);
+
+            //Log.w("오브젝트 변환","오브젝트 변환 완료");
+            soild = Integer.parseInt(SENSOR.getString("soil"));
+            sunny = Integer.parseInt(SENSOR.getString("light"));
+            hot = Float.parseFloat(SENSOR.getString("temp"));
+            water = (int)Float.parseFloat(SENSOR.getString("humi"));
+
+            //cctvURL = SENSOR.getString("URL");
+
+        } catch (JSONException e) {
+            Log.w("json","에러");
+            e.printStackTrace();
+        }
+
+
+
+        ControlMonitoring.GetInstance().updateSensor(soild,sunny,hot,water); //센서값들 새로 세팅.
+    }
+
     //cctv 통신하기
     public void NetworkCCTVCall(int farmid){
         NetworkTask_cctv monitoring_cctv = new NetworkTask_cctv(cctv_URL+farmid,null);
         monitoring_cctv.execute(); //비동기 통신,get
     }
 
+    public void CctvJsonConvert(String result){
+        String cctvURL1=""; //cctv url
+        String cctvURL2="";
+        String cctvURL3="";
+
+        Log.w("cctv 통신",result);
+        JSONObject CCTV = null;
+        try {
+            CCTV = new JSONObject(result);
+
+            //Log.w("오브젝트 변환","오브젝트 변환 완료");
+            cctvURL1=CCTV.getString("camera1"); //변수 이름*** 수정 요망
+            cctvURL2=CCTV.getString("camera2");
+            cctvURL3=CCTV.getString("camera3");
+
+
+        } catch (JSONException e) {
+            Log.w("json","에러");
+            e.printStackTrace();
+        }
+
+        ControlMonitoring.GetInstance().SettingCCTV(cctvURL1,cctvURL2,cctvURL3); //cctv 세팅
+    }
     //cctv 세팅하기
     public void SettingCCTV(String url1,String url2,String url3){
         cctv1.cctvURLSetting(url1);

@@ -41,7 +41,7 @@ public class NetworkTask_cctv extends AsyncTask<Void, Void, String> {
         // 통신이 완료되면 호출됩니다.
         // 결과에 따른 UI 수정 등은 여기서 합니다.
 
-
+        /*
         String cctvURL1=""; //cctv url
         String cctvURL2="";
         String cctvURL3="";
@@ -64,7 +64,9 @@ public class NetworkTask_cctv extends AsyncTask<Void, Void, String> {
 
         ControlMonitoring.GetInstance().SettingCCTV(cctvURL1,cctvURL2,cctvURL3); //cctv 세팅
 
-
+        */
+        Log.w("cctv 통신",result);
+        ControlMonitoring.GetInstance().CctvJsonConvert(result);
 
     }
 }
