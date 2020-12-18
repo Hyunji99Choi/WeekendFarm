@@ -70,7 +70,7 @@ public class NetworkTask_monitoring extends AsyncTask<Void, Void, String> {
 
         ControlMonitoring.GetInstance().updateSensor(soild,sunny,hot,water); //센서값들 새로 세팅.
         */
-        Log.w("센서 통신",result);
+        //Log.w("센서 통신",result);
         ControlMonitoring.GetInstance().SensorJsonConvert(result);
 
     }

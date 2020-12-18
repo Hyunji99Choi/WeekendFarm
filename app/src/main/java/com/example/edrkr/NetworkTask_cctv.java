@@ -65,6 +65,7 @@ public class NetworkTask_cctv extends AsyncTask<Void, Void, String> {
         ControlMonitoring.GetInstance().SettingCCTV(cctvURL1,cctvURL2,cctvURL3); //cctv 세팅
 
         */
+
         Log.w("cctv 통신",result);
         ControlMonitoring.GetInstance().CctvJsonConvert(result);
 

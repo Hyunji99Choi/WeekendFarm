@@ -88,10 +88,12 @@ public class ControlMonitoring {
         monitoring_cctv.execute(); //비동기 통신,get
     }
 
+
     public void CctvJsonConvert(String result){
         String cctvURL1=""; //cctv url
         String cctvURL2="";
         String cctvURL3="";
+
 
         Log.w("cctv 통신",result);
         JSONObject CCTV = null;
@@ -126,17 +128,6 @@ public class ControlMonitoring {
         Log.w("센서 값"," "+soil+" "+sunny+" "+hot+" "+water);
 
         //토양센서, 프로세스
-        //원래 값 가져오기, 변할 값 비교
-        /*
-        if(page.soil_sensor.getProgress()<soil){ //변해야 되는 값이 더 클 경우
-            for(int i=page.soil_sensor.getProgress();i<=soil;i++){
-                page.soil_sensor.setProgress(i);
-            }
-        }else{
-            for(int i=page.soil_sensor.getProgress();i>=soil;i--){ //변해야 되는 값이 더 작을 경우
-                page.soil_sensor.setProgress(i);
-            }
-        }*/
         page.soil_sensor.setProgress(soil);
 
 
@@ -152,18 +143,6 @@ public class ControlMonitoring {
 
 
         //대기습도센서, 프로세스
-        //원래 값 가져오기, 변할 값 비교
-        /*
-        if(page.water_seneor.getProgress()<water){ //변해야 되는 값이 더 클 경우
-            for(int i=page.water_seneor.getProgress();i<=water;i++){
-                page.water_seneor.setProgress(water);
-            }
-        }else{
-            for(int i=page.water_seneor.getProgress();i>=water;i--){ //변해야 되는 값이 더 작을 경우
-                page.water_seneor.setProgress(water);
-            }
-        }
-         */
         page.water_seneor.setProgress(water);
 
 

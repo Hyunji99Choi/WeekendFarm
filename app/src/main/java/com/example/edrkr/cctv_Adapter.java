@@ -26,7 +26,7 @@ public class cctv_Adapter extends FragmentStateAdapter {
     //2000번의 슬라이딩. 진짜 무한은 아님.
     @Override
     public int getItemCount() {
-        return 2000;
+        return 3;
     }
 
     public int getRealPosition(int position){
