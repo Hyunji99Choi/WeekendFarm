@@ -41,7 +41,7 @@ public class NetworkTask_monitoring extends AsyncTask<Void, Void, String> {
         // 통신이 완료되면 호출됩니다.
         // 결과에 따른 UI 수정 등은 여기서 합니다.
 
-
+        /*
         //String cctvURL=""; //cctv url
         int soild=0; //토양 습도
         int sunny=0; //조도
@@ -69,8 +69,9 @@ public class NetworkTask_monitoring extends AsyncTask<Void, Void, String> {
 
 
         ControlMonitoring.GetInstance().updateSensor(soild,sunny,hot,water); //센서값들 새로 세팅.
-
-
+        */
+        //Log.w("센서 통신",result);
+        ControlMonitoring.GetInstance().SensorJsonConvert(result);
 
     }
 }
