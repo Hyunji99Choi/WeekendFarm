@@ -25,6 +25,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
     EditText idInput, passwordInput;
@@ -103,7 +107,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                         //*********************************************
 
+                        LoginNetwork(UserID,UserPW); //로그인 시도
 
+                        /*
+                        //예전 통신
                         ContentValues values = new ContentValues();
                         values.put("id",UserID);
                         values.put("pw",UserPW);
@@ -169,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "인터넷 연결 불안정", Toast.LENGTH_LONG).show();
                         }
 
-
+                        */
 
                         break;
                     case R.id.signupButton:
@@ -186,6 +193,76 @@ public class MainActivity extends AppCompatActivity {
         signupButton.setOnClickListener(listener);
 
 
+
+
+    }
+
+    //로그인 통신
+    private void LoginNetwork(String id,String pw){
+        Call<String> login = RetrofitClient.getApiService().getLoginCheck(id,pw); //api 콜
+        login.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(!response.isSuccessful()){
+                    Log.e("연결이 비정상적", "error code : " + response.code());
+                    return;
+                }
+
+                //통신 성공적
+                if(response.body().equals("성공")){
+                    //성공적인 로그인
+                    Log.d("로그인 성공적", response.body());
+                    getUserIdnet(id); //로그인 유저 정보 수집
+                }else{
+                    //아이디, 비번 잘못됨.
+                    Log.d("정보가 없는 회원", response.body());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("연결실패", t.getMessage());
+            }
+        });
+
+    }
+
+    //로그인 성공시 유저 정보 접근
+    private void getUserIdnet(String id){
+        Call<ResponseUserIdent> ident = RetrofitClient.getApiService().getUserIdent(id); //api 콜
+        ident.enqueue(new Callback<ResponseUserIdent>() {
+            @Override
+            public void onResponse(Call<ResponseUserIdent> call, Response<ResponseUserIdent> response) {
+                if(!response.isSuccessful()){
+                    Log.e("연결이 비정상적", "error code : " + response.code());
+                    return;
+                }
+
+                Log.d("유저 정보 접근이 성공적", response.body().toString());
+                ResponseUserIdent userIdent = response.body(); //통신 결과 받기
+
+                //싱글턴 저장
+                UserIdent.GetInstance().setResponseUserIdent(userIdent);
+                UserIdent.GetInstance().setId(UserID);
+                UserIdent.GetInstance().setPw(UserPW);
+
+                UserIdent.GetInstance().printLog(); //확인
+
+                /*
+                Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
+                startActivity(intent1);
+                finish();
+                */
+
+            }//통신 실패나 로그아웃하면 싱글턴 비우는 문법 추가하기???
+
+            @Override
+            public void onFailure(Call<ResponseUserIdent> call, Throwable t) {
+                Log.e("연결실패", t.getMessage());
+            }
+
+        });
 
 
     }

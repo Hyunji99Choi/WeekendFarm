@@ -3,6 +3,8 @@ package com.example.edrkr;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.JsonArray;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,8 +47,40 @@ public class UserIdent {
     private int[] farmID; //밭 id
     private String[] farmName; //밭 별명
 
+    //ResponseUserIdent 객체 받기
+    public void setResponseUserIdent(ResponseUserIdent userIdent) {
+        nkname = userIdent.getUserName(); //닉네임
+        phon = userIdent.getUserPhoneNum(); //폰 번호
+        email = userIdent.getUserEmail(); //이메일
 
-    //json 객체 받기
+        //권한 여부, -1일 경우 관리자
+        farmCount =  Integer.parseInt(userIdent.getFarmNum()) ; //밭 개수
+
+        if(farmCount==-1){ //관리자 일 경우
+            admin=1;
+            farmCount=userIdent.getFarmID().size();
+        }
+
+        //JSONArray farm;
+
+        //관리 하는 밭 id
+        farmID = new int[userIdent.getFarmID().size()];
+        for(int i = 0; i < userIdent.getFarmID().size(); i++){
+            farmID[i]= userIdent.getFarmID().get(i).getAsInt();
+        }
+
+        //관리 하는 밭 별명
+        //farm = userIdent.getFarmName();
+        farmName = new String[userIdent.getFarmName().size()];
+        for(int i = 0; i < userIdent.getFarmName().size(); i++){
+            farmName[i]= userIdent.getFarmName().get(i).getAsString();
+        }
+
+        //배열 0번째 밭 초기 설정(현재 내가 모니터링 할 밭)
+        nowMontriongFarm=0;
+    }
+
+    //json 객체 받기, 없애기
     public void setJSONUserIdent(JSONObject JsonUser) throws JSONException {
         nkname = JsonUser.getString("UserName"); //닉네임
         phon = JsonUser.getString("UserPhoneNum"); //폰 번호
@@ -99,18 +133,18 @@ public class UserIdent {
 
     //디버그
     public void printLog(){
-        //Log.w("id :",id);
-        //Log.w("pw :",pw);
-        Log.w("닉네임 :",nkname);
-        Log.w("폰 :",phon);
-        Log.w("email :",email);
+        Log.w("id :",id);
+        Log.w("pw :",pw);
+        Log.w("닉네임 ",nkname);
+        Log.w("폰 ",phon);
+        Log.w("email ",email);
 
         //권한여부
 
-        Log.w("밭 개수 :",""+farmCount);
+        Log.w("밭 개수 ",""+farmCount);
         //밭 id, 별명
-        Log.w("밭 id :",""+farmID[0]);
-        Log.w("밭 별명 :",""+farmName[0]);
+        Log.w("밭 id ",""+farmID[0]);
+        Log.w("밭 별명 ",""+farmName[0]);
 
     }
 

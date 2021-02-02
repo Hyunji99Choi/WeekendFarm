@@ -29,10 +29,10 @@ public class login_SingUpPage extends AppCompatActivity {
     boolean id_double_ck = false; //아이디 중복 확인
     boolean nk_double_ck = false; //닉네임 중복 확인
 
-    String Sign_URL="http://3.35.55.9:3000/users/";
+    String Sign_URL="http://54.180.134.185:3000/users/";
 
-    String doubleckID_URL="http://3.35.55.9:3000/users/search/ID";
-    String doubleckNK_URL="http://3.35.55.9:3000/users/search/NickName";
+    String doubleckID_URL="http://54.180.134.185:3000/users/search/ID";
+    String doubleckNK_URL="http://54.180.134.185:3000/users/search/NickName";
 
 
     NetworkTask signPage_networkTask;
@@ -150,13 +150,13 @@ public class login_SingUpPage extends AppCompatActivity {
         String pwck=sing_pwck.getText().toString();
         Log.w("pw, pwck",""+pw+" "+pwck);
 
-        if(pw.equals(pwck)==false){
+        if(!pw.equals(pwck)){
             Toast.makeText(this,"비밀번호가 다릅니다. 다시 확인해 주세요.",Toast.LENGTH_LONG).show();
             //Log.w("비번","비번틀림");
             return;
         }
         // 닉네임, id 중복확인 했는지 확인
-        if(!(nk_double_ck==true&&id_double_ck==true)){
+        if(!(nk_double_ck&&id_double_ck)){
             Toast.makeText(this,"중복확인이 되지 않았습니다.",Toast.LENGTH_LONG).show();
             return;
         }
