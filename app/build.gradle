@@ -42,7 +42,11 @@ dependencies {
     //implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
     //josn 통신 Gson
     implementation 'com.google.code.gson:gson:2.8.5'
+    //retorfit 통신, 서버통신 volley
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
 
+    
 
     //이아름 병합
     //리사이클 뷰
