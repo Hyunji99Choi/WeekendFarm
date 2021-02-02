@@ -1,5 +1,6 @@
 package com.example.edrkr;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -7,12 +8,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class UserIdent {
+
+    /*
     private static final UserIdent Instance=new UserIdent(); //싱글턴 문법
     public static UserIdent GetInstance(){
         return Instance;
     }
-
-
+    */
+    private static UserIdent Instance=null;
+    public static UserIdent GetInstance(Context context){
+        if(Instance==null){
+            Instance = new UserIdent();
+        }
+        return Instance;
+    }//싱글턴 문법
 
     private int nowMontriongFarm; //현재 내가 모니터링할 밭 배열 번호
     public int getNowMontriongFarm() { return nowMontriongFarm; }
