@@ -9,12 +9,12 @@ import org.json.JSONObject;
 
 public class UserIdent {
 
-    /*
     private static final UserIdent Instance=new UserIdent(); //싱글턴 문법
     public static UserIdent GetInstance(){
         return Instance;
     }
-    */
+
+    /*
     private static UserIdent Instance=null;
     public static UserIdent GetInstance(Context context){
         if(Instance==null){
@@ -22,7 +22,7 @@ public class UserIdent {
         }
         return Instance;
     }//싱글턴 문법
-
+    */
     private int nowMontriongFarm; //현재 내가 모니터링할 밭 배열 번호
     public int getNowMontriongFarm() { return nowMontriongFarm; }
     public void setNowMontriongFarm(int nowMontriongFarm) { this.nowMontriongFarm = nowMontriongFarm; }
