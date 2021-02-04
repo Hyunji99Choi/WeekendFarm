@@ -3,8 +3,10 @@ package com.example.edrkr;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,7 +18,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,23 +37,18 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     EditText idInput, passwordInput;
-    CheckBox autoLogin;
+
     //Boolean loginChecked;
     SharedPreferences autoLoginData;
     SharedPreferences.Editor editor;
 
     Button loginButton;
-    Button signupButton;
+    TextView signupButton;
 
-    public String login_URL="http://3.35.55.9:3000/users/login";
-    private String UserData_URL="http://3.35.55.9:3000/";
+    String UserID;
+    String UserPW;
 
-    String UserID="ghd";
-    String UserPW="1234";
-
-    String NetworkRESULT=null;
-    String userIdentResult=null;
-
+    AlertDialog.Builder LoginFailMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,19 +60,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //xml id랑 연결
+    //xml id랑 연결 및 기본세팅
     public void InitializeView(){
 
-        idInput = (EditText) findViewById(R.id.emailInput);
-        passwordInput = (EditText) findViewById(R.id.passwordInput);
-        autoLogin = (CheckBox) findViewById(R.id.checkBox);
+        idInput = findViewById(R.id.emailInput);
+        passwordInput = findViewById(R.id.passwordInput);
 
-        loginButton=(Button)findViewById(R.id.loginButton);
-        signupButton=(Button)findViewById(R.id.signupButton);
+        loginButton= findViewById(R.id.loginButton);
+        signupButton= findViewById(R.id.signupButton);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_login);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("로그인"); // 툴바 이름 변경
+
+        //팝업창
+        LoginFailMessage = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog);
+        LoginFailMessage.setMessage("아이디와 패스워드를 확인해 주세요.")
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+
     }
 
     //리스너 연결
@@ -87,10 +94,12 @@ public class MainActivity extends AppCompatActivity {
                         UserID=idInput.getText().toString();
                         UserPW=passwordInput.getText().toString();
 
-                        if(UserID.getBytes().length<=0||UserPW.getBytes().length<=0){
-                            Toast.makeText(getApplicationContext(), "로그인 정보를 입력해주세요", Toast.LENGTH_LONG).show();
+                        if (UserID.isEmpty()||UserPW.isEmpty()) {
+                            LoginFailMessage.show();
                             return;
                         }
+
+
 
                         //*********************************************
                         //디비그를 위한 로컬 진입 **** 나중에 지워줘야함
@@ -103,80 +112,12 @@ public class MainActivity extends AppCompatActivity {
                             finish();
 
                             return;
-
                         }
                         //*********************************************
 
                         LoginNetwork(UserID,UserPW); //로그인 시도
 
-                        /*
-                        //예전 통신
-                        ContentValues values = new ContentValues();
-                        values.put("id",UserID);
-                        values.put("pw",UserPW);
 
-                        NetworkTask Login_networkTask = new NetworkTask(login_URL,values);
-
-                        //로그인 여부 확인 통신
-
-                        try {
-                            NetworkRESULT=Login_networkTask.execute().get();    //네트워크 통신(동기)
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                        if(NetworkRESULT==null){
-                            Log.w("로그인 시도","실패 : "+NetworkRESULT);
-                            Toast.makeText(getApplicationContext(), "인터넷 연결 불안정", Toast.LENGTH_LONG).show();
-
-                        } else if(NetworkRESULT.equals("성공")){
-                            Log.w("result login페이지",""+Login_networkTask.result);
-
-                            Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_LONG).show();
-                            NetworkTask UserData_networkTask=new NetworkTask(UserData_URL+UserID,null);// 고쳐야함
-
-                            // 회원 정보 요청 통신
-                            try {
-                                userIdentResult=UserData_networkTask.execute().get(); //네트워크 통신(동기)
-                            } catch (ExecutionException e) {
-                                e.printStackTrace();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-
-                            if(userIdentResult==null){
-                                Log.w("회원정보요청 통신","실패 : "+userIdentResult);
-                                Toast.makeText(getApplicationContext(), "인터넷 연결 불안정", Toast.LENGTH_LONG).show();
-                            }else{
-                                Log.w("회원정보","싱글턴 저장 중");
-                                try {
-                                    JSONObject USER = new JSONObject(userIdentResult);
-                                    UserIdent.GetInstance().setJSONUserIdent(USER);
-                                    UserIdent.GetInstance().printLog();
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            UserIdent.GetInstance().setId(UserID);
-                            UserIdent.GetInstance().setPw(UserPW);
-
-                            Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
-                            startActivity(intent1);
-                            finish();
-
-                        }else if(NetworkRESULT.equals("실패")){
-                            Log.w("로그인 시도","잘못된 정보 : "+NetworkRESULT);
-                            Toast.makeText(getApplicationContext(), "잘못된 로그인 정보", Toast.LENGTH_LONG).show();
-                        }else{ //중복 코드. 나중에 고치기
-                            Log.w("로그인 시도","실패 : "+NetworkRESULT);
-                            Toast.makeText(getApplicationContext(), "인터넷 연결 불안정", Toast.LENGTH_LONG).show();
-                        }
-
-                        */
 
                         break;
                     case R.id.signupButton:
@@ -193,12 +134,10 @@ public class MainActivity extends AppCompatActivity {
         signupButton.setOnClickListener(listener);
 
 
-
-
     }
 
     //로그인 통신
-    private void LoginNetwork(String id,String pw){
+    private void LoginNetwork(final String id, String pw){
         Call<String> login = RetrofitClient.getApiService().getLoginCheck(id,pw); //api 콜
         login.enqueue(new Callback<String>() {
             @Override
@@ -216,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     //아이디, 비번 잘못됨.
                     Log.d("정보가 없는 회원", response.body());
+                    LoginFailMessage.show();
                 }
 
             }

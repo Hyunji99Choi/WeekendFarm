@@ -30,7 +30,6 @@ public class login_SingUpPage extends AppCompatActivity {
     boolean nk_double_ck = false; //닉네임 중복 확인
 
     String Sign_URL="http://54.180.134.185:3000/users/";
-
     String doubleckID_URL="http://54.180.134.185:3000/users/search/ID";
     String doubleckNK_URL="http://54.180.134.185:3000/users/search/NickName";
 
@@ -44,9 +43,9 @@ public class login_SingUpPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_signup);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_sign);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("회원가입"); // 툴바 이름 변경
+        //Toolbar toolbar = findViewById(R.id.toolbar_sign);
+        //setSupportActionBar(toolbar);
+        //getSupportActionBar().setTitle("회원가입"); // 툴바 이름 변경
 
         sing_id=findViewById(R.id.sign_idInput);
         sing_pw=findViewById(R.id.sign_passwordInput);

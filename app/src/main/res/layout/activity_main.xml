@@ -1,77 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
 
-    <FrameLayout
-        android:layout_width="409dp"
-        android:layout_height="679dp">
-    <com.google.android.material.appbar.AppBarLayout
+    android:padding="16dp"
+    tools:context=".MainActivity">
+    <!--android:background="@drawable/gradient"-->
+
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.Appbar">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_login"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="100dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="cursive"
+        android:paddingVertical="10dp"
+        android:text="WeekendFarm"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="60sp"
+        android:layout_above="@+id/parentRelative"/>
 
     <RelativeLayout
+        android:id="@+id/parentRelative"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="51dp">
-
-        <EditText
-            android:id="@+id/emailInput"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="201dp"
-            android:hint="Email" />
-
-        <EditText
-            android:id="@+id/passwordInput"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_below="@+id/emailInput"
-            android:layout_centerHorizontal="true"
-            android:hint="Password" />
-
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="55dp"
-            android:text="Log in"
-            android:id="@+id/loginButton"
-            android:textAllCaps="false"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/passwordInput"
-            android:layout_toStartOf="@+id/signupButton" />
-
-        <Button
-            android:layout_width="150dp"
-            android:layout_height="55dp"
-            android:text="Sign up"
-            android:id="@+id/signupButton"
-            android:textAllCaps="false"
-            android:layout_alignTop="@+id/loginButton"
-            android:layout_alignEnd="@+id/passwordInput" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remember login"
-            android:id="@+id/checkBox"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/loginButton"
-            android:layout_centerHorizontal="true" />
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center">
 
 
+        <androidx.cardview.widget.CardView
+            xmlns:Card_View="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            Card_View:cardCornerRadius="5dp"
+            Card_View:cardElevation="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+
+                android:orientation="vertical">
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:passwordToggleEnabled="true"
+                    android:layout_marginTop="5dp">
+                    <EditText
+                        android:id="@+id/emailInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:maxLines="1"
+                        android:paddingStart="5dp"
+                        android:singleLine="true"
+                        android:hint="아이디" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:passwordToggleEnabled="true"
+                    android:layout_marginTop="5dp">
+
+                    <EditText
+                        android:id="@+id/passwordInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:paddingStart="5dp"
+                        android:hint="비밀번호" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/loginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:textSize="16sp"
+                    android:text="로그인"/>
+
+                <TextView
+                    android:id="@+id/signupButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:text="회원이 아니세요?"/>
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
-    </FrameLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
+

@@ -11,6 +11,7 @@ import retrofit2.http.Path;
 
 public interface RetrofitAPI {
 
+    //로그인 페이지
     @FormUrlEncoded
     @POST("users/login") //로그인
     Call<String> getLoginCheck(
@@ -18,9 +19,32 @@ public interface RetrofitAPI {
             @Field("pw") String pw
     );
 
-    @GET("{userId}")
+    @GET("{userId}") //로그인 후 회원정보 요청
     Call<ResponseUserIdent> getUserIdent(@Path("userId") String userId);
 
 
+    //회원가입 페이지
+    @FormUrlEncoded
+    @POST("users/") //회원가입 승인
+    Call<String> registerLogin(
+            @Field("id") String id,
+            @Field("pw") String pw,
+            @Field("name") String name,
+            @Field("nickname") String nickname,
+            @Field("email") String email,
+            @Field("phone") String phone,
+            @Field("key") String key
+    );
+
+    @FormUrlEncoded
+    @POST("users/search/ID") //아이디 중복 확인
+    Call<String> registerIdCheck(
+            @Field("id") String id
+    );
+    @FormUrlEncoded
+    @POST("users/search/NickName") //별명 중복 확인
+    Call<String> registerNickNameCheck(
+            @Field("nickname") String nickname
+    );
 
 }
