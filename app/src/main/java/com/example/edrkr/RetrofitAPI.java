@@ -18,12 +18,24 @@ public interface RetrofitAPI {
             @Field("id") String id,
             @Field("pw") String pw
     );
-
     @GET("{userId}") //로그인 후 회원정보 요청
     Call<ResponseUserIdent> getUserIdent(@Path("userId") String userId);
 
 
+
+
     //회원가입 페이지
+    @FormUrlEncoded
+    @POST("users/search/ID") //아이디 중복 확인
+    Call<String> registerIdCheck(
+            @Field("id") String id
+    );
+    @FormUrlEncoded
+    @POST("users/search/NickName") //별명 중복 확인
+    Call<String> registerNickNameCheck(
+            @Field("nickname") String nickname
+    );
+
     @FormUrlEncoded
     @POST("users/") //회원가입 승인
     Call<String> registerLogin(
@@ -36,15 +48,6 @@ public interface RetrofitAPI {
             @Field("key") String key
     );
 
-    @FormUrlEncoded
-    @POST("users/search/ID") //아이디 중복 확인
-    Call<String> registerIdCheck(
-            @Field("id") String id
-    );
-    @FormUrlEncoded
-    @POST("users/search/NickName") //별명 중복 확인
-    Call<String> registerNickNameCheck(
-            @Field("nickname") String nickname
-    );
+
 
 }

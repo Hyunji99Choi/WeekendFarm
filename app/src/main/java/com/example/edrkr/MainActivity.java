@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 if(response.body().equals("성공")){
                     //성공적인 로그인
                     Log.d("로그인 성공적", response.body());
-                    getUserIdnet(id); //로그인 유저 정보 수집
+                    getUserIdnet(id); //로그인 유저 정보 수집(통신)
                 }else{
                     //아이디, 비번 잘못됨.
                     Log.d("정보가 없는 회원", response.body());

@@ -212,17 +212,26 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/keyError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp">
 
+                <EditText
+                    android:id="@+id/sign_keyInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="50dp"
+                    android:hint="발급받은 key"
+                    android:maxLength="12"
+                    android:maxLines="1"
+                    android:paddingStart="5dp"
+                    android:singleLine="true"/>
 
-            <EditText
-                android:id="@+id/sign_keyInput"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_below="@+id/sign_phonnumInput"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
-                android:hint="key 번호"
-                android:layout_marginBottom="30dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
 
 
 
