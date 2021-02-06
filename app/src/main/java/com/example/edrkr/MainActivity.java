@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //리스너 연결
+    //버튼 리스너 연결
     private void SetListener() {
 
         View.OnClickListener listener = new View.OnClickListener() {
@@ -206,6 +206,4 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
 }

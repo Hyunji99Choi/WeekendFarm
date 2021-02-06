@@ -216,6 +216,7 @@
                 android:id="@+id/keyError"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
                 android:layout_marginTop="50dp">
 
                 <EditText
@@ -223,7 +224,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="50dp"
                     android:hint="발급받은 key"
                     android:maxLength="12"
                     android:maxLines="1"

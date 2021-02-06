@@ -50,6 +50,7 @@ dependencies {
     //retorfit 통신, 서버통신
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
     //로그인 페이지 카드뷰를 위함
     implementation 'com.android.support:cardview-v7:28.0.0'
     
