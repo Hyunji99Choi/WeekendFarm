@@ -1,62 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
-    <LinearLayout
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/Imageview_member_profile"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_basic_profile"
+        app:civ_border_color="@color/black"
+        app:civ_border_width="2dp"
+        app:civ_circle_background_color="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/view3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_memberID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="1234"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/Imageview_member_profile"
+        app:layout_constraintEnd_toStartOf="@+id/Textview_memberName"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/Imageview_member_profile"
+        app:layout_constraintTop_toTopOf="@+id/Imageview_member_profile" />
+
+    <TextView
+        android:id="@+id/Textview_memberName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="홍길동"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_memberID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView_memberID"
+        app:layout_constraintTop_toTopOf="@+id/textView_memberID" />
+
+    <View
+        android:id="@+id/view3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/Imageview_member_profile"
-                android:layout_width="54dp"
-                android:layout_height="54dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/ic_basic_profile"
-                app:civ_circle_background_color="@color/white"
-                app:civ_border_width="2dp"
-                app:civ_border_color="@color/black"
-                android:scaleType="centerCrop"/>
-
-            <TextView
-                android:id="@+id/textView_memberID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_gravity="center"
-                android:textSize="25dp"
-                android:text="1234" />
-
-            <TextView
-                android:id="@+id/Textview_memberName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_gravity="center"
-                android:text="홍길동"
-                android:textSize="25dp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="#000000"/>
-    </LinearLayout>
+        android:layout_height="2dp"
+        android:background="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="10dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

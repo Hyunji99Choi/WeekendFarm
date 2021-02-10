@@ -22,10 +22,11 @@
     <color name="hot_hot">#F76940</color>
     <color name="hot_very_hot">#E04D46</color>
 
+<!--게시판 색깔-->
     <!-- 아이콘 -->
     <color name="black">#000000</color> //추가한 검은색
 
-    <!-- view 선 -->
+    <!-- view 선(구분 선) -->
     <color name="gray">#969696</color> //추가한 회색
 
 </resources>

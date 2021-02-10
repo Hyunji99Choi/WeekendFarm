@@ -1,10 +1,14 @@
 package com.example.edrkr;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +23,7 @@ public class Managerpage extends AppCompatActivity {
     PagerAdapter adapter; //adapter 변수 선언
     ViewPager viewPager; //viewPager 선언
     private ActionBar actionBar;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +44,12 @@ public class Managerpage extends AppCompatActivity {
 
         //tablayout 참조, tab 추가
         TabLayout tabLayout = findViewById(R.id.manager_tabLayout);
-        tabLayout.addTab((tabLayout.newTab().setText("회원 내역")));
-        tabLayout.addTab((tabLayout.newTab().setText("밭 내역")));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(createTabView("회원 내역")));
+        Log.v("managerpage","회원 내역 tab 추가 완료");
+        tabLayout.addTab(tabLayout.newTab().setCustomView(createTabView("밭 내역")));
+        Log.v("managerpage","밭 내역 tab 추가 완료");
+//                addTab((tabLayout.newTab().setText("회원 내역")));
+//        tabLayout.addTab((tabLayout.newTab().setText("밭 내역")));
         tabLayout.setTabGravity((TabLayout.GRAVITY_FILL));
         Log.v("managerpage","tab 추가 완료");
 
@@ -70,6 +79,18 @@ public class Managerpage extends AppCompatActivity {
 
             }
         });
+    }
+
+    private View createTabView(String tabName) {
+        Log.v("managerpage","createTabView");
+        mContext = getApplicationContext();
+        View tabView = LayoutInflater.from(mContext).inflate(R.layout.custom_tab, null);
+        Log.v("managerpage","createTabView");
+        TextView txt_name = (TextView) tabView.findViewById(R.id.txt_name);
+        Log.v("managerpage","createTabView");
+        txt_name.setText(tabName);
+        return tabView;
+
     }
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu){

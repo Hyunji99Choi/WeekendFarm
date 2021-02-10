@@ -15,8 +15,7 @@ public class Board implements Serializable {
     private String body;
     private ArrayList<Comment> comments = new ArrayList<>();
 
-    Board() {
-    }
+    Board() {}
     Board(int pos){
         this.pos = pos;
     }

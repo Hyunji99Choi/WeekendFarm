@@ -146,8 +146,10 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
 
     public ArrayList<Board> getfromlocal(){
         ArrayList<Board> dataset = new ArrayList<>();
-        Board b = new Board();
-        dataset.add(b);
+        for(int i = 0;i<5;i++){
+            Board b = new Board(i,"이름","title","body\nadfdfdsfdsfdsfdfhdlkjfhdflh\nadsufhduifhdkjfndkjsfhblkjdsa\nhfldkjsfhdlfhdl",10,"0000-00-00");
+            dataset.add(b);
+        }
         return dataset;
     }
 
@@ -156,6 +158,11 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         Log.v("알림","getfromserver 확인");
         ArrayList<Board> dataset = new ArrayList<Board>();
 
+        if(UserIdent.GetInstance().getId() == "111"){
+            Log.v("noticeboard","id == 111");
+            dataset = getfromlocal();
+            return dataset;
+        }
         //values.put("id","00");
         //values.put("pw",UserPW)
 

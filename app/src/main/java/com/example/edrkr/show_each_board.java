@@ -152,9 +152,26 @@ public class show_each_board extends AppCompatActivity {
 
         // String result = [{"id":1,"userName":null,"userId":"ghd8119","title","fsadkfjd","content","dafsdf"},{"id":1,"userName":null,"userId":"ghd8119","title","fsadkfjd","content","dafsdf"}
     }
+
+    public ArrayList<Comment> getlocal() {
+        ArrayList<Comment> dataset = new ArrayList<Comment>();
+        for(int i = 0;i<10;i++){
+            Comment c = new Comment("NAME"+i,"BODYdfafdfds\nfdsfdsfdsfdfdfdfddfd\ndfdddfddddfdfdfd123\n4f56d14651461"+i,"0000-00-00");
+            dataset.add(c);
+        }
+        return dataset;
+    }
+
     public ArrayList<Comment> getfromserver(){
         ArrayList<Comment> dataset = new ArrayList<Comment>();
         Log.v("sentoserver","getfromserver 확인");
+
+        if(UserIdent.GetInstance().getId() == "111") {
+            Log.v("getfromserver","id = 111");
+            dataset = getlocal();
+            return dataset;
+        }
+
         NetworkTask getboardlist_networkTask = new NetworkTask(URL,null); //networktast 설정 부분
         try {
             getboardlist_networkTask.execute().get();
