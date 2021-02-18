@@ -115,13 +115,14 @@ public class MainActivity extends AppCompatActivity {
                         }
                         //*********************************************
 
+                        //로딩중 만들기...
                         LoginNetwork(UserID,UserPW); //로그인 시도
 
 
 
                         break;
                     case R.id.signupButton:
-                        Toast.makeText(getApplicationContext(),"회원가입 버튼 클릭",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"회원가입 버튼 클릭",Toast.LENGTH_LONG).show();
 
                         //페이지 넘어가기
                         Intent intent2 = new Intent(MainActivity.this, login_SingUpPage.class);
@@ -189,11 +190,11 @@ public class MainActivity extends AppCompatActivity {
 
                 UserIdent.GetInstance().printLog(); //확인
 
-                /*
-                Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
-                startActivity(intent1);
-                finish();
-                */
+
+                Intent monitoringIntent = new Intent(MainActivity.this, MonitoringPage.class);
+                startActivity(monitoringIntent);
+                //finish();
+
 
             }//통신 실패나 로그아웃하면 싱글턴 비우는 문법 추가하기???
 

@@ -22,8 +22,6 @@ public interface RetrofitAPI {
     Call<ResponseUserIdent> getUserIdent(@Path("userId") String userId);
 
 
-
-
     //회원가입 페이지
     @FormUrlEncoded
     @POST("users/search/ID") //아이디 중복 확인
@@ -48,6 +46,8 @@ public interface RetrofitAPI {
             @Field("key") String key
     );
 
+
+    //모니터링 페이지
 
 
 }

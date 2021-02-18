@@ -38,19 +38,16 @@ public class MonitoringPage extends AppCompatActivity {
     private FragmentStateAdapter pagerAdapter_b;
     private int num_page_b = 2 ;
 
-
     TabLayout tabLayout;
 
     ViewPager pager;
     MyAdapter adapter;
 
-
     CharSequence[] farmManu; //밭 list 다이로그
-
     TextView farmTitile; //타이틀 글자 (밭 별명)
 
-    TextView naviHeaderName;
-    TextView naviHeaderEmail;
+    TextView naviHeaderName; //네거티브 메뉴 헤더 이름
+    TextView naviHeaderEmail; //네거티브 메뉴 헤더 이메일
 
 
     private DrawerLayout mDrawerLayout;
