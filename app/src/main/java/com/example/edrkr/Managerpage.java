@@ -46,7 +46,7 @@ public class Managerpage extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         Log.v("managerpage","lister, adapter 추가 완료");
 
-        //앱바(app bar) 커스텀 - 네거티브 메뉴 나왔을때 변화 주기
+        //앱바(app bar) 커스텀
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
