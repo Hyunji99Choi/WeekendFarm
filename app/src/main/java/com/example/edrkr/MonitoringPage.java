@@ -57,26 +57,49 @@ public class MonitoringPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitoring);
 
-        //textview
-        farmTitile = findViewById(R.id.toolbar_textView); // 툴바 타이틀
+
+        //각 요소들 연결 - toolbar, tab, tab-viewpager, drawer 등
+        initValueSetting();
+
         //첫번째 배열 값으로 툴바 textview 타이틀 수정
         Log.w("타이틀 세팅","수정 전");
-        if(UserIdent.GetInstance().getFarmCount()!=0) //밭이 0이면 실행안함.
-            farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm())); //****** 통신 완료시 풀어줘야함
+        if(UserIdent.GetInstance().getFarmCount()!=0) //밭이 0이면 실행안함. --> 쓰레기값이나 빈 값이어도 실행 안되게 하기(수정해야함.)
+            farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm()));
+
+        //cctv view pager 세팅, 상단 베너
+        initCCTVpagerSetting();
+
+        //draw 메뉴 클릭 리스너(페이지 이동)
+        drawerMenuSetting();
 
 
+    }
 
-        //Toolbar를 액션 바로대체하기
+    // 기본 요소들 세팅
+    void initValueSetting(){
+
+        //Toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        //textview, 툴바 타이틀(제목, 현재 밭)
+        farmTitile = findViewById(R.id.toolbar_textView); // 툴바 타이틀
 
+        //Tab 메뉴
+        tabLayout=findViewById(R.id.layout_tab);
+        pager=findViewById(R.id.pager);
+        adapter=new MyAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
+
+        //tabLayout과 ViewPager를 연동
+        tabLayout.setupWithViewPager(pager);
+
+        //네거티브 메뉴 연결
         navigationView=findViewById(R.id.navView);
         navigationView.setItemIconTintList(null); //사이드 메뉴에 아이콘 색깔을 원래 아이콘 색으로
 
-        //슬라이드 메뉴 헤더 수정
-        //navigationView.setNavigationItemSelectedListener(this);
+        //네거티브 슬라이드 메뉴 헤더 연결
         View header = navigationView.getHeaderView(0);
         Log.w("헤더 세팅","수정 전");
         naviHeaderName = header.findViewById(R.id.navi_header_name);
@@ -85,14 +108,17 @@ public class MonitoringPage extends AppCompatActivity {
         naviHeaderEmail.setText(UserIdent.GetInstance().getEmail());
         Log.w("헤더 세팅","완료");
 
-
+        //드로버 레이아웃(슬라이드 메뉴 레이아웃)
         drawerLayout=findViewById(R.id.dl_main_drawer_root);
         drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);
         drawerLayout.addDrawerListener(drawerToggle); //누를때마다 아이콘이 팽그르 돈다
         drawerToggle.syncState();//삼선 메뉴 추가
 
-        //상단 베너
-        //cctv 페이지 세팅 부분
+    }
+
+    //상단 베너(cctv) 세팅 및 연결
+    void initCCTVpagerSetting(){
+
         //Viewpager2
         mPager_b = findViewById(R.id.baner);
         //Adapter
@@ -115,21 +141,47 @@ public class MonitoringPage extends AppCompatActivity {
             }
 
         });
+    }
+
+    //타이틀 클릭 이벤트
+    public void onClickTextView(View view){
+        //switch(view.getId())
+        //case R.id.toolbar...
+        FarmDialogSetting(); //다이로그 생성 함수
+    }
+
+    //타이틀 밭 이동 리스트
+    public void FarmDialogSetting(){
+        farmManu=new CharSequence[UserIdent.GetInstance().getFarmCount()]; //밭 별명
+        //밭 별명 주기
+        for(int i=0;i<UserIdent.GetInstance().getFarmCount();i++){
+            farmManu[i]=UserIdent.GetInstance().getFarmName(i);
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("밭 이동");
+        builder.setItems(farmManu, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) { //연동적으로 수정
+
+                //i 배열에 있는 밭 번호
+                Toast.makeText(context, ""+UserIdent.GetInstance().getFarmName(i), Toast.LENGTH_SHORT).show();
+                UserIdent.GetInstance().setNowMontriongFarm(i); //이제 통신할 값은 이 밭이라고 선언.
+                farmTitile.setText(UserIdent.GetInstance().getFarmName(i));
+
+                //각 밭 선택에 따른 통신 및 센서값 세팅
+                ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(i));
 
 
-        //bennar 위에까지
+                dialogInterface.dismiss();
+            }
+        });
 
+        builder.show();
+    }
 
-        //Tab 메뉴
-        tabLayout=findViewById(R.id.layout_tab);
-        pager=findViewById(R.id.pager);
-        adapter=new MyAdapter(getSupportFragmentManager());
-        pager.setAdapter(adapter);
-
-        //tabLayout과 ViewPager를 연동
-        tabLayout.setupWithViewPager(pager);
-
-        //네비게이션뷰에 아이템선택 리스너 추가
+    //네비게이션뷰에 아이템선택 리스너 추가
+    void drawerMenuSetting(){
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -171,46 +223,11 @@ public class MonitoringPage extends AppCompatActivity {
                 return false;
             }
         });
-
-
     }
 
-    public void onClickTextView(View view){
-        //switch(view.getId())
-        //case R.id.toolbar...
-        FarmDialogSetting(); //다이로그 생성 함수
-    }
-
+    //헤더 클릭 이벤트
     public void onClickHeader(View view){ //메뉴 헤더 클릭시
         Toast.makeText(this,"헤더 클릭",Toast.LENGTH_SHORT).show();
     }
 
-    public void FarmDialogSetting(){ //타이틀 밭 이동 리스트
-        farmManu=new CharSequence[UserIdent.GetInstance().getFarmCount()]; //밭 별명
-        //밭 별명 주기
-        for(int i=0;i<UserIdent.GetInstance().getFarmCount();i++){
-            farmManu[i]=UserIdent.GetInstance().getFarmName(i);
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("밭 이동");
-        builder.setItems(farmManu, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) { //연동적으로 수정
-
-                //i 배열에 있는 밭 번호
-                Toast.makeText(context, ""+UserIdent.GetInstance().getFarmName(i), Toast.LENGTH_SHORT).show();
-                UserIdent.GetInstance().setNowMontriongFarm(i); //이제 통신할 값은 이 밭이라고 선언.
-                farmTitile.setText(UserIdent.GetInstance().getFarmName(i));
-
-                //각 밭 선택에 따른 통신 및 센서값 세팅
-                ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(i));
-
-
-                dialogInterface.dismiss();
-            }
-        });
-
-        builder.show();
-    }
 }

@@ -18,38 +18,47 @@ import com.google.android.material.tabs.TabLayout;
 public class Managerpage extends AppCompatActivity {
     PagerAdapter adapter; //adapter 변수 선언
     ViewPager viewPager; //viewPager 선언
-    private ActionBar actionBar;
+    private ActionBar actionBar; //엑션바
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v("managerpage","managerpage 도착");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_managerpage);
 
-        Log.v("managerpage","toolbar 세팅 시작");
-        //toolbar를 액션바로 대체
-        Toolbar toolbar = findViewById(R.id.toolbar_manager);
-        setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
+        Log.v("managerpage","managerpage 도착");
+        initSetting();
+    }
+
+    //네거티브 메뉴 페이지...???? 여기 뭐하는 곳임??????? 노는 클래스인가????????
+    void initSetting(){ //toolbar, tab, viewPage 등 세팅
+
+        Toolbar toolbar = findViewById(R.id.toolbar_manager); //toolbar를 액션바로 대체
+        TabLayout tabLayout = findViewById(R.id.manager_tabLayout); //tablayout 참조
+        viewPager = findViewById(R.id.manager_viewPager); //viewPager 참조
+
+
+        //toolbar 연결결
+        setSupportActionBar(toolbar); //Toolbar을 액티비티 레이아웃으로 지정
+        actionBar = getSupportActionBar();  //액티비티 엡바 지정
+
+        //ViewPager에 adapter set, TabLayout Listener 선언
+        adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        Log.v("managerpage","lister, adapter 추가 완료");
+
+        //앱바(app bar) 커스텀 - 네거티브 메뉴 나왔을때 변화 주기
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
         Log.v("managerpage","toolbar 완료");
 
-
-        //tablayout 참조, tab 추가
-        TabLayout tabLayout = findViewById(R.id.manager_tabLayout);
+        //tab 메뉴 추가 ??? 뭐더라,,,
         tabLayout.addTab((tabLayout.newTab().setText("회원 내역")));
         tabLayout.addTab((tabLayout.newTab().setText("밭 내역")));
         tabLayout.setTabGravity((TabLayout.GRAVITY_FILL));
         Log.v("managerpage","tab 추가 완료");
 
-        //ViewPager에 adapter set, TabLayout Listener 선언
-        adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager = findViewById(R.id.manager_viewPager);
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        Log.v("managerpage","lister, adapter 추가 완료");
 
         //Tab 이벤트에 대한 Listener
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -70,17 +79,13 @@ public class Managerpage extends AppCompatActivity {
 
             }
         });
+
     }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        MenuInflater menuInflater = getMenuInflater();
-//        menuInflater.inflate(R.menu.noticeboard_menu,menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        switch (item.getItemId()){
+       switch (item.getItemId()){
             case android.R.id.home:
                 Log.v("managerpage","home");
                 Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
