@@ -29,7 +29,6 @@ public class Managerpage extends AppCompatActivity {
         initSetting();
     }
 
-    //네거티브 메뉴 페이지...???? 여기 뭐하는 곳임??????? 노는 클래스인가????????
     void initSetting(){ //toolbar, tab, viewPage 등 세팅
 
         Toolbar toolbar = findViewById(R.id.toolbar_manager); //toolbar를 액션바로 대체
@@ -53,7 +52,7 @@ public class Managerpage extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
         Log.v("managerpage","toolbar 완료");
 
-        //tab 메뉴 추가 ??? 뭐더라,,,
+        //tab 메뉴 추가
         tabLayout.addTab((tabLayout.newTab().setText("회원 내역")));
         tabLayout.addTab((tabLayout.newTab().setText("밭 내역")));
         tabLayout.setTabGravity((TabLayout.GRAVITY_FILL));
