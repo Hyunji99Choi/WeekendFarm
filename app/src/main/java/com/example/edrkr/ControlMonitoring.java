@@ -2,6 +2,7 @@ package com.example.edrkr;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
@@ -13,6 +14,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ControlMonitoring {
 
@@ -47,39 +52,31 @@ public class ControlMonitoring {
 
     //센서 통신하기
     public void NetworkSensorCall(int farmid){ //센서 값 통신 함수
-        NetworkTask_monitoring monitoring_networkTask = new NetworkTask_monitoring(monitoring_URL+farmid,null);
-        monitoring_networkTask.execute(); //비동기 통신,get
-    }
 
-    //센서통신 josn 통신
-    public void SensorJsonConvert(String result){
-        //String cctvURL=""; //cctv url
-        int soild=0; //토양 습도
-        int sunny=0; //조도
-        float hot=0.0f; //온도
-        int water=0; // 대기습도
+        Call<ResponseSensorJson> sensor = RetrofitClient.getApiService().getSensor(String.valueOf(farmid)); //api 콜
+        sensor.enqueue(new Callback<ResponseSensorJson>() {
+            @Override
+            public void onResponse(Call<ResponseSensorJson> call, Response<ResponseSensorJson> response) {
+                if(!response.isSuccessful()){
+                    Log.e("연결이 비정상적", "error code : " + response.code());
+                    return;
+                }
 
-        Log.w("센서 통신",result);
-        JSONObject SENSOR = null;
-        try {
-            SENSOR = new JSONObject(result);
+                Log.d("센서 통신 성공적", response.body().toString());
+                ResponseSensorJson sensorJson = response.body(); //통신 결과 받기
 
-            //Log.w("오브젝트 변환","오브젝트 변환 완료");
-            soild = Integer.parseInt(SENSOR.getString("soil"));
-            sunny = Integer.parseInt(SENSOR.getString("light"));
-            hot = Float.parseFloat(SENSOR.getString("temp"));
-            water = (int)Float.parseFloat(SENSOR.getString("humi"));
+                //센서 값 업데이트 updateSensor(soild,sunny,hot,water);
+                updateSensor(Integer.parseInt(sensorJson.getSoil()),Integer.parseInt(sensorJson.getLight()),
+                        Double.parseDouble(sensorJson.getTemp()),Integer.parseInt(sensorJson.getHumi()));
 
-            //cctvURL = SENSOR.getString("URL");
+            }
 
-        } catch (JSONException e) {
-            Log.w("json","에러");
-            e.printStackTrace();
-        }
+            @Override
+            public void onFailure(Call<ResponseSensorJson> call, Throwable t) {
+                Log.e("연결실패", t.getMessage());
+            }
+        });
 
-
-
-        ControlMonitoring.GetInstance().updateSensor(soild,sunny,hot,water); //센서값들 새로 세팅.
     }
 
     //cctv 통신하기
