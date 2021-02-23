@@ -152,8 +152,8 @@ public class sub_page1 extends Fragment {
                 ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
 
                 //ccvt
-                Log.w("ccctv","cctv 통신");
-                ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
+                //Log.w("ccctv","cctv 통신");
+                //ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
             }
         };
 
@@ -185,13 +185,5 @@ public class sub_page1 extends Fragment {
 
         super.onPause();
     }
-/*
-    @Override
-    public void onDestroy() { //엑티비티 꺼졌을때
-        Log.i("test","onDstory");
-        timer.cancel();
 
-        super.onDestroy();
-    }
-*/
 }
