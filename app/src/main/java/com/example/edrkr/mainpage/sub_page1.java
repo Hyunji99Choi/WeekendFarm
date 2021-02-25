@@ -1,4 +1,4 @@
-package com.example.edrkr;
+package com.example.edrkr.mainpage;
 
 
 import android.graphics.drawable.GradientDrawable;
@@ -19,7 +19,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
-import com.example.edrkr.mainpage.cctv_Adapter;
+import com.example.edrkr.R;
+import com.example.edrkr.UserIdent;
 
 import java.util.Timer;
 import java.util.TimerTask;

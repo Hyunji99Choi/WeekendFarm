@@ -1,15 +1,13 @@
-package com.example.edrkr;
+package com.example.edrkr.mainpage;
 
 
 import android.content.Context;
 import android.util.Log;
 
+import com.example.edrkr.R;
 import com.example.edrkr.h_network.ResponseCCTVJson;
 import com.example.edrkr.h_network.ResponseSensorJson;
 import com.example.edrkr.h_network.RetrofitClient;
-import com.example.edrkr.mainpage.cctv_fragmentpage1;
-import com.example.edrkr.mainpage.cctv_fragmentpage2;
-import com.example.edrkr.mainpage.cctv_fragmentpage3;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -22,7 +22,6 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.edrkr.ControlMonitoring;
 import com.example.edrkr.KeyCreatePage;
 import com.example.edrkr.Managerpage;
 import com.example.edrkr.NoticeBoardActivity;
