@@ -118,17 +118,7 @@ public class sub_page1 extends Fragment {
         });
 
 
-        if(UserIdent.GetInstance().getFarmCount()!=0){ //밭이 0개이면 실행안함.
-            //처음 cctv 링크 요청
-            //Log.w("cctv","cctv통신요청");
-            //ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
-
-
-            //처음 센서값 요청
-            //ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
-            //Start_SensorTimer();//타이머 시작
-
-        }else{
+        if(UserIdent.GetInstance().getFarmCount()==0){ //밭이 0개이면 실행.
             //밭이 없으니 0으로 세팅
             ControlMonitoring.GetInstance().updateSensor(0,0,0.0,0);
         }
@@ -151,9 +141,9 @@ public class sub_page1 extends Fragment {
                 Log.w("현재 통신대상",""+UserIdent.GetInstance().getNowMontriongFarm());
                 ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
 
-                //ccvt
-                //Log.w("ccctv","cctv 통신");
-                //ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
+                //cctv
+                Log.w("ccctv","cctv 통신");
+                ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
             }
         };
 

@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://13.125.175.136:3000/";
+    private static final String BASE_URL = "http://13.124.140.236:3000/";
 
     public static RetrofitAPI getApiService(){return getInstance().create(RetrofitAPI.class);}
 

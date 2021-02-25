@@ -54,6 +54,8 @@ public interface RetrofitAPI {
     Call<ResponseSensorJson> getSensor(@Path("farm") String farm);
 
     //cctv 통신
+    @GET("/camera/{farm}") //로그인 후 회원정보 요청
+    Call<ResponseCCTVJson> getCCTV(@Path("farm") String farm);
 
 
 }

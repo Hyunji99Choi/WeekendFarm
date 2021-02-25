@@ -1,20 +1,8 @@
 package com.example.edrkr;
 
-import android.content.ContentValues;
+
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
-
-import androidx.core.content.ContextCompat;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,10 +30,6 @@ public class ControlMonitoring {
     public void setFragmentPage1(cctv_fragmentpage1 s1){ this.cctv1=s1; }
     public void setFragmentPage2(cctv_fragmentpage2 s2){ this.cctv2=s2; }
     public void setFragmentPage3(cctv_fragmentpage3 s3){ this.cctv3=s3; }
-
-
-    private String monitoring_URL="http://3.35.55.9:3000/sensor/field"; // 센서값 값 가져올 서버 url
-    private String cctv_URL="http://3.35.55.9:3000/camera/";
 
 
 
@@ -81,35 +65,32 @@ public class ControlMonitoring {
 
     //cctv 통신하기
     public void NetworkCCTVCall(int farmid){
-        NetworkTask_cctv monitoring_cctv = new NetworkTask_cctv(cctv_URL+farmid,null);
-        monitoring_cctv.execute(); //비동기 통신,get
+
+        Call<ResponseCCTVJson> cctv = RetrofitClient.getApiService().getCCTV(String.valueOf(farmid)); //api 콜
+        cctv.enqueue(new Callback<ResponseCCTVJson>() {
+            @Override
+            public void onResponse(Call<ResponseCCTVJson> call, Response<ResponseCCTVJson> response) {
+                if(!response.isSuccessful()){
+                    Log.e("연결이 비정상적", "error code : " + response.code());
+                    return;
+                }
+
+                Log.d("cctv 통신 성공적", response.body().toString());
+                ResponseCCTVJson cctvJson = response.body(); //통신 결과 받기
+
+                //cctv 세팅하기
+                SettingCCTV(cctvJson.getCamera1(),cctvJson.getCamera2(),cctvJson.getCamera3());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseCCTVJson> call, Throwable t) {
+                Log.e("연결실패", t.getMessage());
+            }
+        });
+
     }
 
 
-    public void CctvJsonConvert(String result){
-        String cctvURL1=""; //cctv url
-        String cctvURL2="";
-        String cctvURL3="";
-
-
-        Log.w("cctv 통신",result);
-        JSONObject CCTV = null;
-        try {
-            CCTV = new JSONObject(result);
-
-            //Log.w("오브젝트 변환","오브젝트 변환 완료");
-            cctvURL1=CCTV.getString("camera1"); //변수 이름*** 수정 요망
-            cctvURL2=CCTV.getString("camera2");
-            cctvURL3=CCTV.getString("camera3");
-
-
-        } catch (JSONException e) {
-            Log.w("json","에러");
-            e.printStackTrace();
-        }
-
-        ControlMonitoring.GetInstance().SettingCCTV(cctvURL1,cctvURL2,cctvURL3); //cctv 세팅
-    }
     //cctv 세팅하기
     public void SettingCCTV(String url1,String url2,String url3){
         cctv1.cctvURLSetting(url1);
@@ -135,8 +116,8 @@ public class ControlMonitoring {
         //대기온도센서
         page.hot_drawable.setColor(hot_color(hot));
         page.hot_sencor.setImageDrawable(page.hot_drawable);
-        String temp = String.format("%.1f",hot);
-        page.hot_text.setText(temp+"c");
+        String temp = String.format("%.1f",hot); //warning
+        page.hot_text.setText(temp+"c"); //use resource string with placeholders
 
 
         //대기습도센서, 프로세스
