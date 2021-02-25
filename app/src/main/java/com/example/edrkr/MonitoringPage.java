@@ -66,8 +66,8 @@ public class MonitoringPage extends AppCompatActivity {
         if(UserIdent.GetInstance().getFarmCount()!=0) //밭이 0이면 실행안함. --> 쓰레기값이나 빈 값이어도 실행 안되게 하기(수정해야함.)
             farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm()));
 
-        //cctv view pager 세팅, 상단 베너
-        initCCTVpagerSetting();
+        //날씨, 오늘의 작물 view pager 세팅, 하단 베너 --> 대대적인 수정이 있어야함
+        initWeatherSetting();
 
         //draw 메뉴 클릭 리스너(페이지 이동)
         drawerMenuSetting();
@@ -116,8 +116,8 @@ public class MonitoringPage extends AppCompatActivity {
 
     }
 
-    //상단 베너(cctv) 세팅 및 연결
-    void initCCTVpagerSetting(){
+    //하단 베너(날씨) 세팅 및 연결
+    void initWeatherSetting(){
 
         //Viewpager2
         mPager_b = findViewById(R.id.baner);
