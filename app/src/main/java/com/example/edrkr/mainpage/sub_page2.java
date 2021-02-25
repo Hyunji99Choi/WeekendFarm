@@ -1,4 +1,4 @@
-package com.example.edrkr;
+package com.example.edrkr.mainpage;
 
 
 import android.graphics.Color;
@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import com.example.edrkr.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;

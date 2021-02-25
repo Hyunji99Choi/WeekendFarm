@@ -1,9 +1,13 @@
-package com.example.edrkr;
+package com.example.edrkr.mainpage;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.example.edrkr.mainpage.sub_page2;
+import com.example.edrkr.mainpage.sub_page3;
+import com.example.edrkr.sub_page1;
 
 public class MyAdapter extends FragmentPagerAdapter {
 

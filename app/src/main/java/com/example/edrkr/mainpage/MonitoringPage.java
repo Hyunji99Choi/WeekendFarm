@@ -1,7 +1,5 @@
-package com.example.edrkr;
+package com.example.edrkr.mainpage;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,12 +17,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.edrkr.ControlMonitoring;
+import com.example.edrkr.KeyCreatePage;
+import com.example.edrkr.Managerpage;
+import com.example.edrkr.NoticeBoardActivity;
+import com.example.edrkr.R;
+import com.example.edrkr.UserIdent;
+import com.example.edrkr.baner_Adapter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -199,7 +203,7 @@ public class MonitoringPage extends AppCompatActivity {
                         break;
 
                     case R.id.menu_admin_key:
-                        Intent keypage = new Intent(MonitoringPage.this,KeyCreatePage.class);
+                        Intent keypage = new Intent(MonitoringPage.this, KeyCreatePage.class);
                         startActivity(keypage);
 
                         Toast.makeText(MonitoringPage.this,"key생성페이지",Toast.LENGTH_SHORT).show();

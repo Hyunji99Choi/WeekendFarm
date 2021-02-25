@@ -1,9 +1,8 @@
 package com.example.edrkr;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.JsonArray;
+import com.example.edrkr.h_network.ResponseUserIdent;
 
 import org.json.JSONArray;
 import org.json.JSONException;

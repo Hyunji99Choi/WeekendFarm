@@ -1,7 +1,6 @@
-package com.example.edrkr;
+package com.example.edrkr.firstpage;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -15,8 +14,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
+import com.example.edrkr.R;
+import com.example.edrkr.h_network.RetrofitClient;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.concurrent.ExecutionException;

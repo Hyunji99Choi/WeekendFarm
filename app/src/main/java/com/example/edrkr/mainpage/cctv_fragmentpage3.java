@@ -1,4 +1,4 @@
-package com.example.edrkr;
+package com.example.edrkr.mainpage;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import android.webkit.WebView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.edrkr.ControlMonitoring;
+import com.example.edrkr.R;
 
 public class cctv_fragmentpage3 extends Fragment {
 

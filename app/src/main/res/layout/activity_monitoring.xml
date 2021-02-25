@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/dl_main_drawer_root"
-    tools:context=".MonitoringPage">
+    tools:context=".mainpage.MonitoringPage">
 
 
 

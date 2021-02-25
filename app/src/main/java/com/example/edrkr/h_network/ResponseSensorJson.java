@@ -1,4 +1,4 @@
-package com.example.edrkr;
+package com.example.edrkr.h_network;
 
 public class ResponseSensorJson {
 

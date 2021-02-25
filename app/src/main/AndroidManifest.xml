@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true">
         <!-- http 통신 트레픽 허용 -->
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".firstpage.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,11 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MonitoringPage"
+        <activity android:name=".mainpage.MonitoringPage"
             android:theme="@style/AppTheme.NoActionBar"
             ></activity>
 
-        <activity android:name=".login_SingUpPage"
+        <activity android:name=".firstpage.login_SingUpPage"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name=".KeyCreatePage"></activity>
