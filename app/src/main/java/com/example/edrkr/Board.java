@@ -19,7 +19,7 @@ public class Board implements Serializable {
     Board(int pos){
         this.pos = pos;
     }
-    Board(int pos, String name, String title, String body, int commentnum, String time){
+    public Board(int pos, String name, String title, String body, int commentnum, String time){
         Log.v("Board","Board진입완료");
         this.pos = pos;
         this.name = name;

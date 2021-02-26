@@ -20,6 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.edrkr.DTO.Builder;
+import com.example.edrkr.DTO.Post;
+import com.example.edrkr.DTO.PostResult;
+import com.example.edrkr.DTO.PostWriting;
+import com.example.edrkr.DTO.retrofitIdent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -27,7 +32,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import retrofit2.Call;
 
 
 public class NoticeBoardActivity extends AppCompatActivity implements LifecycleObserver {
@@ -39,7 +47,8 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     private ActionBar actionBar;
     private SwipeRefreshLayout refreshLayout;
     private ArrayList<Board> myDataset = new ArrayList<>(); //리사이클러뷰에 표시할 데이터 리스트 생성 -> 서버 생기면 처음에 받아오는 코드 만들기
-    private String URL = "http://3.35.55.9:3000/forum/test";
+    private String URL = "http://15.165.74.84:3000/forum/test";
+    private String TAG = "areum/noticeboardactivity";
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
@@ -153,92 +162,118 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         return dataset;
     }
 
-    public ArrayList<Board> getfromserver(){//서버에서 게시글 표지 부분을 받아오는 코드
-
-        Log.v("알림","getfromserver 확인");
+    public ArrayList<Board> getfromserver(){ //retrofit2를 사용하여 서버로 보내는 코드
+        Log.v(TAG,"posttoserver 진입완료");
         ArrayList<Board> dataset = new ArrayList<Board>();
+        ArrayList<PostResult> post = new ArrayList<>();
 
-        if(UserIdent.GetInstance().getId() == "111"){
-            Log.v("noticeboard","id == 111");
-            dataset = getfromlocal();
-            return dataset;
-        }
-        //values.put("id","00");
-        //values.put("pw",UserPW)
-
-       NetworkTask getboardlist_networkTask = new NetworkTask(URL,null); //networktast 설정 부분
-        Log.v("NoticeBoardActivity","networktask 입력 성곧");
+        Call<List<PostResult>> call = retrofitIdent.GetInstance().getService().getBoard("forum/test");
+        Builder builder = new Builder();
         try {
-            getboardlist_networkTask.execute().get(); //설정한 networktask 실행
-            Log.v("NoticeBoardActiviy","get 실행 완료");
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-            Log.v("NoticeBoardActivity", "executionexception");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            Log.v("NoticeBoardActivity", "interruptedexception");
-        }
-        Log.v("noticeboard","execute 확인");
-        String result = getboardlist_networkTask.result;
-        Log.v("noticeboard","result 확인 result : "+result);
-
-        if(result == null){
-            Log.v("noticeboard","통신실패");
-            Toast.makeText(getApplicationContext(), "연결에 실패했습니다. 네트워크를 확인해주세요", Toast.LENGTH_LONG).show();
-            return dataset;
-        }
-
-        JSONArray jsonArray = null;
-        try {
-            jsonArray = new JSONArray(result);
-        } catch (JSONException e) {
+            dataset = builder.listtryConnect(TAG, call);
+        }catch (Exception e){
             e.printStackTrace();
         }
-        Log.v("getfromserver","json으로 변환");
-
-        Log.v("getfromserver","board 변환 작업 시작");
-        if(jsonArray == null){
-            Log.v("getfrom","가져오지 못함");
-        }else {
-            for (int i = 0; i < jsonArray.length(); i++) {
-
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = jsonArray.getJSONObject(i);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                String id = null;
-                String userId = null;
-                String title = null;
-                String content = null;
-                String time = null;
-                String commentnum = null;
-                try {
-                    id = jsonObject.getString("id");
-                    Log.v("Noticeboard","id : "+id);
-                    userId = jsonObject.getString("UserName");
-                    Log.v("Noticeboard","userid : "+userId);
-                    title = jsonObject.getString("Title");
-                    Log.v("Noticeboard","title  : "+title);
-                    content = jsonObject.getString("Content");
-                    Log.v("Noticeboard","content : "+content);
-                    commentnum = jsonObject.getString("CommentNum");
-                    Log.v("Board 통신", "commentnum : "+ commentnum);
-                    time = jsonObject.getString("createdAt");
-                    Log.v("Board 통신", "createdAt : "+ time);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.v("getfromserver", i + " 값 가져오기 성공");
-                Board b = new Board(Integer.parseInt(id), userId, title, content, Integer.parseInt(commentnum),time);
-                Log.v("getfromserver", "board 추가 완료");
-                dataset.add(b);
-            }
+        Log.v(TAG,"listtryconnect 완료");
+        for(int i=0;i<post.size();i++){
+            Log.v(TAG, i+": board 추가");
+            PostResult p = post.get(i);
+            Board b = new Board(p.getId(),p.getName(),p.getTitle(),p.getBody(),p.getCommentNum(),p.getTime());
+            Log.v(TAG,p.getId()+", "+p.getName()+", "+p.getTitle()+", "+p.getBody()+", "+p.getCommentNum()+", "+p.getTime());
+            dataset.add(b);
         }
+        Log.v(TAG,"getfromserver 완료");
+
         return dataset;
     }
+//
+//    public ArrayList<Board> getfromserver(){//서버에서 게시글 표지 부분을 받아오는 코드
+//
+//        Log.v("알림","getfromserver 확인");
+//        ArrayList<Board> dataset = new ArrayList<Board>();
+//
+//        //테스트 용 111은 서버를 연결하지 않고 시도
+////        if(UserIdent.GetInstance().getId() == "111"){
+////            Log.v("noticeboard","id == 111");
+////            dataset = getfromlocal();
+////            return dataset;
+////        }
+//        //values.put("id","00");
+//        //values.put("pw",UserPW)
+//
+//       NetworkTask getboardlist_networkTask = new NetworkTask(URL,null); //networktast 설정 부분
+//        Log.v("NoticeBoardActivity","networktask 입력 성곧");
+//        try {
+//            getboardlist_networkTask.execute().get(); //설정한 networktask 실행
+//            Log.v("NoticeBoardActiviy","get 실행 완료");
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//            Log.v("NoticeBoardActivity", "executionexception");
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//            Log.v("NoticeBoardActivity", "interruptedexception");
+//        }
+//        Log.v("noticeboard","execute 확인");
+//        String result = getboardlist_networkTask.result;
+//        Log.v("noticeboard","result 확인 result : "+result);
+//
+//        if(result == null){
+//            Log.v("noticeboard","통신실패");
+//            Toast.makeText(getApplicationContext(), "연결에 실패했습니다. 네트워크를 확인해주세요", Toast.LENGTH_LONG).show();
+//            return dataset;
+//        }
+//
+//        JSONArray jsonArray = null;
+//        try {
+//            jsonArray = new JSONArray(result);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        Log.v("getfromserver","json으로 변환");
+//
+//        Log.v("getfromserver","board 변환 작업 시작");
+//        if(jsonArray == null){
+//            Log.v("getfrom","가져오지 못함");
+//        }else {
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//
+//                JSONObject jsonObject = null;
+//                try {
+//                    jsonObject = jsonArray.getJSONObject(i);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                String id = null;
+//                String userId = null;
+//                String title = null;
+//                String content = null;
+//                String time = null;
+//                String commentnum = null;
+//                try {
+//                    id = jsonObject.getString("id");
+//                    Log.v("Noticeboard","id : "+id);
+//                    userId = jsonObject.getString("UserName");
+//                    Log.v("Noticeboard","userid : "+userId);
+//                    title = jsonObject.getString("Title");
+//                    Log.v("Noticeboard","title  : "+title);
+//                    content = jsonObject.getString("Content");
+//                    Log.v("Noticeboard","content : "+content);
+//                    commentnum = jsonObject.getString("CommentNum");
+//                    Log.v("Board 통신", "commentnum : "+ commentnum);
+//                    time = jsonObject.getString("createdAt");
+//                    Log.v("Board 통신", "createdAt : "+ time);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                Log.v("getfromserver", i + " 값 가져오기 성공");
+//                Board b = new Board(Integer.parseInt(id), userId, title, content, Integer.parseInt(commentnum),time);
+//                Log.v("getfromserver", "board 추가 완료");
+//                dataset.add(b);
+//            }
+//        }
+//        return dataset;
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){

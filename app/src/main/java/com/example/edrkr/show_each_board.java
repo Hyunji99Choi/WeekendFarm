@@ -49,7 +49,8 @@ public class show_each_board extends AppCompatActivity {
     private ArrayList<Comment> myDataset = new ArrayList<>();
     Intent intent;
 
-    private String URL = "http://3.35.55.9:3000/forum/";
+    private String URL = "http://15.165.74.84:3000/forum/";
+    private String Ver = "show_each_board";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,11 +167,11 @@ public class show_each_board extends AppCompatActivity {
         ArrayList<Comment> dataset = new ArrayList<Comment>();
         Log.v("sentoserver","getfromserver 확인");
 
-        if(UserIdent.GetInstance().getId() == "111") {
-            Log.v("getfromserver","id = 111");
-            dataset = getlocal();
-            return dataset;
-        }
+//        if(UserIdent.GetInstance().getId() == "111") {
+//            Log.v("getfromserver","id = 111");
+//            dataset = getlocal();
+//            return dataset;
+//        }
 
         NetworkTask getboardlist_networkTask = new NetworkTask(URL,null); //networktast 설정 부분
         try {
@@ -182,9 +183,9 @@ public class show_each_board extends AppCompatActivity {
         }
          //설정한 networktask 실행
 
-        Log.v("알림","execute 확인");
+        Log.v(Ver,"execute 확인");
         String result = getboardlist_networkTask.result;
-        Log.v("알림","result 확인 result : "+result);
+        Log.v(Ver+"","result 확인 result : "+result);
 
         JSONObject jsonArray = null;
         JSONArray body = null;
