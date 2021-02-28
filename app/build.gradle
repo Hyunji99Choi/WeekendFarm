@@ -27,6 +27,8 @@ android {
 //그래프 부분때문에 추가
 repositories {
     maven { url 'https://jitpack.io' }
+    //스크롤 툴바
+    //mavenCentral ()
 }
 
 dependencies {
@@ -53,6 +55,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
     //로그인 페이지 카드뷰를 위함
     implementation 'com.android.support:cardview-v7:28.0.0'
+    //toolbar scrollview 액션바 스크롤하면 사진-> 툴바를 위한 라이브러리
+    //implementation 'com.github.ksoichiro:android-observablescrollview : 1.5.0'
     
 
     //이아름 병합
