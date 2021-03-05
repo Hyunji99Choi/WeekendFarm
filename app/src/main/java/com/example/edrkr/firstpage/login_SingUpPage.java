@@ -43,16 +43,6 @@ public class login_SingUpPage extends AppCompatActivity {
     AlertDialog.Builder noKeyMessage; //잘못된 key 번호
     AlertDialog.Builder okRegisterMessage; //회원가입 성공
 
-    /*
-    String Sign_URL="http://3.36.69.43::3000/users/";
-    String doubleckID_URL="http://3.36.69.43:3000//users/search/ID";
-    String doubleckNK_URL="http://3.36.69.43::3000/users/search/NickName";
-
-    NetworkTask signPage_networkTask;
-
-    private String NetworkRESULT=null;
-
-     */
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,28 +77,6 @@ public class login_SingUpPage extends AppCompatActivity {
                     getRegisterNKnameCheck(sing_nkname.getText().toString());
                 }
 
-                /*
-
-                ContentValues dbckNKvalues = new ContentValues();
-                dbckNKvalues.put("nickname",sing_id.getText().toString()); //닉네임 변수 확인, 오류 체크 찾았음.
-
-                signPage_networkTask = new NetworkTask(doubleckNK_URL,dbckNKvalues);
-                NetworkRESULT=signPage_networkTask.execute().get();
-
-                if(NetworkRESULT.equals("중복 안됨")){
-                    Toast.makeText(this,"사용 가능한 닉네임 입니다.",Toast.LENGTH_LONG).show();
-                    nk_double_ck=true;
-                }else if(NetworkRESULT.equals("중복됨")){
-                    Toast.makeText(this,"이미 사용중인 닉네임 입니다..",Toast.LENGTH_LONG).show();
-                    //나중에 추가할 수 있으면 빨간 테두리(drawable 사용)
-                }else{
-                    Toast.makeText(this,"인터넷 불완정, 다시 시도해주세요.",Toast.LENGTH_LONG).show();
-                }
-
-                //메모리 누수 방지
-                signPage_networkTask=null;
-
-                 */
                 break;
         }
     }
@@ -140,34 +108,6 @@ public class login_SingUpPage extends AppCompatActivity {
 
         //통신
         getRegisterUser(id, pw, name, nickname, email, phone, key);
-
-        /*
-        ContentValues dbckIDvalues = new ContentValues();
-        dbckIDvalues.put("id",sing_id.getText().toString());
-        dbckIDvalues.put("pw",sing_pw.getText().toString());
-        dbckIDvalues.put("name",sing_name.getText().toString());
-        dbckIDvalues.put("nickname",sing_nkname.getText().toString()); //변수 이름 바꿔야함
-        dbckIDvalues.put("email",sing_email.getText().toString());
-        dbckIDvalues.put("phone",sing_phon.getText().toString());
-        dbckIDvalues.put("key",keyNumber.getText().toString());
-
-        signPage_networkTask = new NetworkTask(Sign_URL,dbckIDvalues);
-        NetworkRESULT=signPage_networkTask.execute().get();
-
-        if(NetworkRESULT.equals("Key권한 없음")){
-            Toast.makeText(this,"잘못된 key정보입니다.",Toast.LENGTH_LONG).show();
-
-        }else if(NetworkRESULT.equals("회원가입이 완료되었습니다.")){ //성공적인 가입
-            Toast.makeText(this,"회원가입 완료",Toast.LENGTH_LONG).show();
-            finish();
-        }else{
-            Toast.makeText(this,"인터넷 불완정, 다시 시도해주세요.",Toast.LENGTH_LONG).show();
-        }
-
-        //메모리 누수 방지
-        signPage_networkTask=null;
-
-         */
     }
 
 
