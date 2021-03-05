@@ -12,7 +12,7 @@ public class NetworkTask extends AsyncTask<Void, Void, String> {
     public boolean finish_Check=false; //통신 완료 시점을 확인하는 변수
     public String result; // 서버에서 받은 string 값
 
-    NetworkTask(String url, ContentValues values){
+    public NetworkTask(String url, ContentValues values){
         this.url = url;
         this.values = values;
     }

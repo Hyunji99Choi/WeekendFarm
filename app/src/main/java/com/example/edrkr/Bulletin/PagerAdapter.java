@@ -1,8 +1,11 @@
-package com.example.edrkr;
+package com.example.edrkr.Bulletin;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import com.example.edrkr.ManagerPage.Listofarea;
+import com.example.edrkr.ManagerPage.Listofmember;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int num;

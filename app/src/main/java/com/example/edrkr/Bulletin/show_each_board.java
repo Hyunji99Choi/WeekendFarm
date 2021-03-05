@@ -1,12 +1,9 @@
-package com.example.edrkr;
+package com.example.edrkr.Bulletin;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -23,13 +20,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.edrkr.Bulletin.Board;
+import com.example.edrkr.Bulletin.Comment;
+import com.example.edrkr.Bulletin.CommentAdapter;
+import com.example.edrkr.NetworkTask;
+import com.example.edrkr.R;
+import com.example.edrkr.UserIdent;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-
 public class show_each_board extends AppCompatActivity {
     private TextView show_title;
     private TextView show_name;

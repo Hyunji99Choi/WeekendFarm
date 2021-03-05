@@ -2,19 +2,14 @@ package com.example.edrkr.DTO;
 
 import android.util.Log;
 
-import com.example.edrkr.Board;
-import com.example.edrkr.DTO.PostResult;
-import com.example.edrkr.DTO.RetrofitService;
+import com.example.edrkr.Bulletin.Board;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Builder {
     private String tag = "areum/Builder";
@@ -66,10 +61,8 @@ public class Builder {
                         PostResult p = (PostResult) post.get(i);
 //                        Log.v(TAG, "for "+i+": "+post.get(i).toString());
                         Board b = new Board(p.getId(),p.getName(),p.getTitle(),p.getBody(),p.getCommentNum(),p.getTime());
-                        Log.v(TAG,b.getPos()+", "+b.getName()+", "+b.getTitle()+", "+b.getBody()+", "+b.getChat_count()+", "+b.getDate());
-                        dataset.add(b);
                         Board tmp = dataset.get(i);
-                        Log.v(TAG,tmp.getPos()+", "+tmp.getName()+", "+tmp.getTitle()+", "+tmp.getBody()+", "+tmp.getChat_count()+", "+tmp.getDate());
+                        Log.v(tag,tmp.getPos()+", "+tmp.getName()+", "+tmp.getTitle()+", "+tmp.getBody()+", "+tmp.getChat_count()+", "+tmp.getDate());
                     }
                     Log.v(TAG, "onResponse: 성공, 결과\n" + post.toString());
                 } else {

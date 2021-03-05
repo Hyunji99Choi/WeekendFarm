@@ -1,4 +1,4 @@
-package com.example.edrkr;
+package com.example.edrkr.Bulletin;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -10,17 +10,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.edrkr.Bulletin.Board;
 import com.example.edrkr.DTO.Builder;
-import com.example.edrkr.DTO.PostResult;
 import com.example.edrkr.DTO.PostWriting;
 import com.example.edrkr.DTO.retrofitIdent;
+import com.example.edrkr.NetworkTask;
+import com.example.edrkr.R;
+import com.example.edrkr.UserIdent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +47,6 @@ public class WritingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_writing);
         this.InitializeView(); //필요 요소 선언해주는 함수
-        this.SetListener(); //리스너 설정 함수
     }
 
 
@@ -61,42 +62,6 @@ public class WritingActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false); //기존 타이틀 지우기
         actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
-    }
-
-    public void SetListener() {
-        //inputMethodManger 객체 선언
-        View.OnClickListener Listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-//                    case R.id.buttonSend:
-//                        Log.v("알림", "전송 버튼 눌림");
-//                        //현재 값을 저장
-//                        Board b = new Board();
-//                        b.setName(UserIdent.GetInstance().getNkname());
-//                        b.setTitle(title.getText().toString());
-//                        b.setBody(body.getText().toString());
-//                        long now = System.currentTimeMillis();
-//                        Date date = new Date(now);
-//                        String date_ = new SimpleDateFormat("yyyy년 MM월 dd일  HH:mm").format(date);
-//                        b.setDate(date_);
-//                        Log.v("알림", "현재 값 저장완료");
-//
-    //                        sendtoserver(b);
-//
-//                        Intent intent = getIntent();
-//
-//                        // localsend(b);
-//                        // 페이지 변경
-//                        //Intent intent = new Intent();
-//                        //페이지 변경
-//                        setResult(1, intent);
-//                        finish();
-
-                }
-            }
-        };
-        //buttonsend.setOnClickListener(Listener);
     }
 
     public void posttoserver(Board b){ //retrofit2를 사용하여 서버로 보내는 코드
@@ -174,15 +139,11 @@ public class WritingActivity extends AppCompatActivity {
                 b.setDate(date_);
                 Log.v(TAG, "현재 값 저장완료");
 
-                //sendtoserver(b);
                 posttoserver(b);
 
                 Intent intent = getIntent();
 
                 // localsend(b);
-                // 페이지 변경
-                //Intent intent = new Intent();
-                //페이지 변경
                 setResult(1, intent);
                 finish();
 

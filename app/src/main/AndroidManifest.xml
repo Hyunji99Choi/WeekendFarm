@@ -33,21 +33,21 @@
 
         <activity android:name=".KeyCreatePage"></activity>
         <!--이아름 병합-->
-        <activity android:name=".SelectArea"
+        <activity android:name=".ManagerPage.SelectArea"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SelectMember"
+        <activity android:name=".ManagerPage.SelectMember"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".show_each_areahas"
+        <activity android:name=".ManagerPage.show_each_areahas"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".show_each_member"
+        <activity android:name=".ManagerPage.show_each_member"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Managerpage"
+        <activity android:name=".ManagerPage.Managerpage"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".show_each_board"
+        <activity android:name=".Bulletin.show_each_board"
         android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".NoticeBoardActivity"
+        <activity android:name=".Bulletin.NoticeBoardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".WritingActivity"
+        <activity android:name=".Bulletin.WritingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
     </application>

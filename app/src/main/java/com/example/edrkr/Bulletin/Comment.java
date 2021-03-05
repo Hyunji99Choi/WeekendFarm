@@ -1,4 +1,4 @@
-package com.example.edrkr;
+package com.example.edrkr.Bulletin;
 
 import java.io.Serializable;
 

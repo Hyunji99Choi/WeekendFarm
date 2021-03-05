@@ -1,4 +1,4 @@
-package com.example.edrkr;
+package com.example.edrkr.ManagerPage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.edrkr.Bulletin.CustomUsersAdapter;
+import com.example.edrkr.NetworkTask;
+import com.example.edrkr.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,35 +22,37 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class Listofarea extends Fragment {
+public class Listofmember extends Fragment {
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<Member> myDataset = new ArrayList<>();
-    private String URL = "http://3.35.55.9:3000/forum/";
+    private String URL = "http://192.168.43.10:3000/forum/";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        Log.v("listofare","area 도착");
+        Log.v("listofmember","member 도착");
+        View view = inflater.inflate(R.layout.listofmember, container,false);
 
-        View view = inflater.inflate(R.layout.listofarea, container,false);
-
-        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_arealist);
-
+        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_memberlist);
         recycler_test(); //테스트용 데이터 저장
-
-        Log.v("listofare","recyclerview id 연결");
+//        try {
+//            myDataset = getfromserver();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+        Log.v("listofmember","recyclerview id 연결");
 
         recyclerView.setHasFixedSize(true);
-        mAdapter = new stringadapter(myDataset,1);
+        mAdapter = new stringadapter(myDataset,0);
 
        // layoutManager.setReverseLayout(true);
-      //  layoutManager.setStackFromEnd(true);
+       // layoutManager.setStackFromEnd(true);
 
         layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        Log.v("listofare","layout adapter 연결");
+        Log.v("listofmember","layout adapter 연결");
         recyclerView.setAdapter(mAdapter);
 
         this.InitializeView(); //필요 요소 선언해주는 함수
@@ -55,37 +61,36 @@ public class Listofarea extends Fragment {
             public void onItemClick(View v, int pos) {
                 Log.v("알림","게시글 클릭 리스너 눌림 pos : "+pos);
                 Member s = myDataset.get(pos);
-                Intent intent = new Intent(getActivity(),show_each_areahas.class);
+                Intent intent = new Intent(getActivity(), show_each_member.class);
 
                 intent.putExtra("name", s.getName_());
+                intent.putExtra("id",s.getName_());
                 intent.putExtra("pos",pos);
                 Log.v("알림","Board값 전송 완료");
                 //startActivity(intent);
                 //setResult(1,intent);
                 startActivityForResult(intent,1);
                 Log.v("알림","intent 전송 완료");
-                //finish();
             }
         });
         return view;
     }
 
     public void InitializeView(){
-//
         //myDataset 받는 코드 들어가야함
-        //  try {
+      //  try {
         //    myDataset = getfromserver();
-        // } catch (JSONException e) {
-        //     Log.e("trycatch","error : "+ e);
-        //     e.printStackTrace();
-        //  }
+       // } catch (JSONException e) {
+       //     Log.e("trycatch","error : "+ e);
+       //     e.printStackTrace();
+      //  }
 
     }
 
     public void recycler_test(){
         ArrayList<Member> test = new ArrayList<>();
         for(int i = 0;i<5;i++){
-            Member tmp = new Member(i+"","밭"+i);
+            Member tmp = new Member(i+"","사람" + i);
             test.add(tmp);
         }
         myDataset = test;
@@ -109,6 +114,10 @@ public class Listofarea extends Fragment {
         }
         String result = getboardlist_networkTask.result;
 
+        if(result == null) {
+            Log.v("Listofmember","연결실패");
+            return null;
+        }
         // String result = [{"id":1,"userName":null,"userId":"ghd8119","title","fsadkfjd","content","dafsdf"},{"id":1,"userName":null,"userId":"ghd8119","title","fsadkfjd","content","dafsdf"}]
 
         JSONArray jsonArray = null;
@@ -130,5 +139,4 @@ public class Listofarea extends Fragment {
         }
         return dataset;
     }
-
 }

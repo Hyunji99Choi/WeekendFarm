@@ -7,10 +7,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class retrofitIdent {
-    private String path = "15.165.74.84";
+    private String path = "3.35.216.131";
     private static final retrofitIdent Instance = new retrofitIdent(); //싱글턴 문법
     public static retrofitIdent GetInstance(){return Instance;}
 
+    public Retrofit getRetrofit(){return retrofit;}
     public RetrofitService getService(){
         return service1;
     }

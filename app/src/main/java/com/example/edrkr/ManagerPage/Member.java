@@ -1,4 +1,4 @@
-package com.example.edrkr;
+package com.example.edrkr.ManagerPage;
 
 public class Member {
     private String id_;
