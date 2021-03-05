@@ -23,6 +23,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.edrkr.Bulletin.Board;
 import com.example.edrkr.Bulletin.Comment;
 import com.example.edrkr.Bulletin.CommentAdapter;
+import com.example.edrkr.DTO.PostComment;
+import com.example.edrkr.DTO.PostEachBoard;
+import com.example.edrkr.DTO.PostResult;
+import com.example.edrkr.DTO.RetrofitService;
+import com.example.edrkr.DTO.retrofitIdent;
 import com.example.edrkr.NetworkTask;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
@@ -32,7 +37,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class show_each_board extends AppCompatActivity {
     private TextView show_title;
     private TextView show_name;
@@ -52,8 +63,8 @@ public class show_each_board extends AppCompatActivity {
     private ArrayList<Comment> myDataset = new ArrayList<>();
     Intent intent;
 
-    private String URL = "http://15.165.74.84:3000/forum/";
-    private String Ver = "show_each_board";
+    private String URL = "forum/";
+    private String TAG = "areum/show_each_board";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,14 +94,14 @@ public class show_each_board extends AppCompatActivity {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        Log.v("showeachboard","스와이프 확인");
+                        Log.v(TAG,"스와이프 확인");
                         refresh();
                         refreshLayout.setRefreshing(false); //새로고침
                     }
                 }
         );
 
-        Log.v("showeachboard","toolbar 세팅 시작");
+        Log.v(TAG,"toolbar 세팅 시작");
         //toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar_eachboard);
         setSupportActionBar(toolbar);
@@ -98,13 +109,13 @@ public class show_each_board extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
-        Log.v("showeachboard","toolbar 완료");
+        Log.v(TAG,"toolbar 완료");
 
-        Log.v("알림","show_each_board 클래스 실행");
+        Log.v(TAG,"show_each_board 클래스 실행");
         int pos = intent.getIntExtra("pos",0);
-        Log.v("show each board","pos : " + pos);
-        URL = URL + (pos);
-        Log.v("show_each","URL :"+URL);
+        Log.v(TAG,"pos : " + pos);
+        URL = URL + (pos+1);
+        Log.v(TAG,"URL :"+URL);
 
         show_recyclerview.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -113,34 +124,36 @@ public class show_each_board extends AppCompatActivity {
         show_recyclerview.setLayoutManager(layoutManager);
 
         //서버 통신 성공 할 시
-        myDataset = getfromserver();
+//        myDataset = getfromserver();
+        getBoardData();
 
         // specify an adapter (see also next example)
         mAdapter = new CommentAdapter(myDataset);
         show_recyclerview.setAdapter(mAdapter);
-        Log.v("알림","adapter 설정 완료");
+        Log.v(TAG,"adapter 설정 완료");
     }
 
     public void sendtoserver(){ //서버로 보내는 코드
-        Log.v("알림","sendto server확인");
+        String tag ="sendtoserver";
+        Log.v(TAG+tag,"sendto server확인");
 
         ContentValues values = new ContentValues();
         String name = UserIdent.GetInstance().getNkname();
-        Log.v("sendtoserver","name : "+ name );
+        Log.v(TAG+tag,"name : "+ name );
         String content = show_EditText.getText().toString();
-        Log.v("sendtoserver","content : "+content );
+        Log.v(TAG+tag,"content : "+content );
         if(b.getPos() == -1){
-            Log.v("showeachboard","통신실패");
+            Log.v(TAG+tag,"통신실패");
             Toast.makeText(getApplicationContext(), "연결에 실패했습니다. 네트워크를 확인해주세요", Toast.LENGTH_LONG).show();
             return;
         }
         String id = Integer.toString(b.getPos());
-        Log.v("sendtoserver","id : "+id );
+        Log.v(TAG+tag,"id : "+id );
 
         values.put("name",name);
         values.put("content",content);
         values.put("id",id);
-        Log.v("sendtoserver","값 지정 완료 name : "+name+"content : "+content + "id : "+id);
+        Log.v(TAG+tag,"값 지정 완료 name : "+name+"content : "+content + "id : "+id);
 
         NetworkTask sendComment_networkTask = new NetworkTask(URL,values); //networktast 설정 부분
         try {
@@ -150,7 +163,7 @@ public class show_each_board extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.v("sentoserver","전송완료");
+        Log.v(TAG+tag,"전송완료");
          //설정한 networktask 실행
        // String result = sendComment_networkTask.result;
 
@@ -164,6 +177,52 @@ public class show_each_board extends AppCompatActivity {
             dataset.add(c);
         }
         return dataset;
+    }
+
+    public void getBoardData(){
+        final ArrayList<Comment> dataset = new ArrayList<Comment>();
+
+        Log.v(TAG,"getBoardData 진입완료");
+
+        //레트로핏 통신 기다리게 바꾸기
+        RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
+        service.getComment(URL).enqueue(new Callback<PostEachBoard>() {
+            @Override
+            public void onResponse(Call<PostEachBoard> call, Response<PostEachBoard> response) {
+                if(response.isSuccessful()){
+                    Log.v(TAG,response.body().toString());
+                    PostEachBoard datas = response.body();
+                    List<PostResult> board = datas.getPost();
+                    List<PostComment> comment = datas.getComment();
+                    if(board != null) {
+                        Board b = new Board(board.get(0).getId(), board.get(0).getName(), board.get(0).getTitle(), board.get(0).getBody(), board.get(0).getCommentNum(), board.get(0).getTime());
+                        setView(b);
+                    }
+                    if(comment != null){
+                        Log.v(TAG, "comment 받아오기 완료 comment.size = " +comment.size());
+                        for(int i = 0;i<comment.size();i++){
+                            Log.v(TAG,"comment" + i + comment.get(i).getContent()+"");
+                            Comment c = new Comment(comment.get(i).getUsername(),comment.get(i).getContent(),comment.get(i).getTime());
+                            Log.v(TAG,"comment 생성 완료");
+                            dataset.add(c);
+                        }
+                        Log.v(TAG,"getData2 end================================");
+                        Log.v(TAG,"dataset 크기 : "+dataset.size());
+                        mAdapter.changeDataset(dataset);
+                        show_recyclerview.removeAllViewsInLayout();
+                        show_recyclerview.setAdapter(mAdapter);
+                        Log.v(TAG,"recyclerview 적용");
+                        myDataset = dataset;
+                    }
+                }else{
+                    Log.v(TAG, "onResponse: 실패");
+                }
+            }
+            @Override
+            public void onFailure(Call<PostEachBoard> call, Throwable t) {
+                Log.v(TAG, "onFailure: " + t.getMessage());
+            }
+        });
     }
 
     public ArrayList<Comment> getfromserver(){
@@ -186,9 +245,9 @@ public class show_each_board extends AppCompatActivity {
         }
          //설정한 networktask 실행
 
-        Log.v(Ver,"execute 확인");
+        Log.v(TAG,"execute 확인");
         String result = getboardlist_networkTask.result;
-        Log.v(Ver+"","result 확인 result : "+result);
+        Log.v(TAG+"","result 확인 result : "+result);
 
         JSONObject jsonArray = null;
         JSONArray body = null;
@@ -343,7 +402,7 @@ public class show_each_board extends AppCompatActivity {
         switch (item.getItemId()){
 
             case android.R.id.home:
-                Log.v("nshoweachboard","home");
+                Log.v(TAG,"home");
                 Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
                 finish();
                 break;

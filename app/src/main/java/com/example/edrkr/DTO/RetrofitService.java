@@ -16,6 +16,9 @@ public interface RetrofitService {
     @GET("{post}") //처음 글 로딩 부분
     Call<List<PostResult>> getBoard(@Path(value = "post", encoded = true) String post); //응답이 왔을 떄 CallBack으로 불려질 타입
 
+    @GET("{post}") //각 게시글 보는 부분
+    Call<PostEachBoard> getComment(@Path(value = "post", encoded = true) String post);
+
     @POST("{post}") //글쓰기 부분 call
     Call<PostWriting> postData(@Path(value="post",encoded = true) String post, @Body PostWriting param);
 }
