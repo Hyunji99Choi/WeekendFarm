@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
+import com.example.edrkr.h_network.AutoRetryCallback;
 import com.example.edrkr.h_network.ResponseUserIdent;
 import com.example.edrkr.h_network.RetrofitClient;
 import com.example.edrkr.mainpage.MonitoringPage;
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     //로그인 통신
     private void LoginNetwork(final String id, String pw){
         Call<String> login = RetrofitClient.getApiService().getLoginCheck(id,pw); //api 콜
-        login.enqueue(new Callback<String>() {
+        login.enqueue(new AutoRetryCallback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()){
@@ -149,10 +150,15 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-
+            /*
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Log.e("연결실패", t.getMessage());
+            }
+            */
+            @Override
+            public void onFinalFailure(Call<String> call, Throwable t) {
+                    Log.e("연결실패", t.getMessage());
             }
         });
 
