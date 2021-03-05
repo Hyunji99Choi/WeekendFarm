@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             */
             @Override
             public void onFinalFailure(Call<String> call, Throwable t) {
-                    Log.e("연결실패", t.getMessage());
+                    Log.e("로그인 연결실패", t.getMessage());
             }
         });
 
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
     //로그인 성공시 유저 정보 접근
     private void getUserIdnet(String id){
         Call<ResponseUserIdent> ident = RetrofitClient.getApiService().getUserIdent(id); //api 콜
-        ident.enqueue(new Callback<ResponseUserIdent>() {
+        ident.enqueue(new AutoRetryCallback<ResponseUserIdent>() {
             @Override
             public void onResponse(Call<ResponseUserIdent> call, Response<ResponseUserIdent> response) {
                 if(!response.isSuccessful()){
@@ -192,10 +192,15 @@ public class MainActivity extends AppCompatActivity {
 
 
             }//통신 실패나 로그아웃하면 싱글턴 비우는 문법 추가하기???
-
+            /*
             @Override
             public void onFailure(Call<ResponseUserIdent> call, Throwable t) {
-                Log.e("연결실패", t.getMessage());
+                Log.e("회원 정보 연결실패", t.getMessage());
+            }
+            */
+            @Override
+            public void onFinalFailure(Call<ResponseUserIdent> call, Throwable t) {
+                Log.e("회원 정보 연결실패", t.getMessage());
             }
 
         });

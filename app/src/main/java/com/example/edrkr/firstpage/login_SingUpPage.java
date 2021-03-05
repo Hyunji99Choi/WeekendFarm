@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.edrkr.R;
+import com.example.edrkr.h_network.AutoRetryCallback;
 import com.example.edrkr.h_network.RetrofitClient;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -175,7 +176,7 @@ public class login_SingUpPage extends AppCompatActivity {
     //아이디 중복 체크 통신
     private void getRegisterIdCheck(String id){
         Call<String> idDub = RetrofitClient.getApiService().registerIdCheck(id); //api 콜
-        idDub.enqueue(new Callback<String>() {
+        idDub.enqueue(new AutoRetryCallback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()){
@@ -197,10 +198,16 @@ public class login_SingUpPage extends AppCompatActivity {
                     id_double_ck = false;
                 }
             }
-
+            /*
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Log.e("연결실패", t.getMessage());
+                Toast.makeText(login_SingUpPage.this,"인터넷 불완정, 다시 시도해주세요.",Toast.LENGTH_LONG).show();
+            }
+            */
+            @Override
+            public void onFinalFailure(Call<String> call, Throwable t) {
+                Log.e("id 연결실패", t.getMessage());
                 Toast.makeText(login_SingUpPage.this,"인터넷 불완정, 다시 시도해주세요.",Toast.LENGTH_LONG).show();
             }
         });
@@ -209,7 +216,7 @@ public class login_SingUpPage extends AppCompatActivity {
     //별명 중복 체크 통신
     private void getRegisterNKnameCheck(String nkname){
         Call<String> nkNameDub = RetrofitClient.getApiService().registerNickNameCheck(nkname);
-        nkNameDub.enqueue(new Callback<String>() {
+        nkNameDub.enqueue(new AutoRetryCallback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()){
@@ -231,10 +238,16 @@ public class login_SingUpPage extends AppCompatActivity {
                     nk_double_ck = false;
                 }
             }
-
+            /*
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Log.e("연결실패", t.getMessage());
+                Toast.makeText(login_SingUpPage.this,"인터넷 불완정, 다시 시도해주세요.",Toast.LENGTH_LONG).show();
+            }
+            */
+            @Override
+            public void onFinalFailure(Call<String> call, Throwable t) {
+                Log.e("nk 연결실패", t.getMessage());
                 Toast.makeText(login_SingUpPage.this,"인터넷 불완정, 다시 시도해주세요.",Toast.LENGTH_LONG).show();
             }
         });
@@ -243,7 +256,7 @@ public class login_SingUpPage extends AppCompatActivity {
     //회원가입 통신
     private void getRegisterUser(String id, String pw, String name, String nickname, String email,String phone, String key){
         Call<String> register = RetrofitClient.getApiService().registerLogin(id,pw,name,nickname,email,phone,key);
-        register.enqueue(new Callback<String>() {
+        register.enqueue(new AutoRetryCallback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()){
@@ -263,9 +276,15 @@ public class login_SingUpPage extends AppCompatActivity {
 
                 }
             }
-
+            /*
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                Log.e("연결실패", t.getMessage());
+                Toast.makeText(login_SingUpPage.this,"인터넷 불완정, 다시 시도해주세요.",Toast.LENGTH_LONG).show();
+            }*/
+
+            @Override
+            public void onFinalFailure(Call<String> call, Throwable t) {
                 Log.e("연결실패", t.getMessage());
                 Toast.makeText(login_SingUpPage.this,"인터넷 불완정, 다시 시도해주세요.",Toast.LENGTH_LONG).show();
             }
