@@ -18,8 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.edrkr.DTO.Builder;
-import com.example.edrkr.DTO.PostResult;
+import com.example.edrkr.DTO.GetResult;
 import com.example.edrkr.DTO.RetrofitService;
 import com.example.edrkr.DTO.retrofitIdent;
 import com.example.edrkr.R;
@@ -125,6 +124,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         Log.v(TAG,"mydataset size 0 이상");
         mAdapter = new CustomUsersAdapter(myDataset);
         recyclerView.setAdapter(mAdapter);
+        refresh();
         Log.v(TAG,"모두 완료");
     }
 
@@ -154,11 +154,11 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
 
         //레트로핏 통신 기다리게 바꾸기
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-        service.getBoard("forum/test").enqueue(new Callback<List<PostResult>>() {
+        service.getBoard("forum/test").enqueue(new Callback<List<GetResult>>() {
             @Override
-            public void onResponse(Call<List<PostResult>> call, Response<List<PostResult>> response) {
+            public void onResponse(Call<List<GetResult>> call, Response<List<GetResult>> response) {
                 if(response.isSuccessful()){
-                    List<PostResult> datas = response.body();
+                    List<GetResult> datas = response.body();
                     Log.v(TAG,response.body().toString());
                     if(datas != null){
                         Log.v(TAG, "datas 받아오기 완료 datas.size = " +datas.size());
@@ -181,7 +181,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
                 }
             }
             @Override
-            public void onFailure(Call<List<PostResult>> call, Throwable t) {
+            public void onFailure(Call<List<GetResult>> call, Throwable t) {
                 Log.v(TAG, "onFailure: " + t.getMessage());
             }
         });

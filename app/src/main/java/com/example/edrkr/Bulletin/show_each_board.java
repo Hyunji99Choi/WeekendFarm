@@ -20,21 +20,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.edrkr.Bulletin.Board;
-import com.example.edrkr.Bulletin.Comment;
-import com.example.edrkr.Bulletin.CommentAdapter;
+import com.example.edrkr.DTO.Builder;
+import com.example.edrkr.DTO.GetComment;
+import com.example.edrkr.DTO.GetEachBoard;
+import com.example.edrkr.DTO.GetResult;
 import com.example.edrkr.DTO.PostComment;
-import com.example.edrkr.DTO.PostEachBoard;
-import com.example.edrkr.DTO.PostResult;
+import com.example.edrkr.DTO.PostWriting;
 import com.example.edrkr.DTO.RetrofitService;
 import com.example.edrkr.DTO.retrofitIdent;
 import com.example.edrkr.NetworkTask;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,6 +129,118 @@ public class show_each_board extends AppCompatActivity {
         Log.v(TAG,"adapter 설정 완료");
     }
 
+    public ArrayList<Comment> getlocal() {
+        ArrayList<Comment> dataset = new ArrayList<>();
+        for(int i = 0;i<10;i++){
+            Comment c = new Comment("NAME"+i,"BODYdfafdfds\nfdsfdsfdsfdfdfdfddfd\ndfdddfddddfdfdfd123\n4f56d14651461"+i,"0000-00-00");
+            dataset.add(c);
+        }
+        return dataset;
+    }
+
+    public void getBoardData(){
+        final ArrayList<Comment> dataset = new ArrayList<>();
+
+        Log.v(TAG,"getBoardData 진입완료");
+
+        //레트로핏 통신 기다리게 바꾸기
+        RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
+        service.getComment(URL).enqueue(new Callback<GetEachBoard>() {
+            @Override
+            public void onResponse(Call<GetEachBoard> call, Response<GetEachBoard> response) {
+                if(response.isSuccessful()){
+                    Log.v(TAG,response.body().toString());
+                    GetEachBoard datas = response.body();
+                    List<GetResult> board = datas.getPost();
+                    List<GetComment> comment = datas.getComment();
+                    if(board != null) {
+                        Board b = new Board(board.get(0).getId(), board.get(0).getName(), board.get(0).getTitle(), board.get(0).getBody(), board.get(0).getCommentNum(), board.get(0).getTime());
+                        setView(b);
+                    }
+                    if(comment != null){
+                        Log.v(TAG, "comment 받아오기 완료 comment.size = " +comment.size());
+                        for(int i = 0;i<comment.size();i++){
+                            Log.v(TAG,"comment" + i + comment.get(i).getContent()+"");
+                            Comment c = new Comment(comment.get(i).getUsername(),comment.get(i).getContent(),comment.get(i).getTime());
+                            Log.v(TAG,"comment 생성 완료");
+                            dataset.add(c);
+                        }
+                        Log.v(TAG,"getData2 end================================");
+                        Log.v(TAG,"dataset 크기 : "+dataset.size());
+                        mAdapter.changeDataset(dataset);
+                        show_recyclerview.removeAllViewsInLayout();
+                        show_recyclerview.setAdapter(mAdapter);
+                        Log.v(TAG,"recyclerview 적용");
+                        myDataset = dataset;
+                    }
+                }else{
+                    Log.v(TAG, "onResponse: 실패");
+                }
+            }
+            @Override
+            public void onFailure(Call<GetEachBoard> call, Throwable t) {
+                Log.v(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void refresh(){
+        //        myDataset = getfromlocal();
+//        myDataset = getfromserver();
+        getBoardData();
+//        mAdapter.changeDataset(myDataset);
+//        show_recyclerview.removeAllViewsInLayout();
+//        show_recyclerview.setAdapter(mAdapter);
+//        Log.v(TAG+"refresh","새로고침 완료");
+    }
+
+    public void setView(Board b){
+        show_title.setText(b.getTitle());
+        show_name.setText(b.getName());
+        show_date.setText(b.getDate());
+        show_body.setText(b.getBody());
+        show_saycount.setText(""+b.getChat_count());
+        show_goodcount.setText(""+b.getGood_count());
+        Log.v(TAG+"setview", "board 잘 받음");
+    }
+
+    public void SetListener() {
+        View.OnClickListener Listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.show_button_add_comment:
+                        Log.v(TAG+"setlistener", "작성 버튼 클릭됨");
+                        if(!show_EditText.getText().toString().replace(" ","").equals("")) {
+                            addcomment(); // comment를 board에 추가해주고 recycler view를 새로고침.
+                            Log.v(TAG+"setlistener", "add 완료");
+                            show_EditText.setText("");
+                            manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                        }
+                }
+            }
+        };
+        show_addbutton.setOnClickListener(Listener);
+    }
+
+    public void posttoserver(){ //retrofit2를 사용하여 댓글을 서버로 보내는 코드
+        Log.v(TAG,"posttoserver 진입완료");
+        PostComment comment = new PostComment();
+        comment.setName( UserIdent.GetInstance().getNkname());
+        comment.setContent(show_EditText.getText().toString());
+//        comment.setId(Integer.toString(b.getPos()));
+        Log.v(TAG,"put 완료");
+
+        Call<PostComment> call = retrofitIdent.GetInstance().getService().postComment(URL, comment);
+        Builder builder = new Builder();
+        try {
+            builder.tryConnect(TAG, call);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Log.v(TAG,"tryconnect 완료");
+    }
+
     public void sendtoserver(){ //서버로 보내는 코드
         String tag ="sendtoserver";
         Log.v(TAG+tag,"sendto server확인");
@@ -164,238 +272,29 @@ public class show_each_board extends AppCompatActivity {
             e.printStackTrace();
         }
         Log.v(TAG+tag,"전송완료");
-         //설정한 networktask 실행
-       // String result = sendComment_networkTask.result;
 
         // String result = [{"id":1,"userName":null,"userId":"ghd8119","title","fsadkfjd","content","dafsdf"},{"id":1,"userName":null,"userId":"ghd8119","title","fsadkfjd","content","dafsdf"}
     }
 
-    public ArrayList<Comment> getlocal() {
-        ArrayList<Comment> dataset = new ArrayList<Comment>();
-        for(int i = 0;i<10;i++){
-            Comment c = new Comment("NAME"+i,"BODYdfafdfds\nfdsfdsfdsfdfdfdfddfd\ndfdddfddddfdfdfd123\n4f56d14651461"+i,"0000-00-00");
-            dataset.add(c);
-        }
-        return dataset;
-    }
-
-    public void getBoardData(){
-        final ArrayList<Comment> dataset = new ArrayList<Comment>();
-
-        Log.v(TAG,"getBoardData 진입완료");
-
-        //레트로핏 통신 기다리게 바꾸기
-        RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-        service.getComment(URL).enqueue(new Callback<PostEachBoard>() {
-            @Override
-            public void onResponse(Call<PostEachBoard> call, Response<PostEachBoard> response) {
-                if(response.isSuccessful()){
-                    Log.v(TAG,response.body().toString());
-                    PostEachBoard datas = response.body();
-                    List<PostResult> board = datas.getPost();
-                    List<PostComment> comment = datas.getComment();
-                    if(board != null) {
-                        Board b = new Board(board.get(0).getId(), board.get(0).getName(), board.get(0).getTitle(), board.get(0).getBody(), board.get(0).getCommentNum(), board.get(0).getTime());
-                        setView(b);
-                    }
-                    if(comment != null){
-                        Log.v(TAG, "comment 받아오기 완료 comment.size = " +comment.size());
-                        for(int i = 0;i<comment.size();i++){
-                            Log.v(TAG,"comment" + i + comment.get(i).getContent()+"");
-                            Comment c = new Comment(comment.get(i).getUsername(),comment.get(i).getContent(),comment.get(i).getTime());
-                            Log.v(TAG,"comment 생성 완료");
-                            dataset.add(c);
-                        }
-                        Log.v(TAG,"getData2 end================================");
-                        Log.v(TAG,"dataset 크기 : "+dataset.size());
-                        mAdapter.changeDataset(dataset);
-                        show_recyclerview.removeAllViewsInLayout();
-                        show_recyclerview.setAdapter(mAdapter);
-                        Log.v(TAG,"recyclerview 적용");
-                        myDataset = dataset;
-                    }
-                }else{
-                    Log.v(TAG, "onResponse: 실패");
-                }
-            }
-            @Override
-            public void onFailure(Call<PostEachBoard> call, Throwable t) {
-                Log.v(TAG, "onFailure: " + t.getMessage());
-            }
-        });
-    }
-
-    public ArrayList<Comment> getfromserver(){
-        ArrayList<Comment> dataset = new ArrayList<Comment>();
-        Log.v("sentoserver","getfromserver 확인");
-
-//        if(UserIdent.GetInstance().getId() == "111") {
-//            Log.v("getfromserver","id = 111");
-//            dataset = getlocal();
-//            return dataset;
-//        }
-
-        NetworkTask getboardlist_networkTask = new NetworkTask(URL,null); //networktast 설정 부분
-        try {
-            getboardlist_networkTask.execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-         //설정한 networktask 실행
-
-        Log.v(TAG,"execute 확인");
-        String result = getboardlist_networkTask.result;
-        Log.v(TAG+"","result 확인 result : "+result);
-
-        JSONObject jsonArray = null;
-        JSONArray body = null;
-        JSONArray comment = null;
-        try {
-            jsonArray = new JSONObject(result);
-            body = jsonArray.getJSONArray("Post"); // 이름 변경 필요.
-            comment = jsonArray.getJSONArray("Comment"); // 이름 변경 필요.
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.v("getfromserver","json으로 변환");
-
-        //통신실패 예외처리
-        if(jsonArray == null) {
-            Log.v("showeachboard","통신실패");
-            Toast.makeText(getApplicationContext(), "연결에 실패했습니다. 네트워크를 확인해주세요", Toast.LENGTH_LONG).show();
-            return dataset;
-        }
-
-        JSONObject body_ = null;
-        try {
-            body_ = body.getJSONObject(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        String id = null;
-        String userId = null;
-        String title = null;
-        String content = null;
-        String time = null;
-        String commentnum = null;
-        try { //body부분 값 가져와서 화면에 띄움
-            id = body_.getString("id");
-            Log.v("Noticeboard","id : "+id);
-            userId = body_.getString("UserName");
-            Log.v("Noticeboard","userid : "+userId);
-            title = body_.getString("Title");
-            Log.v("Noticeboard","title  : "+title);
-            content = body_.getString("Content");
-            Log.v("Noticeboard","content : "+content);
-            commentnum = body_.getString("CommentNum");
-            Log.v("Board 통신", "commentnum : "+ commentnum);
-            time = body_.getString("createdAt");
-            Log.v("Board 통신", "createdAt : "+ time);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        b = new Board(Integer.parseInt(id),userId,title,content, Integer.parseInt(commentnum),time); //null조심 안드로이드가 훈수둠~
-        setView(b);
-        Log.v("getfromserver","board 변환 작업 시작");
-        for(int i = 0;i<comment.length();i++){ //nulll조심
-
-            JSONObject jsonObject = null;
-            userId = null;
-            String date = null;
-            content = null;
-            try { //댓글 부분 값 가져와서 화면에 띄움
-                jsonObject = comment.getJSONObject(i);
-                userId = jsonObject.getString("UserName");
-                date = jsonObject.getString("createdAt");
-                content = jsonObject.getString("Content");
-
-            }catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Log.v("getfromserver",i+" 값 가져오기 성공");
-
-            Comment c = new Comment(userId,content,date);
-            Log.v("getfromserver","Comment 추가 완료");
-            dataset.add(c);
-        }
-        return dataset;
-    }
-
-    public void refresh(){
-        //        myDataset = getfromlocal();
-        myDataset = getfromserver();
-        mAdapter.changeDataset(myDataset);
-        show_recyclerview.removeAllViewsInLayout();
-        show_recyclerview.setAdapter(mAdapter);
-        Log.v("알림","새로고침 완료");
-    }
-
-    public void setView(Board b){
-        show_title.setText(b.getTitle());
-        show_name.setText(b.getName());
-        show_date.setText(b.getDate());
-        show_body.setText(b.getBody());
-        show_saycount.setText(""+b.getChat_count());
-        show_goodcount.setText(""+b.getGood_count());
-        Log.v("알림", "board 잘 받음");
-    }
-
-    public void SetListener() {
-        //inputMethodManger 객체 선언
-        //final InputMethodManager keyboard = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        View.OnClickListener Listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.show_button_add_comment:
-                        Log.v("알림", "작성 버튼 클릭됨");
-                        if(!show_EditText.getText().toString().replace(" ","").equals("")) {
-                            addcomment(); // comment를 board에 추가해주고 recycler view를 새로고침.
-                            Log.v("알림", "add 완료");
-                            show_EditText.setText("");
-                            manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                        }
-                }
-            }
-        };
-        show_addbutton.setOnClickListener(Listener);
-    }
-
-
     public void addcomment(){ // 댓글 추가 기능
-        Log.v("알림","addcomment함수 입장");
+        String tag = "addcomment";
+        Log.v(TAG+tag,"addcomment함수 입장");
 
         //server 통신 성공시 - 서버로 보내는 코드
-        sendtoserver();
-
+        posttoserver();
         //server에서 받아오는 코드
-        myDataset = getfromserver();
+        refresh();
         //myDataset = b.getComments();
 
-        Log.v("알림","mydataset 수정완료");
+        Log.v(TAG+tag,"mydataset 수정완료");
 
         show_recyclerview.removeAllViewsInLayout();
         mAdapter = new CommentAdapter(myDataset);
         show_recyclerview.setAdapter(mAdapter);
         setView(b);
-        Log.v("알림","새로고침 완료");
+        Log.v(TAG+tag,"새로고침 완료");
 
-        //intent.putExtra("test","test");
-        //intent.putExtra("show_Board",b);
-        //Log.v("알림","board의 chat개수"+b.getChat_count());
-        //sendtoserver(b); // 서버로 전송하는 코드
-        //setResult(1,intent); // intnet 전송 -> server 연동시 필요 x
-        //Log.v("알림","intent 전송완료");
     }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        MenuInflater menuInflater = getMenuInflater();
-//        menuInflater.inflate(R.menu.noticeboard_menu,menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){

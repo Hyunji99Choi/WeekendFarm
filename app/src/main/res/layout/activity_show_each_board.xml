@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -25,6 +24,7 @@
             android:id="@+id/refresh_board"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -37,8 +37,11 @@
                     android:id="@+id/show_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:padding="5dp"
+                    android:text="제목"
                     android:textSize="25sp" />
 
                 <LinearLayout
@@ -66,12 +69,12 @@
                             android:id="@+id/show_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="5dp"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="10dp"
                             android:paddingTop="10dp"
-                            android:paddingRight="10dp"
 
                             android:text="닉네임"
-                            android:textSize="18dp" />
+                            android:textSize="18sp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -82,15 +85,15 @@
                                 android:id="@+id/show_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="10dp"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="10dp"
 
                                 android:text="2020-10-03  13:50"
-                                android:textSize="18dp" />
+                                android:textSize="18sp" />
 
                             <View
                                 android:id="@+id/view2"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1" />
 
@@ -103,8 +106,8 @@
                                 android:id="@+id/show_goodcount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="10dp"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="10dp"
                                 android:text="3" />
 
                             <ImageView
@@ -117,8 +120,8 @@
                                 android:id="@+id/show_saycount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="10dp"
+                                android:paddingStart="5dp"
+                                android:paddingEnd="10dp"
                                 android:text="3" />
                         </LinearLayout>
 
@@ -139,13 +142,22 @@
                     android:layout_margin="10dp"
                     android:paddingBottom="50dp"
                     android:text="본문 입니다."
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
+
+                <View
+                    android:id="@+id/view7"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/gray" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/show_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_weight="1" />
 
                 <View
@@ -161,9 +173,11 @@
 
                     <EditText
                         android:id="@+id/show_edittext_write_comment"
-                        android:layout_width="match_parent"
+                        android:hint="댓글을 작성하세요"
+                        android:inputType="text"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:layout_weight="1" />
 
                     <View
@@ -177,7 +191,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="작성"
-                        android:textSize="20dp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
 
             </LinearLayout>

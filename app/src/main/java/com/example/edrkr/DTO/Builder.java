@@ -50,7 +50,7 @@ public class Builder {
     public ArrayList<Board> listtryConnect(final String TAG, Call call) {
         final ArrayList<Board> dataset = new ArrayList<Board>();
         Log.v(tag, "listtryconnect 진입");
-        final ArrayList<PostResult> data = new ArrayList<>();
+        final ArrayList<GetResult> data = new ArrayList<>();
         call.enqueue(new Callback<List<Post>>() { //비동기 작업
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) { //성공 - 메인 스레드에서 처리
@@ -58,7 +58,7 @@ public class Builder {
                     //정상적으로 통신이 성공한 경우
                     List<Post> post = response.body();
                     for(int i=0;i<post.size();i++){
-                        PostResult p = (PostResult) post.get(i);
+                        GetResult p = (GetResult) post.get(i);
 //                        Log.v(TAG, "for "+i+": "+post.get(i).toString());
                         Board b = new Board(p.getId(),p.getName(),p.getTitle(),p.getBody(),p.getCommentNum(),p.getTime());
                         Board tmp = dataset.get(i);

@@ -2,44 +2,33 @@ package com.example.edrkr.DTO;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PostComment implements Post{
+public class PostComment {
+    @SerializedName("name")
+    private String name;
 
-    @SerializedName("id")
-    private final int id;
+    @SerializedName("content")
+    private String content;
+//
+//    @SerializedName("id")
+//    private String id;
 
-    @SerializedName("UserName")
-    private final String username;
-
-    @SerializedName("Content")
-    private final String content;
-
-    @SerializedName("PostNum")
-    private final int postnum;
-
-    @SerializedName("createdAt")
-    private final String time;
-
-    public PostComment(int id, String username,String content, int postnum,String time){
-        this.id = id;
-        this.username = username;
-        this.content = content;
-        this.postnum = postnum;
-        this.time = time;
+    public String getName() {
+        return name;
     }
-
-    public int getId() {
-        return id;
-    }
-    public String getUsername() {
-        return username;
+    public void setName(String name) {
+        this.name = name;
     }
     public String getContent() {
         return content;
     }
-    public int getPostnum() {
-        return postnum;
+    public void setContent(String content) {
+        this.content = content;
     }
-    public String getTime() {
-        return time;
-    }
+//    public String getId() {
+//        return id;
+//    }
+//    public void setId(String id) {
+//        this.id = id;
+//    }
 }
+
