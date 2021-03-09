@@ -22,7 +22,7 @@ import com.google.android.material.tabs.TabLayout;
 public class Managerpage extends AppCompatActivity {
     PagerAdapter adapter; //adapter 변수 선언
     ViewPager viewPager; //viewPager 선언
-    private ActionBar actionBar;
+    private ActionBar actionBar; //엑션바
     private Context mContext;
 
     @Override

@@ -1,6 +1,6 @@
-package com.example.edrkr;
+package com.example.edrkr.mainpage;
 
-import android.content.Intent;
+
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +19,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
+import com.example.edrkr.R;
+import com.example.edrkr.UserIdent;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -118,17 +120,7 @@ public class sub_page1 extends Fragment {
         });
 
 
-        if(UserIdent.GetInstance().getFarmCount()!=0){ //밭이 0개이면 실행안함.
-            //처음 cctv 링크 요청
-            //Log.w("cctv","cctv통신요청");
-            //ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
-
-
-            //처음 센서값 요청
-            //ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
-            //Start_SensorTimer();//타이머 시작
-
-        }else{
+        if(UserIdent.GetInstance().getFarmCount()==0){ //밭이 0개이면 실행.
             //밭이 없으니 0으로 세팅
             ControlMonitoring.GetInstance().updateSensor(0,0,0.0,0);
         }
@@ -151,7 +143,7 @@ public class sub_page1 extends Fragment {
                 Log.w("현재 통신대상",""+UserIdent.GetInstance().getNowMontriongFarm());
                 ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
 
-                //ccvt
+                //cctv
                 Log.w("ccctv","cctv 통신");
                 ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
             }
@@ -185,13 +177,5 @@ public class sub_page1 extends Fragment {
 
         super.onPause();
     }
-/*
-    @Override
-    public void onDestroy() { //엑티비티 꺼졌을때
-        Log.i("test","onDstory");
-        timer.cancel();
 
-        super.onDestroy();
-    }
-*/
 }

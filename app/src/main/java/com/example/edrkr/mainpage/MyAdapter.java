@@ -1,4 +1,4 @@
-package com.example.edrkr;
+package com.example.edrkr.mainpage;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

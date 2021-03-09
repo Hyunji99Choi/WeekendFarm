@@ -5,6 +5,13 @@
     <uses-permission android:name="android.permission.INTERNET"/>   <!-- http 통신 트레픽 허용 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!--카메라 권한 및 외부 저장소 읽고 쓰기 위한 권한-->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--추가적으로 hadware의 카메라를 사용하기 위한 uses-feature 설정-->
+    <uses-feature android:name="android.hardware.camera2"/>
+
 
     <application
         android:allowBackup="true"
@@ -16,7 +23,7 @@
         android:usesCleartextTraffic="true">
         <!-- http 통신 트레픽 허용 -->
 
-        <activity android:name=".MainActivity"
+        <activity android:name=".firstpage.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,11 +31,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MonitoringPage"
+        <activity android:name=".mainpage.MonitoringPage"
             android:theme="@style/AppTheme.NoActionBar"
             ></activity>
 
-        <activity android:name=".login_SingUpPage"
+        <activity android:name=".firstpage.login_SingUpPage"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name=".KeyCreatePage"></activity>

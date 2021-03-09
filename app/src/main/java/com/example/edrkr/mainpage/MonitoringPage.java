@@ -1,4 +1,4 @@
-package com.example.edrkr;
+package com.example.edrkr.mainpage;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -22,8 +22,12 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.edrkr.Bulletin.NoticeBoardActivity;
-import com.example.edrkr.ManagerPage.Managerpage;
+import com.example.edrkr.KeyCreatePage;
+import com.example.edrkr.Managerpage;
+import com.example.edrkr.NoticeBoardActivity;
+import com.example.edrkr.R;
+import com.example.edrkr.UserIdent;
+import com.example.edrkr.baner_Adapter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -37,19 +41,16 @@ public class MonitoringPage extends AppCompatActivity {
     private FragmentStateAdapter pagerAdapter_b;
     private int num_page_b = 2 ;
 
-
     TabLayout tabLayout;
 
     ViewPager pager;
     MyAdapter adapter;
 
-
     CharSequence[] farmManu; //밭 list 다이로그
-
     TextView farmTitile; //타이틀 글자 (밭 별명)
 
-    TextView naviHeaderName;
-    TextView naviHeaderEmail;
+    TextView naviHeaderName; //네거티브 메뉴 헤더 이름
+    TextView naviHeaderEmail; //네거티브 메뉴 헤더 이메일
 
 
     private DrawerLayout mDrawerLayout;
@@ -59,26 +60,49 @@ public class MonitoringPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitoring);
 
-        //textview
-        farmTitile = findViewById(R.id.toolbar_textView); // 툴바 타이틀
+
+        //각 요소들 연결 - toolbar, tab, tab-viewpager, drawer 등
+        initValueSetting();
+
         //첫번째 배열 값으로 툴바 textview 타이틀 수정
         Log.w("타이틀 세팅","수정 전");
-        if(UserIdent.GetInstance().getFarmCount()!=0) //밭이 0이면 실행안함.
-            farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm())); //****** 통신 완료시 풀어줘야함
+        if(UserIdent.GetInstance().getFarmCount()!=0) //밭이 0이면 실행안함. --> 쓰레기값이나 빈 값이어도 실행 안되게 하기(수정해야함.)
+            farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm()));
+
+        //날씨, 오늘의 작물 view pager 세팅, 하단 베너 --> 대대적인 수정이 있어야함
+        initWeatherSetting();
+
+        //draw 메뉴 클릭 리스너(페이지 이동)
+        drawerMenuSetting();
 
 
+    }
 
-        //Toolbar를 액션 바로대체하기
+    // 기본 요소들 세팅
+    void initValueSetting(){
+
+        //Toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        //textview, 툴바 타이틀(제목, 현재 밭)
+        farmTitile = findViewById(R.id.toolbar_textView); // 툴바 타이틀
 
+        //Tab 메뉴
+        tabLayout=findViewById(R.id.layout_tab);
+        pager=findViewById(R.id.pager);
+        adapter=new MyAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
+
+        //tabLayout과 ViewPager를 연동
+        tabLayout.setupWithViewPager(pager);
+
+        //네거티브 메뉴 연결
         navigationView=findViewById(R.id.navView);
         navigationView.setItemIconTintList(null); //사이드 메뉴에 아이콘 색깔을 원래 아이콘 색으로
 
-        //슬라이드 메뉴 헤더 수정
-        //navigationView.setNavigationItemSelectedListener(this);
+        //네거티브 슬라이드 메뉴 헤더 연결
         View header = navigationView.getHeaderView(0);
         Log.w("헤더 세팅","수정 전");
         naviHeaderName = header.findViewById(R.id.navi_header_name);
@@ -87,14 +111,17 @@ public class MonitoringPage extends AppCompatActivity {
         naviHeaderEmail.setText(UserIdent.GetInstance().getEmail());
         Log.w("헤더 세팅","완료");
 
-
+        //드로버 레이아웃(슬라이드 메뉴 레이아웃)
         drawerLayout=findViewById(R.id.dl_main_drawer_root);
         drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name);
         drawerLayout.addDrawerListener(drawerToggle); //누를때마다 아이콘이 팽그르 돈다
         drawerToggle.syncState();//삼선 메뉴 추가
 
-        //상단 베너
-        //cctv 페이지 세팅 부분
+    }
+
+    //하단 베너(날씨) 세팅 및 연결
+    void initWeatherSetting(){
+
         //Viewpager2
         mPager_b = findViewById(R.id.baner);
         //Adapter
@@ -117,77 +144,17 @@ public class MonitoringPage extends AppCompatActivity {
             }
 
         });
-
-
-        //bennar 위에까지
-
-
-        //Tab 메뉴
-        tabLayout=findViewById(R.id.layout_tab);
-        pager=findViewById(R.id.pager);
-        adapter=new MyAdapter(getSupportFragmentManager());
-        pager.setAdapter(adapter);
-
-        //tabLayout과 ViewPager를 연동
-        tabLayout.setupWithViewPager(pager);
-
-        //네비게이션뷰에 아이템선택 리스너 추가
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                switch (menuItem.getItemId()){
-                    case R.id.today:
-                        //다음학기
-                        Toast.makeText(MonitoringPage.this,"today",Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.community:
-                        //이아름
-                        Intent intent = new Intent(MonitoringPage.this, NoticeBoardActivity.class);
-                        startActivity(intent);
-                        Toast.makeText(MonitoringPage.this,"community",Toast.LENGTH_SHORT).show();
-                        break;
-
-                    case R.id.menu_admin_key:
-                        Intent keypage = new Intent(MonitoringPage.this,KeyCreatePage.class);
-                        startActivity(keypage);
-
-                        Toast.makeText(MonitoringPage.this,"key생성페이지",Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.menu_admin_list:
-                        //이아름
-                        intent = new Intent(MonitoringPage.this, Managerpage.class);
-                        startActivity(intent);
-                        Toast.makeText(MonitoringPage.this,"회원정보 열람",Toast.LENGTH_SHORT).show();
-                        break;
-
-                    case R.id.setting:
-                        Toast.makeText(MonitoringPage.this,"setting",Toast.LENGTH_SHORT).show();
-                        break;
-
-                }
-
-                //Drawer를 닫기...
-                drawerLayout.closeDrawer(navigationView);
-
-                return false;
-            }
-        });
-
-
     }
 
+    //타이틀 클릭 이벤트
     public void onClickTextView(View view){
         //switch(view.getId())
         //case R.id.toolbar...
         FarmDialogSetting(); //다이로그 생성 함수
     }
 
-    public void onClickHeader(View view){ //메뉴 헤더 클릭시
-        Toast.makeText(this,"헤더 클릭",Toast.LENGTH_SHORT).show();
-    }
-
-    public void FarmDialogSetting(){ //타이틀 밭 이동 리스트
+    //타이틀 밭 이동 리스트
+    public void FarmDialogSetting(){
         farmManu=new CharSequence[UserIdent.GetInstance().getFarmCount()]; //밭 별명
         //밭 별명 주기
         for(int i=0;i<UserIdent.GetInstance().getFarmCount();i++){
@@ -215,4 +182,55 @@ public class MonitoringPage extends AppCompatActivity {
 
         builder.show();
     }
+
+    //네비게이션뷰에 아이템선택 리스너 추가
+    void drawerMenuSetting(){
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()){
+                    case R.id.today:
+                        //다음학기
+                        Toast.makeText(MonitoringPage.this,"today",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.community:
+                        //이아름
+                        Intent intent = new Intent(MonitoringPage.this, NoticeBoardActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(MonitoringPage.this,"community",Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.menu_admin_key:
+                        Intent keypage = new Intent(MonitoringPage.this, KeyCreatePage.class);
+                        startActivity(keypage);
+
+                        Toast.makeText(MonitoringPage.this,"key생성페이지",Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menu_admin_list:
+                        //이아름
+                        intent = new Intent(MonitoringPage.this, Managerpage.class);
+                        startActivity(intent);
+                        Toast.makeText(MonitoringPage.this,"회원정보 열람",Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case R.id.setting:
+                        Toast.makeText(MonitoringPage.this,"setting",Toast.LENGTH_SHORT).show();
+                        break;
+
+                }
+
+                //Drawer를 닫기...
+                drawerLayout.closeDrawer(navigationView);
+
+                return false;
+            }
+        });
+    }
+
+    //헤더 클릭 이벤트
+    public void onClickHeader(View view){ //메뉴 헤더 클릭시
+        Toast.makeText(this,"헤더 클릭",Toast.LENGTH_SHORT).show();
+    }
+
 }
