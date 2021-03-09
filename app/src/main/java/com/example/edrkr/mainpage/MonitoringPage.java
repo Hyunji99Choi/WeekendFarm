@@ -23,8 +23,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.edrkr.KeyCreatePage;
-import com.example.edrkr.Managerpage;
-import com.example.edrkr.NoticeBoardActivity;
+import com.example.edrkr.ManagerPage.Managerpage;
+import com.example.edrkr.Bulletin.NoticeBoardActivity;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
 import com.example.edrkr.baner_Adapter;
