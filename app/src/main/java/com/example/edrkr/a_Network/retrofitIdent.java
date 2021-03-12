@@ -1,4 +1,4 @@
-package com.example.edrkr.DTO;
+package com.example.edrkr.a_Network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

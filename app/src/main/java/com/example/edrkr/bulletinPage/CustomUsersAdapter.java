@@ -1,4 +1,4 @@
-package com.example.edrkr.Bulletin;
+package com.example.edrkr.bulletinPage;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.edrkr.R;
 
 import java.util.ArrayList;
-
+//CommentAdapter와 설명 동일
 public class CustomUsersAdapter extends RecyclerView.Adapter<CustomUsersAdapter.MyViewHolder> {
     public interface OnItemClickListener{
         void onItemClick(View v, int pos);

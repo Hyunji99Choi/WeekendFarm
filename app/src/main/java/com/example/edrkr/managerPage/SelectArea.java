@@ -1,4 +1,4 @@
-package com.example.edrkr.ManagerPage;
+package com.example.edrkr.managerPage;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,12 +16,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.edrkr.Bulletin.CustomUsersAdapter;
+import com.example.edrkr.bulletinPage.CustomUsersAdapter;
 import com.example.edrkr.R;
 
 import java.util.ArrayList;
 
-public class SelectMember extends AppCompatActivity {
+public class SelectArea extends AppCompatActivity {
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
@@ -32,24 +32,23 @@ public class SelectMember extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_member);
+        setContentView(R.layout.activity_select_area);
 
-        recyclerView = (RecyclerView)findViewById(R.id.recycler_selectmember);
-
-        Log.v("selctmember","toolbar 세팅 시작");
-        //toolbar를 액션바로 대체
-        Toolbar toolbar = findViewById(R.id.toolbar_selectmember);
-        setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
-        actionBar.setTitle("소유자 추가");
-        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
-        Log.v("selctmember","toolbar 완료");
-
+        recyclerView = (RecyclerView)findViewById(R.id.recycler_selectArea);
         getfromserver();
         recycler_test(); //테스트용 데이터 저장
         Log.v("SelectMember","recyclerview id 연결");
+
+        Log.v("selectarea","toolbar 세팅 시작");
+        //toolbar를 액션바로 대체
+        Toolbar toolbar = findViewById(R.id.toolbar_selectarea);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        actionBar.setTitle("소유밭 추가");
+        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
+        Log.v("selectarea","toolbar 완료");
 
         recyclerView.setHasFixedSize(true);
         mAdapter = new stringadapter(myDataset,0);
@@ -81,7 +80,7 @@ public class SelectMember extends AppCompatActivity {
     public void recycler_test(){
         ArrayList<Member> test = new ArrayList<>();
         for(int i = 0;i<20;i++){
-            Member tmp = new Member(i+"",i+"번째 사용자");
+            Member tmp = new Member(null,"밭"+i);
             test.add(tmp);
         }
         myDataset = test;
@@ -95,6 +94,7 @@ public class SelectMember extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater menuInflater = getMenuInflater();
@@ -106,17 +106,16 @@ public class SelectMember extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
         switch (item.getItemId()){
             case android.R.id.home:
-                Log.v("selectmember","home");
+                Log.v("selectarea","home");
                 Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
                 finish();
                 break;
-
             case R.id.writing_next_button:
                 Log.v("selectMember","선택완료버튼 눌림");
                 //patch 코드
                 puttoserver();
                 finish();
-        }
+            }
         return super.onOptionsItemSelected(item);
     }
 

@@ -1,4 +1,4 @@
-package com.example.edrkr.ManagerPage;
+package com.example.edrkr.managerPage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.edrkr.Bulletin.CustomUsersAdapter;
+import com.example.edrkr.bulletinPage.CustomUsersAdapter;
 import com.example.edrkr.NetworkTask;
 import com.example.edrkr.R;
 

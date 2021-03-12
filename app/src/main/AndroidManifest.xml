@@ -40,21 +40,21 @@
 
         <activity android:name=".KeyCreatePage"></activity>
         <!--이아름 병합-->
-        <activity android:name=".ManagerPage.SelectArea"
+        <activity android:name=".managerPage.SelectArea"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ManagerPage.SelectMember"
+        <activity android:name=".managerPage.SelectMember"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ManagerPage.show_each_areahas"
+        <activity android:name=".managerPage.show_each_areahas"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ManagerPage.show_each_member"
+        <activity android:name=".managerPage.show_each_member"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ManagerPage.Managerpage"
+        <activity android:name=".managerPage.Managerpage"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Bulletin.show_each_board"
+        <activity android:name=".bulletinPage.show_each_board"
         android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Bulletin.NoticeBoardActivity"
+        <activity android:name=".bulletinPage.NoticeBoardActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Bulletin.WritingActivity"
+        <activity android:name=".bulletinPage.WritingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
     </application>

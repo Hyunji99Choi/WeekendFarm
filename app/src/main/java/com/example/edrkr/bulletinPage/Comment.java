@@ -1,22 +1,23 @@
-package com.example.edrkr.Bulletin;
+package com.example.edrkr.bulletinPage;
 
 import java.io.Serializable;
 
 public class Comment implements Serializable {
-    private String name = "name";
-    private String date = "0년 0월 0일  0:0";
-    private String body;
-    private int chat_count = 0;
-    private int good_count = 0;
+    private String name = "name"; //작성자 이름
+    private String date = "0년 0월 0일  0:0"; //작성일
+    private String body; //댓글 본문
+    private int chat_count = 0; //댓글 개수 - 삭제 예정
+    private int good_count = 0; //좋아요 개수 - 삭제 예정
 
-    Comment(){}
+    Comment(){} //생성자
 
-    Comment(String name, String body, String date ){
+    Comment(String name, String body, String date ){ //생성자 - 타 클래스에서 사용
         this.name = name;
         this.date = date;
         this.body = body;
     }
 
+    //getter & setter
     public String getBody(){return body;}
     public String getDate() { return date; }
     public int getChat_count() { return chat_count;}

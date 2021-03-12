@@ -1,4 +1,4 @@
-package com.example.edrkr.ManagerPage;
+package com.example.edrkr.managerPage;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.edrkr.Bulletin.PagerAdapter;
+import com.example.edrkr.bulletinPage.PagerAdapter;
 import com.example.edrkr.R;
 import com.google.android.material.tabs.TabLayout;
 

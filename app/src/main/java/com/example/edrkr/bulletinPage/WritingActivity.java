@@ -1,4 +1,4 @@
-package com.example.edrkr.Bulletin;
+package com.example.edrkr.bulletinPage;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -16,10 +15,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.edrkr.Bulletin.Board;
-import com.example.edrkr.DTO.Builder;
-import com.example.edrkr.DTO.PostWriting;
-import com.example.edrkr.DTO.retrofitIdent;
+import com.example.edrkr.a_Network.Builder;
+import com.example.edrkr.a_Network.PostWriting;
+import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.NetworkTask;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;

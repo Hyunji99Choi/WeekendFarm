@@ -1,8 +1,8 @@
-package com.example.edrkr.DTO;
+package com.example.edrkr.a_Network;
 
 import android.util.Log;
 
-import com.example.edrkr.Bulletin.Board;
+import com.example.edrkr.bulletinPage.Board;
 
 import java.util.ArrayList;
 import java.util.List;

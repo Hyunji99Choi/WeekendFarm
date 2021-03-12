@@ -1,4 +1,4 @@
-package com.example.edrkr.Bulletin;
+package com.example.edrkr.bulletinPage;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -20,14 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.edrkr.DTO.Builder;
-import com.example.edrkr.DTO.GetComment;
-import com.example.edrkr.DTO.GetEachBoard;
-import com.example.edrkr.DTO.GetResult;
-import com.example.edrkr.DTO.PostComment;
-import com.example.edrkr.DTO.PostWriting;
-import com.example.edrkr.DTO.RetrofitService;
-import com.example.edrkr.DTO.retrofitIdent;
+import com.example.edrkr.a_Network.Builder;
+import com.example.edrkr.a_Network.GetComment;
+import com.example.edrkr.a_Network.GetEachBoard;
+import com.example.edrkr.a_Network.GetResult;
+import com.example.edrkr.a_Network.PostComment;
+import com.example.edrkr.a_Network.RetrofitService;
+import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.NetworkTask;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;

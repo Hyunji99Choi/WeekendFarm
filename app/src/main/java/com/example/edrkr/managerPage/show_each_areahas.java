@@ -1,4 +1,4 @@
-package com.example.edrkr.ManagerPage;
+package com.example.edrkr.managerPage;
 
 import android.content.Intent;
 import android.os.Bundle;

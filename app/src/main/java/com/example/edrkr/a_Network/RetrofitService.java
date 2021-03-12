@@ -1,4 +1,4 @@
-package com.example.edrkr.DTO;
+package com.example.edrkr.a_Network;
 
 import java.util.List;
 
