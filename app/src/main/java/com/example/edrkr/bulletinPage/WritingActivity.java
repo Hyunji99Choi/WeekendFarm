@@ -11,7 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.edrkr.a_Network.Builder;
-import com.example.edrkr.a_Network.PostWriting;
+import com.example.edrkr.a_Network.Class.PostWriting;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;

@@ -1,5 +1,10 @@
 package com.example.edrkr.a_Network;
 
+import com.example.edrkr.a_Network.Class.GetBoard;
+import com.example.edrkr.a_Network.Class.GetEachBoard;
+import com.example.edrkr.a_Network.Class.PostComment;
+import com.example.edrkr.a_Network.Class.PostWriting;
+
 import java.util.List;
 
 import retrofit2.Call;

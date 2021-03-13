@@ -2,6 +2,8 @@ package com.example.edrkr.a_Network;
 
 import android.util.Log;
 
+import com.example.edrkr.a_Network.Class.GetBoard;
+import com.example.edrkr.a_Network.Class.Post;
 import com.example.edrkr.bulletinPage.Board;
 
 import java.util.ArrayList;

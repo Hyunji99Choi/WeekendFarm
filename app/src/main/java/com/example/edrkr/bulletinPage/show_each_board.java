@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.edrkr.a_Network.Builder;
-import com.example.edrkr.a_Network.GetComment;
-import com.example.edrkr.a_Network.GetEachBoard;
-import com.example.edrkr.a_Network.GetBoard;
-import com.example.edrkr.a_Network.PostComment;
+import com.example.edrkr.a_Network.Class.GetComment;
+import com.example.edrkr.a_Network.Class.GetEachBoard;
+import com.example.edrkr.a_Network.Class.GetBoard;
+import com.example.edrkr.a_Network.Class.PostComment;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
