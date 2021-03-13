@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.edrkr.a_Network.GetResult;
+import com.example.edrkr.a_Network.GetBoard;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
@@ -30,7 +30,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 
 public class NoticeBoardActivity extends AppCompatActivity implements LifecycleObserver {
     //private ImageButton write;
@@ -152,11 +151,11 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
 
         //레트로핏 통신 기다리게 바꾸기
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-        service.getBoard("forum/test").enqueue(new Callback<List<GetResult>>() {
+        service.getBoard("forum/test").enqueue(new Callback<List<GetBoard>>() {
             @Override
-            public void onResponse(Call<List<GetResult>> call, Response<List<GetResult>> response) { //서버와 통신하여 반응이 왔다면
+            public void onResponse(Call<List<GetBoard>> call, Response<List<GetBoard>> response) { //서버와 통신하여 반응이 왔다면
                 if(response.isSuccessful()){
-                    List<GetResult> datas = response.body();
+                    List<GetBoard> datas = response.body();
                     Log.v(TAG,response.body().toString());
                     if(datas != null){
                         Log.v(TAG, "datas 받아오기 완료 datas.size = " +datas.size());
@@ -181,7 +180,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
                 }
             }
             @Override
-            public void onFailure(Call<List<GetResult>> call, Throwable t) { //통신에 실패했을 경우
+            public void onFailure(Call<List<GetBoard>> call, Throwable t) { //통신에 실패했을 경우
                 Log.v(TAG, "onFailure: " + t.getMessage());
             }
         });

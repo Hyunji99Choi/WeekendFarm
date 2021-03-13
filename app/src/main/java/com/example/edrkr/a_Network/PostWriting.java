@@ -2,7 +2,7 @@ package com.example.edrkr.a_Network;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PostWriting implements Post{
+public class PostWriting implements Post{ //작성한 글을 보내는 클래스
     @SerializedName("name")
     private String name;
 

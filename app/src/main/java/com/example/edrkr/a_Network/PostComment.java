@@ -2,15 +2,12 @@ package com.example.edrkr.a_Network;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PostComment {
+public class PostComment { //작성한 댓글을 보내는 클래스
     @SerializedName("name")
     private String name;
 
     @SerializedName("content")
     private String content;
-//
-//    @SerializedName("id")
-//    private String id;
 
     public String getName() {
         return name;
@@ -24,11 +21,5 @@ public class PostComment {
     public void setContent(String content) {
         this.content = content;
     }
-//    public String getId() {
-//        return id;
-//    }
-//    public void setId(String id) {
-//        this.id = id;
-//    }
 }
 

@@ -1,4 +1,4 @@
-package com.example.edrkr.bulletinPage;
+package com.example.edrkr.managerPage;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.example.edrkr.managerPage.Listofarea;
 import com.example.edrkr.managerPage.Listofmember;
 
+//주석 필요
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int num;
 

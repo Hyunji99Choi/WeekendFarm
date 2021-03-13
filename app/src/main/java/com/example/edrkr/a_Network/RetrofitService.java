@@ -12,7 +12,7 @@ public interface RetrofitService {
 
     //@GET( EndPoint - 자원위치(URL))
     @GET("{post}") //처음 글 로딩 부분
-    Call<List<GetResult>> getBoard(@Path(value = "post", encoded = true) String post); //응답이 왔을 떄 CallBack으로 불려질 타입
+    Call<List<GetBoard>> getBoard(@Path(value = "post", encoded = true) String post); //응답이 왔을 떄 CallBack으로 불려질 타입
 
     @GET("{post}") //각 게시글 보는 부분
     Call<GetEachBoard> getComment(@Path(value = "post", encoded = true) String post);

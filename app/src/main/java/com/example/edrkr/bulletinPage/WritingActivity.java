@@ -1,42 +1,30 @@
 package com.example.edrkr.bulletinPage;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
-
 import androidx.appcompat.widget.Toolbar;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.edrkr.a_Network.Builder;
 import com.example.edrkr.a_Network.PostWriting;
 import com.example.edrkr.a_Network.retrofitIdent;
-import com.example.edrkr.NetworkTask;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
-
 import retrofit2.Call;
 
-
+//확인 필요
 public class WritingActivity extends AppCompatActivity {
 
     private EditText title;
     private EditText body;
-    private Button buttonsend;
     private ActionBar actionBar;
-    private String URL = "http://15.165.74.84:3000/forum/create"; //url부분
     private String TAG = "areum/Writingactivity"; //태그
 
 
@@ -51,8 +39,6 @@ public class WritingActivity extends AppCompatActivity {
     public void InitializeView() { //id 연결 함수
         title = (EditText) findViewById((R.id.title));
         body = (EditText) findViewById(R.id.body);
-      //  buttonsend = (Button) findViewById(R.id.buttonSend);
-
 
         Toolbar toolbar = findViewById(R.id.toolbar_writing);
         setSupportActionBar(toolbar);
@@ -80,32 +66,7 @@ public class WritingActivity extends AppCompatActivity {
         Log.v(TAG,"tryconnect 완료");
     }
 
-    public void sendtoserver(Board b) { //서버로 보내는 코드
-
-        ContentValues values = new ContentValues();
-        Log.v(TAG,"server 확인");
-        ArrayList<Board> dataset = new ArrayList<Board>();
-
-        //values.put("id",b.getPos());
-        values.put("name",b.getName());
-        values.put("title",b.getTitle());
-        values.put("content",b.getBody());
-        Log.v("semdtoserver","put 완료");
-
-        NetworkTask sendboard_networkTask = new NetworkTask(URL,values); //networktast 설정 부분
-        try {
-            sendboard_networkTask.execute().get(); //설정한 networktask 실행
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        String result = sendboard_networkTask.result;
-        Log.v("result : ",result);
-    }
-
-    public void localsend(Board b){
+    public void localsend(Board b){ //로컬로 데이터셋 지정
         //값을 notice로 넘기기 위한 작업
         Intent intent = new Intent();
         intent.putExtra("Board", b);
@@ -155,7 +116,6 @@ public class WritingActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_writing,menu);
-
         return true;
     }
 }

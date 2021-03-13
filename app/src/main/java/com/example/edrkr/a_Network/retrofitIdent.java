@@ -15,16 +15,12 @@ public class retrofitIdent {
     public RetrofitService getService(){
         return service1;
     }
-//    public RetrofitService[] getServicelist(){
-//        return service2;
-//    }
 
     public void setTmp(String str){
         tmp = str;
     }
     public String getTmp(){
         String str = tmp;
-     //   tmp = null;
         return str;
     }
     private Gson gson = new GsonBuilder()

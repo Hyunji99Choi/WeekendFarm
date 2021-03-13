@@ -23,14 +23,9 @@ public class Builder {
                 if (response.isSuccessful()) {
                     //정상적으로 통신이 성공한 경우
                     Log.v(TAG, "onResponse: 성공, 결과\n" + response.body().toString());
-//                    PostResult result = response.body();
-//                    str = result.toString();
-//                    retrofitIdent.GetInstance().setTmp(str);
-//                    Log.d(TAG,"onResponse: 성공, 결과\n"+ str);
                 } else {
                     //통신이 실패한 경우(응답코드 3xx,4xx 등)
                     str = "onResponse: 실패";
-//                    retrofitIdent.GetInstance().setTmp(str);
                     Log.d(TAG, str);
                 }
             }
@@ -42,15 +37,12 @@ public class Builder {
                 Log.d(TAG, "onFailure: " + str);
             }
         });
-//        str = retrofitIdent.GetInstance().getTmp();
-//        Log.d(TAG+"/"+tag,"결과 : " + str);
-//        return str;
     }
 
     public ArrayList<Board> listtryConnect(final String TAG, Call call) {
         final ArrayList<Board> dataset = new ArrayList<Board>();
         Log.v(tag, "listtryconnect 진입");
-        final ArrayList<GetResult> data = new ArrayList<>();
+        final ArrayList<GetBoard> data = new ArrayList<>();
         call.enqueue(new Callback<List<Post>>() { //비동기 작업
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) { //성공 - 메인 스레드에서 처리
@@ -58,8 +50,7 @@ public class Builder {
                     //정상적으로 통신이 성공한 경우
                     List<Post> post = response.body();
                     for(int i=0;i<post.size();i++){
-                        GetResult p = (GetResult) post.get(i);
-//                        Log.v(TAG, "for "+i+": "+post.get(i).toString());
+                        GetBoard p = (GetBoard) post.get(i);
                         Board b = new Board(p.getId(),p.getName(),p.getTitle(),p.getBody(),p.getCommentNum(),p.getTime());
                         Board tmp = dataset.get(i);
                         Log.v(tag,tmp.getPos()+", "+tmp.getName()+", "+tmp.getTitle()+", "+tmp.getBody()+", "+tmp.getChat_count()+", "+tmp.getDate());
