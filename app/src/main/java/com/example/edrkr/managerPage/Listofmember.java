@@ -22,7 +22,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class Listofmember extends Fragment {
+//listofarea와 동일
+public class Listofmember extends Fragment { //사용자별 밭 보여주는 fragment
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;

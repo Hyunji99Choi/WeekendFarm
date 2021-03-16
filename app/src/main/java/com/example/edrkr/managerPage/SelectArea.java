@@ -21,7 +21,7 @@ import com.example.edrkr.R;
 
 import java.util.ArrayList;
 
-public class SelectArea extends AppCompatActivity {
+public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하는 페이지 코드
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;

@@ -113,9 +113,8 @@ public class show_each_board extends AppCompatActivity {
         show_recyclerview.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(false);
-        layoutManager.setStackFromEnd(true);
+        layoutManager.setStackFromEnd(false);
         show_recyclerview.setLayoutManager(layoutManager);
-
         getBoardData(); //통신으로 게시글 정보 가져옴
 
         // specify an adapter (see also next example)

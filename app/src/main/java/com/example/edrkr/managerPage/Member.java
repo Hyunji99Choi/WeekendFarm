@@ -1,6 +1,6 @@
 package com.example.edrkr.managerPage;
 
-public class Member {
+public class Member { //사용자 클래스
     private String id_;
     private String name_;
     private boolean checked_;

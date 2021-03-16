@@ -22,23 +22,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class Listofarea extends Fragment {
+public class Listofarea extends Fragment { //밭별 사용자 fragment
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<Member> myDataset = new ArrayList<>();
-    private String URL = "http://3.35.55.9:3000/forum/";
+    private String URL = "http://3.35.55.9:3000/forum/"; //서버 주소 바꿀듯
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Log.v("listofare","area 도착");
 
         View view = inflater.inflate(R.layout.listofarea, container,false);
-
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_arealist);
-
-        recycler_test(); //테스트용 데이터 저장
-
+        recycler_test(); //테스트용 데이터 저장 - local
         Log.v("listofare","recyclerview id 연결");
 
         recyclerView.setHasFixedSize(true);
@@ -56,7 +53,7 @@ public class Listofarea extends Fragment {
         this.InitializeView(); //필요 요소 선언해주는 함수
         mAdapter.setOnItemClickListener(new CustomUsersAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int pos) {
+            public void onItemClick(View v, int pos) { //각 밭 클릭시 해당 밭의 사용자 보여주는 page로 이동하는 함수
                 Log.v("알림","게시글 클릭 리스너 눌림 pos : "+pos);
                 Member s = myDataset.get(pos);
                 Intent intent = new Intent(getActivity(), show_each_areahas.class);
@@ -74,7 +71,7 @@ public class Listofarea extends Fragment {
         return view;
     }
 
-    public void InitializeView(){
+    public void InitializeView(){ //초기화 - 아직 들어가는 코드 없음
 //
         //myDataset 받는 코드 들어가야함
         //  try {
@@ -86,7 +83,7 @@ public class Listofarea extends Fragment {
 
     }
 
-    public void recycler_test(){
+    public void recycler_test(){ //로컬로 데이터 넣는 함수
         ArrayList<Member> test = new ArrayList<>();
         for(int i = 0;i<5;i++){
             Member tmp = new Member(i+"","밭"+i);

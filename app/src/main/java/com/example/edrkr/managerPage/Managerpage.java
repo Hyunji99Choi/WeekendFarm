@@ -18,8 +18,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.edrkr.R;
 import com.google.android.material.tabs.TabLayout;
 
-public class Managerpage extends AppCompatActivity {
-    PagerAdapter adapter; //adapter 변수 선언
+public class Managerpage extends AppCompatActivity { //메니저 페이지 - 2개의 프레그먼트가 올려져있음.
+    PagerAdapter adapter; //adapter 변수 선언 - pageadapter
     ViewPager viewPager; //viewPager 선언
     private ActionBar actionBar; //엑션바
     private Context mContext;
@@ -47,8 +47,6 @@ public class Managerpage extends AppCompatActivity {
         Log.v("managerpage","회원 내역 tab 추가 완료");
         tabLayout.addTab(tabLayout.newTab().setCustomView(createTabView("밭 내역")));
         Log.v("managerpage","밭 내역 tab 추가 완료");
-//                addTab((tabLayout.newTab().setText("회원 내역")));
-//        tabLayout.addTab((tabLayout.newTab().setText("밭 내역")));
         tabLayout.setTabGravity((TabLayout.GRAVITY_FILL));
         Log.v("managerpage","tab 추가 완료");
 
@@ -80,7 +78,7 @@ public class Managerpage extends AppCompatActivity {
         });
     }
 
-    private View createTabView(String tabName) {
+    private View createTabView(String tabName) { //+버튼 클릭시
         Log.v("managerpage","createTabView");
         mContext = getApplicationContext();
         View tabView = LayoutInflater.from(mContext).inflate(R.layout.custom_tab, null);
@@ -91,17 +89,11 @@ public class Managerpage extends AppCompatActivity {
         return tabView;
 
     }
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        MenuInflater menuInflater = getMenuInflater();
-//        menuInflater.inflate(R.menu.noticeboard_menu,menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){ //optionitem 선택시
         switch (item.getItemId()){
-            case android.R.id.home:
+            case android.R.id.home: //뒤로가기 버튼 클릭시
                 Log.v("managerpage","home");
                 Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
                 finish();

@@ -21,7 +21,7 @@ import com.example.edrkr.R;
 
 import java.util.ArrayList;
 
-public class SelectMember extends AppCompatActivity {
+public class SelectMember extends AppCompatActivity { //맴버 선택해서 추가하는 코드
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
