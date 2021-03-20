@@ -235,10 +235,11 @@ public class MonitoringPage extends AppCompatActivity {
     //헤더 클릭 이벤트
     public void onClickHeader(View view){ //메뉴 헤더 클릭시
 
+        Intent userChange = new Intent(MonitoringPage.this, subpage_userIdnetChange.class);
+        startActivity(userChange);
+
         Toast.makeText(this,"헤더 클릭",Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(MonitoringPage.this, subpage_userIdnetChange.class);
-        startActivity(intent);
 
     }
 

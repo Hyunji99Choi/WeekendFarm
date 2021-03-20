@@ -47,6 +47,10 @@ public interface RetrofitAPI {
 
     //모니터링 페이지
 
+    //날씨 통신
+    @GET("/wheather") //날씨
+    Call<ResponseWeatherJson> getSensor();
+
     //센서 통신
     @GET("/sensor/field{farm}") //로그인 후 회원정보 요청
     Call<ResponseSensorJson> getSensor(@Path("farm") String farm);
