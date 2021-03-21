@@ -49,7 +49,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         Context context = parent.getContext(); //부모의 필드(?)를 가져옴
         LayoutInflater inflater =(LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE); //inflater 지정
         // create a new view
-        View v = inflater.inflate(R.layout.comment,parent,false); //댓글을 적용시킬 view를 생성
+        View v = inflater.inflate(R.layout.view_bulletinpage_comment,parent,false); //댓글을 적용시킬 view를 생성
         MyViewHolder vh = new MyViewHolder(v); //생성한 view를 담당할 viewholder 생성
 
         return vh;

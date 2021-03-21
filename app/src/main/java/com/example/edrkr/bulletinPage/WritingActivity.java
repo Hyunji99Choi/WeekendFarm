@@ -31,7 +31,7 @@ public class WritingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_writing);
+        setContentView(R.layout.bulletinpage_writing);
         this.InitializeView(); //필요 요소 선언해주는 함수
     }
 

@@ -31,7 +31,7 @@ public class show_each_areahas extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_each_areahas);
+        setContentView(R.layout.managerpage_areahas);
         this.InitializeView(); //필요 요소 선언해주는 함수
 //        mAdapter.setOnItemClickListener(new CustomUsersAdapter.OnItemClickListener() {
 //            @Override

@@ -28,7 +28,7 @@ public class Managerpage extends AppCompatActivity { //메니저 페이지 - 2�
     protected void onCreate(Bundle savedInstanceState) {
         Log.v("managerpage","managerpage 도착");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_managerpage);
+        setContentView(R.layout.managerpage_main);
 
         Log.v("managerpage","toolbar 세팅 시작");
         //toolbar를 액션바로 대체

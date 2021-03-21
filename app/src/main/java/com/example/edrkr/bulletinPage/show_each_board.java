@@ -61,7 +61,7 @@ public class show_each_board extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_each_board);
+        setContentView(R.layout.bulletinpage_each_board);
         this.InitializeView(); //필요 요소 선언해주는 함수
         this.SetListener(); //리스너 설정 함수
     }

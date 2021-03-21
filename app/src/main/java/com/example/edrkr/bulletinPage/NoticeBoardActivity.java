@@ -35,7 +35,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     //private ImageButton write;
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
-    private CustomUsersAdapter mAdapter;
+    private BulletinAdapter mAdapter;
     private LinearLayoutManager layoutManager;
     private ActionBar actionBar;
     private SwipeRefreshLayout refreshLayout;
@@ -52,10 +52,10 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     protected void onCreate(Bundle savedInstanceState) {
         Log.v(TAG,"oncreate진입");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notice_board);
+        setContentView(R.layout.bulletinpage_main);
 
         this.InitializeView(); //필요 요소 선언해주는 함수
-        mAdapter.setOnItemClickListener(new CustomUsersAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new BulletinAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) { //recyclerview 각 viewholder 클릭할 경우
                 Log.v(TAG,"게시글 클릭 리스너 눌림 pos : "+pos);
@@ -118,7 +118,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new CustomUsersAdapter(myDataset); //새로운 adapter 생성 - recyclerview를 작동 시킴
+        mAdapter = new BulletinAdapter(myDataset); //새로운 adapter 생성 - recyclerview를 작동 시킴
         recyclerView.setAdapter(mAdapter); //설정해둔 adapter 적용
         refresh(); //새로고침
         Log.v(TAG,"모두 완료");

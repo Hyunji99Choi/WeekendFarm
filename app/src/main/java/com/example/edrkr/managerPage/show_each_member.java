@@ -38,7 +38,7 @@ public class show_each_member extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_each_member);
+        setContentView(R.layout.managerpage_each_member);
         this.InitializeView(); //필요 요소 선언해주는 함수
         SetListener(); //리스너 설정 함수
     }

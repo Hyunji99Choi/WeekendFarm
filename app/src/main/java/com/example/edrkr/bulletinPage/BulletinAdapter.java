@@ -13,7 +13,7 @@ import com.example.edrkr.R;
 
 import java.util.ArrayList;
 //CommentAdapter와 설명 동일
-public class CustomUsersAdapter extends RecyclerView.Adapter<CustomUsersAdapter.MyViewHolder> {
+public class BulletinAdapter extends RecyclerView.Adapter<BulletinAdapter.MyViewHolder> {
     public interface OnItemClickListener{
         void onItemClick(View v, int pos);
     }
@@ -57,17 +57,17 @@ public class CustomUsersAdapter extends RecyclerView.Adapter<CustomUsersAdapter.
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public CustomUsersAdapter(ArrayList<Board> myDataset) {
+    public BulletinAdapter(ArrayList<Board> myDataset) {
         mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public CustomUsersAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BulletinAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater =(LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         // create a new view
-        View v = inflater.inflate(R.layout.boardnotice,parent,false);
+        View v = inflater.inflate(R.layout.view_bulletinpage_board,parent,false);
         MyViewHolder vh = new MyViewHolder(v);
 
         return vh;

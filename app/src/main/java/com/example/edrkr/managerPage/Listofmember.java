@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.edrkr.bulletinPage.CustomUsersAdapter;
+import com.example.edrkr.bulletinPage.BulletinAdapter;
 import com.example.edrkr.NetworkTask;
 import com.example.edrkr.R;
 
@@ -33,7 +33,7 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Log.v("listofmember","member 도착");
-        View view = inflater.inflate(R.layout.listofmember, container,false);
+        View view = inflater.inflate(R.layout.managerpage_listof_member, container,false);
 
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_memberlist);
         recycler_test(); //테스트용 데이터 저장
@@ -57,7 +57,7 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
         recyclerView.setAdapter(mAdapter);
 
         this.InitializeView(); //필요 요소 선언해주는 함수
-        mAdapter.setOnItemClickListener(new CustomUsersAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new BulletinAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
                 Log.v("알림","게시글 클릭 리스너 눌림 pos : "+pos);

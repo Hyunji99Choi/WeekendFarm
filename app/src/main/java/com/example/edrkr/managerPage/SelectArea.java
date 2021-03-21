@@ -16,7 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.edrkr.bulletinPage.CustomUsersAdapter;
+import com.example.edrkr.bulletinPage.BulletinAdapter;
 import com.example.edrkr.R;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_area);
+        setContentView(R.layout.managerpage_selectarea);
 
         recyclerView = (RecyclerView)findViewById(R.id.recycler_selectArea);
         getfromserver();
@@ -62,7 +62,7 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         Log.v("SelectMember","layout adapter 연결");
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new CustomUsersAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new BulletinAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
                 Log.v("SelectMember","게시글 클릭 리스너 눌림 pos : "+pos);

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.edrkr.bulletinPage.CustomUsersAdapter;
+import com.example.edrkr.bulletinPage.BulletinAdapter;
 import com.example.edrkr.NetworkTask;
 import com.example.edrkr.R;
 
@@ -33,7 +33,7 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Log.v("listofare","area 도착");
 
-        View view = inflater.inflate(R.layout.listofarea, container,false);
+        View view = inflater.inflate(R.layout.managerpage_listof_area, container,false);
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_arealist);
         recycler_test(); //테스트용 데이터 저장 - local
         Log.v("listofare","recyclerview id 연결");
@@ -51,7 +51,7 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
         recyclerView.setAdapter(mAdapter);
 
         this.InitializeView(); //필요 요소 선언해주는 함수
-        mAdapter.setOnItemClickListener(new CustomUsersAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new BulletinAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) { //각 밭 클릭시 해당 밭의 사용자 보여주는 page로 이동하는 함수
                 Log.v("알림","게시글 클릭 리스너 눌림 pos : "+pos);

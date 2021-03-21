@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.edrkr.bulletinPage.CustomUsersAdapter;
+import com.example.edrkr.bulletinPage.BulletinAdapter;
 import com.example.edrkr.R;
 
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHold
     public interface OnItemClickListener{
         void onItemClick(View v, int pos);
     }
-    private CustomUsersAdapter.OnItemClickListener mListener = null;
+    private BulletinAdapter.OnItemClickListener mListener = null;
     private ArrayList<Member> mDataset = null;
     int type; // 0 : member 1:area 2 :member_each_area_shape 3: memberhas
 
-    public void setOnItemClickListener(CustomUsersAdapter.OnItemClickListener listener){
+    public void setOnItemClickListener(BulletinAdapter.OnItemClickListener listener){
         this.mListener = listener;
     }
 
@@ -85,16 +85,16 @@ public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHold
         // create a new view
         View v;
         if(type == 0) { //member
-            v = inflater.inflate(R.layout.shape_membername, parent, false);
+            v = inflater.inflate(R.layout.view_managerpage_memberlist, parent, false);
         }
         else if(type == 1){//area
-            v = inflater.inflate(R.layout.shape_areanumber, parent, false);
+            v = inflater.inflate(R.layout.view_managerpage_arealist, parent, false);
         }
         else if(type == 2) {//member_each_area_shape
-            v = inflater.inflate(R.layout.member_each_area_shape, parent, false);
+            v = inflater.inflate(R.layout.view_managerpage_each_area, parent, false);
         }
         else if(type == 3){//memberhas
-            v = inflater.inflate(R.layout.shape_memeberhas, parent, false);
+            v = inflater.inflate(R.layout.view_managerpage_hasmember, parent, false);
         }
         else{
             v = null;
