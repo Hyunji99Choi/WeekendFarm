@@ -148,6 +148,7 @@ public class show_each_board extends AppCompatActivity {
                     List<GetBoard> board = datas.getPost(); //게시글 부분
                     List<GetComment> comment = datas.getComment(); //댓글 부분
                     if(board != null) { //게시글 부분 가져오는 코드
+                        Log.v(TAG,"board가 null");
                         Board b = new Board(board.get(0).getId(), board.get(0).getName(), board.get(0).getTitle(), board.get(0).getBody(), board.get(0).getCommentNum(), board.get(0).getTime());
                         setView(b);
                     }

@@ -57,7 +57,7 @@ public class WritingActivity extends AppCompatActivity {
         post.setUserIdent(UserIdent.GetInstance().getUserIdent()); //병합하면 빨간줄 없어짐.
         Log.v(TAG,"put 완료");
 
-        Call<PostBoard> call = retrofitIdent.GetInstance().getService().postData("forum/create", post);
+        Call<PostBoard> call = retrofitIdent.GetInstance().getService().postData("forum/", post);
         Builder builder = new Builder();
         try {
             builder.tryConnect(TAG, call);

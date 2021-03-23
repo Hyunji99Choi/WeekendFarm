@@ -151,7 +151,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
 
         //레트로핏 통신 기다리게 바꾸기
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-        service.getBoard("forum/test").enqueue(new Callback<List<GetBoard>>() {
+        service.getBoard("forum/").enqueue(new Callback<List<GetBoard>>() {
             @Override
             public void onResponse(Call<List<GetBoard>> call, Response<List<GetBoard>> response) { //서버와 통신하여 반응이 왔다면
                 if(response.isSuccessful()){

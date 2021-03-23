@@ -49,7 +49,7 @@ public class BulletinAdapter extends RecyclerView.Adapter<BulletinAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         viewBinderHelper.setOpenOnlyOne(true);
-        viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(mDataset.get(position).getName()));
+//        viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(mDataset.get(position).getName()));
         viewBinderHelper.closeLayout(String.valueOf(mDataset.get(position).getName()));
         holder.bindData(mDataset.get(position));
 

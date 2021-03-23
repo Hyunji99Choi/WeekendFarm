@@ -1,42 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.chauthai.swipereveallayout.SwipeRevealLayout
+<!--<com.chauthai.swipereveallayout.SwipeRevealLayout-->
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipelayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:dragEdge = "right"
     app:mode="same_level">
 
-    <!--Swipe Layout-->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        tools:ignore="MissingConstraints">
+<!--    android:id="@+id/swipelayout"-->
 
-        <TextView
-            android:id="@+id/txtEdit"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:background="#d2691e"
-            android:layout_gravity="center"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="EDIT"
-            android:textColor="#ffffff"
-            />
+<!--    &lt;!&ndash;Swipe Layout&ndash;&gt;-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="horizontal"-->
+<!--        tools:ignore="MissingConstraints">-->
 
-        <TextView
-            android:id="@+id/txtDelete"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:background="#d269"
-            android:layout_gravity="center"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="DELETE"
-            android:textColor="#ffffff"/>
-    </LinearLayout>
+<!--        <TextView-->
+<!--            android:id="@+id/txtEdit"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="#d2691e"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:gravity="center_vertical|center_horizontal"-->
+<!--            android:text="EDIT"-->
+<!--            android:textColor="#ffffff"-->
+<!--            />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/txtDelete"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="#d269"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:gravity="center_vertical|center_horizontal"-->
+<!--            android:text="DELETE"-->
+<!--            android:textColor="#ffffff"/>-->
+<!--    </LinearLayout>-->
 
     <!--MainLayout-->
     <LinearLayout
@@ -126,4 +128,5 @@
             android:background="@color/gray" />
     </LinearLayout>
 
-</com.chauthai.swipereveallayout.SwipeRevealLayout>
+<!--</com.chauthai.swipereveallayout.SwipeRevealLayout>-->
+</LinearLayout>

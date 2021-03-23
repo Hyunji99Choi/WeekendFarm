@@ -19,7 +19,7 @@ public class GetBoard implements Post { //Board를 가져오는 클래스
     @SerializedName("Content")
     private final String body;
 
-    @SerializedName("commentCnt")
+    @SerializedName("CommentCnt")
     private final int commentCnt;
 
     @SerializedName("date")

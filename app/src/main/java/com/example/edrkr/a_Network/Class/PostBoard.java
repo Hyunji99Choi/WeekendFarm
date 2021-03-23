@@ -3,7 +3,7 @@ package com.example.edrkr.a_Network.Class;
 import com.google.gson.annotations.SerializedName;
 
 public class PostBoard implements Post{ //작성한 글을 보내는 클래스
-    @SerializedName("nickname ")
+    @SerializedName("nickname")
     private String nickname ;
 
     @SerializedName("userIdent")
