@@ -9,7 +9,7 @@ public class PostComment { //작성한 댓글을 보내는 클래스
     @SerializedName("content")
     private String content;
 
-    @SerializedName("userIdent ")
+    @SerializedName("userIdent")
     private int userIdent;
 
     public String getName() {
