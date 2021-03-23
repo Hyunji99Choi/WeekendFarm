@@ -64,7 +64,7 @@ public class UserIdent {
             admin=1;
             farmCount=userIdent.getFarmID().size();
         }
-
+        Log.w("싱글턴","의심 0");
         //JSONArray farm;
 
         //관리 하는 밭 id
@@ -72,6 +72,7 @@ public class UserIdent {
         for(int i = 0; i < userIdent.getFarmID().size(); i++){
             farmID[i]= userIdent.getFarmID().get(i).getAsInt();
         }
+        Log.w("싱글턴","의심 1");
 
         //관리 하는 밭 별명
         //farm = userIdent.getFarmName();
@@ -80,8 +81,12 @@ public class UserIdent {
             farmName[i]= userIdent.getFarmName().get(i).getAsString();
         }
 
+        Log.w("싱글턴","의심 2");
+
         //배열 0번째 밭 초기 설정(현재 내가 모니터링 할 밭)
         nowMontriongFarm=0;
+
+        Log.w("싱글턴","통과");
     }
 
 

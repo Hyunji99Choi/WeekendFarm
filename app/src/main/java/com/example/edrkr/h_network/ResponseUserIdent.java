@@ -40,11 +40,11 @@ public class ResponseUserIdent {
     }
 
     public JsonArray getFarmID() {
-        return farmId;
+        return farmID;
     }
 
     public void setFarmID(JsonArray farmID) {
-        this.farmId = farmID;
+        this.farmID = farmID;
     }
 
     public JsonArray getFarmName() {
@@ -66,7 +66,7 @@ public class ResponseUserIdent {
     private String UserPhoneNum;
     private String UserEmail;
     private String farmCnt;
-    private JsonArray farmId;
+    private JsonArray farmID;
     private JsonArray farmName;
 
 

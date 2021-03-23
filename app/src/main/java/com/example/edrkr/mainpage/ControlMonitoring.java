@@ -109,7 +109,7 @@ public class ControlMonitoring {
     public void updateSensor(int soil,int sunny,double hot,int water){
         String comment="";
         //cctv
-        Log.w("센서 값"," "+soil+" "+sunny+" "+hot+" "+water);
+        Log.w("센서 값"," "+soil+" "+sunny+" "+hot+" "+water+" "+comment);
 
         //토양센서, 프로세스
         page.soil_sensor.setProgress(soil);
