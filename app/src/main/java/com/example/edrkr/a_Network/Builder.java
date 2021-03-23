@@ -40,40 +40,5 @@ public class Builder {
             }
         });
     }
-
-    public ArrayList<Board> listtryConnect(final String TAG, Call call) {
-        final ArrayList<Board> dataset = new ArrayList<Board>();
-        Log.v(tag, "listtryconnect 진입");
-        final ArrayList<GetBoard> data = new ArrayList<>();
-        call.enqueue(new Callback<List<Post>>() { //비동기 작업
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) { //성공 - 메인 스레드에서 처리
-                if (response.isSuccessful()) {
-                    //정상적으로 통신이 성공한 경우
-                    List<Post> post = response.body();
-                    for(int i=0;i<post.size();i++){
-                        GetBoard p = (GetBoard) post.get(i);
-                        Board b = new Board(p.getId(),p.getName(),p.getTitle(),p.getBody(),p.getCommentNum(),p.getTime());
-                        Board tmp = dataset.get(i);
-                        Log.v(tag,tmp.getPos()+", "+tmp.getName()+", "+tmp.getTitle()+", "+tmp.getBody()+", "+tmp.getChat_count()+", "+tmp.getDate());
-                    }
-                    Log.v(TAG, "onResponse: 성공, 결과\n" + post.toString());
-                } else {
-                    //통신이 실패한 경우(응답코드 3xx,4xx 등)
-                    Log.d(TAG, "onResponse: 실패");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) { //실패 - 메인 스레드에서 처리
-                //통신 실패(인터넷 끊김, 예외 발생 등 시스템적인 이유)
-                Log.d(TAG, "onFailure: " + t.getMessage());
-            }
-        });
-        Log.v(TAG,"함수 빠져나옴");
-        Board tmp = dataset.get(1);
-        Log.v(TAG,tmp.getPos()+", "+tmp.getName()+", "+tmp.getTitle()+", "+tmp.getBody()+", "+tmp.getChat_count()+", "+tmp.getDate());
-        Log.v(TAG,"dataset 전송");
-        return dataset;
-    }
 }
+

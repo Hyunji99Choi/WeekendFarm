@@ -11,7 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.edrkr.a_Network.Builder;
-import com.example.edrkr.a_Network.Class.PostWriting;
+import com.example.edrkr.a_Network.Class.PostBoard;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
@@ -50,13 +50,14 @@ public class WritingActivity extends AppCompatActivity {
 
     public void posttoserver(Board b){ //retrofit2를 사용하여 서버로 보내는 코드
         Log.v(TAG,"posttoserver 진입완료");
-        PostWriting post = new PostWriting();
-        post.setName(b.getName());
+        PostBoard post = new PostBoard();
+        post.setNickname(b.getName());
         post.setTitle(b.getTitle());
         post.setContent(b.getBody());
+        post.setUserIdent(UserIdent.GetInstance().getUserIdent()); //병합하면 빨간줄 없어짐.
         Log.v(TAG,"put 완료");
 
-        Call<PostWriting> call = retrofitIdent.GetInstance().getService().postData("forum/create", post);
+        Call<PostBoard> call = retrofitIdent.GetInstance().getService().postData("forum/create", post);
         Builder builder = new Builder();
         try {
             builder.tryConnect(TAG, call);

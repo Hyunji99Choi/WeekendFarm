@@ -73,6 +73,10 @@ dependencies {
     //Gson 변환기 라이브러리 : Json 타입의 응답결과를 객체로 매핑(변환)해주는 Converter
     implementation 'com.squareup.retrofit2:converter-gson:2.6.4'
 
+    //게시판 수정, 삭제 밀어서 보기 라이브러리
+    implementation('com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1')
+
+
     //Scalars 변환기 라이브러리 : 응답 결과를 String 자체로 받아서 보여주는 Converter(사용자가 직접 변환시 사용)
     //implementation 'com.squareup.retrofit:converter-scalars:2.6.4'
 

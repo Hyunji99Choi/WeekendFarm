@@ -7,32 +7,76 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chauthai.swipereveallayout.SwipeRevealLayout;
+import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.example.edrkr.R;
 
 import java.util.ArrayList;
 //CommentAdapter와 설명 동일
 public class BulletinAdapter extends RecyclerView.Adapter<BulletinAdapter.MyViewHolder> {
+
+    private Context context;
+    private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
+    private OnItemClickListener mListener = null;
+    private ArrayList<Board> mDataset;
+
+    // Provide a suitable constructor (depends on the kind of dataset)
+    public BulletinAdapter(Context context,ArrayList<Board> myDataset) {
+        this.context = context;
+        mDataset = myDataset;
+    }
+
+    public void setBoard(ArrayList<Board> mDataset){
+        this.mDataset = new ArrayList<>();
+        this.mDataset = mDataset;
+        notifyDataSetChanged();
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater =(LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        // create a new view
+        View view = LayoutInflater.from(context).inflate(R.layout.view_bulletinpage_board, parent,false);
+
+        return new MyViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        viewBinderHelper.setOpenOnlyOne(true);
+        viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(mDataset.get(position).getName()));
+        viewBinderHelper.closeLayout(String.valueOf(mDataset.get(position).getName()));
+        holder.bindData(mDataset.get(position));
+
+    }
+
     public interface OnItemClickListener{
         void onItemClick(View v, int pos);
     }
-    private OnItemClickListener mListener = null;
-    private ArrayList<Board> mDataset = null;
+
+    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemCount() {
+        return mDataset.size();
+    }
+
 
     public void setOnItemClickListener(OnItemClickListener listener){
         this.mListener = listener;
     }
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
     public class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView title;
         private TextView name;
         private TextView date;
         private TextView chat_count;
+        private SwipeRevealLayout swipeRevealLayout;
 
         public MyViewHolder(View v) {
             super(v);
@@ -54,48 +98,13 @@ public class BulletinAdapter extends RecyclerView.Adapter<BulletinAdapter.MyView
                 }
             });
         }
-    }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public BulletinAdapter(ArrayList<Board> myDataset) {
-        mDataset = myDataset;
-    }
-
-    // Create new views (invoked by the layout manager)
-    @Override
-    public BulletinAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater =(LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        // create a new view
-        View v = inflater.inflate(R.layout.view_bulletinpage_board,parent,false);
-        MyViewHolder vh = new MyViewHolder(v);
-
-        return vh;
-    }
-
-    // Replace the contents of a view (invoked by the layout manager)
-    @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        Log.v("알림","list에 적용");
-        Board board = mDataset.get(position);
-        Log.v("알림","position 가져옴 position : " + position);
-        holder.title.setText(board.getTitle());
-        Log.v("알림","title 가져옴 title :"+ board.getTitle());
-        holder.name.setText(board.getName());
-        Log.v("알림","Name 가져옴 Name :"+ board.getName());
-        holder.chat_count.setText(""+board.getChat_count());
-        Log.v("알림","Chat_count 가져옴 Chat_count :"+ board.getChat_count());
-        holder.date.setText(board.getDate());
-        Log.v("알림","Date 가져옴 Date :"+ board.getDate());
-        Log.v("알림","list에 적용완료");
-    }
-
-    // Return the size of your dataset (invoked by the layout manager)
-    @Override
-    public int getItemCount() {
-        return mDataset.size();
+        void bindData(Board board){
+            title.setText(board.getTitle());
+            name.setText(board.getName());
+            date.setText(board.getDate());
+            chat_count.setText(Integer.toString(board.getChat_count()));
+        }
     }
 
     public void changeDataset(ArrayList<Board> b){

@@ -2,9 +2,12 @@ package com.example.edrkr.a_Network.Class;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PostWriting implements Post{ //작성한 글을 보내는 클래스
-    @SerializedName("name")
-    private String name;
+public class PostBoard implements Post{ //작성한 글을 보내는 클래스
+    @SerializedName("nickname ")
+    private String nickname ;
+
+    @SerializedName("userIdent")
+    private int userIdent;
 
     @SerializedName("title")
     private String title;
@@ -13,13 +16,22 @@ public class PostWriting implements Post{ //작성한 글을 보내는 클래스
     private String content;
 
 
-    public String getName() {
-        return name;
+    public int getUserIdent() {
+        return userIdent;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserIdent(int userIdent) {
+        this.userIdent = userIdent;
     }
+
+    public String getNickname() {
+        return nickname ;
+    }
+
+    public void setNickname(String name) {
+        this.nickname  = name;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -40,7 +52,8 @@ public class PostWriting implements Post{ //작성한 글을 보내는 클래스
     @Override
     public String toString(){
         return "PostResult{"+
-                "name="+ name+
+                "name="+ nickname +
+                "\n, userident="+userIdent+
                 ", title='" +title+'\''+
                 ", content='"+content+'\''+
                 '}';

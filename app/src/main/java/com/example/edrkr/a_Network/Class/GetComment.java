@@ -7,39 +7,39 @@ public class GetComment implements Post{ //댓글을 가져오는 클래스
     @SerializedName("id")
     private final int id;
 
-    @SerializedName("UserName")
-    private final String username;
+    @SerializedName("UserNickName")
+    private final String UserNickName;
 
     @SerializedName("Content")
     private final String content;
 
-    @SerializedName("PostNum")
-    private final int postnum;
+    @SerializedName("commentCnt")
+    private final int commentCnt;
 
-    @SerializedName("createdAt")
-    private final String time;
+    @SerializedName("date")
+    private final String date;
 
     public GetComment(int id, String username, String content, int postnum, String time){
         this.id = id;
-        this.username = username;
+        this.UserNickName = username;
         this.content = content;
-        this.postnum = postnum;
-        this.time = time;
+        this.commentCnt = postnum;
+        this.date = time;
     }
 
     public int getId() {
         return id;
     }
     public String getUsername() {
-        return username;
+        return UserNickName;
     }
     public String getContent() {
         return content;
     }
     public int getPostnum() {
-        return postnum;
+        return commentCnt;
     }
     public String getTime() {
-        return time;
+        return date;
     }
 }

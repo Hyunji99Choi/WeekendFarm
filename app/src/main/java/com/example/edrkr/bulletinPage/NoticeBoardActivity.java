@@ -118,7 +118,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new BulletinAdapter(myDataset); //새로운 adapter 생성 - recyclerview를 작동 시킴
+        mAdapter = new BulletinAdapter(this,myDataset); //새로운 adapter 생성 - recyclerview를 작동 시킴
         recyclerView.setAdapter(mAdapter); //설정해둔 adapter 적용
         refresh(); //새로고침
         Log.v(TAG,"모두 완료");

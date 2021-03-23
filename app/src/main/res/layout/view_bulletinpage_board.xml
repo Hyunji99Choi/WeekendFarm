@@ -1,96 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.chauthai.swipereveallayout.SwipeRevealLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipelayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    app:dragEdge = "right"
+    app:mode="same_level">
+
+    <!--Swipe Layout-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/txtEdit"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#d2691e"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="EDIT"
+            android:textColor="#ffffff"
+            />
+
+        <TextView
+            android:id="@+id/txtDelete"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#d269"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="DELETE"
+            android:textColor="#ffffff"/>
+    </LinearLayout>
+
+    <!--MainLayout-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:layout_weight="5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/board_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="10dp"
+
+                    android:text="TextView"
+                    android:textSize="25dp" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingStart="10dp"
-                    android:layout_weight="5"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/board_title"
+                        android:id="@+id/board_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="10dp"
-
-                        android:text="TextView"
-                        android:textSize="25dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/board_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:paddingLeft="5dp"
-                            android:paddingRight="10dp"
-                            android:text="닉네임"
-                            android:textSize="18dp" />
-
-                        <TextView
-                            android:id="@+id/board_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingRight="10dp"
-
-                            android:text="2020-10-03  21:09"
-                            android:textSize="18dp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/board_count_chat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:paddingTop="20dp"
-                        android:text="3" />
+
+                        android:paddingLeft="10dp"
+                        android:text="닉네임"
+                        android:textSize="18dp" />
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/board_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:paddingBottom="20dp"
-                        android:text="댓글" />
+                        android:layout_weight="4"
+                        android:text="2020-10-03  21:09"
+                        android:textSize="18dp" />
                 </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:id="@+id/view"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/gray" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/board_count_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:text="3" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:paddingBottom="20dp"
+                    android:text="댓글" />
+            </LinearLayout>
         </LinearLayout>
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/gray" />
     </LinearLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

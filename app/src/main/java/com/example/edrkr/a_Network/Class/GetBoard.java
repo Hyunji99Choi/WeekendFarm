@@ -10,8 +10,8 @@ public class GetBoard implements Post { //Board를 가져오는 클래스
     @SerializedName("id")
     private final int id;
 
-    @SerializedName("UserName")
-    private final String name;
+    @SerializedName("UserNickName")
+    private final String UserNickName;
 
     @SerializedName("Title")
     private final String title;
@@ -19,19 +19,19 @@ public class GetBoard implements Post { //Board를 가져오는 클래스
     @SerializedName("Content")
     private final String body;
 
-    @SerializedName("CommentNum")
-    private final int commentNum;
+    @SerializedName("commentCnt")
+    private final int commentCnt;
 
-    @SerializedName("createdAt")
-    private final String time;
+    @SerializedName("date")
+    private final String date;
 
     public GetBoard(int id, String title, String name, String body, int commentNum, String time) {
         this.id = id;
-        this.name = name;
+        this.UserNickName = name;
         this.title = title;
         this.body = body;
-        this.commentNum = commentNum;
-        this.time = time;
+        this.commentCnt = commentNum;
+        this.date = time;
     }
 
 
@@ -40,7 +40,7 @@ public class GetBoard implements Post { //Board를 가져오는 클래스
     }
 
     public String getName() {
-        return name;
+        return UserNickName;
     }
 
     public String getTitle() {
@@ -52,11 +52,11 @@ public class GetBoard implements Post { //Board를 가져오는 클래스
     }
 
     public int getCommentNum() {
-        return commentNum;
+        return commentCnt;
     }
 
     public String getTime() {
-        return time;
+        return date;
     }
 
 
@@ -65,11 +65,11 @@ public class GetBoard implements Post { //Board를 가져오는 클래스
     public String toString(){
         return "PostResult{"+
                 "Id="+ id+
-                ", UserName="+ name+
+                ", UserName="+ UserNickName+
                 ", title='" +title+'\''+
                 ", content='"+body+'\''+
-                ", CommentNum='"+commentNum+'\''+
-                ", createdAt='"+time+'\''+
+                ", CommentNum='"+commentCnt+'\''+
+                ", createdAt='"+date+'\''+
                 '}';
     }
 }

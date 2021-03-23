@@ -213,6 +213,7 @@ public class show_each_board extends AppCompatActivity {
         PostComment comment = new PostComment();
         comment.setName( UserIdent.GetInstance().getNkname());
         comment.setContent(show_EditText.getText().toString());
+        comment.setUserIdent(UserIdent.GetInstance().getUserIdent());
         Log.v(TAG,"put 완료");
 
         Call<PostComment> call = retrofitIdent.GetInstance().getService().postComment(URL, comment);
