@@ -57,7 +57,8 @@ public class ControlMonitoring {
 
                 //센서 값 업데이트 updateSensor(soild,sunny,hot,water);
                 updateSensor(Integer.parseInt(sensorJson.getSoil()),Integer.parseInt(sensorJson.getLight()),
-                        Double.parseDouble(sensorJson.getTemp()),Integer.parseInt(sensorJson.getHumi()));
+                        Double.parseDouble(sensorJson.getTemp()),Integer.parseInt(sensorJson.getHumi()),
+                        sensorJson.getComment());
 
             }
 
@@ -102,14 +103,15 @@ public class ControlMonitoring {
         cctv1.cctvURLSetting(url1);
         cctv2.cctvURLSetting(url2);
         cctv3.cctvURLSetting(url3);
+        Log.w("cctv url"," "+url1+" "+url2+" "+url3);
     }
 
 
     //센서값들 세팅파기
-    public void updateSensor(int soil,int sunny,double hot,int water){
-        String comment="";
+    public void updateSensor(int soil,int sunny,double hot,int water,String comment){
         //cctv
-        Log.w("센서 값"," "+soil+" "+sunny+" "+hot+" "+water+" "+comment);
+        Log.w("센서 값"," "+soil+" "+sunny+" "+hot+" "+water);
+        Log.w("코멘트"," "+comment);
 
         //토양센서, 프로세스
         page.soil_sensor.setProgress(soil);
