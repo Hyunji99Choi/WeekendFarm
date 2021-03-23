@@ -34,7 +34,8 @@ public class UserIdent {
     private String name; //값 안받아옴.
 
 
-    //관리자 권한 여부
+
+    private int UserIdent; //유저 고유 번호 *****
 
     private String nkname; //닉네임
     private String phon; //폰 번호
@@ -48,9 +49,12 @@ public class UserIdent {
 
     //ResponseUserIdent 객체 받기
     public void setResponseUserIdent(ResponseUserIdent userIdent) {
-        nkname = userIdent.getUserName(); //닉네임
+        nkname = userIdent.getUserNickName(); //닉네임
         phon = userIdent.getUserPhoneNum(); //폰 번호
         email = userIdent.getUserEmail(); //이메일
+        name = userIdent.getUserName(); //이름
+        UserIdent = Integer.parseInt(userIdent.getUserIdent()); //유저 고유번호
+
 
         //권한 여부, -1일 경우 관리자
         farmCount =  Integer.parseInt(userIdent.getFarmNum()) ; //밭 개수
@@ -73,40 +77,6 @@ public class UserIdent {
         farmName = new String[userIdent.getFarmName().size()];
         for(int i = 0; i < userIdent.getFarmName().size(); i++){
             farmName[i]= userIdent.getFarmName().get(i).getAsString();
-        }
-
-        //배열 0번째 밭 초기 설정(현재 내가 모니터링 할 밭)
-        nowMontriongFarm=0;
-    }
-
-    //json 객체 받기, 없애기
-    public void setJSONUserIdent(JSONObject JsonUser) throws JSONException {
-        nkname = JsonUser.getString("UserName"); //닉네임
-        phon = JsonUser.getString("UserPhoneNum"); //폰 번호
-        email = JsonUser.getString("UserEmail"); //이메일
-
-        //권한 여부, -1일 경우 관리자
-        farmCount =  Integer.parseInt(JsonUser.getString("farmNum")) ; //밭 개수
-
-        //관리 하는 밭 id
-        JSONArray farm = JsonUser.getJSONArray("farmID");
-
-        if(farmCount==-1){ //관리자 일 경우
-            admin=1;
-            farmCount=farm.length();
-        }
-
-
-        farmID = new int[farm.length()];
-        for(int i = 0; i < farm.length(); i++){
-            farmID[i]= (int)farm.get(i);
-        }
-
-        //관리 하는 밭 별명
-        farm = JsonUser.getJSONArray("farmName");
-        farmName = new String[farm.length()];
-        for(int i = 0; i < farm.length(); i++){
-            farmName[i]= (String) farm.get(i);
         }
 
         //배열 0번째 밭 초기 설정(현재 내가 모니터링 할 밭)
@@ -157,6 +127,7 @@ public class UserIdent {
     public void setFarmCount(int farmCount) { this.farmCount = farmCount; }
     public void setFarmID(int[] farmID) { this.farmID = farmID; }
     public void setFarmName(String[] farmName) { this.farmName = farmName; }
+    public void setUserIdent(int userIdent) { UserIdent = userIdent; }
 
     //getting
     public String getId() { return id; }
@@ -169,6 +140,7 @@ public class UserIdent {
     public String getEmail() { return email; }
     public int getAdmin() { return admin; }
     public String getFarmName(int i) { return farmName[i]; }
+    public int getUserIdent() { return UserIdent; }
 
 
 

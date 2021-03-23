@@ -32,19 +32,19 @@ public class ResponseUserIdent {
     }
 
     public String getFarmNum() {
-        return farmNum;
+        return farmCnt;
     }
 
     public void setFarmNum(String farmNum) {
-        this.farmNum = farmNum;
+        this.farmCnt = farmNum;
     }
 
     public JsonArray getFarmID() {
-        return farmID;
+        return farmId;
     }
 
     public void setFarmID(JsonArray farmID) {
-        this.farmID = farmID;
+        this.farmId = farmID;
     }
 
     public JsonArray getFarmName() {
@@ -56,13 +56,22 @@ public class ResponseUserIdent {
     }
 
 
+    public String getUserNickName() { return UserNickName; }
+    public void setUserNickName(String userNickName) { UserNickName = userNickName; }
+    public String getUserIdent() { return UserIdent; }
+    public void setUserIdent(String userIdent) { UserIdent = userIdent; }
+
 
     private String UserName;
     private String UserPhoneNum;
     private String UserEmail;
-    private String farmNum;
-    private JsonArray farmID;
+    private String farmCnt;
+    private JsonArray farmId;
     private JsonArray farmName;
+
+
+    private String UserNickName; //닉네임
+    private String UserIdent; //유저 고유의 번호
 
 
 }

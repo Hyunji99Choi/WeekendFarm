@@ -53,7 +53,7 @@ public class sub_page1 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.sub_page1,container,false);
+        View view=inflater.inflate(R.layout.mainpage_sub_page1,container,false);
 
         soil_sensor= view.findViewById(R.id.soil_sensor);
         sunny_sensor=view.findViewById(R.id.sunny_sensor);

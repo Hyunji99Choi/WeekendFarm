@@ -59,7 +59,7 @@ public class MonitoringPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monitoring);
+        setContentView(R.layout.mainpage_monitoring);
 
 
         //각 요소들 연결 - toolbar, tab, tab-viewpager, drawer 등
