@@ -1,7 +1,6 @@
 package com.example.edrkr;
 
 import android.os.Bundle;
-import android.os.health.PackageHealthStats;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -23,7 +22,7 @@ public class KeyCreatePage extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.key_create_page);
+        setContentView(R.layout.subpage_key_create_page);
 
         phonNumber = findViewById(R.id.key_phonNumber);
         keyValue = findViewById(R.id.key_TextKeyValue);

@@ -53,7 +53,7 @@ public class sub_page1 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.sub_page1,container,false);
+        View view=inflater.inflate(R.layout.mainpage_sub_page1,container,false);
 
         soil_sensor= view.findViewById(R.id.soil_sensor);
         sunny_sensor=view.findViewById(R.id.sunny_sensor);
@@ -123,7 +123,12 @@ public class sub_page1 extends Fragment {
         if(UserIdent.GetInstance().getFarmCount()==0){ //밭이 0개이면 실행.
             //밭이 없으니 0으로 세팅
             ControlMonitoring.GetInstance().updateSensor(0,0,0.0,0);
+        }else {
+            //cctv 센서 통신
+            Log.w("cctv","cctv 통신");
+            ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
         }
+
 
 
         //정민이 통신
@@ -143,10 +148,7 @@ public class sub_page1 extends Fragment {
                 Log.w("현재 통신대상",""+UserIdent.GetInstance().getNowMontriongFarm());
                 ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
 
-                //cctv
-                Log.w("ccctv","cctv 통신");
-                ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
-            }
+                }
         };
 
         timer=new Timer();

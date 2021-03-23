@@ -17,7 +17,7 @@ public class sub_page3 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.sub_page3,container,false);
+        View view=inflater.inflate(R.layout.mainpage_sub_page3,container,false);
         return view;
 
     }

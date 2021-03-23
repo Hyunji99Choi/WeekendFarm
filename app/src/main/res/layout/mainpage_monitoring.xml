@@ -127,7 +127,7 @@
             android:layout_width="230dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:headerLayout="@layout/navi_header"
+            app:headerLayout="@layout/mainpage_navi_header"
             app:menu="@menu/drawer"
             />
 

@@ -33,7 +33,7 @@ public interface RetrofitAPI {
     );
 
     @FormUrlEncoded
-    @POST("users/") //회원가입 승인
+    @POST("users/signUp") //회원가입 승인
     Call<String> registerLogin(
             @Field("id") String id,
             @Field("pw") String pw,
@@ -47,13 +47,29 @@ public interface RetrofitAPI {
 
     //모니터링 페이지
 
+    //날씨 통신
+    @GET("wheather") //날씨
+    Call<ResponseWeatherJson> getSensor();
+
     //센서 통신
-    @GET("/sensor/field{farm}") //로그인 후 회원정보 요청
+    @GET("sensor/field{farm}") //로그인 후 회원정보 요청
     Call<ResponseSensorJson> getSensor(@Path("farm") String farm);
 
     //cctv 통신
-    @GET("/camera/{farm}") //로그인 후 회원정보 요청
-    Call<ResponseCCTVJson> getCCTV(@Path("farm") String farm);
+    @GET("camera/{Farmid}") //로그인 후 회원정보 요청
+    Call<ResponseCCTVJson> getCCTV(@Path("Farmid") String Farmid);
+
+    //그래프 통신
+
+
+
+    //서브 페이지
+
+    //새로운 밭의 키 값 생성
+    @POST("manage/newBie")
+    Call<String> registerkeyCreat(
+            @Field("farmNum") int[] farmNum //밭 아이디 순
+    );
 
 
 }

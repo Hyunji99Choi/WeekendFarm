@@ -38,6 +38,8 @@
         <activity android:name=".firstpage.login_SingUpPage"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
+        <activity android:name=".subpage.subpage_userIdnetChange"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".KeyCreatePage"></activity>
         <!--이아름 병합-->
         <activity android:name=".managerPage.SelectArea"

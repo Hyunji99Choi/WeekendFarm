@@ -35,11 +35,16 @@ public class ResponseSensorJson {
         this.humi = humi;
     }
 
+    public String getComment() { return comment; }
+    public void setComment(String comment) { this.comment = comment; }
+
 
     private String soil; // 토양습도
     private String light; // 조도
     private String temp; // 공기 온도
     private String humi; // 공기 습도
+
+    private String comment; // 센서 총 코멘트
 
 
 

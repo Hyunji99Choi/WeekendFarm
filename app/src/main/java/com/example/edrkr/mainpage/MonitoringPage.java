@@ -25,6 +25,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.edrkr.KeyCreatePage;
 import com.example.edrkr.managerPage.Managerpage;
 import com.example.edrkr.bulletinPage.NoticeBoardActivity;
+import com.example.edrkr.subpage.subpage_userIdnetChange;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
 import com.example.edrkr.baner_Adapter;
@@ -58,7 +59,7 @@ public class MonitoringPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monitoring);
+        setContentView(R.layout.mainpage_monitoring);
 
 
         //각 요소들 연결 - toolbar, tab, tab-viewpager, drawer 등
@@ -172,8 +173,11 @@ public class MonitoringPage extends AppCompatActivity {
                 UserIdent.GetInstance().setNowMontriongFarm(i); //이제 통신할 값은 이 밭이라고 선언.
                 farmTitile.setText(UserIdent.GetInstance().getFarmName(i));
 
+                //각 밭 선택에 따른 cctv 통신
+                ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(i));
                 //각 밭 선택에 따른 통신 및 센서값 세팅
                 ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(i));
+
 
 
                 dialogInterface.dismiss();
@@ -230,7 +234,13 @@ public class MonitoringPage extends AppCompatActivity {
 
     //헤더 클릭 이벤트
     public void onClickHeader(View view){ //메뉴 헤더 클릭시
+
+        Intent userChange = new Intent(MonitoringPage.this, subpage_userIdnetChange.class);
+        startActivity(userChange);
+
         Toast.makeText(this,"헤더 클릭",Toast.LENGTH_SHORT).show();
+
+
     }
 
 }
