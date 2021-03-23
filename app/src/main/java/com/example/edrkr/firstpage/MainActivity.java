@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //싱글턴 저장
                 UserIdent.GetInstance().setResponseUserIdent(userIdent);
+                Log.w("자료형 통과","정상적인 저장");
                 UserIdent.GetInstance().setId(UserID);
                 UserIdent.GetInstance().setPw(UserPW);
 

@@ -56,6 +56,7 @@ public class UserIdent {
         UserIdent = Integer.parseInt(userIdent.getUserIdent()); //유저 고유번호
 
 
+
         //권한 여부, -1일 경우 관리자
         farmCount =  Integer.parseInt(userIdent.getFarmNum()) ; //밭 개수
 
