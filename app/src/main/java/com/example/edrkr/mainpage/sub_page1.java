@@ -122,7 +122,7 @@ public class sub_page1 extends Fragment {
 
         if(UserIdent.GetInstance().getFarmCount()==0){ //밭이 0개이면 실행.
             //밭이 없으니 0으로 세팅
-            ControlMonitoring.GetInstance().updateSensor(0,0,0.0,0);
+            ControlMonitoring.GetInstance().updateSensor(0,0,0.0,0," ");
         }else {
             //cctv 센서 통신
             Log.w("cctv","cctv 통신");

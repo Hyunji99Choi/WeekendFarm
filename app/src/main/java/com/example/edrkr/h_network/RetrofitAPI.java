@@ -48,7 +48,7 @@ public interface RetrofitAPI {
     //모니터링 페이지
 
     //날씨 통신
-    @GET("wheather") //날씨
+    @GET("wheather") //날씨 *
     Call<ResponseWeatherJson> getSensor();
 
     //센서 통신
@@ -60,16 +60,20 @@ public interface RetrofitAPI {
     Call<ResponseCCTVJson> getCCTV(@Path("Farmid") String Farmid);
 
     //그래프 통신
-
+    //get
 
 
     //서브 페이지
 
-    //새로운 밭의 키 값 생성
+    //회원정보 수정
+    //patch?
+
+    //새로운 밭의 키 값 생성 -> 수정 될거임.(나중에 연락)
     @POST("manage/newBie")
     Call<String> registerkeyCreat(
             @Field("farmNum") int[] farmNum //밭 아이디 순
     );
+
 
 
 }
