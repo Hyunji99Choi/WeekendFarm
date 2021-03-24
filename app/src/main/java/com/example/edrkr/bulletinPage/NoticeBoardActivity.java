@@ -160,9 +160,9 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
                     if(datas != null){
                         Log.v(TAG, "datas 받아오기 완료 datas.size = " +datas.size());
                         for(int i = 0;i<datas.size();i++){
-                            Log.v(TAG,"data" + i + datas.get(i).getTitle()+"");
+                            Log.v(TAG,"data" + datas.get(i).getId() + datas.get(i).getTitle()+"");
                             //받아온 데이터 Board 클래스에 저장
-                            Board b = new Board(i,datas.get(i).getName(),datas.get(i).getTitle(),datas.get(i).getBody(),datas.get(i).getCommentNum(),datas.get(i).getTime());
+                            Board b = new Board(datas.get(i).getId(),datas.get(i).getName(),datas.get(i).getTitle(),datas.get(i).getBody(),datas.get(i).getCommentNum(),datas.get(i).getTime());
                             Log.v(TAG,"board 생성 완료");
                             dataset.add(b); //저장한 Board 클래스 arraylist에 넣음.
                         }
