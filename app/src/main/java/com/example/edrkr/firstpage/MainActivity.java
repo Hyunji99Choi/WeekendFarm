@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()){
                     Log.e("연결이 비정상적", "error code : " + response.code());
+                    //실패시 메시지 띄우는거 추가하기
                     return;
                 }
 
