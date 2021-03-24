@@ -9,6 +9,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -27,4 +28,7 @@ public interface RetrofitService {
 
     @POST("{post}") //댓글 쓰기 부분 call
     Call<PostComment> postComment(@Path(value = "post",encoded = true) String post, @Body PostComment comment);
+
+    @DELETE("{post}") //게시글 삭제 부분
+    Call<Void> deleteBoard(@Path(value = "post",encoded = true)String post);
 }

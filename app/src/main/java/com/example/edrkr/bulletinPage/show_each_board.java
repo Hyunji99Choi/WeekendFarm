@@ -106,7 +106,7 @@ public class show_each_board extends AppCompatActivity {
         Log.v(TAG,"show_each_board 클래스 실행");
         int pos = intent.getIntExtra("pos",0); //몇번 게시글이 클릭 되었는지 가져옴.
         Log.v(TAG,"pos : " + pos);
-        URL = URL + (pos+1);
+        URL = URL + (pos);
         Log.v(TAG,"URL :"+URL);
 
         //recyclerview 세팅
@@ -220,7 +220,7 @@ public class show_each_board extends AppCompatActivity {
         Call<PostComment> call = retrofitIdent.GetInstance().getService().postComment(URL, comment);
         Builder builder = new Builder();
         try {
-            builder.tryConnect(TAG, call);
+            builder.tryPost(call);
         }catch (Exception e){
             e.printStackTrace();
         }

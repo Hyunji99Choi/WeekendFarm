@@ -60,7 +60,7 @@ public class WritingActivity extends AppCompatActivity {
         Call<PostBoard> call = retrofitIdent.GetInstance().getService().postData("forum/", post);
         Builder builder = new Builder();
         try {
-            builder.tryConnect(TAG, call);
+            builder.tryPost(call);
         }catch (Exception e){
             e.printStackTrace();
         }
