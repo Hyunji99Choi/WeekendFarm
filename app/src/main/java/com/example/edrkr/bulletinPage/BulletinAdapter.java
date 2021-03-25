@@ -131,7 +131,7 @@ public class BulletinAdapter extends RecyclerView.Adapter<BulletinAdapter.MyView
                             swipeClickListener.onEditClick(v,pos);
                         }
                     }
-                    Toast.makeText(context,"Edit is Clicked",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(context,"Edit is Clicked",Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -147,7 +147,7 @@ public class BulletinAdapter extends RecyclerView.Adapter<BulletinAdapter.MyView
                             Log.v(TAG,pos+"번이 클릭됨");
                         }
                     }
-                    Toast.makeText(context,"Deleted is Clicked",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(context,"Deleted is Clicked",Toast.LENGTH_LONG).show();
                 }
             });
         }

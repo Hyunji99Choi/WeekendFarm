@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.edrkr.UserIdent;
 import com.example.edrkr.a_Network.Class.GetBoard;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
@@ -44,6 +45,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     private ActionBar actionBar;
     private int num = -1;
     private SwipeRefreshLayout refreshLayout;
+    private String usernickname;
     private ArrayList<Board> myDataset = new ArrayList<>(); //리사이클러뷰에 표시할 데이터 리스트 생성
     private String TAG = "areum/noticeboardactivity"; //log에 사용하는 tag 생성
 
@@ -58,6 +60,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         Log.v(TAG,"oncreate진입");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bulletinpage_main);
+        usernickname = UserIdent.GetInstance().getNkname();
 
         this.InitializeView(); //필요 요소 선언해주는 함수
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -98,16 +101,39 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
             }
             @Override
             public void onDeleteClick(View v, int pos){
-                Log.v(TAG,"onDelete 클릭 pos "+pos);
-                num = pos;
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                Log.v(TAG, myDataset.get(pos).getName()+", "+usernickname);
+                if(myDataset.get(pos).getName() == null ||usernickname == null){
+                    Log.v(TAG,"null 확인");
+                    return;
+                }
+                if(myDataset.get(pos).getName().compareTo(usernickname)==0){
+                    Log.v(TAG,"onDelete 클릭 pos "+pos);
+                    num = pos;
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }else {
+                    Toast.makeText(getApplication(), "삭제할 권한이 없습니다.", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onEditClick(View v, int pos){
-                Log.v(TAG,"onEdit 클릭 pos "+pos);
-
+                Log.v(TAG, myDataset.get(pos).getName()+", "+usernickname);
+                if(myDataset.get(pos).getName() == null ||usernickname == null){
+                    Log.v(TAG,"null 확인");
+                    return;
+                }
+                if(myDataset.get(pos).getName().compareTo(usernickname)==0) {
+                    Log.v(TAG, "onEdit 클릭 pos " + pos);
+                    Intent intent = new Intent(NoticeBoardActivity.this, WritingActivity.class);
+                    intent.putExtra("type", 1);
+                    Board b = myDataset.get(pos);
+                    intent.putExtra("board", b);
+                    intent.putExtra("pos",myDataset.get(pos).getPos());
+                    startActivityForResult(intent,1); //writing activity에서 값을 다시 받아오기 위해서 사용
+                }else {
+                    Toast.makeText(getApplication(), "수정할 권한이 없습니다.", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -121,6 +147,9 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
             public void onClick(View view){ //+ 버튼 클릭시 실행
                 Log.v(TAG,"글쓰기 버튼 눌림");
                 Intent intent = new Intent(NoticeBoardActivity.this, WritingActivity.class);
+                intent.putExtra("type",0);
+                Board b = new Board();
+                intent.putExtra("board",b);
                 startActivityForResult(intent,1); //writing activity에서 값을 다시 받아오기 위해서 사용
             }
         });
@@ -170,9 +199,6 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         //myDataset = getfromlocal(); //로컬
         getBoardData(); //비동기 retrofit
         //recyclerview의 adapter를 새로 설정
-        mAdapter.changeDataset(myDataset);
-        recyclerView.removeAllViewsInLayout();
-        recyclerView.setAdapter(mAdapter);
         Log.v(TAG,"새로고침 완료");
     }
 
@@ -227,7 +253,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
                     if(datas != null){
                         Log.v(TAG, "datas 받아오기 완료 datas.size = " +datas.size());
                         for(int i = 0;i<datas.size();i++){
-                            Log.v(TAG,"data" + datas.get(i).getId() + datas.get(i).getTitle()+"");
+                            Log.v(TAG,"data" + datas.get(i).getId()+" "+ datas.get(i).getTitle()+" "+datas.get(i).getBody()+"");
                             //받아온 데이터 Board 클래스에 저장
                             Board b = new Board(datas.get(i).getId(),datas.get(i).getName(),datas.get(i).getTitle(),datas.get(i).getBody(),datas.get(i).getCommentNum(),datas.get(i).getTime());
 //                            Log.v(TAG,"board 생성 완료");
@@ -235,12 +261,12 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
                         }
                         Log.v(TAG,"getData2 end================================");
 //                        Log.v(TAG,"dataset 크기 : "+dataset.size());
-                        //adapter 설정
-                        mAdapter.changeDataset(dataset);
-                        recyclerView.removeAllViewsInLayout();
-                        recyclerView.setAdapter(mAdapter);
                         Log.v(TAG,"recyclerview 적용");
                         myDataset = dataset; //Board 데이터 셋을 서버를 통해 받은 데이터 셋으로 변경
+                        //adapter 설정
+                        mAdapter.changeDataset(myDataset);
+                        recyclerView.removeAllViewsInLayout();
+                        recyclerView.setAdapter(mAdapter);
                     }
                 }else{
                     Log.v(TAG, "onResponse: 실패");

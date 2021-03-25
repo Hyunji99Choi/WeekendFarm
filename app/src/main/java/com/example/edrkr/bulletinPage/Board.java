@@ -7,12 +7,12 @@ import java.util.ArrayList;
 
 public class Board implements Serializable {
     private int pos; //게시글 번호
-    private String title; //게시글 제목
+    private String title = ""; //게시글 제목
     private String name = "name"; //작성자 이름
     private String date = "0년 0월 0일  0:0"; //작성 시간
     private int chat_count = 0; //댓글 개수
     private int good_count = 0; //좋아요 숫자 - 없어질 예정
-    private String body; //게시글 본문
+    private String body =""; //게시글 본문
     private ArrayList<Comment> comments = new ArrayList<>(); //댓글 저장하는 arraylist
 
     Board() {} // 생성자

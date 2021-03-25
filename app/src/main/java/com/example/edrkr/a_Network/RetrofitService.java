@@ -2,6 +2,7 @@ package com.example.edrkr.a_Network;
 
 import com.example.edrkr.a_Network.Class.GetBoard;
 import com.example.edrkr.a_Network.Class.GetEachBoard;
+import com.example.edrkr.a_Network.Class.PatchBoard;
 import com.example.edrkr.a_Network.Class.PostComment;
 import com.example.edrkr.a_Network.Class.PostBoard;
 
@@ -11,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -31,4 +33,8 @@ public interface RetrofitService {
 
     @DELETE("{post}") //게시글 삭제 부분
     Call<Void> deleteBoard(@Path(value = "post",encoded = true)String post);
+
+    @PATCH("{post}") //게시글 수정부분
+    Call<PatchBoard> patchBoard(@Path(value = "post",encoded = true)String post, @Body PatchBoard patch);
+
 }
