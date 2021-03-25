@@ -29,6 +29,7 @@ import com.example.edrkr.subpage.subpage_userIdnetChange;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
 import com.example.edrkr.baner_Adapter;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -53,6 +54,7 @@ public class MonitoringPage extends AppCompatActivity {
     TextView naviHeaderName; //네거티브 메뉴 헤더 이름
     TextView naviHeaderEmail; //네거티브 메뉴 헤더 이메일
 
+    FloatingActionButton fab; //일지 쓰기 버튼, fab 버튼
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -70,8 +72,8 @@ public class MonitoringPage extends AppCompatActivity {
         if(UserIdent.GetInstance().getFarmCount()!=0) //밭이 0이면 실행안함. --> 쓰레기값이나 빈 값이어도 실행 안되게 하기(수정해야함.)
             farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm()));
 
-        //날씨, 오늘의 작물 view pager 세팅, 하단 베너 --> 대대적인 수정이 있어야함
-        initWeatherSetting();
+        // view pager 세팅, 하단 베너 --> 대대적인 수정이 있어야함
+        //initWeatherSetting();
 
         //draw 메뉴 클릭 리스너(페이지 이동)
         drawerMenuSetting();
@@ -118,9 +120,12 @@ public class MonitoringPage extends AppCompatActivity {
         drawerLayout.addDrawerListener(drawerToggle); //누를때마다 아이콘이 팽그르 돈다
         drawerToggle.syncState();//삼선 메뉴 추가
 
+        //일지 쓰기 버튼 연결(fab)
+        fab = findViewById(R.id.fab_main);
     }
 
-    //하단 베너(날씨) 세팅 및 연결
+    /*
+    //하단 베너 세팅 및 연결
     void initWeatherSetting(){
 
         //Viewpager2
@@ -146,6 +151,8 @@ public class MonitoringPage extends AppCompatActivity {
 
         });
     }
+    */
+
 
     //타이틀 클릭 이벤트
     public void onClickTextView(View view){
@@ -240,6 +247,14 @@ public class MonitoringPage extends AppCompatActivity {
 
         Toast.makeText(this,"헤더 클릭",Toast.LENGTH_SHORT).show();
 
+
+    }
+
+    //플로팅 버튼 클릭 이벤트
+    public void fabOnClick(View view){
+        fab.setImageResource(R.drawable.ic_main_fab_writting_button);
+
+        //글쓰기 다이로그 열기
 
     }
 

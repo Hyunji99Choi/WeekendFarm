@@ -34,7 +34,7 @@
                 app:titleEnabled="false">
 
                 <ImageView
-                    android:id="@+id/htab_header"
+                    android:id="@+id/toolbar_imageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/toolbar_image"
@@ -107,7 +107,26 @@
             android:layout_width="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+
+            <!--fab 플로팅 버튼-->
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="15dp"
+                android:adjustViewBounds="true"
+                android:backgroundTint="#C127697C"
+                android:onClick="fabOnClick"
+                android:paddingHorizontal="18dp"
+                android:paddingBottom="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_main_fab_button"
+                app:pressedTranslationZ="12dp" />
+
+
         <!--베너 -->
+            <!--
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/baner"
             android:clipToPadding="false"
@@ -116,6 +135,7 @@
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="25dp"/>
+            -->
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
