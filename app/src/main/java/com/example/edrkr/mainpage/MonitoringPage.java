@@ -1,19 +1,28 @@
 package com.example.edrkr.mainpage;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +41,8 @@ import com.example.edrkr.baner_Adapter;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class MonitoringPage extends AppCompatActivity {
 
@@ -55,6 +66,8 @@ public class MonitoringPage extends AppCompatActivity {
     TextView naviHeaderEmail; //네거티브 메뉴 헤더 이메일
 
     FloatingActionButton fab; //일지 쓰기 버튼, fab 버튼
+
+    Dialog writDialog; //일지 다이로그
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -255,7 +268,38 @@ public class MonitoringPage extends AppCompatActivity {
         fab.setImageResource(R.drawable.ic_main_fab_writting_button);
 
         //글쓰기 다이로그 열기
+        writDialog = new Dialog(this); //그때그때 객체 생성 고민해보기
+        writDialog.setContentView(R.layout.today_writting_custom_dialog);
+        settingDialog(writDialog);
+        writDialog.show();
 
     }
+
+    //글쓰기 다이로그 세팅
+    private void settingDialog(final Dialog writDialog){ //닫힘 방지 만들기
+
+        //세팅
+        TextInputLayout inputLayout = writDialog.findViewById(R.id.inputlayout);
+        inputLayout.setCounterEnabled(true);
+        inputLayout.setCounterMaxLength(145);
+        TextInputEditText editText = writDialog.findViewById(R.id.body);
+
+    }
+
+    public void dialogOnClick(View view){
+
+        switch (view.getId()){
+            case R.id.back: // x 버튼 (닫기)
+                writDialog.dismiss();
+                fab.setImageResource(R.drawable.ic_main_fab_button);
+                break;
+            case R.id.check:
+                //일지 서버에 전송
+                writDialog.dismiss();
+                fab.setImageResource(R.drawable.ic_main_fab_button);
+                break;
+        }
+    }
+
 
 }
