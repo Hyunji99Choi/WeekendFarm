@@ -1,5 +1,6 @@
 package com.example.edrkr.bulletinPage;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,6 +53,8 @@ public class show_each_board extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private SwipeRefreshLayout refreshLayout;
     private InputMethodManager manager;
+    private int num = -1;
+    private String usernickname;
     private Board b = new Board(-1);
     private ArrayList<Comment> myDataset = new ArrayList<>();
     Intent intent;
@@ -79,6 +83,7 @@ public class show_each_board extends AppCompatActivity {
         manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
 
         intent = getIntent();
+        usernickname = UserIdent.GetInstance().getNkname();
 
         refreshLayout = (SwipeRefreshLayout)findViewById(R.id.refresh_board);
 
@@ -118,7 +123,7 @@ public class show_each_board extends AppCompatActivity {
         getBoardData(); //통신으로 게시글 정보 가져옴
 
         // specify an adapter (see also next example)
-        mAdapter = new CommentAdapter(myDataset);
+        mAdapter = new CommentAdapter(this,myDataset);
         show_recyclerview.setAdapter(mAdapter);
         Log.v(TAG,"adapter 설정 완료");
     }
@@ -126,7 +131,7 @@ public class show_each_board extends AppCompatActivity {
     public ArrayList<Comment> getlocal() {  //로컬로 게시글 세팅하는 함수
         ArrayList<Comment> dataset = new ArrayList<>();
         for(int i = 0;i<10;i++){
-            Comment c = new Comment("NAME"+i,"BODYdfafdfds\nfdsfdsfdsfdfdfdfddfd\ndfdddfddddfdfdfd123\n4f56d14651461"+i,"0000-00-00");
+            Comment c = new Comment(i,"NAME"+i,"BODYdfafdfds\nfdsfdsfdsfdfdfdfddfd\ndfdddfddddfdfdfd123\n4f56d14651461"+i,"0000-00-00");
             dataset.add(c);
         }
         return dataset;
@@ -155,8 +160,8 @@ public class show_each_board extends AppCompatActivity {
                     if(comment != null){ //댓글 가져오는 코드
                         Log.v(TAG, "comment 받아오기 완료 comment.size = " +comment.size());
                         for(int i = 0;i<comment.size();i++){
-                            Log.v(TAG,"comment" + i + comment.get(i).getContent()+"");
-                            Comment c = new Comment(comment.get(i).getUsername(),comment.get(i).getContent(),comment.get(i).getTime());
+                            Log.v(TAG,"comment" + comment.get(i).getId() + comment.get(i).getContent()+"");
+                            Comment c = new Comment(comment.get(i).getId(),comment.get(i).getUsername(),comment.get(i).getContent(),comment.get(i).getTime());
                             Log.v(TAG,"comment 생성 완료");
                             dataset.add(c);
                         }
@@ -207,7 +212,98 @@ public class show_each_board extends AppCompatActivity {
             }
         };
         show_addbutton.setOnClickListener(Listener);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("정말 삭제하시겠습니까?");
+        alertDialogBuilder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.v(TAG,"삭제");
+                if(num != -1) {
+                    setDelete(myDataset.get(num).getId());
+                    Log.v(TAG, myDataset.get(num).getId()+" onDeleteclick 삭제완료");
+                    num = -1;
+                }else{
+                    Log.v(TAG, "통신오류");
+                }
+            }
+        });
+        alertDialogBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.v(TAG,"최소");
+                Toast.makeText(getApplication(),"취소되었습니다.",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        mAdapter.setSwipeClickListener(new CommentAdapter.onSwipeClickListener(){
+            @Override
+            public void onDeleteCommentClick(View v, int pos){
+                Log.v(TAG, myDataset.get(pos).getName()+", "+usernickname);
+                if(myDataset.get(pos).getName() == null ||usernickname == null){
+                    Log.v(TAG,"null 확인");
+                    return;
+                }
+                if(myDataset.get(pos).getName().compareTo(usernickname)==0){
+                    Log.v(TAG,"onDelete 클릭 pos "+pos);
+                    num = pos;
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }else {
+                    Toast.makeText(getApplication(), "삭제할 권한이 없습니다.", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onEditCommentClick(View v, int pos){
+                /*
+                Log.v(TAG, myDataset.get(pos).getName()+", "+usernickname);
+                if(myDataset.get(pos).getName() == null ||usernickname == null){
+                    Log.v(TAG,"null 확인");
+                    return;
+                }
+                if(myDataset.get(pos).getName().compareTo(usernickname)==0) {
+                    Log.v(TAG, "onEdit 클릭 pos " + pos);
+                    Intent intent = new Intent(NoticeBoardActivity.this, WritingActivity.class);
+                    intent.putExtra("type", 1);
+                    Board b = myDataset.get(pos);
+                    intent.putExtra("board", b);
+                    intent.putExtra("pos",myDataset.get(pos).getPos());
+                    startActivityForResult(intent,1); //writing activity에서 값을 다시 받아오기 위해서 사용
+                }else {
+                    Toast.makeText(getApplication(), "수정할 권한이 없습니다.", Toast.LENGTH_LONG).show();
+                }
+                */
+
+            }
+        });
     }
+
+    public void setDelete(int pos) {
+        RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
+        service.deleteComment("forum/"+pos+"/").enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    //통신이 실패한 경우(응답코드 3xx,4xx 등)
+                    Log.d(TAG, "onResponse: 실패");
+                    Toast.makeText(getApplicationContext(),"삭제에 실패했습니다. 잠시후에 시도해주세요",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String content = "";
+                content += "code: " + response.code() + "\n";
+                content += "정상적으로 삭제되었습니다.";
+                getBoardData();
+                Toast.makeText(getApplicationContext(),"삭제되었습니다.",Toast.LENGTH_LONG).show();
+                Log.v(TAG, content);
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.v(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
 
     public void posttoserver(){ //retrofit2를 사용하여 댓글을 서버로 보내는 코드
         Log.v(TAG,"posttoserver 진입완료");
@@ -240,7 +336,7 @@ public class show_each_board extends AppCompatActivity {
         Log.v(TAG+tag,"mydataset 수정완료");
 
         show_recyclerview.removeAllViewsInLayout();
-        mAdapter = new CommentAdapter(myDataset);
+        mAdapter = new CommentAdapter(this,myDataset);
         show_recyclerview.setAdapter(mAdapter);
         setView(b);
         Log.v(TAG+tag,"새로고침 완료");

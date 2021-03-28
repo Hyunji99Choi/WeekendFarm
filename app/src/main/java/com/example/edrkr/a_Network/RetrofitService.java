@@ -37,4 +37,7 @@ public interface RetrofitService {
     @PATCH("{post}") //게시글 수정부분
     Call<PatchBoard> patchBoard(@Path(value = "post",encoded = true)String post, @Body PatchBoard patch);
 
+    @DELETE("{post}") //댓글 삭제 부분
+    Call<Void> deleteComment(@Path(value = "post",encoded = true)String post);
+
 }
