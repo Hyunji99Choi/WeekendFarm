@@ -281,7 +281,7 @@ public class MonitoringPage extends AppCompatActivity {
         //세팅
         TextInputLayout inputLayout = writDialog.findViewById(R.id.inputlayout);
         inputLayout.setCounterEnabled(true);
-        inputLayout.setCounterMaxLength(145);
+        inputLayout.setCounterMaxLength(140);
         TextInputEditText editText = writDialog.findViewById(R.id.body);
 
     }

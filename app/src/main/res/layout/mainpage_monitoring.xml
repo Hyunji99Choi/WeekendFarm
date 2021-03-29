@@ -121,6 +121,8 @@
                 android:paddingHorizontal="18dp"
                 android:paddingBottom="15dp"
                 android:scaleType="fitCenter"
+                tools:ignore="VectorDrawableCompat"
+                app:fabCustomSize="65dp"
                 android:src="@drawable/ic_main_fab_button"
                 app:pressedTranslationZ="12dp" />
 
