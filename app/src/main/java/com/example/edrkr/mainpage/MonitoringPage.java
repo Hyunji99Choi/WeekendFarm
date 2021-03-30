@@ -32,6 +32,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.edrkr.KeyCreatePage;
+import com.example.edrkr.firstpage.MainActivity;
+import com.example.edrkr.h_network.AutoRetryCallback;
+import com.example.edrkr.h_network.ResponseUserIdent;
+import com.example.edrkr.h_network.ResponseWeatherJson;
+import com.example.edrkr.h_network.RetrofitClient;
 import com.example.edrkr.managerPage.Managerpage;
 import com.example.edrkr.bulletinPage.NoticeBoardActivity;
 import com.example.edrkr.subpage.subpage_userIdnetChange;
@@ -43,6 +48,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MonitoringPage extends AppCompatActivity {
 
@@ -84,6 +92,9 @@ public class MonitoringPage extends AppCompatActivity {
         Log.w("타이틀 세팅","수정 전");
         if(UserIdent.GetInstance().getFarmCount()!=0) //밭이 0이면 실행안함. --> 쓰레기값이나 빈 값이어도 실행 안되게 하기(수정해야함.)
             farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm()));
+
+        //날씨 통신
+        getWheaterData();
 
         // view pager 세팅, 하단 베너 --> 대대적인 수정이 있어야함
         //initWeatherSetting();
@@ -301,5 +312,30 @@ public class MonitoringPage extends AppCompatActivity {
         }
     }
 
+    private void getWheaterData(){
+        Call<ResponseWeatherJson> wheather = RetrofitClient.getApiService().getWheather(); //api 콜
+        wheather.enqueue(new AutoRetryCallback<ResponseWeatherJson>() {
+            @Override
+            public void onFinalFailure(Call<ResponseWeatherJson> call, Throwable t) {
+                Log.e("날씨 정보 연결실패", t.getMessage());
+            }
 
+            @Override
+            public void onResponse(Call<ResponseWeatherJson> call, Response<ResponseWeatherJson> response) {
+                if(!response.isSuccessful()){
+                    Log.e("연결이 비정상적", "error code : " + response.code());
+                    return;
+                }
+
+                Log.d("날씨 통신 성공적", response.body().toString());
+                ResponseWeatherJson weatherJson = response.body(); //통신 결과 받기
+
+                //날씨 정보로 세팅
+                Log.d("날씨", weatherJson.getWeather());
+                Log.d("날씨", weatherJson.getWeather_imgurl());
+
+            }
+        });
+
+    }
 }

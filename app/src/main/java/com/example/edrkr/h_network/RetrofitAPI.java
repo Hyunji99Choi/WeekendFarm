@@ -1,5 +1,7 @@
 package com.example.edrkr.h_network;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -48,8 +50,8 @@ public interface RetrofitAPI {
     //모니터링 페이지
 
     //날씨 통신
-    @GET("wheather") //날씨 *
-    Call<ResponseWeatherJson> getSensor();
+    @GET("wheather")
+    Call<ResponseWeatherJson> getWheather();
 
     //센서 통신
     @GET("sensor/field{farm}") //로그인 후 회원정보 요청
@@ -59,8 +61,10 @@ public interface RetrofitAPI {
     @GET("camera/{Farmid}") //로그인 후 회원정보 요청
     Call<ResponseCCTVJson> getCCTV(@Path("Farmid") String Farmid);
 
-    //그래프 통신
-    //get
+    //일주일 그래프 통신
+    @GET("sensor/soilavg{farmID}")
+    Call<List<ResponseGraphJson>> getGraph(@Path("farmID") String farmID);
+
 
 
     //서브 페이지

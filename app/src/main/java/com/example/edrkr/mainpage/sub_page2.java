@@ -3,6 +3,7 @@ package com.example.edrkr.mainpage;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,11 @@ import androidx.fragment.app.Fragment;
 
 
 import com.example.edrkr.R;
+import com.example.edrkr.UserIdent;
+import com.example.edrkr.h_network.AutoRetryCallback;
+import com.example.edrkr.h_network.ResponseGraphJson;
+import com.example.edrkr.h_network.ResponseWeatherJson;
+import com.example.edrkr.h_network.RetrofitClient;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -25,6 +31,10 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class sub_page2 extends Fragment {
 
@@ -101,6 +111,43 @@ public class sub_page2 extends Fragment {
         chart.invalidate();
 
         //chart.animateY(5000);
+
+        //그래프 값 통신
+        getGreahData();
+    }
+
+    private void getGreahData(){
+        Call<List<ResponseGraphJson>> graph = RetrofitClient.getApiService()
+                .getGraph(String.valueOf(UserIdent.GetInstance().getNowMontriongFarm())); //api 콜
+        graph.enqueue(new AutoRetryCallback<List<ResponseGraphJson>>() {
+            @Override
+            public void onFinalFailure(Call<List<ResponseGraphJson>> call, Throwable t) {
+                Log.e("그래프 정보 연결실패", t.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call<List<ResponseGraphJson>> call, Response<List<ResponseGraphJson>> response) {
+                if(!response.isSuccessful()){
+                    Log.e("그래프 연결이 비정상적", "error code : " + response.code());
+                    return;
+                }
+
+                Log.d("그래프 통신 성공적", response.body().toString());
+                List<ResponseGraphJson> graphJsons = response.body(); //통신 결과 받기
+
+                //그래프 정보로 세팅
+                Log.d("날짜", graphJsons.get(0).getDate()+" "+graphJsons.get(1).getDate()
+                        +" "+graphJsons.get(2).getDate()+" "+graphJsons.get(3).getDate()
+                        +" "+graphJsons.get(4).getDate()+" "+graphJsons.get(5).getDate()
+                        +" "+graphJsons.get(6).getDate());
+                Log.d("평균", graphJsons.get(0).getSoilavg()+" "+graphJsons.get(1).getSoilavg()
+                        +" "+graphJsons.get(2).getSoilavg()+" "+graphJsons.get(3).getSoilavg()
+                        +" "+graphJsons.get(4).getSoilavg()+" "+graphJsons.get(5).getSoilavg()
+                        +" "+graphJsons.get(6).getSoilavg());
+
+
+            }
+        });
     }
 
 }
