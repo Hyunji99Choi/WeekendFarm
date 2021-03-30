@@ -3,6 +3,7 @@ package com.example.edrkr.a_Network;
 import com.example.edrkr.a_Network.Class.GetBoard;
 import com.example.edrkr.a_Network.Class.GetEachBoard;
 import com.example.edrkr.a_Network.Class.PatchBoard;
+import com.example.edrkr.a_Network.Class.PatchComment;
 import com.example.edrkr.a_Network.Class.PostComment;
 import com.example.edrkr.a_Network.Class.PostBoard;
 
@@ -39,5 +40,8 @@ public interface RetrofitService {
 
     @DELETE("{post}") //댓글 삭제 부분
     Call<Void> deleteComment(@Path(value = "post",encoded = true)String post);
+
+    @PATCH("{post}") //댓글 수정부분
+    Call<PatchComment> patchComment(@Path(value = "post",encoded = true)String post, @Body PatchComment patch);
 
 }

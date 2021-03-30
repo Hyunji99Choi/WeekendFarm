@@ -1,14 +1,17 @@
 package com.example.edrkr.bulletinPage;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +28,8 @@ import com.example.edrkr.a_Network.Builder;
 import com.example.edrkr.a_Network.Class.GetComment;
 import com.example.edrkr.a_Network.Class.GetEachBoard;
 import com.example.edrkr.a_Network.Class.GetBoard;
+import com.example.edrkr.a_Network.Class.PatchBoard;
+import com.example.edrkr.a_Network.Class.PatchComment;
 import com.example.edrkr.a_Network.Class.PostComment;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
@@ -60,6 +65,7 @@ public class show_each_board extends AppCompatActivity {
     Intent intent;
 
     private String URL = "forum/";
+    private String Edit_URL = "forum/com/";
     private String TAG = "areum/show_each_board";
 
     @Override
@@ -212,6 +218,29 @@ public class show_each_board extends AppCompatActivity {
             }
         };
         show_addbutton.setOnClickListener(Listener);
+        final Dialog editDialog = new Dialog(this);
+        editDialog.setContentView(R.layout.dialog_editcomment);
+
+        ImageButton Ok = (ImageButton)editDialog.findViewById(R.id.ok_edit);
+        ImageButton Cancle = (ImageButton)editDialog.findViewById(R.id.cancel_edit);
+
+        final EditText content = (EditText)editDialog.findViewById(R.id.edit_content);
+
+        Ok.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if(content.getText().toString().length() >0){
+                    setEdit(content.getText().toString());
+                    editDialog.dismiss();
+                }
+            }
+        });
+        Cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editDialog.dismiss();
+            }
+        });
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("정말 삭제하시겠습니까?");
@@ -256,32 +285,45 @@ public class show_each_board extends AppCompatActivity {
 
             @Override
             public void onEditCommentClick(View v, int pos){
-                /*
                 Log.v(TAG, myDataset.get(pos).getName()+", "+usernickname);
                 if(myDataset.get(pos).getName() == null ||usernickname == null){
                     Log.v(TAG,"null 확인");
                     return;
                 }
                 if(myDataset.get(pos).getName().compareTo(usernickname)==0) {
-                    Log.v(TAG, "onEdit 클릭 pos " + pos);
-                    Intent intent = new Intent(NoticeBoardActivity.this, WritingActivity.class);
-                    intent.putExtra("type", 1);
-                    Board b = myDataset.get(pos);
-                    intent.putExtra("board", b);
-                    intent.putExtra("pos",myDataset.get(pos).getPos());
-                    startActivityForResult(intent,1); //writing activity에서 값을 다시 받아오기 위해서 사용
+                    Edit_URL+=pos+"/";
+                    editDialog.show();
                 }else {
                     Toast.makeText(getApplication(), "수정할 권한이 없습니다.", Toast.LENGTH_LONG).show();
                 }
-                */
-
             }
         });
     }
 
+    public void setEdit(String content){
+        Log.v(TAG,"patchtoserver 진입완료");
+        PatchComment post = new PatchComment();
+        post.setContent(content);
+        Log.v(TAG,"put 완료");
+
+        if(Edit_URL.compareTo("forum/com/")!=0) {
+            Call<PatchComment> call = retrofitIdent.GetInstance().getService().patchComment(Edit_URL, post);
+            Builder builder = new Builder();
+            try {
+                builder.tryPost(call);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Log.v(TAG, "tryconnect 완료");
+        }else{
+            Toast.makeText(this,"잠시후에 다시 시도해주세요",Toast.LENGTH_LONG).show();
+            finish();
+        }
+    }
+
     public void setDelete(int pos) {
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-        service.deleteComment("forum/"+pos+"/").enqueue(new Callback<Void>() {
+        service.deleteComment("forum/com/"+pos+"/").enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (!response.isSuccessful()) {
