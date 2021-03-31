@@ -291,7 +291,8 @@ public class show_each_board extends AppCompatActivity {
                     return;
                 }
                 if(myDataset.get(pos).getName().compareTo(usernickname)==0) {
-                    Edit_URL+=pos+"/";
+                    Edit_URL+=myDataset.get(pos).getId()+"/";
+                    content.setText(myDataset.get(pos).getBody());
                     editDialog.show();
                 }else {
                     Toast.makeText(getApplication(), "수정할 권한이 없습니다.", Toast.LENGTH_LONG).show();
@@ -311,6 +312,8 @@ public class show_each_board extends AppCompatActivity {
             Builder builder = new Builder();
             try {
                 builder.tryPost(call);
+                getBoardData();
+                Edit_URL = "forum/com/";
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -382,7 +385,7 @@ public class show_each_board extends AppCompatActivity {
         show_recyclerview.setAdapter(mAdapter);
         setView(b);
         Log.v(TAG+tag,"새로고침 완료");
-
+        this.SetListener(); //리스너 설정 함수
     }
 
     @Override

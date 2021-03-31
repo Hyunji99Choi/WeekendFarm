@@ -2,7 +2,7 @@ package com.example.edrkr.a_Network.Class;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PatchComment {
+public class PatchComment implements Post{
 
     @SerializedName("content")
     private String content;
