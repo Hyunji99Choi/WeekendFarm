@@ -58,7 +58,7 @@ dependencies {
     //toolbar scrollview 액션바 스크롤하면 사진-> 툴바를 위한 라이브러리
     //implementation 'com.github.ksoichiro:android-observablescrollview : 1.5.0'
     //로딩 버튼
-    implementation 'com.royrodriguez:transitionbutton:0.2.0'
+    implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
     
 
     //이아름 병합

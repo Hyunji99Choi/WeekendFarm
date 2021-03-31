@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:padding="16dp"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/hyun_first_backgroud"
     tools:context=".firstpage.MainActivity">
     <!--android:background="@drawable/gradient"-->
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:background="@android:color/black"
+        android:fitsSystemWindows="true"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginBottom="20dp"
         android:fontFamily="cursive"
         android:paddingVertical="10dp"
-        android:text="WeekendFarm"
+        android:text="농사왕"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="60sp"
         android:layout_above="@+id/parentRelative"/>
 
@@ -28,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:padding="16dp"
         android:layout_gravity="center">
 
 
@@ -37,8 +41,10 @@
             android:layout_height="350dp"
             android:layout_margin="5dp"
             android:padding="10dp"
-            Card_View:cardCornerRadius="5dp"
+            Card_View:cardBackgroundColor="#E2FFFFFF"
+            Card_View:cardCornerRadius="20dp"
             Card_View:cardElevation="5dp">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,6 +88,7 @@
                         android:hint="비밀번호" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!--
                 <Button
                     android:id="@+id/loginButton"
                     android:layout_width="match_parent"
@@ -89,6 +96,25 @@
                     android:layout_margin="20dp"
                     android:textSize="16sp"
                     android:text="로그인"/>
+                -->
+                <!--custom:pb_colorNormal="@color/blue_normal"-->
+                <com.dd.processbutton.iml.ActionProcessButton
+                    android:id="@+id/loginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginVertical="20dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="로그인"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    custom:pb_colorComplete="@color/sunny_very_dack"
+                    custom:pb_colorNormal="@color/sunny_dack"
+                    custom:pb_colorPressed="@color/blue_pressed"
+                    custom:pb_colorProgress="@color/colorPrimaryDark"
+                    custom:pb_textComplete="성공적으로 로그인"
+                    custom:pb_textProgress="로그인 중..."
+                    custom:pb_textError="로그인 실패"
+                    custom:pb_colorError="@color/hot_hot" />
 
                 <TextView
                     android:id="@+id/signupButton"
@@ -96,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/sunny_dack"
                     android:textSize="16sp"
                     android:text="회원이 아니세요?"/>
             </LinearLayout>
