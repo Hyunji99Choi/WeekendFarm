@@ -44,7 +44,7 @@
                     android:layout_marginTop="10dp">
 
                     <EditText
-                        android:id="@+id/sign_idInput"
+                        android:id="@+id/change_idInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -54,19 +54,20 @@
                         android:paddingStart="5dp"
                         android:singleLine="true" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/passError"
+                    android:id="@+id/newpassError"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:passwordToggleEnabled="true"
                     android:layout_marginTop="5dp">
 
                     <EditText
-                        android:id="@+id/sign_passwordInput"
+                        android:id="@+id/change_newpasswordInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:hint="비밀번호"
+                        android:hint="새 비밀번호"
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:paddingStart="5dp"
@@ -74,18 +75,18 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/passCheckError"
+                    android:id="@+id/newpassCheckError"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:passwordToggleEnabled="true"
                     android:layout_marginTop="5dp">
 
                     <EditText
-                        android:id="@+id/sign_passwordInputCheck"
+                        android:id="@+id/change_newpasswordInputCheck"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:hint="비밀번호 확인"
+                        android:hint="새 비밀번호 확인"
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:paddingStart="5dp"
@@ -99,7 +100,7 @@
                     android:layout_marginTop="50dp">
 
                     <EditText
-                        android:id="@+id/sign_nameInput"
+                        android:id="@+id/change_nameInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -117,7 +118,7 @@
                     android:layout_marginTop="10dp">
 
                     <EditText
-                        android:id="@+id/sign_nknameInput"
+                        android:id="@+id/change_nknameInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -136,7 +137,7 @@
                     android:layout_marginTop="50dp">
 
                     <EditText
-                        android:id="@+id/sign_emailInput"
+                        android:id="@+id/change_emailInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -155,7 +156,7 @@
                     android:layout_marginTop="5dp">
 
                     <EditText
-                        android:id="@+id/sign_phonnumInput"
+                        android:id="@+id/change_phonnumInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -172,6 +173,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
+                    android:layout_marginBottom="15dp"
+                    android:onClick="changUserIdentOnClick"
                     android:text="수정"/>
             </LinearLayout>
     </LinearLayout>

@@ -31,8 +31,9 @@ public class UserIdent {
 
     private String id;
     private String pw;
-    private String name; //값 안받아옴.
 
+
+    private String name; //유저 실명
 
 
     private int UserIdent; //유저 고유 번호 *****
@@ -130,11 +131,11 @@ public class UserIdent {
     public void setFarmID(int[] farmID) { this.farmID = farmID; }
     public void setFarmName(String[] farmName) { this.farmName = farmName; }
     public void setUserIdent(int userIdent) { UserIdent = userIdent; }
+    public void setName(String name) { this.name = name; }
 
     //getting
     public String getId() { return id; }
     public String getPw() { return pw; }
-    //public String getName() { return name; }
     public String getNkname() { return nkname; }
     public int getFarmCount() { return farmCount; }
     public int getFarmID(int i) { return farmID[i]; }
@@ -143,6 +144,7 @@ public class UserIdent {
     public int getAdmin() { return admin; }
     public String getFarmName(int i) { return farmName[i]; }
     public int getUserIdent() { return UserIdent; }
+    public String getName() { return name; }
 
 
 
