@@ -95,12 +95,10 @@ public class MainActivity extends AppCompatActivity {
 
                         if (UserID.isEmpty()||UserPW.isEmpty()) {
                             LoginFailMessage.show();
-                            loginButton.setProgress(-1);
+                            loginButton.setProgress(0);
                             return;
                         }
 
-                        //로그인 진행중 에니메이션
-                        loginButton.setProgress(20);
 
                         //*********************************************
                         //디비그를 위한 로컬 진입 **** 나중에 지워줘야함
@@ -115,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
                         //*********************************************
+
+                        //로그인 진행중 에니메이션
+                        loginButton.setProgress(60);
+
 
                         //로딩중 만들기...
                         LoginNetwork(UserID,UserPW); //로그인 시도
@@ -152,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //로그인 진행중 에니메이션
-                loginButton.setProgress(60);
+                loginButton.setProgress(80);
 
                 //통신 성공적
                 if(response.body().equals("성공")){
@@ -162,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     //아이디, 비번 잘못됨.
                     Log.d("정보가 없는 회원", response.body());
-                    loginButton.setProgress(-1);
+                    loginButton.setProgress(0);
                     LoginFailMessage.show();
                 }
 
