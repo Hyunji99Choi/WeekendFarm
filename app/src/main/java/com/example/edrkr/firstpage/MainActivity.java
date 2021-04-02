@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.loginButton:
 
                         //버튼 에니메이션 시작
-                        loginButton.setMode(ActionProcessButton.Mode.PROGRESS);
-                        loginButton.setProgress(0);
+                        loginButton.setMode(ActionProcessButton.Mode.ENDLESS);
+                        loginButton.setProgress(1);
 
                         // 통신 관련 코드
                         UserID=idInput.getText().toString();
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         //*********************************************
 
                         //로그인 진행중 에니메이션
-                        loginButton.setProgress(60);
+                        //loginButton.setProgress(60);
 
 
                         //로딩중 만들기...
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //로그인 진행중 에니메이션
-                loginButton.setProgress(80);
+                //loginButton.setProgress(80);
 
                 //통신 성공적
                 if(response.body().equals("성공")){
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //로그인 진행중 에니메이션
-                loginButton.setProgress(90);
+                //loginButton.setProgress(90);
 
 
                 Log.d("유저 정보 접근이 성공적", response.body().toString());
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent monitoringIntent = new Intent(MainActivity.this, MonitoringPage.class);
                 startActivity(monitoringIntent);
                 //finish();
-                loginButton.setProgress(0);
+                //loginButton.setProgress(0);
 
             }//통신 실패나 로그아웃하면 싱글턴 비우는 문법 추가하기???
 
