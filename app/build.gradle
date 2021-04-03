@@ -59,6 +59,11 @@ dependencies {
     //implementation 'com.github.ksoichiro:android-observablescrollview : 1.5.0'
     //로딩 버튼
     implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
+    //라인그래프
+    implementation 'com.github.blackfizz:eazegraph:1.2.2@aar'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    //동적 그래프
+    implementation 'com.github.lecho:hellocharts-android:v1.5.8'
     
 
     //이아름 병합
