@@ -1,5 +1,8 @@
 package com.example.edrkr.bulletinPage;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -148,6 +151,17 @@ public class WritingActivity extends AppCompatActivity {
             }
             case R.id.writing_next_button:{ //오른쪽 상단 확인버튼 클릭시
                 Log.v(TAG, "전송 버튼 눌림");
+                if(title.getTextSize() <= 0 || body.getTextSize() <=0){
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder((this));
+                    alertDialogBuilder.setMessage("제목과 내용을 입력해주세요");
+                    alertDialogBuilder.setPositiveButton("확인",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                    return true;
+                }
                 //현재 값을 저장
                 b.setName(UserIdent.GetInstance().getNkname());
                 b.setTitle(title.getText().toString());

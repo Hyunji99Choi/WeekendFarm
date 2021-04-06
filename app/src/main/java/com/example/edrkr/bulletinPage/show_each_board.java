@@ -208,6 +208,17 @@ public class show_each_board extends AppCompatActivity {
                 switch (v.getId()) {
                     case R.id.show_button_add_comment:
                         Log.v(TAG+"setlistener", "작성 버튼 클릭됨");
+                        if(show_EditText.getTextSize() <= 0){
+                            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(getApplication());
+                            alertDialogBuilder.setMessage("제목과 내용을 입력해주세요");
+                            alertDialogBuilder.setPositiveButton("확인",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                        }
+                                    });
+                            return;
+                        }
                         if(!show_EditText.getText().toString().replace(" ","").equals("")) {
                             addcomment(); // comment를 board에 추가해주고 recycler view를 새로고침.
                             Log.v(TAG+"setlistener", "add 완료");
