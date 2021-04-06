@@ -1,6 +1,7 @@
 package com.example.edrkr.mainpage;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,10 @@ public class sub_Page2_PlaceholderFragment extends Fragment {
 
     public final static String[] dayTime = new String[]{"오전6시", "오전8시","오전10시", "정오12시", "오후2시", "오후4시", "오후6시"};
 
+    private float[] oneWeekData = new float[]{5.0f,3.0f,25.0f,23.0f,20.0f,15.0f,10.0f}; //일주일 평균 데이터
+
+    private float[] dayTimeData; //하루 평균 데이터??????? 수정 필요. 7개.
+
     private LineChartView chartTop;
     private ColumnChartView chartBottom;
 
@@ -44,8 +49,13 @@ public class sub_Page2_PlaceholderFragment extends Fragment {
     public sub_Page2_PlaceholderFragment() { }
 
     //통신값 유동
-    public void setOneWeek(String[] oneWeek){
+    public void setOneWeek(String[] oneWeek,float[] oneWeekData){
+        //일주일 막대바 x좌표, 값 세팅.
         this.oneWeek = oneWeek;
+        this.oneWeekData = oneWeekData;
+
+        //일주일 그래프 다시 세팅
+        generateColumnData();
 
         //가비지 수집
         System.gc();
@@ -82,7 +92,9 @@ public class sub_Page2_PlaceholderFragment extends Fragment {
 
             values = new ArrayList<SubcolumnValue>();
             for (int j = 0; j < numSubcolumns; ++j) {
-                values.add(new SubcolumnValue((float) Math.random() * 50f + 5, ChartUtils.pickColor()));
+                //values.add(new SubcolumnValue((float) Math.random() * 50f + 5, ChartUtils.pickColor()));
+                values.add(new SubcolumnValue(oneWeekData[i], ChartUtils.pickColor()));
+
             }
 
             axisValues.add(new AxisValue(i).setLabel(oneWeek[i]));

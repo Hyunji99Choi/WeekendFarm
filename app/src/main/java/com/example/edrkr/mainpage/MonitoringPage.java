@@ -208,6 +208,8 @@ public class MonitoringPage extends AppCompatActivity {
                 ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(i));
                 //각 밭 선택에 따른 통신 및 센서값 세팅
                 ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(i));
+                //각 밭 선택에 다른 그래프 통신
+                ControlMonitoring.GetInstance().NetworkkGraphCall();
 
 
 

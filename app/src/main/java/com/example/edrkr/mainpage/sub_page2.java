@@ -33,6 +33,7 @@ public class sub_page2 extends Fragment {
 
         View view=inflater.inflate(R.layout.mainpage_sub_page2,container,false);
 
+        ControlMonitoring.GetInstance().setSubpage2(this); // 싱글턴에 객체 저장.
 
         graphFragment = new sub_Page2_PlaceholderFragment();
         if (savedInstanceState == null) {
@@ -48,7 +49,7 @@ public class sub_page2 extends Fragment {
 
     }
 
-    private void getGreahData(){
+    public void getGreahData(){
         Call<List<ResponseGraphJson>> graph = RetrofitClient.getApiService()
                 .getGraph(String.valueOf(UserIdent.GetInstance().getNowMontriongFarm())); //api 콜
         graph.enqueue(new AutoRetryCallback<List<ResponseGraphJson>>() {
@@ -80,11 +81,18 @@ public class sub_page2 extends Fragment {
 
                 //문자열 자르기
                 String[] oneWeek = new String[7];
+                //값 float 형식으로 바꾸기
+                float[] oneWeekData = new float[7];
                 for(int i=0 ;i<7 ;i++){
                     String[] weekDate = graphJsons.get(i).getDate().split("-");
                     oneWeek[i]=weekDate[1]+"/"+weekDate[2]; // 0/0 날짜 포맷
+
+                    oneWeekData[i] = Float.parseFloat(graphJsons.get(i).getSoilavg()); //평균
                 }
-                graphFragment.setOneWeek(oneWeek); // 일주일 x 좌표
+
+
+                Log.d("날짜 포맷", oneWeek[0]);
+                graphFragment.setOneWeek(oneWeek,oneWeekData); // 일주일 x 좌표
                 //값 세팅 하기
 
 
