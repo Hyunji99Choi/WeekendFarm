@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+<!--    <item-->
+<!--        android:id="@+id/notice_search"-->
+<!--        android:icon="@drawable/ic_search"-->
+<!--        android:iconTint="@color/white"-->
+<!--        android:title="Search"-->
+<!--        app:showAsAction="always"/>-->
     <item
-        android:id="@+id/notice_search"
+        android:id="@+id/menu_search_view"
         android:icon="@drawable/ic_search"
-        android:iconTint="@color/white"
-        android:title="Search"
-        app:showAsAction="always"/>
-
+        android:title="@string/action_search"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="android.widget.SearchView" />
     <item
-        android:id="@+id/notice_patch"
-        android:title="수정"
+        android:id="@+id/notice_myboard"
+        android:title="내가 쓴 게시글 보기"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/notice_delete"
-        android:title="삭제"
+        android:id="@+id/notice_mycomment"
+        android:title="내가 댓글단 게시글 보기"
         app:showAsAction="never"/>
 
 </menu>
+<!-- https://m.blog.naver.com/PostView.nhn?blogId=scw0531&logNo=220827240630&proxyReferer=https:%2F%2Fwww.google.com%2F-->
+<!-- 액션 모드 : https://gakari.tistory.com/entry/%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-%EC%95%A1%EC%85%98-%EB%AA%A8%EB%93%9CActionMode-%EB%8B%A4%EB%A3%A8%EA%B8%B0
+액션바에 searchview 넣기 : https://app-dogbalja.tistory.com/197-->

@@ -1,14 +1,18 @@
 package com.example.edrkr.bulletinPage;
 
+import android.app.Notification;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +20,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,6 +53,9 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     private String usernickname;
     private ArrayList<Board> myDataset = new ArrayList<>(); //리사이클러뷰에 표시할 데이터 리스트 생성
     private String TAG = "areum/noticeboardactivity"; //log에 사용하는 tag 생성
+    private MenuItem mSearchView;
+    private ActionMode mActionMode;
+    private String url = "forum/";
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){ //다른 intent 갔다가 돌아왔을 경우 실행하는 함수
         super.onActivityResult(requestCode,resultCode,data);
@@ -153,7 +161,6 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
                 startActivityForResult(intent,1); //writing activity에서 값을 다시 받아오기 위해서 사용
             }
         });
-
         refreshLayout = (SwipeRefreshLayout)findViewById(R.id.refresh_notice); //끌어 당겨서 새로고침하는 레이아웃
 
         refreshLayout.setOnRefreshListener( //스와이프 되었을 때 실행
@@ -244,7 +251,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
 
         //레트로핏 통신 기다리게 바꾸기
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-        service.getBoard("forum/").enqueue(new Callback<List<GetBoard>>() {
+        service.getBoard(url).enqueue(new Callback<List<GetBoard>>() {
             @Override
             public void onResponse(Call<List<GetBoard>> call, Response<List<GetBoard>> response) { //서버와 통신하여 반응이 왔다면
                 if(response.isSuccessful()){
@@ -283,32 +290,85 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     public boolean onCreateOptionsMenu(Menu menu){ //optionmenu 생성코드
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.noticeboard_menu,menu);
-        return super.onCreateOptionsMenu(menu);
+
+        mSearchView = menu.findItem(R.id.menu_search_view);
+//        mSearchView = (SearchView) findViewById(R.id.notice_search);
+////        mSearchView.setQueryHint(getResources().getString(R.string.action_search));
+//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                mSearchView.clearFocus();
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
+//            }
+//        });
+//        mSearchView.setIconifiedByDefault(false);
+//        mSearchView.setVisible(false);
+        return true;
     }
+
+    ActionMode.Callback mActionCallBack = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+//            mSearchView.requestFocus();
+            return true;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){ //option 선택될 경우
         switch (item.getItemId()){
-            case R.id.notice_patch: //수정
-                Log.v(TAG+"noticeboard_menu","patch클릭");
-                Toast.makeText(this,"patch onclick",Toast.LENGTH_SHORT).show();
+            case R.id.notice_myboard: //내가 쓴 게시글 보기
+                Log.v(TAG+"noticeboard_menu","notice_myboard클릭");
+                Toast.makeText(this,"notice_myboard onclick",Toast.LENGTH_SHORT).show();
+                url = "forum/user/post/"+UserIdent.GetInstance().getId();
+                getBoardData();
+                url = "forum/";
                 break;
-            case R.id.notice_delete: //삭제
-                Log.v(TAG+"noticeboard_menu","delete클릭");
-                Toast.makeText(this,"delete onclick",Toast.LENGTH_SHORT).show();
+            case R.id.notice_mycomment: //내가 댓글단 게시글 보기
+                Log.v(TAG+"noticeboard_menu","notice_mycomment클릭");
+                Toast.makeText(this,"notice_mycomment onclick",Toast.LENGTH_SHORT).show();
+                url = "forum/user/com/"+UserIdent.GetInstance().getId();
+                getBoardData();
+                url = "forum/";
                 break;
             case android.R.id.home: //x버튼
                 Log.v(TAG+"noticeboard_menu","home");
                 Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
                 finish();
                 break;
-            case R.id.notice_search: //검색
-                Log.v(TAG+"noticeboard_menu","search");
+            case R.id.menu_search_view: //검색view
+                Log.v(TAG+"noticeboard_menu","menu_search_view");
                 Toast.makeText(this,"search onclick",Toast.LENGTH_SHORT).show();
+//                mSearchView.setVisible(false);
                 break;
+//            case R.id.notice_search: //검색버튼
+//                Log.v(TAG+"noticeboard_menu","notice_search");
+//                Toast.makeText(this,"search onclick",Toast.LENGTH_SHORT).show();
+//                mSearchView.setVisible(true);
+//                break;
             default: //그 외 - 오류
                 Log.v(TAG+"noticeboard_menu","default");
-                Toast.makeText(this,"오류 발생",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"오류 발생"+item.getItemId(),Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

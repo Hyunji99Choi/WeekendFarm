@@ -6,4 +6,7 @@
     <string name="nickname_use_success">사용 가능한 별명입니다.</string>
     <string name="passwd_no_same">비밀번호가 다릅니다. 다시 확인해 주세요.</string>
     <string name="key_not_useing">잘못된 key정보입니다</string>
+    //아름
+    <string name="action_setting">서치뷰 테스트중</string>
+    <string name="action_search">키워드를 입력해주세요</string>
 </resources>
