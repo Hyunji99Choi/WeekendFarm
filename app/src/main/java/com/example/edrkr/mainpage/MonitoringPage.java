@@ -1,19 +1,28 @@
 package com.example.edrkr.mainpage;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,14 +32,25 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.edrkr.KeyCreatePage;
+import com.example.edrkr.firstpage.MainActivity;
+import com.example.edrkr.h_network.AutoRetryCallback;
+import com.example.edrkr.h_network.ResponseUserIdent;
+import com.example.edrkr.h_network.ResponseWeatherJson;
+import com.example.edrkr.h_network.RetrofitClient;
 import com.example.edrkr.managerPage.Managerpage;
 import com.example.edrkr.bulletinPage.NoticeBoardActivity;
 import com.example.edrkr.subpage.subpage_userIdnetChange;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
 import com.example.edrkr.baner_Adapter;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MonitoringPage extends AppCompatActivity {
 
@@ -53,6 +73,9 @@ public class MonitoringPage extends AppCompatActivity {
     TextView naviHeaderName; //네거티브 메뉴 헤더 이름
     TextView naviHeaderEmail; //네거티브 메뉴 헤더 이메일
 
+    FloatingActionButton fab; //일지 쓰기 버튼, fab 버튼
+
+    Dialog writDialog; //일지 다이로그
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -70,8 +93,11 @@ public class MonitoringPage extends AppCompatActivity {
         if(UserIdent.GetInstance().getFarmCount()!=0) //밭이 0이면 실행안함. --> 쓰레기값이나 빈 값이어도 실행 안되게 하기(수정해야함.)
             farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm()));
 
-        //날씨, 오늘의 작물 view pager 세팅, 하단 베너 --> 대대적인 수정이 있어야함
-        initWeatherSetting();
+        //날씨 통신
+        getWheaterData();
+
+        // view pager 세팅, 하단 베너 --> 대대적인 수정이 있어야함
+        //initWeatherSetting();
 
         //draw 메뉴 클릭 리스너(페이지 이동)
         drawerMenuSetting();
@@ -118,9 +144,12 @@ public class MonitoringPage extends AppCompatActivity {
         drawerLayout.addDrawerListener(drawerToggle); //누를때마다 아이콘이 팽그르 돈다
         drawerToggle.syncState();//삼선 메뉴 추가
 
+        //일지 쓰기 버튼 연결(fab)
+        fab = findViewById(R.id.fab_main);
     }
 
-    //하단 베너(날씨) 세팅 및 연결
+    /*
+    //하단 베너 세팅 및 연결
     void initWeatherSetting(){
 
         //Viewpager2
@@ -146,6 +175,8 @@ public class MonitoringPage extends AppCompatActivity {
 
         });
     }
+    */
+
 
     //타이틀 클릭 이벤트
     public void onClickTextView(View view){
@@ -177,6 +208,8 @@ public class MonitoringPage extends AppCompatActivity {
                 ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(i));
                 //각 밭 선택에 따른 통신 및 센서값 세팅
                 ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(i));
+                //각 밭 선택에 다른 그래프 통신
+                ControlMonitoring.GetInstance().NetworkkGraphCall();
 
 
 
@@ -243,4 +276,68 @@ public class MonitoringPage extends AppCompatActivity {
 
     }
 
+    //플로팅 버튼 클릭 이벤트
+    public void fabOnClick(View view){
+        fab.setImageResource(R.drawable.ic_main_fab_writting_button);
+
+        //글쓰기 다이로그 열기
+        writDialog = new Dialog(this); //그때그때 객체 생성 고민해보기
+        writDialog.setContentView(R.layout.today_writting_custom_dialog);
+        settingDialog(writDialog);
+        writDialog.show();
+
+    }
+
+    //글쓰기 다이로그 세팅
+    private void settingDialog(final Dialog writDialog){ //닫힘 방지 만들기
+
+        //세팅
+        TextInputLayout inputLayout = writDialog.findViewById(R.id.inputlayout);
+        inputLayout.setCounterEnabled(true);
+        inputLayout.setCounterMaxLength(140);
+        TextInputEditText editText = writDialog.findViewById(R.id.body);
+
+    }
+
+    public void dialogOnClick(View view){
+
+        switch (view.getId()){
+            case R.id.back: // x 버튼 (닫기)
+                writDialog.dismiss();
+                fab.setImageResource(R.drawable.ic_main_fab_button);
+                break;
+            case R.id.check:
+                //일지 서버에 전송
+                writDialog.dismiss();
+                fab.setImageResource(R.drawable.ic_main_fab_button);
+                break;
+        }
+    }
+
+    private void getWheaterData(){
+        Call<ResponseWeatherJson> wheather = RetrofitClient.getApiService().getWheather(); //api 콜
+        wheather.enqueue(new AutoRetryCallback<ResponseWeatherJson>() {
+            @Override
+            public void onFinalFailure(Call<ResponseWeatherJson> call, Throwable t) {
+                Log.e("날씨 정보 연결실패", t.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call<ResponseWeatherJson> call, Response<ResponseWeatherJson> response) {
+                if(!response.isSuccessful()){
+                    Log.e("연결이 비정상적", "error code : " + response.code());
+                    return;
+                }
+
+                Log.d("날씨 통신 성공적", response.body().toString());
+                ResponseWeatherJson weatherJson = response.body(); //통신 결과 받기
+
+                //날씨 정보로 세팅
+                Log.d("날씨", weatherJson.getWeather());
+                Log.d("날씨", weatherJson.getWeather_imgurl());
+
+            }
+        });
+
+    }
 }

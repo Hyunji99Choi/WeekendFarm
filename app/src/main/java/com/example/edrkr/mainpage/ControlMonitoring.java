@@ -23,10 +23,14 @@ public class ControlMonitoring {
 
 
     private Context contex; //이거 사용안하는것 같음...
-    private sub_page1 page;
+    private sub_page1 page1;
+    private sub_page2 page2;
     //모니터링 화면의 context 가져오기
     public void setContextThis(Context contex, sub_page1 montoring){
-        this.contex=contex; this.page=montoring;
+        this.contex=contex; this.page1 =montoring;
+    }
+    public void setSubpage2(sub_page2 graph){
+        this.page2 = graph;
     }
 
     private cctv_fragmentpage1 cctv1;
@@ -37,7 +41,10 @@ public class ControlMonitoring {
     public void setFragmentPage2(cctv_fragmentpage2 s2){ this.cctv2=s2; }
     public void setFragmentPage3(cctv_fragmentpage3 s3){ this.cctv3=s3; }
 
-
+    //그래프 통신
+    public void NetworkkGraphCall(){
+        page2.getGreahData();
+    }
 
 
     //센서 통신하기
@@ -114,26 +121,26 @@ public class ControlMonitoring {
         Log.w("코멘트"," "+comment);
 
         //토양센서, 프로세스
-        page.soil_sensor.setProgress(soil);
+        page1.soil_sensor.setProgress(soil);
 
 
         //조도센서
-        page.sunny_drawable.setColor(sunny_color(sunny));
-        page.sunny_sensor.setImageDrawable(page.sunny_drawable);
+        page1.sunny_drawable.setColor(sunny_color(sunny));
+        page1.sunny_sensor.setImageDrawable(page1.sunny_drawable);
 
         //대기온도센서
-        page.hot_drawable.setColor(hot_color(hot));
-        page.hot_sencor.setImageDrawable(page.hot_drawable);
+        page1.hot_drawable.setColor(hot_color(hot));
+        page1.hot_sencor.setImageDrawable(page1.hot_drawable);
         String temp = String.format("%.1f",hot); //warning
-        page.hot_text.setText(temp+"c"); //use resource string with placeholders
+        page1.hot_text.setText(temp+"c"); //use resource string with placeholders
 
 
         //대기습도센서, 프로세스
-        page.water_seneor.setProgress(water);
+        page1.water_seneor.setProgress(water);
 
 
         //총론 수정 *** 각 값에 따른 수정이 필요함.
-        page.comment.setText(comment);
+        page1.comment.setText(comment);
 
     }
 

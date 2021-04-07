@@ -9,10 +9,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import com.dd.processbutton.iml.ActionProcessButton;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
 import com.example.edrkr.h_network.AutoRetryCallback;
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences autoLoginData;
     SharedPreferences.Editor editor;
 
-    Button loginButton;
+    ActionProcessButton loginButton;
     TextView signupButton;
 
     String UserID;
@@ -81,14 +84,20 @@ public class MainActivity extends AppCompatActivity {
                 switch (view.getId()){
                     case R.id.loginButton:
 
+                        //버튼 에니메이션 시작
+                        loginButton.setMode(ActionProcessButton.Mode.ENDLESS);
+                        loginButton.setProgress(1);
+
+                        // 통신 관련 코드
                         UserID=idInput.getText().toString();
                         UserPW=passwordInput.getText().toString();
 
+
                         if (UserID.isEmpty()||UserPW.isEmpty()) {
                             LoginFailMessage.show();
+                            loginButton.setProgress(0);
                             return;
                         }
-
 
 
                         //*********************************************
@@ -100,10 +109,14 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent1 = new Intent(MainActivity.this, MonitoringPage.class);
                             startActivity(intent1);
                             finish();
-
+                            loginButton.setProgress(-1); //오프라인으로 입장
                             return;
                         }
                         //*********************************************
+
+                        //로그인 진행중 에니메이션
+                        //loginButton.setProgress(60);
+
 
                         //로딩중 만들기...
                         LoginNetwork(UserID,UserPW); //로그인 시도
@@ -135,8 +148,13 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()){
                     Log.e("연결이 비정상적", "error code : " + response.code());
+                    //실패시 메시지 띄우는거 추가하기
+                    loginButton.setProgress(-1);
                     return;
                 }
+
+                //로그인 진행중 에니메이션
+                //loginButton.setProgress(80);
 
                 //통신 성공적
                 if(response.body().equals("성공")){
@@ -146,19 +164,16 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     //아이디, 비번 잘못됨.
                     Log.d("정보가 없는 회원", response.body());
+                    loginButton.setProgress(0);
                     LoginFailMessage.show();
                 }
 
             }
-            /*
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e("연결실패", t.getMessage());
-            }
-            */
+
             @Override
             public void onFinalFailure(Call<String> call, Throwable t) {
                     Log.e("로그인 연결실패", t.getMessage());
+                    loginButton.setProgress(-1);
             }
         });
 
@@ -172,8 +187,13 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseUserIdent> call, Response<ResponseUserIdent> response) {
                 if(!response.isSuccessful()){
                     Log.e("연결이 비정상적", "error code : " + response.code());
+                    loginButton.setProgress(-1);
                     return;
                 }
+
+                //로그인 진행중 에니메이션
+                //loginButton.setProgress(90);
+
 
                 Log.d("유저 정보 접근이 성공적", response.body().toString());
                 ResponseUserIdent userIdent = response.body(); //통신 결과 받기
@@ -187,21 +207,33 @@ public class MainActivity extends AppCompatActivity {
                 UserIdent.GetInstance().printLog(); //확인
 
 
+                //로그인 진행중 에니메이션
+                loginButton.setProgress(100);
+
+
+                //통신 완료후 페이지 넘김
+                /*
+                loginButton.stopAnimation(TransitionButton.StopAnimationStyle.EXPAND, new TransitionButton.OnAnimationStopEndListener() {
+                    @Override
+                    public void onAnimationStopEnd() {
+                        Intent monitoringIntent = new Intent(MainActivity.this, MonitoringPage.class);
+                        startActivity(monitoringIntent);
+                        //intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    }
+                });
+                */
+
                 Intent monitoringIntent = new Intent(MainActivity.this, MonitoringPage.class);
                 startActivity(monitoringIntent);
                 //finish();
-
+                //loginButton.setProgress(0);
 
             }//통신 실패나 로그아웃하면 싱글턴 비우는 문법 추가하기???
-            /*
-            @Override
-            public void onFailure(Call<ResponseUserIdent> call, Throwable t) {
-                Log.e("회원 정보 연결실패", t.getMessage());
-            }
-            */
+
             @Override
             public void onFinalFailure(Call<ResponseUserIdent> call, Throwable t) {
                 Log.e("회원 정보 연결실패", t.getMessage());
+                loginButton.setProgress(-1);
             }
 
         });
