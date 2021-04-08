@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:text="회원 내역"
         android:textColor="#000000"
-        android:textSize="24dp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

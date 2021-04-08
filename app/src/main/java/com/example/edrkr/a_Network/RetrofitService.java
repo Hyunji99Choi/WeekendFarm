@@ -13,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -45,3 +46,5 @@ public interface RetrofitService {
     Call<PatchComment> patchComment(@Path(value = "post",encoded = true)String post, @Body PatchComment patch);
 
 }
+//https://futurestud.io/tutorials/retrofit-2-how-to-use-dynamic-urls-for-requests - url 여기참고
+//https://landroid.tistory.com/6

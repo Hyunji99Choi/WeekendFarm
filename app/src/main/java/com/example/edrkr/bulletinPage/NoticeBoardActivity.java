@@ -34,6 +34,9 @@ import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +56,7 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     private String usernickname;
     private ArrayList<Board> myDataset = new ArrayList<>(); //리사이클러뷰에 표시할 데이터 리스트 생성
     private String TAG = "areum/noticeboardactivity"; //log에 사용하는 tag 생성
-    private MenuItem mSearchView;
-    private ActionMode mActionMode;
+    private SearchView mSearchView;
     private String url = "forum/";
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){ //다른 intent 갔다가 돌아왔을 경우 실행하는 함수
@@ -291,48 +293,35 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.noticeboard_menu,menu);
 
-        mSearchView = menu.findItem(R.id.menu_search_view);
-//        mSearchView = (SearchView) findViewById(R.id.notice_search);
-////        mSearchView.setQueryHint(getResources().getString(R.string.action_search));
-//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                mSearchView.clearFocus();
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
+        mSearchView = (SearchView) menu.findItem(R.id.menu_search_view).getActionView();
+        mSearchView.setQueryHint("검색어를 입력하세요.");
+        mSearchView.setMaxWidth(Integer.MAX_VALUE);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+          @Override
+           public boolean onQueryTextSubmit(String query) {
+              Log.v(TAG,"query : "+query);
+              url ="forum/?keyword="+query;
+              /*try {
+                  url = URLEncoder.encode("forum/?keyword="+query,"UTF-8");
+                  Log.v(TAG,"encoding 완료");
+              } catch (UnsupportedEncodingException e) {
+                  e.printStackTrace();
+              }*/
+              Log.v(TAG,"url : "+url);
+              getBoardData();
+              url = "forum/";
+              query = "";
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 //        mSearchView.setIconifiedByDefault(false);
-//        mSearchView.setVisible(false);
         return true;
     }
-
-    ActionMode.Callback mActionCallBack = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-//            mSearchView.requestFocus();
-            return true;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-
-        }
-    };
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){ //option 선택될 경우
