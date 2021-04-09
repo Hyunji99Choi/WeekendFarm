@@ -81,7 +81,7 @@ public class Managerpage extends AppCompatActivity { //메니저 페이지 - 2�
     private View createTabView(String tabName) { //+버튼 클릭시
         Log.v("managerpage","createTabView");
         mContext = getApplicationContext();
-        View tabView = LayoutInflater.from(mContext).inflate(R.layout.custom_tab, null);
+        View tabView = LayoutInflater.from(mContext).inflate(R.layout.managerpage_custom_tab, null);
         Log.v("managerpage","createTabView");
         TextView txt_name = (TextView) tabView.findViewById(R.id.txt_name);
         Log.v("managerpage","createTabView");
