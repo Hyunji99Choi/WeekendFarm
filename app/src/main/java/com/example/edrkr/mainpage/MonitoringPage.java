@@ -27,6 +27,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.transition.Explode;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -279,6 +280,9 @@ public class MonitoringPage extends AppCompatActivity {
     //플로팅 버튼 클릭 이벤트
     public void fabOnClick(View view){
         fab.setImageResource(R.drawable.ic_main_fab_writting_button);
+
+        //클릭 에니메이션
+        //fab.startAnimation();
 
         //글쓰기 다이로그 열기
         writDialog = new Dialog(this); //그때그때 객체 생성 고민해보기

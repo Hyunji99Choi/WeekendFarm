@@ -14,11 +14,12 @@
         android:orientation="horizontal">
         <ImageButton
             android:id="@+id/back"
-            android:layout_width="20dp"
+            android:layout_width="23dp"
             android:layout_height="30dp"
             android:background="@drawable/ic_goout"
             android:layout_margin="10dp"
             android:layout_gravity="center"
+            android:paddingRight="10dp"
             android:onClick="dialogOnClick"
             android:layout_weight="1"/>
         <TextView
@@ -34,11 +35,12 @@
             android:layout_weight="5"/>
         <ImageButton
             android:id="@+id/check"
-            android:layout_width="20dp"
+            android:layout_width="23dp"
             android:layout_height="30dp"
             android:background="@drawable/ic_send"
             android:layout_margin="10dp"
             android:layout_gravity="center"
+            android:paddingLeft="10dp"
             android:onClick="dialogOnClick"
             android:layout_weight="1"/>
     </LinearLayout>
