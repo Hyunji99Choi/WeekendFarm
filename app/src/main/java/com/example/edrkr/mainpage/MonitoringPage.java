@@ -289,6 +289,8 @@ public class MonitoringPage extends AppCompatActivity {
         writDialog.setContentView(R.layout.today_writting_custom_dialog);
         settingDialog(writDialog);
         writDialog.show();
+        writDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 투명 배경
+
 
     }
 
@@ -304,7 +306,6 @@ public class MonitoringPage extends AppCompatActivity {
     }
 
     public void dialogOnClick(View view){
-
         switch (view.getId()){
             case R.id.back: // x 버튼 (닫기)
                 writDialog.dismiss();

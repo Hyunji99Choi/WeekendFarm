@@ -3,47 +3,52 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@drawable/round_bg"
     android:orientation="vertical">
 
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/gray"
-        android:orientation="horizontal">
-        <ImageButton
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:background="@drawable/round_bg_toolbar">
+        <FrameLayout
             android:id="@+id/back"
-            android:layout_width="23dp"
-            android:layout_height="30dp"
-            android:background="@drawable/ic_goout"
-            android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:paddingRight="10dp"
-            android:onClick="dialogOnClick"
-            android:layout_weight="1"/>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:onClick="dialogOnClick">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_goout"
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:padding="13dp"
+                android:scaleType="fitCenter"/>
+        </FrameLayout>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="22sp"
             android:text="오늘의 일지"
             android:gravity="center"
-            android:layout_gravity="center"
-            android:paddingVertical="10dp"
-            android:paddingHorizontal="20dp"
-            android:layout_marginHorizontal="20dp"
-            android:layout_weight="5"/>
-        <ImageButton
+            android:layout_centerInParent="true"/>
+        <FrameLayout
             android:id="@+id/check"
-            android:layout_width="23dp"
-            android:layout_height="30dp"
-            android:background="@drawable/ic_send"
-            android:layout_margin="10dp"
-            android:layout_gravity="center"
-            android:paddingLeft="10dp"
-            android:onClick="dialogOnClick"
-            android:layout_weight="1"/>
-    </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:onClick="dialogOnClick">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_send"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:padding="13dp" />
+        </FrameLayout>
+    </RelativeLayout>
 
 
 
@@ -52,7 +57,9 @@
         android:id="@+id/inputlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:paddingHorizontal="12dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/round_bg_memo">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/body"
             android:layout_width="match_parent"
