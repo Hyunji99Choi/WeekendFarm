@@ -81,8 +81,8 @@ public class UserIdent {
         }
 
 
-        //배열 0번째 밭 초기 설정(현재 내가 모니터링 할 밭)
-        nowMontriongFarm=getFarmID(0);
+        // 0번 배열로 설정(현재 내가 모니터링 할 밭 저장한 배열 번호 0 -> 배열 번호 기준.)
+        nowMontriongFarm=0;
 
     }
 

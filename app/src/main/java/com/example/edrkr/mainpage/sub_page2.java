@@ -51,7 +51,7 @@ public class sub_page2 extends Fragment {
 
     public void getGreahData(){
         Call<List<ResponseGraphJson>> graph = RetrofitClient.getApiService()
-                .getGraph(String.valueOf(UserIdent.GetInstance().getNowMontriongFarm())); //api 콜
+                .getGraph(String.valueOf(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()))); //api 콜
         graph.enqueue(new AutoRetryCallback<List<ResponseGraphJson>>() {
             @Override
             public void onFinalFailure(Call<List<ResponseGraphJson>> call, Throwable t) {

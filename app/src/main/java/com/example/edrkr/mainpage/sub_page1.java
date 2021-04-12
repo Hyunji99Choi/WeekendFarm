@@ -145,7 +145,8 @@ public class sub_page1 extends Fragment {
             public void run() {
 
                 Log.w("timer",""+count++);
-                Log.w("현재 통신대상",""+UserIdent.GetInstance().getNowMontriongFarm());
+                Log.w("현재 통신대상",UserIdent.GetInstance().getNowMontriongFarm()+"번 배열");
+                Log.w("현재 통신대상","id : "+UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
                 ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(UserIdent.GetInstance().getNowMontriongFarm()));
 
                 }
