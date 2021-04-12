@@ -92,7 +92,7 @@ public class MonitoringPage extends AppCompatActivity {
         //첫번째 배열 값으로 툴바 textview 타이틀 수정
         Log.w("타이틀 세팅","수정 전");
         if(UserIdent.GetInstance().getFarmCount()!=0) //밭이 0이면 실행안함. --> 쓰레기값이나 빈 값이어도 실행 안되게 하기(수정해야함.)
-            farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm()));
+            farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm()-1)); //배열번호가 아닌 id로 접근
 
         //날씨 통신
         getWheaterData();
@@ -202,13 +202,13 @@ public class MonitoringPage extends AppCompatActivity {
 
                 //i 배열에 있는 밭 번호
                 Toast.makeText(context, ""+UserIdent.GetInstance().getFarmName(i), Toast.LENGTH_SHORT).show();
-                UserIdent.GetInstance().setNowMontriongFarm(i); //이제 통신할 값은 이 밭이라고 선언.
-                farmTitile.setText(UserIdent.GetInstance().getFarmName(i));
+                UserIdent.GetInstance().setNowMontriongFarm(UserIdent.GetInstance().getFarmID(i)); //이제 통신할 값은 이 밭이라고 선언.
+                farmTitile.setText(UserIdent.GetInstance().getFarmName(i-1)); //문의
 
                 //각 밭 선택에 따른 cctv 통신
-                ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(i));
+                ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getNowMontriongFarm());
                 //각 밭 선택에 따른 통신 및 센서값 세팅
-                ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getFarmID(i));
+                ControlMonitoring.GetInstance().NetworkSensorCall(UserIdent.GetInstance().getNowMontriongFarm());
                 //각 밭 선택에 다른 그래프 통신
                 ControlMonitoring.GetInstance().NetworkkGraphCall();
 

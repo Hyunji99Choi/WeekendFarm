@@ -82,7 +82,7 @@ public class UserIdent {
 
 
         //배열 0번째 밭 초기 설정(현재 내가 모니터링 할 밭)
-        nowMontriongFarm=0;
+        nowMontriongFarm=getFarmID(0);
 
     }
 
