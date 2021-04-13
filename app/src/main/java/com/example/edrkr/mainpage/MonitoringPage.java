@@ -27,6 +27,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.transition.Explode;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -91,7 +92,7 @@ public class MonitoringPage extends AppCompatActivity {
         //첫번째 배열 값으로 툴바 textview 타이틀 수정
         Log.w("타이틀 세팅","수정 전");
         if(UserIdent.GetInstance().getFarmCount()!=0) //밭이 0이면 실행안함. --> 쓰레기값이나 빈 값이어도 실행 안되게 하기(수정해야함.)
-            farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm()));
+            farmTitile.setText(UserIdent.GetInstance().getFarmName(UserIdent.GetInstance().getNowMontriongFarm())); //nowMontriongFarm가 배열 번호
 
         //날씨 통신
         getWheaterData();
@@ -202,7 +203,7 @@ public class MonitoringPage extends AppCompatActivity {
                 //i 배열에 있는 밭 번호
                 Toast.makeText(context, ""+UserIdent.GetInstance().getFarmName(i), Toast.LENGTH_SHORT).show();
                 UserIdent.GetInstance().setNowMontriongFarm(i); //이제 통신할 값은 이 밭이라고 선언.
-                farmTitile.setText(UserIdent.GetInstance().getFarmName(i));
+                farmTitile.setText(UserIdent.GetInstance().getFarmName(i)); //문의
 
                 //각 밭 선택에 따른 cctv 통신
                 ControlMonitoring.GetInstance().NetworkCCTVCall(UserIdent.GetInstance().getFarmID(i));
@@ -280,11 +281,16 @@ public class MonitoringPage extends AppCompatActivity {
     public void fabOnClick(View view){
         fab.setImageResource(R.drawable.ic_main_fab_writting_button);
 
+        //클릭 에니메이션
+        //fab.startAnimation();
+
         //글쓰기 다이로그 열기
         writDialog = new Dialog(this); //그때그때 객체 생성 고민해보기
         writDialog.setContentView(R.layout.today_writting_custom_dialog);
         settingDialog(writDialog);
         writDialog.show();
+        writDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 투명 배경
+
 
     }
 
@@ -300,7 +306,6 @@ public class MonitoringPage extends AppCompatActivity {
     }
 
     public void dialogOnClick(View view){
-
         switch (view.getId()){
             case R.id.back: // x 버튼 (닫기)
                 writDialog.dismiss();

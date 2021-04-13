@@ -109,6 +109,7 @@
 
 
             <!--fab 플로팅 버튼-->
+            <!--
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_main"
                 android:layout_width="wrap_content"
@@ -125,6 +126,21 @@
                 app:fabCustomSize="65dp"
                 android:src="@drawable/ic_main_fab_button"
                 app:pressedTranslationZ="12dp" />
+               -->
+            <com.example.edrkr.MovableFloatingActionButton
+                android:id="@+id/fab_main"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="12dp"
+                android:backgroundTint="#C127697C"
+                android:onClick="fabOnClick"
+                android:scaleType="fitCenter"
+                android:paddingHorizontal="18dp"
+                android:paddingBottom="15dp"
+                app:fab_size="normal"
+
+                android:src="@drawable/ic_main_fab_button"/>
 
 
         <!--베너 -->
