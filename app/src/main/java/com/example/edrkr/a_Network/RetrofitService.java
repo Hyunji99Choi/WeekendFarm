@@ -13,15 +13,20 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface RetrofitService {
 
     //@GET( EndPoint - 자원위치(URL))
     @GET("{post}") //처음 글 로딩 부분
     Call<List<GetBoard>> getBoard(@Path(value = "post", encoded = true) String post); //응답이 왔을 떄 CallBack으로 불려질 타입
+
+    @GET("forum") //키워드 서치
+    Call<List<GetBoard>> getSearchBoard(@Query("keyword") String keyword);
 
     @GET("{post}") //각 게시글 보는 부분
     Call<GetEachBoard> getComment(@Path(value = "post", encoded = true) String post);
@@ -45,3 +50,5 @@ public interface RetrofitService {
     Call<PatchComment> patchComment(@Path(value = "post",encoded = true)String post, @Body PatchComment patch);
 
 }
+//https://futurestud.io/tutorials/retrofit-2-how-to-use-dynamic-urls-for-requests - url 여기참고
+//https://landroid.tistory.com/6

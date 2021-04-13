@@ -34,6 +34,9 @@ import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +56,8 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     private String usernickname;
     private ArrayList<Board> myDataset = new ArrayList<>(); //리사이클러뷰에 표시할 데이터 리스트 생성
     private String TAG = "areum/noticeboardactivity"; //log에 사용하는 tag 생성
-    private MenuItem mSearchView;
-    private ActionMode mActionMode;
+    private SearchView mSearchView;
+    private String keyword ="";
     private String url = "forum/";
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){ //다른 intent 갔다가 돌아왔을 경우 실행하는 함수
@@ -244,6 +247,12 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     }
 
     public void getBoardData(){ //게시글에 대한 데이터를 받아오는 함수
+        Log.v(TAG,"keyword : "+keyword);
+        if(!keyword.equals("")){
+            Log.v(TAG,"searchview_open true 진입완료");
+            SearchBoard(keyword);
+            return;
+        }
         myDataset = new ArrayList<Board>();
         final ArrayList<Board> dataset = new ArrayList<Board>();
 
@@ -286,53 +295,80 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         });
     }
 
+    public void SearchBoard(String query){
+        myDataset = new ArrayList<Board>();
+        final ArrayList<Board> dataset = new ArrayList<Board>();
+        Log.v(TAG,"SearchBoard 진입완료");
+
+        RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
+        service.getSearchBoard(query).enqueue(new Callback<List<GetBoard>>() {
+            @Override
+            public void onResponse(Call<List<GetBoard>> call, Response<List<GetBoard>> response) { //서버와 통신하여 반응이 왔다면
+                if(response.isSuccessful()){
+                    List<GetBoard> datas = response.body();
+                    Log.v(TAG,response.body().toString());
+                    if(datas != null){
+                        Log.v(TAG, "datas 받아오기 완료 datas.size = " +datas.size());
+                        for(int i = 0;i<datas.size();i++){
+                            Log.v(TAG,"data" + datas.get(i).getId()+" "+ datas.get(i).getTitle()+" "+datas.get(i).getBody()+"");
+                            //받아온 데이터 Board 클래스에 저장
+                            Board b = new Board(datas.get(i).getId(),datas.get(i).getName(),datas.get(i).getTitle(),datas.get(i).getBody(),datas.get(i).getCommentNum(),datas.get(i).getTime());
+//                            Log.v(TAG,"board 생성 완료");
+                            dataset.add(b); //저장한 Board 클래스 arraylist에 넣음.
+                        }
+                        Log.v(TAG,"getData2 end================================");
+//                        Log.v(TAG,"dataset 크기 : "+dataset.size());
+                        Log.v(TAG,"recyclerview 적용");
+                        myDataset = dataset; //Board 데이터 셋을 서버를 통해 받은 데이터 셋으로 변경
+                        //adapter 설정
+                        mAdapter.changeDataset(myDataset);
+                        recyclerView.removeAllViewsInLayout();
+                        recyclerView.setAdapter(mAdapter);
+                    }
+                }else{
+                    Log.v(TAG, "onResponse: 실패");
+                }
+            }
+            @Override
+            public void onFailure(Call<List<GetBoard>> call, Throwable t) { //통신에 실패했을 경우
+                Log.v(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){ //optionmenu 생성코드
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.noticeboard_menu,menu);
 
-        mSearchView = menu.findItem(R.id.menu_search_view);
-//        mSearchView = (SearchView) findViewById(R.id.notice_search);
-////        mSearchView.setQueryHint(getResources().getString(R.string.action_search));
-//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                mSearchView.clearFocus();
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-//        mSearchView.setIconifiedByDefault(false);
-//        mSearchView.setVisible(false);
+        mSearchView = (SearchView) menu.findItem(R.id.menu_search_view).getActionView();
+        mSearchView.setQueryHint("검색어를 입력하세요.");
+        mSearchView.setMaxWidth(Integer.MAX_VALUE);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+          @Override
+           public boolean onQueryTextSubmit(String query) {
+              Log.v(TAG,"query : "+query);
+              SearchBoard(query);
+              return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+              keyword = newText;
+              return false;
+            }
+        });
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                Log.v(TAG,"closed");
+                getBoardData();
+                return false;
+            }
+        });
+
         return true;
     }
-
-    ActionMode.Callback mActionCallBack = new ActionMode.Callback() {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-//            mSearchView.requestFocus();
-            return true;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-
-        }
-    };
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){ //option 선택될 경우
