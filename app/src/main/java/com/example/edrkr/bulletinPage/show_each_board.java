@@ -48,7 +48,6 @@ public class show_each_board extends AppCompatActivity {
     private TextView show_name;
     private TextView show_date;
     private TextView show_body;
-    private TextView show_goodcount;
     private TextView show_saycount;
     private RecyclerView show_recyclerview;
     private EditText show_EditText;
@@ -81,7 +80,6 @@ public class show_each_board extends AppCompatActivity {
         show_name = (TextView) findViewById(R.id.show_name);
         show_date = (TextView) findViewById(R.id.show_date);
         show_body = (TextView) findViewById(R.id.show_body);
-        show_goodcount = (TextView)findViewById(R.id.show_goodcount);
         show_saycount = (TextView)findViewById(R.id.show_saycount);
         show_recyclerview = (RecyclerView)findViewById(R.id.show_recyclerview);
         show_EditText = (EditText)findViewById(R.id.show_edittext_write_comment);
@@ -197,7 +195,6 @@ public class show_each_board extends AppCompatActivity {
         show_date.setText(b.getDate());
         show_body.setText(b.getBody());
         show_saycount.setText(""+b.getChat_count());
-        show_goodcount.setText(""+b.getGood_count());
         Log.v(TAG+"setview", "board 잘 받음");
     }
 

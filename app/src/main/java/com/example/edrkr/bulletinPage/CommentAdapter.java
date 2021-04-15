@@ -10,11 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.example.edrkr.R;
+import com.example.edrkr.UserIdent;
 
 import java.util.ArrayList;
 //각 게시판 게시글을 볼 때 사용하는 adapter
@@ -92,6 +94,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
             name.setText(c.getName());
             date.setText(c.getDate());
             body.setText(c.getBody());
+            String nickname = UserIdent.GetInstance().getNkname();
+            if(c.getName().compareTo(nickname)!=0){
+                swipeRevealLayout.setLockDrag(true);
+                Log.v("arum.commentadapter","name : "+c.getName()+" body : "+c.getBody());
+            }
         }
     }
 

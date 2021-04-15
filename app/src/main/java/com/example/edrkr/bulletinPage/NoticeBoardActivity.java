@@ -376,14 +376,15 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
             case R.id.notice_myboard: //내가 쓴 게시글 보기
                 Log.v(TAG+"noticeboard_menu","notice_myboard클릭");
                 Toast.makeText(this,"notice_myboard onclick",Toast.LENGTH_SHORT).show();
-                url = "forum/user/post/"+UserIdent.GetInstance().getId();
+                url = "forum/user/post/"+UserIdent.GetInstance().getUserIdent();
+                Log.v(TAG,"url : "+url);
                 getBoardData();
                 url = "forum/";
                 break;
             case R.id.notice_mycomment: //내가 댓글단 게시글 보기
                 Log.v(TAG+"noticeboard_menu","notice_mycomment클릭");
                 Toast.makeText(this,"notice_mycomment onclick",Toast.LENGTH_SHORT).show();
-                url = "forum/user/com/"+UserIdent.GetInstance().getId();
+                url = "forum/user/com/"+UserIdent.GetInstance().getUserIdent();
                 getBoardData();
                 url = "forum/";
                 break;

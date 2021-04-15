@@ -38,7 +38,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
     private boolean init = true; //동시에 진입하지 않도록 하는 key
     private int two_count = 2; //빠르게 넘어가는거 방지 - 2번 당겨야 새로 데이터 가져옴
 
-    private int mode = 0; // 0 : 일간/ 1 : 년간 / 2 : 월간 / 3 : 주간
+    private int mode = 2; // 0 : 일간/ 1 : 년간 / 2 : 월간 / 3 : 주간
 
 
     public dailyMemo_recyclerview(Context context) {

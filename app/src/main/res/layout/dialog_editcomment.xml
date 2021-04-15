@@ -14,10 +14,10 @@
             android:id="@+id/cancel_edit"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:paddingRight="50dp"
+            android:paddingEnd="50dp"
             android:src="@drawable/ic_goout"
             android:background="@color/colorPrimary"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_weight="1"
             />
         <TextView
@@ -35,7 +35,7 @@
             android:layout_height="50dp"
             android:paddingStart="50dp"
             android:src="@drawable/ic_send"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:background="@color/colorPrimary"
             android:layout_weight="1"
             />
@@ -49,6 +49,9 @@
         android:minHeight="280dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
+        android:inputType="text"
+        android:hint="내용을 입력하세요"
+        android:text="test"
         />
 
 </LinearLayout>

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.example.edrkr.R;
+import com.example.edrkr.UserIdent;
 
 import java.util.ArrayList;
 
@@ -157,6 +158,11 @@ public class BulletinAdapter extends RecyclerView.Adapter<BulletinAdapter.MyView
             name.setText(board.getName());
             date.setText(board.getDate());
             chat_count.setText(Integer.toString(board.getChat_count()));
+            String nickname = UserIdent.GetInstance().getNkname();
+            if(board.getName().compareTo(nickname)!=0){
+                swipeRevealLayout.setLockDrag(true);
+                Log.v("arum.boardadapter","name : "+board.getName()+" body : "+board.getBody());
+            }
         }
     }
 

@@ -63,7 +63,7 @@
                     android:id="@+id/board_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
+                    android:paddingStart="5dp"
                     android:paddingTop="10dp"
 
                     android:text="TextView"
@@ -71,8 +71,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom">
 
                     <TextView
                         android:id="@+id/board_name"
@@ -81,10 +81,9 @@
                         android:layout_weight="1"
                         android:minWidth="100dp"
                         android:maxHeight="100dp"
-
                         android:paddingLeft="10dp"
                         android:text="닉네임"
-                        android:textSize="18dp" />
+                        android:textSize="13dp" />
 
                     <TextView
                         android:id="@+id/board_date"
@@ -92,13 +91,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
                         android:text="2020-10-03  21:09"
-                        android:textSize="18dp" />
+                        android:textSize="13dp" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -107,7 +106,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:paddingTop="20dp"
                     android:text="3" />
 
@@ -116,16 +114,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:paddingBottom="20dp"
                     android:text="댓글" />
             </LinearLayout>
         </LinearLayout>
 
         <View
-            android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="0.6dp"
+            android:layout_height="0.5dp"
             android:background="@color/gray" />
     </LinearLayout>
 

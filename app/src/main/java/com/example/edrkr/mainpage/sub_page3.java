@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.edrkr.R;
+import com.example.edrkr.dailyMemo.dailyMemo_recyclerview;
 
 public class sub_page3 extends Fragment {
 
