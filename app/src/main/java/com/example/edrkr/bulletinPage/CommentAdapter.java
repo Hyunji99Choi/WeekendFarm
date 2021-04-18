@@ -2,11 +2,14 @@ package com.example.edrkr.bulletinPage;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,6 +34,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         this.context = context;
         mDataset = myDataset;
     }
+
     //외부 클래스에 저장되어 있는 arraylist를 adapter에 복사
     public void changeDataset(ArrayList<Comment> myDataset) {
         this.mDataset = myDataset;
@@ -39,64 +43,28 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder{
         // each data item is just a string in this case
         private TextView name; //작성자
         private TextView date; //작성일
         private TextView body; //댓글 본문
-        //swipereeallayout용
-        private ImageView txtEdit;
-        private ImageView txtDelete;
-        private SwipeRevealLayout swipeRevealLayout;
+        private TextView buttonViewOption;
 
         public MyViewHolder(View v) { //각 댓글 모양을 잡아 놓은 곳에서 textview를 연결시킴
             super(v);
             name = v.findViewById(R.id.comment_name);
             date = v.findViewById(R.id.comment_date);
             body = v.findViewById(R.id.comment_textviewbody);
-            txtEdit = itemView.findViewById(R.id.txtCommentEdit);
-            txtDelete = itemView.findViewById(R.id.txtCommentDelete);
-            swipeRevealLayout = itemView.findViewById(R.id.swipelayout_comment);
-
-
-            txtEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.v(TAG,"Edit is Clicked");
-                    int pos = getAdapterPosition();
-                    if(pos!= RecyclerView.NO_POSITION)   //position이 있다면
-                    { //실제 click event 자리
-                        if(swipeClickListener != null){
-                            swipeClickListener.onEditCommentClick(v,pos);
-                        }
-                    }
-//                    Toast.makeText(context,"Edit is Clicked",Toast.LENGTH_LONG).show();
-                }
-            });
-
-            txtDelete.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    Log.v(TAG,"Deleted is Clicked");
-                    int pos = getAdapterPosition();
-                    if(pos!= RecyclerView.NO_POSITION)   //position이 있다면
-                    { //실제 click event 자리
-                        if(swipeClickListener != null){
-                            swipeClickListener.onDeleteCommentClick(v,pos);
-                            Log.v(TAG,pos+"번이 클릭됨");
-                        }
-                    }
-//                    Toast.makeText(context,"Deleted is Clicked",Toast.LENGTH_LONG).show();
-                }
-            });
+            buttonViewOption = itemView.findViewById(R.id.textViewOptions);
         }
+
         void bindData(Comment c){
             name.setText(c.getName());
             date.setText(c.getDate());
             body.setText(c.getBody());
             String nickname = UserIdent.GetInstance().getNkname();
             if(c.getName().compareTo(nickname)!=0){
-                swipeRevealLayout.setLockDrag(true);
+                buttonViewOption.setVisibility(View.INVISIBLE);
                 Log.v("arum.commentadapter","name : "+c.getName()+" body : "+c.getBody());
             }
         }
@@ -125,9 +93,45 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         viewBinderHelper.setOpenOnlyOne(true);
-        viewBinderHelper.bind(holder.swipeRevealLayout,String.valueOf(mDataset.get(position).getName()));
         viewBinderHelper.closeLayout(String.valueOf(mDataset.get(position).getName()));
         holder.bindData(mDataset.get(position));
+
+        holder.buttonViewOption.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                //create a popup menu
+                PopupMenu popup = new PopupMenu(context,holder.buttonViewOption);
+                //inflating menu from xml resource
+                popup.inflate(R.menu.comment_menu);
+                //adding click listener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.edit_comment:
+                                if(position!= RecyclerView.NO_POSITION)   //position이 있다면
+                                { //실제 click event 자리
+                                    if(swipeClickListener != null){
+                                        swipeClickListener.onEditCommentClick(view,position);
+                                    }
+                                }
+                                break;
+                            case R.id.delete_comment:
+                                if(position!= RecyclerView.NO_POSITION)   //position이 있다면
+                                { //실제 click event 자리
+                                    if(swipeClickListener != null){
+                                        swipeClickListener.onDeleteCommentClick(view,position);
+                                        Log.v(TAG,position+"번이 클릭됨");
+                                    }
+                                }
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popup.show();
+            }
+        });
         Log.v("알림","list에 적용완료");
     }
 

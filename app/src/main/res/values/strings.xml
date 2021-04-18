@@ -9,4 +9,6 @@
     //아름
     <string name="action_setting">서치뷰 테스트중</string>
     <string name="action_search">키워드를 입력해주세요</string>
+    <string name="edit">수정</string>
+    <string name="delete">삭제</string>
 </resources>

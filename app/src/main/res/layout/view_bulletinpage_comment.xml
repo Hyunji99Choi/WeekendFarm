@@ -1,111 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.chauthai.swipereveallayout.SwipeRevealLayout
-    android:id="@+id/swipelayout_comment"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipelayout_comment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:dragEdge = "right"
-    app:mode="same_level">
-
-    <!--Swipe Layout-->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        tools:ignore="MissingConstraints">
-
-        <ImageView
-            android:id="@+id/txtCommentEdit"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="#d2691e"
-            android:gravity="center_vertical|center_horizontal"
-            android:padding="20dp"
-            android:src="@drawable/ic_edit" />
-
-        <ImageView
-            android:id="@+id/txtCommentDelete"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="#d269"
-            android:gravity="center_vertical|center_horizontal"
-            android:padding="20dp"
-            android:src="@drawable/ic_delete" />
-    </LinearLayout>
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_margin="5dp"
+        android:layout_marginStart="10dp"
+        android:minHeight="80dp"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/show_profileimage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_basic_profile"
+            app:civ_border_color="@color/black"
+            app:civ_border_width="2dp"
+            app:civ_circle_background_color="@color/white" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_margin="5dp"
-            android:minHeight="80dp"
-            android:orientation="horizontal">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/show_profileimage"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_basic_profile"
-                app:civ_border_color="@color/black"
-                app:civ_border_width="2dp"
-                app:civ_circle_background_color="@color/white" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/comment_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:orientation="vertical">
+                android:layout_marginTop="8dp"
+                android:text="닉네임"
+                android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/comment_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="닉네임"
-                    android:textSize="15sp" />
+            <TextView
+                android:id="@+id/comment_textviewbody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:gravity="center_vertical"
+                android:minHeight="30dp"
+                android:text="TextView"
+                android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/comment_textviewbody"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:minHeight="30dp"
-                    android:gravity="center_vertical"
-                    android:text="TextView"
-                    android:textSize="14sp" />
+            <TextView
+                android:id="@+id/comment_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-                <TextView
-                    android:id="@+id/comment_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginStart="5dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="2020-10-03  13:50"
-                    android:textSize="10sp" />
-            </LinearLayout>
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="8dp"
+                android:text="2020-10-03  13:50"
+                android:textSize="10sp" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/view5"
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:background="@color/gray"
-            tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/textViewOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="10dp"
+            android:text="&#8942;"
+            android:textAppearance="?android:textAppearanceLarge" />
 
     </LinearLayout>
 
-</com.chauthai.swipereveallayout.SwipeRevealLayout>
+    <View
+        android:id="@+id/view5"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="@color/gray"
+        tools:ignore="MissingConstraints" />
+
+</LinearLayout>

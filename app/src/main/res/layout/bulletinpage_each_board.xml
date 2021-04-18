@@ -103,8 +103,8 @@
 
                         <ImageView
                             android:id="@+id/imageView"
-                            android:layout_width="26dp"
-                            android:layout_height="26dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:src="@drawable/say" />
 
@@ -115,7 +115,7 @@
                             android:layout_gravity="center"
                             android:paddingStart="5dp"
                             android:paddingEnd="10dp"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:text="3" />
                     </LinearLayout>
 
