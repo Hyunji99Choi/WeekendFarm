@@ -43,7 +43,9 @@ public class sub_page2 extends Fragment {
 
 
         //그래프 값 통신
-        getGreahData();
+        if(UserIdent.GetInstance().getFarmCount()!=0) //밭이 0이면 실행안함. --> 쓰레기값이나 빈 값이어도 실행 안되게 하기(수정해야함.)
+            getGreahData();
+
 
         return view;
 

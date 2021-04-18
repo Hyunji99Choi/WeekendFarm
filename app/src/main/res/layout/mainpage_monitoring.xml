@@ -48,6 +48,14 @@
                     android:alpha="0.3"
                     android:background="@android:color/black"
                     android:fitsSystemWindows="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="안녕"
+                    android:textSize="30sp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"/>
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
