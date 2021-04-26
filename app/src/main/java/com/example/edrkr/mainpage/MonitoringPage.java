@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -89,6 +90,7 @@ public class MonitoringPage extends AppCompatActivity {
     Dialog writDialog; //일지 다이로그
     TextView weatherText; // 날씨 종류 text
     ImageView weaterImg; //날씨 종류 이미지
+    Bitmap bitmapImg; //날씨 비트맵 이미지
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -358,8 +360,25 @@ public class MonitoringPage extends AppCompatActivity {
                 Log.d("날씨", weatherJson.getWeather_imgurl());
 
                 weatherText.setText(weatherJson.getWeather());
-                //Bitmap img = getBitmap(weatherJson.getWeather_imgurl()); //에러
-                //weaterImg.setImageBitmap(img);
+
+                // 비트맵 세팅
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            bitmapImg = getBitmap(weatherJson.getWeather_imgurl());
+                        }catch(Exception e) { }
+                        finally {
+                            if(bitmapImg!=null) {
+                                weaterImg.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        weaterImg.setImageBitmap(bitmapImg);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }).start();
 
 
             }

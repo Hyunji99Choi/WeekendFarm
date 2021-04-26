@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.edrkr.R;
 import com.example.edrkr.dailyMemo.dailyMemo_recyclerview;
+import com.google.android.material.button.MaterialButton;
 
 public class sub_page3 extends Fragment implements View.OnClickListener {
 
@@ -23,9 +24,9 @@ public class sub_page3 extends Fragment implements View.OnClickListener {
 
         View view=inflater.inflate(R.layout.mainpage_sub_page3,container,false);
 
-        ToggleButton year = view.findViewById(R.id.year);
-        ToggleButton month = view.findViewById(R.id.month);
-        ToggleButton week = view.findViewById(R.id.week);
+        MaterialButton year = view.findViewById(R.id.year);
+        MaterialButton month = view.findViewById(R.id.month);
+        MaterialButton week = view.findViewById(R.id.week);
 
         year.setOnClickListener(this);
         month.setOnClickListener(this);
