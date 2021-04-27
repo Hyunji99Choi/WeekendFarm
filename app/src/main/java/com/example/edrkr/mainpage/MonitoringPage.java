@@ -5,16 +5,21 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +55,12 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -77,6 +88,10 @@ public class MonitoringPage extends AppCompatActivity {
     FloatingActionButton fab; //일지 쓰기 버튼, fab 버튼
 
     Dialog writDialog; //일지 다이로그
+    TextView weatherText; // 날씨 종류 text
+    ImageView weaterImg; //날씨 종류 이미지
+    Bitmap bitmapImg; //날씨 비트맵 이미지
+    ImageView weatherToolbarImg; //툴바 날시 배경 이미지
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -116,6 +131,7 @@ public class MonitoringPage extends AppCompatActivity {
 
         //textview, 툴바 타이틀(제목, 현재 밭)
         farmTitile = findViewById(R.id.toolbar_textView); // 툴바 타이틀
+        weatherToolbarImg = findViewById(R.id.toolbar_imageView); //툴바 배경 이미지
 
         //Tab 메뉴
         tabLayout=findViewById(R.id.layout_tab);
@@ -147,6 +163,10 @@ public class MonitoringPage extends AppCompatActivity {
 
         //일지 쓰기 버튼 연결(fab)
         fab = findViewById(R.id.fab_main);
+
+        //날씨 종류 이미지, 그림
+        weatherText = findViewById(R.id.weatherText);
+        weaterImg = findViewById(R.id.weatherImg);
     }
 
     /*
@@ -240,8 +260,8 @@ public class MonitoringPage extends AppCompatActivity {
                         break;
 
                     case R.id.menu_admin_key:
-                        Intent keypage = new Intent(MonitoringPage.this, KeyCreatePage.class);
-                        startActivity(keypage);
+                        //Intent keypage = new Intent(MonitoringPage.this, KeyCreatePage.class);
+                        //startActivity(keypage);
 
                         Toast.makeText(MonitoringPage.this,"key생성페이지",Toast.LENGTH_SHORT).show();
                         break;
@@ -341,8 +361,71 @@ public class MonitoringPage extends AppCompatActivity {
                 Log.d("날씨", weatherJson.getWeather());
                 Log.d("날씨", weatherJson.getWeather_imgurl());
 
+                weatherText.setText(weatherJson.getWeather());
+
+                // 비트맵 세팅
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            bitmapImg = getBitmap(weatherJson.getWeather_imgurl());
+                        }catch(Exception e) { }
+                        finally {
+                            if(bitmapImg!=null) {
+                                weaterImg.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        weaterImg.setImageBitmap(bitmapImg);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }).start();
+
+
             }
         });
 
     }
+
+    // 이미지 url 세팅, 에러 고쳐야함
+    private Bitmap getBitmap(String url) {
+        URL imgUrl = null;
+        HttpURLConnection connection = null;
+        InputStream is = null;
+        Bitmap retBitmap = null;
+        try{
+            imgUrl = new URL(url);
+            connection = (HttpURLConnection) imgUrl.openConnection();
+            connection.setDoInput(true); //url로 input받는 flag 허용
+            connection.connect(); //연결
+            is = connection.getInputStream(); // get inputstream
+            retBitmap = BitmapFactory.decodeStream(is);
+
+        }catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }finally {
+            if(connection!=null) {
+                connection.disconnect();
+            } return retBitmap;
+        }
+    }
+
+    //날씨 툴바 이미지(변수이름들 조사)
+    public void setToolberImg(String weather){
+
+        switch (weather){
+            case "CLear":
+
+                break;
+            case "Rain":
+                weatherToolbarImg.setImageResource(R.drawable.weather_rain);
+                break;
+            case "scattered clouds":
+
+
+        }
+    }
+
 }

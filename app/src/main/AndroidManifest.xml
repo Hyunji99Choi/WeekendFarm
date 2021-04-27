@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".mainpage.MonitoringPage"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar.Material"
             ></activity>
 
         <activity android:name=".firstpage.login_SingUpPage"

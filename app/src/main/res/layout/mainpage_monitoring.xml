@@ -37,7 +37,7 @@
                     android:id="@+id/toolbar_imageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/toolbar_image"
+                    android:background="@drawable/weather_clear"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
                     app:layout_collapseParallaxMultiplier="0.75"
@@ -48,13 +48,26 @@
                     android:alpha="0.3"
                     android:background="@android:color/black"
                     android:fitsSystemWindows="true"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="안녕"
-                    android:textSize="30sp"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/weatherText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="100dp"
+                        android:text="날씨 정보"
+                        android:textSize="30sp"
+                        android:gravity="center"
+                        android:textColor="@color/white"/>
+                    <ImageView
+                        android:id="@+id/weatherImg"
+                        android:layout_gravity="center"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"/>
+                </RelativeLayout>
+
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -87,6 +100,7 @@
                     android:id="@+id/layout_tab"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:layout_gravity="bottom"
                     app:tabSelectedTextColor="#FF8800"
                     app:tabIndicatorColor="#FF8800"
