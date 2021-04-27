@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -117,7 +118,7 @@ public class WritingActivity extends AppCompatActivity {
         post.setNickname(b.getName());
         post.setTitle(b.getTitle());
         post.setContent(b.getBody());
-        post.setUserIdent(UserIdent.GetInstance().getUserIdent()); //병합하면 빨간줄 없어짐.
+        post.setUserIdent(UserIdent.GetInstance().getUserIdent());
         Log.v(TAG,"put 완료");
 
         Call<PostBoard> call = retrofitIdent.GetInstance().getService().postData("forum/", post);
@@ -151,7 +152,8 @@ public class WritingActivity extends AppCompatActivity {
             }
             case R.id.writing_next_button:{ //오른쪽 상단 확인버튼 클릭시
                 Log.v(TAG, "전송 버튼 눌림");
-                if(title.getTextSize() <= 0 || body.getTextSize() <=0){
+                if(TextUtils.isEmpty(title.getText().toString()) ||TextUtils.isEmpty(body.getText().toString())){
+                    Log.v(TAG,"내용이 빔");
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder((this));
                     alertDialogBuilder.setMessage("제목과 내용을 입력해주세요");
                     alertDialogBuilder.setPositiveButton("확인",
@@ -160,6 +162,8 @@ public class WritingActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                 }
                             });
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
                     return true;
                 }
                 //현재 값을 저장

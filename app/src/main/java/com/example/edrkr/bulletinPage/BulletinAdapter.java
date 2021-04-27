@@ -161,7 +161,7 @@ public class BulletinAdapter extends RecyclerView.Adapter<BulletinAdapter.MyView
             String nickname = UserIdent.GetInstance().getNkname();
             if(board.getName().compareTo(nickname)!=0){
                 swipeRevealLayout.setLockDrag(true);
-                Log.v("arum.boardadapter","name : "+board.getName()+" body : "+board.getBody());
+                Log.v("arum.boardadapter","name : "+board.getName());
             }
         }
     }

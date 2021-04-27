@@ -7,7 +7,7 @@ import java.util.Calendar;
 
 public class myCalendarData {
     Calendar calendar;
-    int startday, currentmonth, currentyear, dayofweek;
+    int startday, currentmonth, currentyear, dayofweek, weekofmonth;
     private String tag ="myCalendarDate";
     String stringdayofweek;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("E");
@@ -24,7 +24,8 @@ public class myCalendarData {
         this.currentyear = calendar.get(Calendar.YEAR); //년도
         this.dayofweek = calendar.get(Calendar.DAY_OF_WEEK); //일요일이 1 토요일 7
         this.stringdayofweek = dateFormat.format(calendar.getTime()); //월화수목금토일
-        Log.v(tag,currentyear+","+(currentmonth+1)+","+startday+","+stringdayofweek);
+        this.weekofmonth = calendar.get(Calendar.WEEK_OF_MONTH); //몇주인지
+        Log.v(tag,currentyear+","+(currentmonth+1)+","+startday+","+stringdayofweek+","+weekofmonth+"째주");
     }
 
     public void getNextWeekDay(int nxt){
@@ -37,6 +38,14 @@ public class myCalendarData {
 //        Log.v(tag,"getNextMont");
         calendar.add(Calendar.MONTH,nxt);
         setThis();
+    }
+
+    public int getWeekofmonth() {
+        return weekofmonth;
+    }
+
+    public void setWeekofmonth(int weekofmonth) {
+        this.weekofmonth = weekofmonth;
     }
 
     public void getNextYear(int nxt){

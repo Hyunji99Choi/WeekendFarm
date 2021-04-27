@@ -70,6 +70,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyView
                 holder.month.setText(calendar.getMonth());
                 break;
             case 3: //주간
+                holder.month.setText(calendar.getWeek());
+                break;
         }
     }
 

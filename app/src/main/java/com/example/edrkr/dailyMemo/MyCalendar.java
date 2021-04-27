@@ -5,20 +5,21 @@ import java.util.Calendar;
 
 public class MyCalendar {
     private String day;
-    private String date, month, year;
+    private String date, month, year, week;
     private int pos;
     private String tag = "Mycalendar";
 
     public MyCalendar() {
     }
 
-    public MyCalendar(String day, String date, String month, String year, int i) {
+    public MyCalendar(String day, String date, String week, String month, String year, int i) {
 //        Log.v(tag,"생성자");
         this.day = day;
         this.date = date;
+        this.week = week+"째주";
         this.month = getMonthStr(month);
         this.year = year;
-        this.pos =i;
+        this.pos = i;
 
     }
     private String getMonthStr(String month){
@@ -51,6 +52,13 @@ public class MyCalendar {
 
     public void setDate(String date) {
         this.date = date;
+    }
+    public String getWeek() {
+        return week;
+    }
+
+    public void setWeek(String week) {
+        this.week = week;
     }
 
     public void setMonth(String month) {
