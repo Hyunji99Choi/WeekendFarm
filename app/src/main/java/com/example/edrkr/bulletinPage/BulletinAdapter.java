@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -93,8 +94,8 @@ public class BulletinAdapter extends RecyclerView.Adapter<BulletinAdapter.MyView
         private TextView chat_count;
         //swipereeallayout용
         private LinearLayout mainlayout;
-        private ImageView txtEdit;
-        private ImageView txtDelete;
+        private FrameLayout txtEdit;
+        private FrameLayout txtDelete;
         private SwipeRevealLayout swipeRevealLayout;
 
         public MyViewHolder(@NonNull View itemView) {
