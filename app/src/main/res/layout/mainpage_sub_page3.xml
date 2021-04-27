@@ -5,32 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--
+
+
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/toggleGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         app:singleSelection="true">
         <com.google.android.material.button.MaterialButton
             android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="년도 별"/>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="월 별"/>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/week"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_weight="1"
             android:text="주 별"/>
     </com.google.android.material.button.MaterialButtonToggleGroup>
-    -->
 
 
 
