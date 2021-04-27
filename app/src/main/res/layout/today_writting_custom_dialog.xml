@@ -66,6 +66,7 @@
             android:layout_height="250dp"
             android:inputType="textMultiLine"
             android:gravity="top"
+            android:background="@android:color/transparent"
             android:maxLength="140"/>
     </com.google.android.material.textfield.TextInputLayout>
 
