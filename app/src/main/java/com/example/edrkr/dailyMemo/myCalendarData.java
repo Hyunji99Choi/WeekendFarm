@@ -40,6 +40,11 @@ public class myCalendarData {
         setThis();
     }
 
+    public void getFstDayOfMonth(){
+        calendar.set(Calendar.DATE,1);
+        setThis();
+    }
+
     public int getWeekofmonth() {
         return weekofmonth;
     }
