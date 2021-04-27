@@ -91,6 +91,7 @@ public class MonitoringPage extends AppCompatActivity {
     TextView weatherText; // 날씨 종류 text
     ImageView weaterImg; //날씨 종류 이미지
     Bitmap bitmapImg; //날씨 비트맵 이미지
+    ImageView weatherToolbarImg; //툴바 날시 배경 이미지
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -130,6 +131,7 @@ public class MonitoringPage extends AppCompatActivity {
 
         //textview, 툴바 타이틀(제목, 현재 밭)
         farmTitile = findViewById(R.id.toolbar_textView); // 툴바 타이틀
+        weatherToolbarImg = findViewById(R.id.toolbar_imageView); //툴바 배경 이미지
 
         //Tab 메뉴
         tabLayout=findViewById(R.id.layout_tab);
@@ -258,8 +260,8 @@ public class MonitoringPage extends AppCompatActivity {
                         break;
 
                     case R.id.menu_admin_key:
-                        Intent keypage = new Intent(MonitoringPage.this, KeyCreatePage.class);
-                        startActivity(keypage);
+                        //Intent keypage = new Intent(MonitoringPage.this, KeyCreatePage.class);
+                        //startActivity(keypage);
 
                         Toast.makeText(MonitoringPage.this,"key생성페이지",Toast.LENGTH_SHORT).show();
                         break;
@@ -410,5 +412,20 @@ public class MonitoringPage extends AppCompatActivity {
         }
     }
 
+    //날씨 툴바 이미지(변수이름들 조사)
+    public void setToolberImg(String weather){
+
+        switch (weather){
+            case "CLear":
+
+                break;
+            case "Rain":
+                weatherToolbarImg.setImageResource(R.drawable.weather_rain);
+                break;
+            case "scattered clouds":
+
+
+        }
+    }
 
 }
