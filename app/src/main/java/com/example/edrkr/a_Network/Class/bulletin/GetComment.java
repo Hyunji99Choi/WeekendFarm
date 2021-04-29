@@ -1,8 +1,9 @@
-package com.example.edrkr.a_Network.Class;
+package com.example.edrkr.a_Network.Class.bulletin;
 
+import com.example.edrkr.a_Network.Class.Post;
 import com.google.gson.annotations.SerializedName;
 
-public class GetComment implements Post{ //댓글을 가져오는 클래스
+public class GetComment implements Post { //댓글을 가져오는 클래스
 
     @SerializedName("id")
     private final int id;

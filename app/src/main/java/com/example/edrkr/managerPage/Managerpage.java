@@ -21,16 +21,17 @@ import com.google.android.material.tabs.TabLayout;
 public class Managerpage extends AppCompatActivity { //메니저 페이지 - 2개의 프레그먼트가 올려져있음.
     PagerAdapter adapter; //adapter 변수 선언 - pageadapter
     ViewPager viewPager; //viewPager 선언
+    private TabLayout tabLayout;
     private ActionBar actionBar; //엑션바
     private Context mContext;
+    private String TAG ="areum/Managerpage";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v("managerpage","managerpage 도착");
+        Log.v(TAG,"managerpage 도착");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.managerpage_main);
 
-        Log.v("managerpage","toolbar 세팅 시작");
         //toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar_manager);
         setSupportActionBar(toolbar);
@@ -38,24 +39,16 @@ public class Managerpage extends AppCompatActivity { //메니저 페이지 - 2�
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
-        Log.v("managerpage","toolbar 완료");
 
 
         //tablayout 참조, tab 추가
-        TabLayout tabLayout = findViewById(R.id.manager_tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setCustomView(createTabView("회원 내역")));
-        Log.v("managerpage","회원 내역 tab 추가 완료");
-        tabLayout.addTab(tabLayout.newTab().setCustomView(createTabView("밭 내역")));
-        Log.v("managerpage","밭 내역 tab 추가 완료");
-        tabLayout.setTabGravity((TabLayout.GRAVITY_FILL));
-        Log.v("managerpage","tab 추가 완료");
+        tabLayout = findViewById(R.id.manager_tabLayout);
 
         //ViewPager에 adapter set, TabLayout Listener 선언
         adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager = findViewById(R.id.manager_viewPager);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        Log.v("managerpage","lister, adapter 추가 완료");
 
         //Tab 이벤트에 대한 Listener
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -63,7 +56,7 @@ public class Managerpage extends AppCompatActivity { //메니저 페이지 - 2�
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
                 adapter.notifyDataSetChanged();
-                Log.v("managerpage","tab 눌림");
+                Log.v(TAG,"tab 눌림");
             }
 
             @Override
@@ -79,12 +72,10 @@ public class Managerpage extends AppCompatActivity { //메니저 페이지 - 2�
     }
 
     private View createTabView(String tabName) { //+버튼 클릭시
-        Log.v("managerpage","createTabView");
+        Log.v(TAG,"createTabView");
         mContext = getApplicationContext();
         View tabView = LayoutInflater.from(mContext).inflate(R.layout.managerpage_custom_tab, null);
-        Log.v("managerpage","createTabView");
         TextView txt_name = (TextView) tabView.findViewById(R.id.txt_name);
-        Log.v("managerpage","createTabView");
         txt_name.setText(tabName);
         return tabView;
 
@@ -94,7 +85,7 @@ public class Managerpage extends AppCompatActivity { //메니저 페이지 - 2�
     public boolean onOptionsItemSelected(@NonNull MenuItem item){ //optionitem 선택시
         switch (item.getItemId()){
             case android.R.id.home: //뒤로가기 버튼 클릭시
-                Log.v("managerpage","home");
+                Log.v(TAG,"home");
                 Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
                 finish();
                 break;

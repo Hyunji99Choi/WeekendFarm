@@ -11,4 +11,8 @@
     <string name="action_search">키워드를 입력해주세요</string>
     <string name="edit">수정</string>
     <string name="delete">삭제</string>
+
+    //관리자
+    <string name="tabfirst">회원 내역</string>
+    <string name="tabsecond">밭 내역</string>
 </resources>

@@ -1,8 +1,9 @@
-package com.example.edrkr.a_Network.Class;
+package com.example.edrkr.a_Network.Class.bulletin;
 
+import com.example.edrkr.a_Network.Class.Post;
 import com.google.gson.annotations.SerializedName;
 
-public class PostBoard implements Post{ //작성한 글을 보내는 클래스
+public class PostBoard implements Post { //작성한 글을 보내는 클래스
     @SerializedName("nickname")
     private String nickname ;
 

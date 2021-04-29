@@ -6,8 +6,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +67,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
         lastData = new myCalendarData(0);
         nextData = new myCalendarData(0);
         mAdapter = new CalendarAdapter(calendarList, mode);
+        snapPosition = RecyclerView.NO_POSITION;
     }
 
     private void initView() {

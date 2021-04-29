@@ -1,11 +1,12 @@
 package com.example.edrkr.a_Network;
 
-import com.example.edrkr.a_Network.Class.GetBoard;
-import com.example.edrkr.a_Network.Class.GetEachBoard;
-import com.example.edrkr.a_Network.Class.PatchBoard;
-import com.example.edrkr.a_Network.Class.PatchComment;
-import com.example.edrkr.a_Network.Class.PostComment;
-import com.example.edrkr.a_Network.Class.PostBoard;
+import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
+import com.example.edrkr.a_Network.Class.bulletin.GetEachBoard;
+import com.example.edrkr.a_Network.Class.bulletin.PatchBoard;
+import com.example.edrkr.a_Network.Class.bulletin.PatchComment;
+import com.example.edrkr.a_Network.Class.bulletin.PostComment;
+import com.example.edrkr.a_Network.Class.bulletin.PostBoard;
+import com.example.edrkr.a_Network.Class.manager.GetAllMember;
 
 import java.util.List;
 
@@ -13,7 +14,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -21,6 +21,7 @@ import retrofit2.http.Query;
 
 public interface RetrofitService {
 
+    //게시판 부분
     //@GET( EndPoint - 자원위치(URL))
     @GET("{post}") //처음 글 로딩 부분
     Call<List<GetBoard>> getBoard(@Path(value = "post", encoded = true) String post); //응답이 왔을 떄 CallBack으로 불려질 타입
@@ -48,6 +49,14 @@ public interface RetrofitService {
 
     @PATCH("{post}") //댓글 수정부분
     Call<PatchComment> patchComment(@Path(value = "post",encoded = true)String post, @Body PatchComment patch);
+
+    //관리자 페이지
+
+    @GET("{post}") //처음 글 로딩 부분
+    Call<List<GetAllMember>> getAllUser(@Path(value = "post", encoded = true) String post);
+
+    @GET("{get}")
+    Call<List<String>> getAllArea(@Path(value = "get", encoded = true) String post);
 
 }
 //https://futurestud.io/tutorials/retrofit-2-how-to-use-dynamic-urls-for-requests - url 여기참고

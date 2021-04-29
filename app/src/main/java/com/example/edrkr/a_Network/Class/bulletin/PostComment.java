@@ -1,4 +1,4 @@
-package com.example.edrkr.a_Network.Class;
+package com.example.edrkr.a_Network.Class.bulletin;
 
 import com.google.gson.annotations.SerializedName;
 

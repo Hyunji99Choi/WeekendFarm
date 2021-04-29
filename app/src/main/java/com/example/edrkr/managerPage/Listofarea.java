@@ -1,6 +1,7 @@
 package com.example.edrkr.managerPage;
 
 import android.content.Intent;
+import android.database.MergeCursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
+import com.example.edrkr.a_Network.Class.manager.GetAllMember;
+import com.example.edrkr.a_Network.RetrofitService;
+import com.example.edrkr.a_Network.retrofitIdent;
+import com.example.edrkr.bulletinPage.Board;
 import com.example.edrkr.bulletinPage.BulletinAdapter;
 import com.example.edrkr.NetworkTask;
 import com.example.edrkr.R;
@@ -20,67 +26,52 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class Listofarea extends Fragment { //밭별 사용자 fragment
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<Member> myDataset = new ArrayList<>();
-    private String URL = "http://3.35.55.9:3000/forum/"; //서버 주소 바꿀듯
+    private String URL = "manage/allAreaInfo/"; //서버 주소
+    private String TAG = "areum/ListofArea";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        Log.v("listofare","area 도착");
+        Log.v(TAG,"area 도착");
 
         View view = inflater.inflate(R.layout.managerpage_listof_area, container,false);
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_arealist);
-        recycler_test(); //테스트용 데이터 저장 - local
-        Log.v("listofare","recyclerview id 연결");
+
+        getfromserver(); //서버와 통신
 
         recyclerView.setHasFixedSize(true);
         mAdapter = new stringadapter(myDataset,1);
 
-       // layoutManager.setReverseLayout(true);
-      //  layoutManager.setStackFromEnd(true);
-
         layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        Log.v("listofare","layout adapter 연결");
         recyclerView.setAdapter(mAdapter);
 
-        this.InitializeView(); //필요 요소 선언해주는 함수
         mAdapter.setOnItemClickListener(new BulletinAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) { //각 밭 클릭시 해당 밭의 사용자 보여주는 page로 이동하는 함수
-                Log.v("알림","게시글 클릭 리스너 눌림 pos : "+pos);
+                Log.v(TAG,"게시글 클릭 리스너 눌림 pos : "+pos);
                 Member s = myDataset.get(pos);
                 Intent intent = new Intent(getActivity(), show_each_areahas.class);
 
                 intent.putExtra("name", s.getName_());
                 intent.putExtra("pos",pos);
-                Log.v("알림","Board값 전송 완료");
-                //startActivity(intent);
-                //setResult(1,intent);
                 startActivityForResult(intent,1);
-                Log.v("알림","intent 전송 완료");
-                //finish();
             }
         });
         return view;
-    }
-
-    public void InitializeView(){ //초기화 - 아직 들어가는 코드 없음
-//
-        //myDataset 받는 코드 들어가야함
-        //  try {
-        //    myDataset = getfromserver();
-        // } catch (JSONException e) {
-        //     Log.e("trycatch","error : "+ e);
-        //     e.printStackTrace();
-        //  }
-
     }
 
     public void recycler_test(){ //로컬로 데이터 넣는 함수
@@ -92,44 +83,55 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
         myDataset = test;
     }
 
-    public ArrayList<String> getfromserver() throws JSONException {//서버에서 게시글 표지 부분을 받아오는 코드
+    public void getfromserver(){//서버에서 게시글 표지 부분을 받아오는 코드
+        Log.v(TAG,"getfromserver");
+        myDataset = null;
+        final ArrayList<Member> dataset = new ArrayList<>();
 
-        Log.v("알림","server 확인");
-        ArrayList<String> dataset = new ArrayList<String>();
+        RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
+        service.getAllArea(URL).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(@EverythingIsNonNull Call<List<String>> call,@EverythingIsNonNull  Response<List<String>> response) { //서버와 통신하여 반응이 왔다면
+                if(response.isSuccessful()){
+                    List<String> datas = response.body();
+                    Log.v(TAG,response.body().toString());
+                    if(datas != null){
+                        Log.v(TAG, "getMember 받아오기 완료 datas.size = " +datas.size());
+                        for(int i = 0;i<datas.size();i++){
+                            Log.v(TAG,"getMember" + datas.get(i));
+                            //받아온 데이터 Member 클래스에 저장
+                            Member m = new Member(Integer.toString(i),datas.get(i));
+                            dataset.add(m); //저장한 Board 클래스 arraylist에 넣음.
+                        }
+                        Log.v(TAG,"getMember end================================");
+                        Log.v(TAG,"recyclerview 적용");
+                        myDataset = dataset; //Board 데이터 셋을 서버를 통해 받은 데이터 셋으로 변경
 
-        //values.put("id","00");
-        //values.put("pw",UserPW)
+                        //adapter 설정
+                        mAdapter.changeDataset(myDataset);
+                        recyclerView.removeAllViewsInLayout();
+                        recyclerView.setAdapter(mAdapter);
+                    }
+                }else{
+                    Log.v(TAG, "onResponse: 실패");
+                    recycler_test(); //테스트용 데이터 저장 - local
 
-        NetworkTask getboardlist_networkTask = new NetworkTask(URL,null); //networktast 설정 부분
-        try {
-            getboardlist_networkTask.execute().get(); //설정한 networktask 실행
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        String result = getboardlist_networkTask.result;
-
-        // String result = [{"id":1,"userName":null,"userId":"ghd8119","title","fsadkfjd","content","dafsdf"},{"id":1,"userName":null,"userId":"ghd8119","title","fsadkfjd","content","dafsdf"}]
-
-        JSONArray jsonArray = null;
-        jsonArray = new JSONArray(result);
-        Log.v("getfromserver","json으로 변환");
-
-        Log.v("getfromserver","board 변환 작업 시작");
-        for(int i = 0;i<jsonArray.length();i++){
-
-            JSONObject jsonObject = null;
-            jsonObject = jsonArray.getJSONObject(i);
-
-            String id = jsonObject.getString("id");
-            String userId = jsonObject.getString("userId");
-            Log.v("getfromserver",i+" 값 가져오기 성공");
-
-            Log.v("getfromserver","board 추가 완료");
-            dataset.add(userId);
-        }
-        return dataset;
+                    //adapter 설정
+                    mAdapter.changeDataset(myDataset);
+                    recyclerView.removeAllViewsInLayout();
+                    recyclerView.setAdapter(mAdapter);
+                }
+            }
+            @Override
+            public void onFailure(@EverythingIsNonNull Call<List<String>> call,@EverythingIsNonNull  Throwable t) { //통신에 실패했을 경우
+                Log.v(TAG, "onFailure: " + t.getMessage());
+                recycler_test(); //테스트용 데이터 저장 - local
+                //adapter 설정
+                mAdapter.changeDataset(myDataset);
+                recyclerView.removeAllViewsInLayout();
+                recyclerView.setAdapter(mAdapter);
+            }
+        });
     }
 
 }

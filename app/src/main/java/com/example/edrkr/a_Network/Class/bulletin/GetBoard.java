@@ -1,5 +1,6 @@
-package com.example.edrkr.a_Network.Class;
+package com.example.edrkr.a_Network.Class.bulletin;
 
+import com.example.edrkr.a_Network.Class.Post;
 import com.google.gson.annotations.SerializedName;
 
 //DTO 모델 - PostResult Class 선언

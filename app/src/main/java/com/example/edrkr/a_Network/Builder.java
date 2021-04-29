@@ -2,16 +2,12 @@ package com.example.edrkr.a_Network;
 
 import android.util.Log;
 
-import com.example.edrkr.a_Network.Class.GetBoard;
 import com.example.edrkr.a_Network.Class.Post;
-import com.example.edrkr.bulletinPage.Board;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class Builder {
     private String tag = "areum/Builder";
@@ -21,7 +17,7 @@ public class Builder {
         Log.v(tag, "tryPost 진입");
         call.enqueue(new Callback<Post>() { //비동기 작업
             @Override
-            public void onResponse(Call<Post> call, Response<Post> response) { //성공 - 메인 스레드에서 처리
+            public void onResponse(@EverythingIsNonNull Call<Post> call,@EverythingIsNonNull  Response<Post> response) { //성공 - 메인 스레드에서 처리
                 if (response.isSuccessful()) {
                     //정상적으로 통신이 성공한 경우
                     Log.v(tag, "onResponse: 성공, 결과\n" + response.body().toString());
@@ -33,7 +29,7 @@ public class Builder {
             }
 
             @Override
-            public void onFailure(Call<Post> call, Throwable t) { //실패 - 메인 스레드에서 처리
+            public void onFailure(@EverythingIsNonNull Call<Post> call,@EverythingIsNonNull  Throwable t) { //실패 - 메인 스레드에서 처리
                 //통신 실패(인터넷 끊김, 예외 발생 등 시스템적인 이유)
                 str = t.getMessage();
                 Log.d(tag, "onFailure: " + str);

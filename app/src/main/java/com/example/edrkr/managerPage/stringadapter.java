@@ -2,6 +2,7 @@ package com.example.edrkr.managerPage;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.MediaMetadata;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,13 @@ import com.example.edrkr.R;
 import java.util.ArrayList;
 
 public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHolder> {
-    private String URL = "http://52.79.237.95:3000/forum/test";
+    private String TAG = "areum/stringadapter";
+
     public interface OnItemClickListener{
         void onItemClick(View v, int pos);
     }
     private BulletinAdapter.OnItemClickListener mListener = null;
-    private ArrayList<Member> mDataset = null;
+    private ArrayList<Member> mDataset;
     int type; // 0 : member 1:area 2 :member_each_area_shape 3: memberhas
 
     public void setOnItemClickListener(BulletinAdapter.OnItemClickListener listener){
@@ -74,7 +76,7 @@ public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHold
     public stringadapter(ArrayList<Member> myDataset, int type) {
         this.type = type;
         mDataset = myDataset;
-
+        TAG += type+" ";
     }
 
     // Create new views (invoked by the layout manager)
@@ -123,40 +125,27 @@ public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHold
                 }
             });
         }
-        Log.v("알림","list에 적용");
+        Log.v(TAG,"list에 적용");
         Member str = mDataset.get(position);
         holder.name.setText(str.getName_());
         if(type == 0||type ==3){
             holder.id.setText(str.getId_());
         }
-        Log.v("알림","Name 가져옴 Name :"+ str);
-        Log.v("알림","list에 적용완료");
+        Log.v(TAG,"Name 가져옴 Name :"+ str.getName_());
+        Log.v(TAG,"list에 적용완료");
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
+        Log.v(TAG, "getItemCount");
+        if(mDataset == null) return 0;
         return mDataset.size();
     }
 
     public void DeleteItem(View v, int position){
-        Log.v("stringadapter","pos : "+position+" delete클릭");
+        Log.v(TAG,"pos : "+position+" delete클릭");
         //delete 코드만들기
-//        NetworkTask getboardlist_networkTask = new NetworkTask(URL,null); //networktast 설정 부분
-//        Log.v("stringadapter","networktask 입력 성곧");
-//        try {
-//            getboardlist_networkTask.execute().get(); //설정한 networktask 실행
-//            Log.v("stringadapter","delete 실행 완료");
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//            Log.v("stringadapter", "executionexception");
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//            Log.v("stringadapter", "interruptedexception");
-//        }
-//        Log.v("stringadapter","execute 확인");
-//        String result = getboardlist_networkTask.result;
-//        Log.v("stringadapter","result 확인 result : "+result);
-
     }
+    public void changeDataset(ArrayList<Member> m){this.mDataset = m;}
 }

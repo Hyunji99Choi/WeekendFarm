@@ -1,7 +1,6 @@
 package com.example.edrkr.bulletinPage;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,11 +16,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.edrkr.a_Network.Builder;
-import com.example.edrkr.a_Network.Class.GetBoard;
-import com.example.edrkr.a_Network.Class.GetComment;
-import com.example.edrkr.a_Network.Class.GetEachBoard;
-import com.example.edrkr.a_Network.Class.PatchBoard;
-import com.example.edrkr.a_Network.Class.PostBoard;
+import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
+import com.example.edrkr.a_Network.Class.bulletin.GetEachBoard;
+import com.example.edrkr.a_Network.Class.bulletin.PatchBoard;
+import com.example.edrkr.a_Network.Class.bulletin.PostBoard;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
