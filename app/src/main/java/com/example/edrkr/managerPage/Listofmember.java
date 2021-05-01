@@ -79,7 +79,7 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
     public void recycler_test() {
         ArrayList<Member> test = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            Member tmp = new Member(Integer.toString(i), "사람" + i);
+            Member tmp = new Member(i,Integer.toString(i), "사람" + i);
             test.add(tmp);
         }
         myDataset = test;
@@ -101,7 +101,7 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
                         for (int i = 0; i < datas.size(); i++) {
                             Log.v(TAG, "getMember" + datas.get(i).getId() + " " + datas.get(i).getUserid() + " " + datas.get(i).getUsername());
                             //받아온 데이터 Member 클래스에 저장
-                            Member m = new Member(datas.get(i).getUserid(), datas.get(i).getUsername());
+                            Member m = new Member(datas.get(i).getId(),datas.get(i).getUserid(), datas.get(i).getUsername());
                             dataset.add(m); //저장한 Board 클래스 arraylist에 넣음.
                         }
                         Log.v(TAG, "getMember end================================");

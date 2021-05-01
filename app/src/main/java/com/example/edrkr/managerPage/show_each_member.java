@@ -17,9 +17,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.edrkr.R;
+import com.example.edrkr.a_Network.Class.manager.GetAllMember;
+import com.example.edrkr.a_Network.Class.manager.GetUserEachFarm;
+import com.example.edrkr.a_Network.RetrofitService;
+import com.example.edrkr.a_Network.retrofitIdent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class show_each_member extends AppCompatActivity {
 
@@ -34,6 +44,9 @@ public class show_each_member extends AppCompatActivity {
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<Member> myDataset = new ArrayList<>();
+    private String TAG = "areum/show_each_member";
+    private int farmid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +63,13 @@ public class show_each_member extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Log.v("SHOW_EACH_member","+ 버튼 눌림");
+                Log.v(TAG,"+ 버튼 눌림");
                 Intent intent = new Intent(show_each_member.this, SelectArea.class);
                 startActivityForResult(intent,1); //writing activity에서 값을 다시 받아오기 위해서 사용
             }
         });
 
-        Log.v("eachmember","toolbar 세팅 시작");
+        Log.v(TAG,"toolbar 세팅 시작");
         //toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar_eachmember);
         setSupportActionBar(toolbar);
@@ -64,7 +77,7 @@ public class show_each_member extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
-        Log.v("eachmember","toolbar 완료");
+        Log.v(TAG,"toolbar 완료");
 
         reset = (Button)findViewById(R.id.buttonresetpw);
         name = (TextView) findViewById(R.id.member_name);
@@ -84,23 +97,12 @@ public class show_each_member extends AppCompatActivity {
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        //myDataset 받는 코드 들어가야함
-        // myDataset = null;
-       //myDataset = getfromserver();
-        myDataset = testData();
+        //getfromserver();
+        testData();
         // specify an adapter (see also next example)
         mAdapter = new stringadapter(myDataset,2);
         recyclerView.setAdapter(mAdapter);
-        Log.v("noticeboard","adapter설정완료");
-
-//        swipeContainer =(SwipeRefreshLayout) findViewById((R.id.swipeContainer);
-//        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                fetchTimelineAsync(0);
-//            }
-//        });
-
+        Log.v(TAG,"adapter설정완료");
     }
     public void SetListener() {
         //inputMethodManger 객체 선언
@@ -109,7 +111,7 @@ public class show_each_member extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.buttonresetpw:
-                        Log.v("show_each_member","비번변경 버튼 클릭");
+                        Log.v(TAG,"비번변경 버튼 클릭");
                         //patch코드
                         pw.setText("0000"); //초기화 코드
                         Toast.makeText(getApplicationContext(),"비밀번호가 변경되었습니다.", Toast.LENGTH_LONG).show();
@@ -120,25 +122,68 @@ public class show_each_member extends AppCompatActivity {
         reset.setOnClickListener(Listener);
     }
 
-    public ArrayList<Member> testData(){
+    public void testData(){
         ArrayList<Member> result = new ArrayList<>();
         for(int i =0;i<5;i++){
-            Member tmp = new Member(null,i+"번 밭");
+            Member tmp = new Member(i,null,i+"번 밭");
             result.add(tmp);
         }
-        return result;
+        myDataset = result;
     }
 
-    public void getfromserver(){
+    public void getfromserver(){//서버에서 게시글 표지 부분을 받아오는 코드
+        Log.v(TAG,"getfromserver");
+        myDataset = null;
+        final ArrayList<Member> dataset = new ArrayList<>();
 
+        RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
+        service.getUserEachFarm(Integer.toString(farmid)).enqueue(new Callback<GetUserEachFarm>() {
+            @Override
+            public void onResponse(@EverythingIsNonNull Call<GetUserEachFarm> call, @EverythingIsNonNull Response<GetUserEachFarm> response) { //서버와 통신하여 반응이 왔다면
+                if(response.isSuccessful()){
+                    GetUserEachFarm datas = response.body();
+                    Log.v(TAG,response.body().toString());
+                    if(datas != null){
+                        name.setText(datas.getUsername());
+                        id.setText(datas.getUserid());
+                        phonenumber.setText(datas.getPhonenum());
+                        Log.v(TAG, "getMember 받아오기 완료 datas.size = " +datas.getFarmid().size());
+                        for(int i = 0;i<datas.getFarmid().size();i++){
+                            Log.v(TAG,"getMember" + datas.getFarname().get(i));
+                            //받아온 데이터 Member 클래스에 저장
+                            Member m = new Member(datas.getFarmid().get(i),null, datas.getFarname().get(i));
+                            dataset.add(m); //저장한 Board 클래스 arraylist에 넣음.
+                        }
+                        Log.v(TAG,"getMember end================================");
+                        Log.v(TAG,"recyclerview 적용");
+                        myDataset = dataset; //Board 데이터 셋을 서버를 통해 받은 데이터 셋으로 변경
+
+                        //adapter 설정
+                        mAdapter.changeDataset(myDataset);
+                        recyclerView.removeAllViewsInLayout();
+                        recyclerView.setAdapter(mAdapter);
+                    }
+                }else{
+                    Log.v(TAG, "onResponse: 실패");
+                    testData(); //테스트용 데이터 저장 - local
+
+                    //adapter 설정
+                    mAdapter.changeDataset(myDataset);
+                    recyclerView.removeAllViewsInLayout();
+                    recyclerView.setAdapter(mAdapter);
+                }
+            }
+            @Override
+            public void onFailure(@EverythingIsNonNull Call<GetUserEachFarm> call, @EverythingIsNonNull  Throwable t) { //통신에 실패했을 경우
+                Log.v(TAG, "onFailure: " + t.getMessage());
+                testData(); //테스트용 데이터 저장 - local
+                //adapter 설정
+                mAdapter.changeDataset(myDataset);
+                recyclerView.removeAllViewsInLayout();
+                recyclerView.setAdapter(mAdapter);
+            }
+        });
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        MenuInflater menuInflater = getMenuInflater();
-//        menuInflater.inflate(R.menu.noticeboard_menu,menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){

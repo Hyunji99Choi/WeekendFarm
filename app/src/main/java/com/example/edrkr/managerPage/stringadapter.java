@@ -2,7 +2,6 @@ package com.example.edrkr.managerPage;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.MediaMetadata;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,7 +128,7 @@ public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHold
         Member str = mDataset.get(position);
         holder.name.setText(str.getName_());
         if(type == 0||type ==3){
-            holder.id.setText(str.getId_());
+            holder.id.setText(str.getUserid_());
         }
         Log.v(TAG,"Name 가져옴 Name :"+ str.getName_());
         Log.v(TAG,"list에 적용완료");

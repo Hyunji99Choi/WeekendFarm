@@ -80,7 +80,7 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
     public void recycler_test(){
         ArrayList<Member> test = new ArrayList<>();
         for(int i = 0;i<20;i++){
-            Member tmp = new Member(null,"밭"+i);
+            Member tmp = new Member(i,null,"밭"+i);
             test.add(tmp);
         }
         myDataset = test;

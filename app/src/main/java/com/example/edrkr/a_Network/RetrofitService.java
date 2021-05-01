@@ -6,7 +6,9 @@ import com.example.edrkr.a_Network.Class.bulletin.PatchBoard;
 import com.example.edrkr.a_Network.Class.bulletin.PatchComment;
 import com.example.edrkr.a_Network.Class.bulletin.PostComment;
 import com.example.edrkr.a_Network.Class.bulletin.PostBoard;
+import com.example.edrkr.a_Network.Class.manager.GetAllFarm;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
+import com.example.edrkr.a_Network.Class.manager.GetUserEachFarm;
 
 import java.util.List;
 
@@ -50,13 +52,19 @@ public interface RetrofitService {
     @PATCH("{post}") //댓글 수정부분
     Call<PatchComment> patchComment(@Path(value = "post",encoded = true)String post, @Body PatchComment patch);
 
-    //관리자 페이지
 
-    @GET("{post}") //처음 글 로딩 부분
+    //관리자 페이지
+    @GET("{post}") //모든 유저 정보
     Call<List<GetAllMember>> getAllUser(@Path(value = "post", encoded = true) String post);
 
-    @GET("{get}")
-    Call<List<String>> getAllArea(@Path(value = "get", encoded = true) String post);
+    @GET("{get}") //모든 밭 별명 정보
+    Call<List<GetAllFarm>> getAllArea(@Path(value = "get", encoded = true) String post);
+
+    @GET("manage/eachFarm") //밭별 사용자 정보
+    Call<List<GetAllMember>> getEachFarmUser(@Query("FarmId") String keyword);
+
+    @GET("manage/eachUser") //사용자별 밭 정보
+    Call<GetUserEachFarm> getUserEachFarm(@Query("UserIdent") String keyword);
 
 }
 //https://futurestud.io/tutorials/retrofit-2-how-to-use-dynamic-urls-for-requests - url 여기참고

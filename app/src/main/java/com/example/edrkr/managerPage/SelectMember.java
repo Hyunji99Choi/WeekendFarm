@@ -81,7 +81,7 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
     public void recycler_test(){
         ArrayList<Member> test = new ArrayList<>();
         for(int i = 0;i<20;i++){
-            Member tmp = new Member(i+"",i+"번째 사용자");
+            Member tmp = new Member(i,i+"",i+"번째 사용자");
             test.add(tmp);
         }
         myDataset = test;

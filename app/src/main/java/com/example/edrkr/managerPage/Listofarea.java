@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
+import com.example.edrkr.a_Network.Class.manager.GetAllFarm;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
@@ -39,7 +40,7 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<Member> myDataset = new ArrayList<>();
-    private String URL = "manage/allAreaInfo/"; //서버 주소
+    private String URL = "manage/allFarmInfo/"; //서버 주소
     private String TAG = "areum/ListofArea";
 
     @Override
@@ -49,7 +50,8 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
         View view = inflater.inflate(R.layout.managerpage_listof_area, container,false);
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_arealist);
 
-        getfromserver(); //서버와 통신
+        recycler_test();
+       // getfromserver(); //서버와 통신
 
         recyclerView.setHasFixedSize(true);
         mAdapter = new stringadapter(myDataset,1);
@@ -67,7 +69,7 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
                 Intent intent = new Intent(getActivity(), show_each_areahas.class);
 
                 intent.putExtra("name", s.getName_());
-                intent.putExtra("pos",pos);
+                intent.putExtra("id",s.getId_());
                 startActivityForResult(intent,1);
             }
         });
@@ -77,7 +79,7 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
     public void recycler_test(){ //로컬로 데이터 넣는 함수
         ArrayList<Member> test = new ArrayList<>();
         for(int i = 0;i<5;i++){
-            Member tmp = new Member(i+"","밭"+i);
+            Member tmp = new Member(i,i+"","밭"+i);
             test.add(tmp);
         }
         myDataset = test;
@@ -89,18 +91,18 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
         final ArrayList<Member> dataset = new ArrayList<>();
 
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-        service.getAllArea(URL).enqueue(new Callback<List<String>>() {
+        service.getAllArea(URL).enqueue(new Callback<List<GetAllFarm>>() {
             @Override
-            public void onResponse(@EverythingIsNonNull Call<List<String>> call,@EverythingIsNonNull  Response<List<String>> response) { //서버와 통신하여 반응이 왔다면
+            public void onResponse(@EverythingIsNonNull Call<List<GetAllFarm>> call,@EverythingIsNonNull  Response<List<GetAllFarm>> response) { //서버와 통신하여 반응이 왔다면
                 if(response.isSuccessful()){
-                    List<String> datas = response.body();
+                    List<GetAllFarm> datas = response.body();
                     Log.v(TAG,response.body().toString());
                     if(datas != null){
                         Log.v(TAG, "getMember 받아오기 완료 datas.size = " +datas.size());
                         for(int i = 0;i<datas.size();i++){
                             Log.v(TAG,"getMember" + datas.get(i));
                             //받아온 데이터 Member 클래스에 저장
-                            Member m = new Member(Integer.toString(i),datas.get(i));
+                            Member m = new Member(datas.get(i).getFarmid(),null,datas.get(i).getFarmname());
                             dataset.add(m); //저장한 Board 클래스 arraylist에 넣음.
                         }
                         Log.v(TAG,"getMember end================================");
@@ -123,7 +125,7 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
                 }
             }
             @Override
-            public void onFailure(@EverythingIsNonNull Call<List<String>> call,@EverythingIsNonNull  Throwable t) { //통신에 실패했을 경우
+            public void onFailure(@EverythingIsNonNull Call<List<GetAllFarm>> call,@EverythingIsNonNull  Throwable t) { //통신에 실패했을 경우
                 Log.v(TAG, "onFailure: " + t.getMessage());
                 recycler_test(); //테스트용 데이터 저장 - local
                 //adapter 설정
