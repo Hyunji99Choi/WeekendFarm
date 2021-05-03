@@ -46,6 +46,11 @@ public class UserIdent {
 
     private int farmCount; //가지고 있는 밭 개수
     private int[] farmID; //밭 id
+
+    public String[] getFarmName() { return farmName; } //밭 별명 배열
+
+
+
     private String[] farmName; //밭 별명
 
     //ResponseUserIdent 객체 받기

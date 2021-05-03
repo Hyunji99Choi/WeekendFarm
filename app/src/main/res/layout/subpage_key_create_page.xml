@@ -1,114 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.Appbar">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_keycreate"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+        android:layout_margin="10dp"
+        app:selectionRequired="true"
+        app:singleSelection="true">
 
-    </FrameLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/manager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:onClick="select"
+                android:text="관리자 계정 key"/>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:onClick="select"
+                android:text="사용자 계정 key"/>
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+    <ListView
+        android:id="@+id/listview"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 
     <TextView
-        android:id="@+id/key_phonTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:gravity="center"
-        android:text="전화번호"
-        android:textSize="22dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="107dp" />
-
-    <EditText
-        android:id="@+id/key_phonNumber"
-        android:layout_width="254dp"
-        android:layout_height="51dp"
-        android:layout_below="@id/key_phonTextView"
-        android:layout_marginStart="8dp"
-        android:hint=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/key_phonTextView"
-        tools:layout_editor_absoluteY="107dp" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="88dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/key_phonNumber"
-        tools:layout_editor_absoluteX="52dp">
-
-        <CheckBox
-            android:id="@+id/checkBox1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:text="1번 밭"
-            android:textSize="22dp" />
-
-        <CheckBox
-            android:id="@+id/checkBox2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1"
-            android:text="2번 밭"
-            android:textSize="22dp" />
-
-        <CheckBox
-            android:id="@+id/checkBox3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1"
-            android:text="3번 밭"
-            android:textSize="22dp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/key_TextKeyValue"
+        android:id="@+id/key_index"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:background="@drawable/border_round"
         android:gravity="center"
-        android:padding="10dp"
-        android:text="생성된 키 번호"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_marginTop="10dp"
+        android:text="1번밭, 2번밭 사용자 계정 key"/>
+    <TextView
+        android:id="@+id/key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/round_bg"/>
 
-    <Button
-        android:id="@+id/key_Button"
-        android:layout_width="250dp"
-        android:layout_height="55dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="64dp"
-        android:onClick="onClickKeyCreateButton"
-        android:text="키 생성"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/key_TextKeyValue"
-        tools:layout_editor_absoluteX="80dp" />
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+        android:id="@+id/creat_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="key 값 생성하기"
+        app:spinning_bar_width="4dp"
+        app:spinning_bar_color="#FFF"
+        android:onClick="keyCreate"
+        app:spinning_bar_padding="6dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</LinearLayout>

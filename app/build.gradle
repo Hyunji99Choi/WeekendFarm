@@ -61,6 +61,9 @@ dependencies {
     implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
     //동적 그래프
     implementation 'com.github.lecho:hellocharts-android:v1.5.8'
+    //key loading button
+    implementation 'br.com.simplepass:loading-button-android:1.14.0'
+
     
 
     //이아름 병합
