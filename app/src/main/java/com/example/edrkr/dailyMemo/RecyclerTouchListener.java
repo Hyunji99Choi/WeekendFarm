@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
     private GestureDetector gestureDetector;
     private ClickListener clickListener;
-    private String tag = "recyclertouchlistener";
+    private String tag = "areum/recyclertouchlistener";
     public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
         this.clickListener = clickListener;
         Log.v(tag,"생성자");

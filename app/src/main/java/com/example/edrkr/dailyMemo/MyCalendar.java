@@ -7,7 +7,7 @@ public class MyCalendar {
     private String day;
     private String date, month, year, week;
     private int pos;
-    private String tag = "Mycalendar";
+    private String tag = "areum/Mycalendar";
 
     public MyCalendar() {
     }

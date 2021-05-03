@@ -13,7 +13,7 @@ import com.example.edrkr.R;
 import java.util.List;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyViewHolder> {
-    private String tag = "CalendarAdapter";
+    private String tag = "areum/CalendarAdapter";
     private List<MyCalendar> mCalendar;
     private int mode; // 0 : 일간/ 1 : 년간 / 2 : 월간 / 3 : 주간
 

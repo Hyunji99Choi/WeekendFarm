@@ -21,22 +21,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class dailyMemo_recyclerview extends LinearLayout {
-    private String log = "dailyMemo_recyclerview";
+    private String log = "areum/dailyMemo_recyclerview";
     private RecyclerView recyclerView;
     private TextView textView;
     private Context context;
+    private CalendarAdapter mAdapter; //recyclerview 어뎁터
 
     private List<MyCalendar> calendarList = new ArrayList<>(); //데이터 리스트
-    private CalendarAdapter mAdapter; //recyclerview 어뎁터
     private myCalendarData nextData; //이전 달 데이터
     private myCalendarData lastData; //다음 달 데이터
     private int snapPosition = RecyclerView.NO_POSITION;
-    private SnapHelper snapHelper; //중앙에 값 오도록 도와주는 helper
-    private RecyclerView.LayoutManager mLayoutManager;
     private boolean init = true; //동시에 진입하지 않도록 하는 key
-    private int two_count = 2; //빠르게 넘어가는거 방지 - 2번 당겨야 새로 데이터 가져옴
+    private int two_count = 3; //빠르게 넘어가는거 방지 - 2번 당겨야 새로 데이터 가져옴
 
     private int mode = 0; // 0 : 일간/ 1 : 년간 / 2 : 월간 / 3 : 주간
+
+    private SnapHelper snapHelper; //중앙에 값 오도록 도와주는 helper
+    private RecyclerView.LayoutManager mLayoutManager;
 
 
     public dailyMemo_recyclerview(Context context) {
@@ -68,6 +69,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
         nextData = new myCalendarData(0);
         mAdapter = new CalendarAdapter(calendarList, mode);
         snapPosition = RecyclerView.NO_POSITION;
+        init = true;
     }
 
     private void initView() {

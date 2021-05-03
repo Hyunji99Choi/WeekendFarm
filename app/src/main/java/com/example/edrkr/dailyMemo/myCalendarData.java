@@ -8,7 +8,7 @@ import java.util.Calendar;
 public class myCalendarData {
     Calendar calendar;
     int startday, currentmonth, currentyear, dayofweek, weekofmonth;
-    private String tag ="myCalendarDate";
+    private String tag ="areum/myCalendarDate";
     String stringdayofweek;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("E");
 
@@ -18,7 +18,7 @@ public class myCalendarData {
         setThis();
     }
 
-    private void setThis(){
+    private void setThis(){ //데이터 저장
         this.startday = calendar.get(Calendar.DAY_OF_MONTH); //날짜
         this.currentmonth = calendar.get(Calendar.MONTH); //달 -1
         this.currentyear = calendar.get(Calendar.YEAR); //년도
@@ -28,22 +28,28 @@ public class myCalendarData {
         Log.v(tag,currentyear+","+(currentmonth+1)+","+startday+","+stringdayofweek+","+weekofmonth+"째주");
     }
 
-    public void getNextWeekDay(int nxt){
+    public void getNextWeekDay(int nxt){ //다음날 +n, 이전날 -n 로변경
 //        Log.v(tag,"getnextweekday");
         calendar.add(Calendar.DATE, nxt);
         setThis();
     }
 
-    public void getNextMonth(int nxt){
+    public void getNextMonth(int nxt){ //다음달 +n, 이전달 -n 로변경
 //        Log.v(tag,"getNextMont");
         calendar.add(Calendar.MONTH,nxt);
         setThis();
     }
 
-    public void getFstDayOfMonth(){
+    public void getFstDayOfMonth(){ //해당 달의 1일로 변경
         calendar.set(Calendar.DATE,1);
         setThis();
     }
+
+    public void getNextYear(int nxt){ //다음년 +n, 이전년 -n 로변경
+        calendar.add(Calendar.YEAR,nxt);
+        setThis();
+    }
+
 
     public int getWeekofmonth() {
         return weekofmonth;
@@ -51,11 +57,6 @@ public class myCalendarData {
 
     public void setWeekofmonth(int weekofmonth) {
         this.weekofmonth = weekofmonth;
-    }
-
-    public void getNextYear(int nxt){
-        calendar.add(Calendar.YEAR,nxt);
-        setThis();
     }
 
     public String getWeekDay (){
