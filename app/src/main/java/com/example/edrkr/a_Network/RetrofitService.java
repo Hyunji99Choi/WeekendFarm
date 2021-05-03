@@ -9,6 +9,8 @@ import com.example.edrkr.a_Network.Class.bulletin.PostBoard;
 import com.example.edrkr.a_Network.Class.manager.GetAllFarm;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
 import com.example.edrkr.a_Network.Class.manager.GetUserEachFarm;
+import com.example.edrkr.a_Network.Class.manager.patchAddFarm;
+import com.example.edrkr.a_Network.Class.manager.patchAddUser;
 
 import java.util.List;
 
@@ -65,6 +67,12 @@ public interface RetrofitService {
 
     @GET("manage/eachUser") //사용자별 밭 정보
     Call<GetUserEachFarm> getUserEachFarm(@Query("UserIdent") String keyword);
+
+    @PATCH("/manage/eachFarm") //밭별 사용자추가
+    Call<patchAddUser> patchAddEachFarmUser(@Query("FarmId") String post, @Body patchAddUser userid);
+
+    @PATCH("/manage/eachFarm") //사용자별 밭 추가
+    Call<patchAddFarm> patchAddEachUserFarm(@Query("FarmId") String post, @Body patchAddFarm farmid);
 
 }
 //https://futurestud.io/tutorials/retrofit-2-how-to-use-dynamic-urls-for-requests - url 여기참고

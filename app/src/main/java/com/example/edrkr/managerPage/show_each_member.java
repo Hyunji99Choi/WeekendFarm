@@ -45,7 +45,7 @@ public class show_each_member extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private ArrayList<Member> myDataset = new ArrayList<>();
     private String TAG = "areum/show_each_member";
-    private int farmid;
+    private int userid;
 
 
     @Override
@@ -54,6 +54,13 @@ public class show_each_member extends AppCompatActivity {
         setContentView(R.layout.managerpage_each_member);
         this.InitializeView(); //필요 요소 선언해주는 함수
         SetListener(); //리스너 설정 함수
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // getfromserver();
+        testData();
     }
 
     public void InitializeView(){
@@ -65,6 +72,7 @@ public class show_each_member extends AppCompatActivity {
             public void onClick(View view){
                 Log.v(TAG,"+ 버튼 눌림");
                 Intent intent = new Intent(show_each_member.this, SelectArea.class);
+                intent.putExtra("userid",userid);
                 startActivityForResult(intent,1); //writing activity에서 값을 다시 받아오기 위해서 사용
             }
         });
@@ -97,13 +105,23 @@ public class show_each_member extends AppCompatActivity {
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
+        Intent intent = getIntent();
+        userid = intent.getIntExtra("id", -1);
+
+        if(userid <0){
+            Toast.makeText(this,"통신 실패 - 나중에 다시 시도해주세요",Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
         //getfromserver();
         testData();
+
         // specify an adapter (see also next example)
         mAdapter = new stringadapter(myDataset,2);
         recyclerView.setAdapter(mAdapter);
         Log.v(TAG,"adapter설정완료");
     }
+
     public void SetListener() {
         //inputMethodManger 객체 선언
         View.OnClickListener Listener = new View.OnClickListener() {
@@ -137,7 +155,7 @@ public class show_each_member extends AppCompatActivity {
         final ArrayList<Member> dataset = new ArrayList<>();
 
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-        service.getUserEachFarm(Integer.toString(farmid)).enqueue(new Callback<GetUserEachFarm>() {
+        service.getUserEachFarm(Integer.toString(userid)).enqueue(new Callback<GetUserEachFarm>() {
             @Override
             public void onResponse(@EverythingIsNonNull Call<GetUserEachFarm> call, @EverythingIsNonNull Response<GetUserEachFarm> response) { //서버와 통신하여 반응이 왔다면
                 if(response.isSuccessful()){

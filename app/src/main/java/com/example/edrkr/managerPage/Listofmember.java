@@ -64,16 +64,19 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
                 Member s = myDataset.get(pos);
                 Intent intent = new Intent(getActivity(), show_each_member.class);
 
-                intent.putExtra("name", s.getName_());
-                intent.putExtra("id", s.getName_());
-                intent.putExtra("pos", pos);
-                //startActivity(intent);
-                //setResult(1,intent);
+                intent.putExtra("id", s.getId_());
                 startActivityForResult(intent, 1);
                 Log.v(TAG, "intent 전송 완료");
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        recycler_test();
+        // getfromserver(); //서버와 통신
     }
 
     public void recycler_test() {

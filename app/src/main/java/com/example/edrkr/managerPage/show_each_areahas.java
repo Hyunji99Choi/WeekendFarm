@@ -47,6 +47,13 @@ public class show_each_areahas extends AppCompatActivity {
         this.InitializeView(); //필요 요소 선언해주는 함수
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // getfromserver();
+        testData();
+    }
+
     public void InitializeView(){
         // write = (ImageButton)findViewById(R.id.fab_write);
         fab = (FloatingActionButton)findViewById(R.id.fab_areaAdd);
@@ -56,6 +63,7 @@ public class show_each_areahas extends AppCompatActivity {
             public void onClick(View view){
                 Log.v(TAG,"+ 버튼 눌림");
                 Intent intent = new Intent(show_each_areahas.this, SelectMember.class);
+                intent.putExtra("farmid",farmid);
                 startActivityForResult(intent,0); //writing activity에서 값을 다시 받아오기 위해서 사용
             }
         });
@@ -85,6 +93,11 @@ public class show_each_areahas extends AppCompatActivity {
 
         Intent intent = getIntent();
         farmid = intent.getIntExtra("id", -1);
+
+        if(farmid <0){
+            Toast.makeText(this,"통신 실패 - 나중에 다시 시도해주세요",Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
        // getfromserver();
         testData();

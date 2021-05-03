@@ -76,6 +76,13 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        recycler_test();
+        // getfromserver(); //서버와 통신
+    }
+
     public void recycler_test(){ //로컬로 데이터 넣는 함수
         ArrayList<Member> test = new ArrayList<>();
         for(int i = 0;i<5;i++){
