@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:gravity="center"
         app:selectionRequired="true"
         app:singleSelection="true">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/manager"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -24,7 +26,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/user"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -37,8 +39,9 @@
     <ListView
         android:id="@+id/listview"
         android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 
     <TextView
@@ -47,6 +50,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="2dp"
         android:text="1번밭, 2번밭 사용자 계정 key"/>
     <TextView
         android:id="@+id/key"
@@ -64,6 +68,7 @@
         app:spinning_bar_width="4dp"
         app:spinning_bar_color="#FFF"
         android:onClick="keyCreate"
+        android:layout_gravity="center"
         app:spinning_bar_padding="6dp"/>
 
 

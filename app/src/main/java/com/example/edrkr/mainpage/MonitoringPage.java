@@ -260,8 +260,8 @@ public class MonitoringPage extends AppCompatActivity {
                         break;
 
                     case R.id.menu_admin_key:
-                        //Intent keypage = new Intent(MonitoringPage.this, KeyCreatePage.class);
-                        //startActivity(keypage);
+                        Intent keypage = new Intent(MonitoringPage.this, KeyCreatePage.class);
+                        startActivity(keypage);
 
                         Toast.makeText(MonitoringPage.this,"key생성페이지",Toast.LENGTH_SHORT).show();
                         break;

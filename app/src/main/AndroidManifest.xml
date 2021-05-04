@@ -40,7 +40,8 @@
 
         <activity android:name=".subpage.subpage_userIdnetChange"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".KeyCreatePage"></activity>
+        <activity android:name=".KeyCreatePage"
+            android:theme="@style/AppTheme.NoActionBar.Material"></activity>
         <!--이아름 병합-->
         <activity android:name=".managerPage.SelectArea"
             android:theme="@style/AppTheme.NoActionBar" />
