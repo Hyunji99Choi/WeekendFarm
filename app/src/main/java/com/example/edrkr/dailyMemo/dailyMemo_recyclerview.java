@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,60 +33,59 @@ public class dailyMemo_recyclerview extends LinearLayout {
     private myCalendarData lastData; //다음 달 데이터
     private int snapPosition = RecyclerView.NO_POSITION;
     private boolean init = true; //동시에 진입하지 않도록 하는 key
-    private int two_count = 3; //빠르게 넘어가는거 방지 - 2번 당겨야 새로 데이터 가져옴
+    private int two_count; //빠르게 넘어가는거 방지 - n번 당겨야 새로 데이터 가져옴
+    private int init_count = 3;
 
     private int mode = 0; // 0 : 일간/ 1 : 년간 / 2 : 월간 / 3 : 주간
 
     private SnapHelper snapHelper; //중앙에 값 오도록 도와주는 helper
     private RecyclerView.LayoutManager mLayoutManager;
 
-
+    //생성자
     public dailyMemo_recyclerview(Context context) {
         super(context);
         this.context = context;
         initView();
     }
-
     public dailyMemo_recyclerview(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         this.context = context;
         initView();
     }
-
     public dailyMemo_recyclerview(Context context, AttributeSet attributeSet, int defStyle) {
         super(context, attributeSet, defStyle);
         this.context = context;
         initView();
     }
 
-    private void setModeinitialize() { //모드가 바뀔때 초기화하는 함수
-        calendarList = null;
-        lastData = null;
-        nextData = null;
-        mAdapter = null;
-
-        calendarList = new ArrayList<>();
-        lastData = new myCalendarData(0);
-        nextData = new myCalendarData(0);
-        mAdapter = new CalendarAdapter(calendarList, mode);
-        snapPosition = RecyclerView.NO_POSITION;
-        init = true;
-    }
+//    private void setModeinitialize() { //모드가 바뀔때 초기화하는 함수
+//        calendarList = null;
+//        lastData = null;
+//        nextData = null;
+//        mAdapter = null;
+//
+//        calendarList = new ArrayList<>();
+//        lastData = new myCalendarData(0);
+//        nextData = new myCalendarData(0);
+//        mAdapter = new CalendarAdapter(calendarList, mode);
+//        snapPosition = RecyclerView.NO_POSITION;
+//        init = true;
+//    }
 
     private void initView() {
         String intService = Context.LAYOUT_INFLATER_SERVICE;
         LayoutInflater li = (LayoutInflater) getContext().getSystemService(intService);
         View v = li.inflate(R.layout.dailymemo_custom_recyclerview, this, false);
         addView(v);
+        snapPosition = RecyclerView.NO_POSITION;
+
         recyclerView = (RecyclerView) findViewById(R.id.holi_recyclerview);
         textView = (TextView) findViewById(R.id.daily_scrolldate);
-
         mAdapter = new CalendarAdapter(calendarList, mode);
 
         //view가 슬라이드할 때 중앙에 오도록 함.
         snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
-
         recyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
@@ -94,13 +94,13 @@ public class dailyMemo_recyclerview extends LinearLayout {
         lastData = new myCalendarData(0);
         nextData = new myCalendarData(0);
 
+        two_count = init_count;
         setRecyclerView();
     }
 
     public void changeMode(int mode) { //모드 변경 함수
         this.mode = mode;
-        setModeinitialize();
-        setRecyclerView();
+        initView();
     }
 
     private void setRecyclerView() { //recyclerview 이벤트 처리
@@ -108,7 +108,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) { //스크롤시
                 super.onScrolled(recyclerView, dx, dy);
                 int totalItemCount = mLayoutManager.getChildCount();
                 for (int i = 0; i < totalItemCount; i++) {
@@ -141,7 +141,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
                         checkModetoprpare(2);
                         mAdapter.notifyDataSetChanged();
                     }
-                    two_count = 2;
+                    two_count = init_count;
                 } else {
                     two_count--;
                 }
@@ -180,20 +180,28 @@ public class dailyMemo_recyclerview extends LinearLayout {
             }
         }));
         Log.v(log, "oncreate addtouch");
-        checkModetoprpare(0);
+        checkModetoprpare(0); //type을 보고 함수를 지정해주는 함수
     }
 
     private void maybeNofitySnapPositionChange(RecyclerView recyclerview) {
         //중앙의 position 알기
         View snapView = snapHelper.findSnapView(mLayoutManager);
         int snapPosition = mLayoutManager.getPosition(snapView);
+        ImageView center = (ImageView)snapView.findViewById(R.id.imageViewCenter);
+        center.setVisibility(INVISIBLE);
 
         boolean snapPositionChanged = this.snapPosition != snapPosition;
-        if (snapPositionChanged) {
+        if (snapPositionChanged) { // 중앙의 포지션이 바뀌었을 경우
             this.snapPosition = snapPosition;
             MyCalendar calendar = calendarList.get(snapPosition);
+
+            //중앙의 원 보이도록 함.
+            snapView = snapHelper.findSnapView(mLayoutManager);
+            center = snapView.findViewById(R.id.imageViewCenter);
+            center .setVisibility(VISIBLE);
+
             Log.v(log, "mode : " + mode);
-            switch (mode) {
+            switch (mode) { //위의 텍스트를 지정해줌
                 case 0: //일간
                     Log.v(log, "daily");
                     textView.setText(calendar.getYear() + "년 " + calendar.getMonth() + calendar.getDate() + "일");
@@ -210,11 +218,12 @@ public class dailyMemo_recyclerview extends LinearLayout {
                     textView.setText(calendar.getYear() + "년 " + calendar.getMonth() + " " + calendar.getWeek());
                     break;
             }
+        }else{
+            center.setVisibility(VISIBLE);
         }
-
     }
 
-    private void checkModetoprpare(int type) {
+    private void checkModetoprpare(int type) { //type을 보고 함수를 지정해주는 함수
         Log.v(log, "checkModetoprpare mode : " + mode);
         switch (mode) {
             case 0: //일간
@@ -251,18 +260,18 @@ public class dailyMemo_recyclerview extends LinearLayout {
             MyCalendar calendar = new MyCalendar(m_calendar.getWeekDay(), String.valueOf(m_calendar.getDay()), String.valueOf(m_calendar.getWeekofmonth()), String.valueOf(m_calendar.getMonth()), String.valueOf(m_calendar.getYear()), i);
             m_calendar.getNextWeekDay(1);
             if (type == 1) {
-                calendarList.add(i, calendar);
+                calendarList.add(i, calendar); //데이터 셋에 저장
             } else {
-                calendarList.add(calendar);
+                calendarList.add(calendar); //데이터 셋에 저장
             }
         }
-        if (type == 1) {
-            recyclerView.scrollToPosition(snapPosition + 31);
-            m_calendar.getNextWeekDay(-31);
+        if (type == 1) { //이전 달 호출
+            recyclerView.scrollToPosition(snapPosition + 31); //스크롤 할 떄의 중앙자리로 이동
+            m_calendar.getNextWeekDay(-31); //지난 달 데이터 지정
             lastData = m_calendar;
             Log.v(log, "save_lastdata : " + (lastData.getMonth() + 1) + "," + lastData.getDay());
         } else {
-            nextData = m_calendar;
+            nextData = m_calendar; //다음달 데이터 저장
         }
         init = true;
         Log.v(log, "preparecalendardata 끝");
@@ -374,7 +383,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
         int i = 0;
         MyCalendar calendar;
 
-        while (m_calendar.getMonth() == month) {
+        while (m_calendar.getMonth() == month) { //같은 달의 주간 추가
             calendar = new MyCalendar(m_calendar.getWeekDay(), String.valueOf(m_calendar.getDay()), String.valueOf(m_calendar.getWeekofmonth()), String.valueOf(m_calendar.getMonth()), String.valueOf(m_calendar.getYear()), i);
             if (type == 1) {
                 calendarList.add(i, calendar);
@@ -387,10 +396,10 @@ public class dailyMemo_recyclerview extends LinearLayout {
             m_calendar.getNextWeekDay(7);
             i++;
         }
-        while (m_calendar.getMonth() != month) { //마지막 주차 추가
+        while (m_calendar.getMonth() != month) { //마지막 주차 찾기
             m_calendar.getNextWeekDay(-1);
         }
-        if (m_calendar.getWeekofmonth() != weekofmonth) {
+        if (m_calendar.getWeekofmonth() != weekofmonth) {  //마지막 주차 추가
             calendar = new MyCalendar(m_calendar.getWeekDay(), String.valueOf(m_calendar.getDay()), String.valueOf(m_calendar.getWeekofmonth()), String.valueOf(m_calendar.getMonth()), String.valueOf(m_calendar.getYear()), i);
             weekofmonth = m_calendar.getWeekofmonth();
             if (type == 1) {
