@@ -9,18 +9,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +24,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.transition.Explode;
 import androidx.viewpager.widget.ViewPager;
@@ -50,6 +44,8 @@ import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
 import com.example.edrkr.baner_Adapter;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
@@ -91,7 +87,9 @@ public class MonitoringPage extends AppCompatActivity {
     TextView weatherText; // 날씨 종류 text
     ImageView weaterImg; //날씨 종류 이미지
     Bitmap bitmapImg; //날씨 비트맵 이미지
+
     ImageView weatherToolbarImg; //툴바 날시 배경 이미지
+
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -167,6 +165,8 @@ public class MonitoringPage extends AppCompatActivity {
         //날씨 종류 이미지, 그림
         weatherText = findViewById(R.id.weatherText);
         weaterImg = findViewById(R.id.weatherImg);
+
+
     }
 
     /*
@@ -362,6 +362,7 @@ public class MonitoringPage extends AppCompatActivity {
                 Log.d("날씨", weatherJson.getWeather_imgurl());
 
                 weatherText.setText(weatherJson.getWeather());
+                setToolberImg(weatherJson.getWeather());
 
                 // 비트맵 세팅
                 new Thread(new Runnable() {
@@ -416,14 +417,32 @@ public class MonitoringPage extends AppCompatActivity {
     public void setToolberImg(String weather){
 
         switch (weather){
-            case "CLear":
-
+            case "Clear":
+                weatherToolbarImg.setImageResource(R.drawable.weather_clear);
+                //them style 컬러 바꾸기
+                //appBarLayout.setBackgroundColor(getResources().getColor(R.color.weather_clear));
                 break;
-            case "Rain":
+            case "Rain": case "Drizzle": case "Thunderstorm":
                 weatherToolbarImg.setImageResource(R.drawable.weather_rain);
+                //them style 컬러 바꾸기
+                //appBarLayout.setBackgroundColor(getResources().getColor(R.color.weather_rain));
                 break;
-            case "scattered clouds":
+            case "Clouds":
+                weatherToolbarImg.setImageResource(R.drawable.weather_clode);
+                //them style 컬러 바꾸기
+                //appBarLayout.setBackgroundColor(getResources().getColor(R.color.weather_clode));
 
+                break;
+            case "Snow":
+                weatherToolbarImg.setImageResource(R.drawable.weather_snow);
+                //them style 컬러 바꾸기
+                //appBarLayout.setBackgroundColor(getResources().getColor(R.color.weather_snow));
+                break;
+            default:
+                weatherToolbarImg.setImageResource(R.drawable.weather_mist);
+                //them style 컬러 바꾸기
+                //appBarLayout.setBackgroundColor(getResources().getColor(R.color.weather_mist));
+                break;
 
         }
     }
