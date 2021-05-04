@@ -7,6 +7,17 @@
         android:maxHeight="70dp"
         android:minHeight="50dp">
 
+    <ImageView
+        android:id="@+id/imageViewCenter"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/hot_circle"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/year"
         android:layout_width="wrap_content"

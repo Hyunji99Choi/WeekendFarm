@@ -1,5 +1,6 @@
 package com.example.edrkr.dailyMemo;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,13 +42,22 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyView
         this.mode = mode;
     }
 
+    public void chanteData(List<MyCalendar> mCalendar){
+        this.mCalendar = mCalendar;
+    }
+
+    public void changeMode(int mode){
+        this.mode = mode;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View itemView;
-        if(mode == 0){
+        if(viewType == 0){
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_dailymemo_date, parent,false);
-        }else if(mode == 1){
+        }else if(viewType == 1){
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_dailymemo_year, parent,false);
         }else{
             itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_dailymemo_month, parent,false);
@@ -58,15 +68,18 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position){
         MyCalendar calendar = mCalendar.get(position);
-        switch (mode){
+    //    Log.v(tag,"onBindViewHolder position : "+position);
+        switch (getItemViewType(position)){
             case 0: //일간
                 holder.tb_day.setText(calendar.getDay());
                 holder.tb_date.setText(calendar.getDate());
                 break;
             case 1: //년간
+//                Log.v(tag,"onBindViewHolder year : "+(calendar.getYear()));
                 holder.year.setText(calendar.getYear());
                 break;
             case 2: //월간
+//                Log.v(tag,"onBindViewHolder moth : "+(calendar.getMonth()));
                 holder.month.setText(calendar.getMonth());
                 break;
             case 3: //주간
@@ -78,5 +91,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyView
     @Override
     public int getItemCount() {
         return mCalendar.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mode;
     }
 }
