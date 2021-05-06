@@ -22,6 +22,18 @@ public class ControlMonitoring {
     private ControlMonitoring(){} //생성자 제한
 
 
+
+    //toolbar theme color
+    int toolbarColor;
+    public int getToolbarColor() { return toolbarColor; }
+    public void setToolbarColor(int toolbarColor) { this.toolbarColor = toolbarColor; }
+
+    int toolbarTheme;
+    public int getToolbarTheme() { return toolbarTheme; }
+    public void setToolbarTheme(int toolbarTheme) { this.toolbarTheme = toolbarTheme; }
+
+
+
     private Context contex; //이거 사용안하는것 같음...
     private sub_page1 page1;
     private sub_page2 page2;

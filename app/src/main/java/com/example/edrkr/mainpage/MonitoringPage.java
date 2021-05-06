@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -25,6 +26,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.transition.Explode;
 import androidx.viewpager.widget.ViewPager;
@@ -32,9 +35,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.edrkr.KeyCreatePage;
-import com.example.edrkr.firstpage.MainActivity;
 import com.example.edrkr.h_network.AutoRetryCallback;
-import com.example.edrkr.h_network.ResponseUserIdent;
 import com.example.edrkr.h_network.ResponseWeatherJson;
 import com.example.edrkr.h_network.RetrofitClient;
 import com.example.edrkr.managerPage.Managerpage;
@@ -42,21 +43,15 @@ import com.example.edrkr.bulletinPage.NoticeBoardActivity;
 import com.example.edrkr.subpage.subpage_userIdnetChange;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
-import com.example.edrkr.baner_Adapter;
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -89,7 +84,7 @@ public class MonitoringPage extends AppCompatActivity {
     Bitmap bitmapImg; //날씨 비트맵 이미지
 
     ImageView weatherToolbarImg; //툴바 날시 배경 이미지
-
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     private DrawerLayout mDrawerLayout;
     private Context context = this;
@@ -130,6 +125,7 @@ public class MonitoringPage extends AppCompatActivity {
         //textview, 툴바 타이틀(제목, 현재 밭)
         farmTitile = findViewById(R.id.toolbar_textView); // 툴바 타이틀
         weatherToolbarImg = findViewById(R.id.toolbar_imageView); //툴바 배경 이미지
+        collapsingToolbarLayout = findViewById(R.id.htab_collapse_toolbar); //컬러 변경을 위함.
 
         //Tab 메뉴
         tabLayout=findViewById(R.id.layout_tab);
@@ -416,35 +412,41 @@ public class MonitoringPage extends AppCompatActivity {
     //날씨 툴바 이미지(변수이름들 조사)
     public void setToolberImg(String weather){
 
+        Resources.Theme theme = super.getTheme();
         switch (weather){
             case "Clear":
                 weatherToolbarImg.setImageResource(R.drawable.weather_clear);
-                //them style 컬러 바꾸기
-                //appBarLayout.setBackgroundColor(getResources().getColor(R.color.weather_clear));
+                //ColorPrefUtil.changeThemeStyle(this,R.style.AppTheme_NoActionBar_Material_Clear);
+                ControlMonitoring.GetInstance().setToolbarColor(R.color.weather_clear);
+                ControlMonitoring.GetInstance().setToolbarTheme(R.style.AppTheme_NoActionBar_Material_Clear);
+                //ResourcesCompat.getColor(getResources(),R.color.weather_clear,null);
+
                 break;
             case "Rain": case "Drizzle": case "Thunderstorm":
                 weatherToolbarImg.setImageResource(R.drawable.weather_rain);
-                //them style 컬러 바꾸기
-                //appBarLayout.setBackgroundColor(getResources().getColor(R.color.weather_rain));
+                ControlMonitoring.GetInstance().setToolbarColor(R.color.weather_rain);
+                ControlMonitoring.GetInstance().setToolbarTheme(R.style.AppTheme_NoActionBar_Material_Rain);
                 break;
             case "Clouds":
                 weatherToolbarImg.setImageResource(R.drawable.weather_clode);
-                //them style 컬러 바꾸기
-                //appBarLayout.setBackgroundColor(getResources().getColor(R.color.weather_clode));
-
+                ControlMonitoring.GetInstance().setToolbarColor(R.color.weather_clode);
+                ControlMonitoring.GetInstance().setToolbarTheme(R.style.AppTheme_NoActionBar_Material_Clode);
                 break;
             case "Snow":
                 weatherToolbarImg.setImageResource(R.drawable.weather_snow);
-                //them style 컬러 바꾸기
-                //appBarLayout.setBackgroundColor(getResources().getColor(R.color.weather_snow));
+                ControlMonitoring.GetInstance().setToolbarColor(R.color.weather_snow);
+                ControlMonitoring.GetInstance().setToolbarTheme(R.style.AppTheme_NoActionBar_Material_Snow);
                 break;
             default:
                 weatherToolbarImg.setImageResource(R.drawable.weather_mist);
-                //them style 컬러 바꾸기
-                //appBarLayout.setBackgroundColor(getResources().getColor(R.color.weather_mist));
+                ControlMonitoring.GetInstance().setToolbarColor(R.color.weather_mist);
+                ControlMonitoring.GetInstance().setToolbarTheme(R.style.AppTheme_NoActionBar_Material_Mist);
                 break;
-
         }
+
+        //them style 컬러 바꾸기
+        theme.applyStyle(ControlMonitoring.GetInstance().getToolbarTheme(),true);
+        collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this,ControlMonitoring.GetInstance().getToolbarColor()));
     }
 
 }

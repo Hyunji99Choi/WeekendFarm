@@ -23,6 +23,7 @@
     <color name="hot_very_hot">#E04D46</color>
 
     <!--날씨별 toolbar 컬러 -->
+    <!--<color name="weather_clear">#D2E72D</color>-->
     <color name="weather_clear">#D2E72D</color>
     <color name="weather_clode">#A0A390</color>
     <color name="weather_mist">#444444</color>
