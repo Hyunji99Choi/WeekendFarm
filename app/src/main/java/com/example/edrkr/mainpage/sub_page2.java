@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +28,9 @@ import retrofit2.Response;
 public class sub_page2 extends Fragment {
 
     sub_Page2_PlaceholderFragment graphFragment;
+    TextView[] day_textView;
+    TextView[] value_textView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,6 +43,18 @@ public class sub_page2 extends Fragment {
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.container, graphFragment).commit();
 
+        }
+
+
+        //표 연결
+        day_textView = new TextView[7];
+        value_textView = new TextView[7];
+
+        for(int i=1;i<=7;i++){
+            int day = getResources().getIdentifier("day_"+i,"id",getActivity().getPackageName());
+            int value = getResources().getIdentifier("vale_"+i,"id",getActivity().getPackageName());
+            day_textView[i-1] = view.findViewById(day);
+            value_textView[i-1] = view.findViewById(value);
         }
 
 
@@ -90,6 +106,10 @@ public class sub_page2 extends Fragment {
                     oneWeek[i]=weekDate[1]+"/"+weekDate[2]; // 0/0 날짜 포맷
 
                     oneWeekData[i] = Float.parseFloat(graphJsons.get(i).getSoilavg()); //평균
+
+                    //표에 데이터 입력
+                    day_textView[i].setText(oneWeek[i]);
+                    value_textView[i].setText(graphJsons.get(i).getSoilavg());
                 }
 
 
