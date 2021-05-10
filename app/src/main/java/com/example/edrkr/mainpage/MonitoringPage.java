@@ -361,7 +361,7 @@ public class MonitoringPage extends AppCompatActivity {
                 Log.d("날씨", weatherJson.getWeather());
                 Log.d("날씨", weatherJson.getWeather_imgurl());
 
-                weatherText.setText(weatherJson.getWeather());
+                weatherText.setText(" "+weatherJson.getWeather());
                 setToolberImg(weatherJson.getWeather());
 
                 // 비트맵 세팅
