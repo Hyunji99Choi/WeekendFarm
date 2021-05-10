@@ -72,11 +72,19 @@ public interface RetrofitAPI {
     //회원정보 수정
     //patch?
 
-    //새로운 밭의 키 값 생성 -> 수정 될거임.(나중에 연락)
+
+    //새로운 밭의 키 값 생성, email 전송
+    @POST("manage/newBie")
+    Call<String> registerkeyCreat(
+            @Field("farmNum") int[] farmNum, //밭 아이디 순
+            @Field("email") String email
+    );
+    //key 생성, email 전송 안할시
     @POST("manage/newBie")
     Call<String> registerkeyCreat(
             @Field("farmNum") int[] farmNum //밭 아이디 순
     );
+
 
 
 
