@@ -102,9 +102,10 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:layout_gravity="bottom"
-                    app:tabSelectedTextColor="#FF8800"
-                    app:tabIndicatorColor="#FF8800"
-                    app:tabTextColor="#47D1A5"/>
+                    app:tabSelectedTextColor="#D81B60"
+                    app:tabIndicatorColor="#D81B60"
+                    app:tabTextColor="#F1EED8"/>
+                <!--app:tabIndicatorColor="#FF8800"-->
                 <!--
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/layout_tab"

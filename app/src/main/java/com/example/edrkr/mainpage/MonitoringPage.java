@@ -416,36 +416,40 @@ public class MonitoringPage extends AppCompatActivity {
         switch (weather){
             case "Clear":
                 weatherToolbarImg.setImageResource(R.drawable.weather_clear);
-                //ColorPrefUtil.changeThemeStyle(this,R.style.AppTheme_NoActionBar_Material_Clear);
+                //컬러 변경
                 ControlMonitoring.GetInstance().setToolbarColor(R.color.weather_clear);
                 ControlMonitoring.GetInstance().setToolbarTheme(R.style.AppTheme_NoActionBar_Material_Clear);
-                //ResourcesCompat.getColor(getResources(),R.color.weather_clear,null);
 
                 break;
             case "Rain": case "Drizzle": case "Thunderstorm":
                 weatherToolbarImg.setImageResource(R.drawable.weather_rain);
+                //컬러 변경
                 ControlMonitoring.GetInstance().setToolbarColor(R.color.weather_rain);
                 ControlMonitoring.GetInstance().setToolbarTheme(R.style.AppTheme_NoActionBar_Material_Rain);
                 break;
             case "Clouds":
                 weatherToolbarImg.setImageResource(R.drawable.weather_clode);
+                //컬러 변경
                 ControlMonitoring.GetInstance().setToolbarColor(R.color.weather_clode);
                 ControlMonitoring.GetInstance().setToolbarTheme(R.style.AppTheme_NoActionBar_Material_Clode);
                 break;
             case "Snow":
                 weatherToolbarImg.setImageResource(R.drawable.weather_snow);
+                //컬러 변경
                 ControlMonitoring.GetInstance().setToolbarColor(R.color.weather_snow);
                 ControlMonitoring.GetInstance().setToolbarTheme(R.style.AppTheme_NoActionBar_Material_Snow);
                 break;
             default:
                 weatherToolbarImg.setImageResource(R.drawable.weather_mist);
+                //컬러 변경
                 ControlMonitoring.GetInstance().setToolbarColor(R.color.weather_mist);
                 ControlMonitoring.GetInstance().setToolbarTheme(R.style.AppTheme_NoActionBar_Material_Mist);
                 break;
         }
 
-        //them style 컬러 바꾸기
+        // them style 컬러 바꾸기
         theme.applyStyle(ControlMonitoring.GetInstance().getToolbarTheme(),true);
+        // toolbar 닫을때 컬러 변경
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this,ControlMonitoring.GetInstance().getToolbarColor()));
     }
 
