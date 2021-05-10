@@ -41,7 +41,6 @@ public class MyCalendar {
     public String getDay() {
         return day;
     }
-
     public void setDay(String date) {
         this.day = date;
     }
@@ -49,14 +48,13 @@ public class MyCalendar {
     public String getDate() {
         return date;
     }
-
     public void setDate(String date) {
         this.date = date;
     }
+
     public String getWeek() {
         return week;
     }
-
     public void setWeek(String week) {
         this.week = week;
     }
@@ -72,8 +70,6 @@ public class MyCalendar {
     public String getYear() {
         return year;
     }
-
-
     public void setYear(String year) {
         this.year = year;
     }
