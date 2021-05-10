@@ -86,6 +86,9 @@ public class MonitoringPage extends AppCompatActivity {
     ImageView weatherToolbarImg; //툴바 날시 배경 이미지
     CollapsingToolbarLayout collapsingToolbarLayout;
 
+    //회원정보 수정 intent
+    int USERPATCHUPDATE = 12;
+
     private DrawerLayout mDrawerLayout;
     private Context context = this;
     @Override
@@ -286,7 +289,8 @@ public class MonitoringPage extends AppCompatActivity {
     public void onClickHeader(View view){ //메뉴 헤더 클릭시
 
         Intent userChange = new Intent(MonitoringPage.this, subpage_userIdnetChange.class);
-        startActivity(userChange);
+        //startActivity(userChange);
+        startActivityForResult(userChange,USERPATCHUPDATE);
 
         Toast.makeText(this,"헤더 클릭",Toast.LENGTH_SHORT).show();
 
@@ -451,6 +455,24 @@ public class MonitoringPage extends AppCompatActivity {
         theme.applyStyle(ControlMonitoring.GetInstance().getToolbarTheme(),true);
         // toolbar 닫을때 컬러 변경
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this,ControlMonitoring.GetInstance().getToolbarColor()));
+    }
+
+    public void updateHeaderUser(){
+        Log.w("헤더 세팅","변경");
+        naviHeaderName.setText(UserIdent.GetInstance().getNkname());
+        naviHeaderEmail.setText(UserIdent.GetInstance().getEmail());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == USERPATCHUPDATE){
+            if(resultCode == 1){
+                updateHeaderUser();
+            }
+        }
+
+
     }
 
 }

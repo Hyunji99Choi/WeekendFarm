@@ -1,13 +1,18 @@
 package com.example.edrkr.h_network;
 
+import com.example.edrkr.a_Network.Class.bulletin.PatchBoard;
+
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface RetrofitAPI {
 
@@ -70,7 +75,11 @@ public interface RetrofitAPI {
     //서브 페이지
 
     //회원정보 수정
-    //patch?
+    @PATCH("users/info") //게시글 수정부분
+    Call<String> updateUserIdent(
+            @Query("UserIdent") String UserIdent,
+            @Body RequestUpdateUser requestUpdateUser
+    );
 
 
     //새로운 밭의 키 값 생성, email 전송
