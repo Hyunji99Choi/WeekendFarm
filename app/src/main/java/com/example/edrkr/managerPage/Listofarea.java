@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,8 +51,8 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
         View view = inflater.inflate(R.layout.managerpage_listof_area, container,false);
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_arealist);
 
-        recycler_test();
-       // getfromserver(); //서버와 통신
+        //recycler_test();
+        getfromserver(); //서버와 통신
 
         recyclerView.setHasFixedSize(true);
         mAdapter = new stringadapter(myDataset,1);
@@ -66,11 +67,15 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
             public void onItemClick(View v, int pos) { //각 밭 클릭시 해당 밭의 사용자 보여주는 page로 이동하는 함수
                 Log.v(TAG,"게시글 클릭 리스너 눌림 pos : "+pos);
                 Member s = myDataset.get(pos);
-                Intent intent = new Intent(getActivity(), show_each_areahas.class);
+                if(s != null){
+                    Intent intent = new Intent(getActivity(), show_each_areahas.class);
 
-                intent.putExtra("name", s.getName_());
-                intent.putExtra("id",s.getId_());
-                startActivityForResult(intent,1);
+                    intent.putExtra("name", s.getName_());
+                    intent.putExtra("id", s.getId_());
+                    startActivityForResult(intent, 1);
+                }else{
+                    Toast.makeText(getContext(),"통신이 원활하지 않습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;
@@ -79,8 +84,8 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
     @Override
     public void onResume() {
         super.onResume();
-        recycler_test();
-        // getfromserver(); //서버와 통신
+        //recycler_test();
+        getfromserver(); //서버와 통신
     }
 
     public void recycler_test(){ //로컬로 데이터 넣는 함수
@@ -123,7 +128,7 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
                     }
                 }else{
                     Log.v(TAG, "onResponse: 실패");
-                    recycler_test(); //테스트용 데이터 저장 - local
+                    //recycler_test(); //테스트용 데이터 저장 - local
 
                     //adapter 설정
                     mAdapter.changeDataset(myDataset);
@@ -134,7 +139,7 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
             @Override
             public void onFailure(@EverythingIsNonNull Call<List<GetAllFarm>> call,@EverythingIsNonNull  Throwable t) { //통신에 실패했을 경우
                 Log.v(TAG, "onFailure: " + t.getMessage());
-                recycler_test(); //테스트용 데이터 저장 - local
+                //recycler_test(); //테스트용 데이터 저장 - local
                 //adapter 설정
                 mAdapter.changeDataset(myDataset);
                 recyclerView.removeAllViewsInLayout();

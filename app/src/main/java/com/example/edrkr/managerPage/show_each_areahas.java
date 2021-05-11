@@ -47,12 +47,6 @@ public class show_each_areahas extends AppCompatActivity {
         this.InitializeView(); //필요 요소 선언해주는 함수
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // getfromserver();
-        testData();
-    }
 
     public void InitializeView(){
         // write = (ImageButton)findViewById(R.id.fab_write);
@@ -99,8 +93,8 @@ public class show_each_areahas extends AppCompatActivity {
             finish();
         }
 
-       // getfromserver();
-        testData();
+        getfromserver();
+        //testData();
 
         // specify an adapter (see also next example)
         mAdapter = new stringadapter(myDataset,3);
@@ -151,7 +145,6 @@ public class show_each_areahas extends AppCompatActivity {
                     }
                 }else{
                     Log.v(TAG, "onResponse: 실패");
-                    testData(); //테스트용 데이터 저장 - local
 
                     //adapter 설정
                     mAdapter.changeDataset(myDataset);
@@ -162,7 +155,6 @@ public class show_each_areahas extends AppCompatActivity {
             @Override
             public void onFailure(@EverythingIsNonNull Call<List<GetAllMember>> call, @EverythingIsNonNull  Throwable t) { //통신에 실패했을 경우
                 Log.v(TAG, "onFailure: " + t.getMessage());
-                testData(); //테스트용 데이터 저장 - local
                 //adapter 설정
                 mAdapter.changeDataset(myDataset);
                 recyclerView.removeAllViewsInLayout();

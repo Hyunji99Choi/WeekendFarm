@@ -68,11 +68,17 @@ public interface RetrofitService {
     @GET("manage/eachUser") //사용자별 밭 정보
     Call<GetUserEachFarm> getUserEachFarm(@Query("UserIdent") String keyword);
 
-    @PATCH("/manage/eachFarm") //밭별 사용자추가
-    Call<patchAddUser> patchAddEachFarmUser(@Query("FarmId") String post, @Body patchAddUser userid);
+    @GET("manage/notUsingFarm") //해당 사용자가 사용하지 않는 밭 리스트 - 추가시 보여지는 리스트
+    Call<List<GetAllFarm>> getListofAddFarm(@Query("UserIdent") String keyword);
 
-    @PATCH("/manage/eachFarm") //사용자별 밭 추가
-    Call<patchAddFarm> patchAddEachUserFarm(@Query("FarmId") String post, @Body patchAddFarm farmid);
+    @GET("manage/notUsingUser") //해당 사용자가 사용하지 않는 밭 리스트 - 추가시 보여지는 리스트
+    Call<List<GetAllMember>> getListofAddUser(@Query("FarmNum") String keyword);
+
+    @POST("manage/eachFarm") //밭별 사용자추가
+    Call<List<Integer>> PostAddNewUser(@Query("FarmId") String post, @Body List<Integer> userid_list);
+
+    @POST("manage/eachUser") //사용자별 밭 추가
+    Call<List<Integer>> PostAddNewFarm(@Query("UserIdent") String post, @Body List<Integer> farmid_list);
 
 }
 //https://futurestud.io/tutorials/retrofit-2-how-to-use-dynamic-urls-for-requests - url 여기참고

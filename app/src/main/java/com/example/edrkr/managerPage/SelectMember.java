@@ -42,7 +42,7 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
     private ArrayList<Member> myDataset = new ArrayList<>();
     private String URL = "manage/allMemberInfo/"; //서버 주소
     private String TAG = "areum/SelectMember";
-    int userid;
+    int farmid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,28 +52,28 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
         recyclerView = (RecyclerView)findViewById(R.id.recycler_selectmember);
 
         Intent intent = getIntent();
-        intent.getIntExtra("userid",-1);
+        farmid = intent.getIntExtra("farmid",-1);
+        if(farmid <0){
+            Toast.makeText(this,"통신 실패 - 나중에 다시 시도해주세요",Toast.LENGTH_SHORT).show();
+            finish();
+        }
 
         Log.v("selctmember","toolbar 세팅 시작");
         //toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar_selectmember);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionBar.setTitle("소유자 추가");
         actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
         Log.v("selctmember","toolbar 완료");
 
-//        getfromserver();
-        recycler_test(); //테스트용 데이터 저장
+        getfromserver();
+ //       recycler_test(); //테스트용 데이터 저장
         Log.v("SelectMember","recyclerview id 연결");
 
         recyclerView.setHasFixedSize(true);
         mAdapter = new stringadapter(myDataset,0);
-
-        // layoutManager.setReverseLayout(true);
-        //  layoutManager.setStackFromEnd(true);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -110,7 +110,7 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
         final ArrayList<Member> dataset = new ArrayList<>();
 
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-        service.getAllUser(URL).enqueue(new Callback<List<GetAllMember>>() {
+        service.getListofAddUser(Integer.toString(farmid)).enqueue(new Callback<List<GetAllMember>>() {
             @Override
             public void onResponse(@EverythingIsNonNull Call<List<GetAllMember>> call, @EverythingIsNonNull Response<List<GetAllMember>> response) { //서버와 통신하여 반응이 왔다면
                 if (response.isSuccessful()) {
@@ -135,7 +135,6 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
                     }
                 } else {
                     Log.v(TAG, "onResponse: 실패");
-                    recycler_test(); //테스트용 데이터 저장 - local
 
                     //adapter 설정
                     mAdapter.changeDataset(myDataset);
@@ -147,7 +146,6 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
             @Override
             public void onFailure(@EverythingIsNonNull Call<List<GetAllMember>> call,@EverythingIsNonNull  Throwable t) { //통신에 실패했을 경우
                 Log.v(TAG, "onFailure: " + t.getMessage());
-                recycler_test(); //테스트용 데이터 저장 - local
                 //adapter 설정
                 mAdapter.changeDataset(myDataset);
                 recyclerView.removeAllViewsInLayout();
@@ -159,10 +157,9 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
     public void puttoserver() {
         Log.v(TAG,"patchtoserver 진입완료");
         ArrayList<Integer> list_farmid = patchtoserver();
-        patchAddFarm post = new patchAddFarm(list_farmid);
         Log.v(TAG,"put 완료");
 
-        Call<patchAddFarm> call = retrofitIdent.GetInstance().getService().patchAddEachUserFarm(Integer.toString(userid), post);
+        Call<List<Integer>> call = retrofitIdent.GetInstance().getService().PostAddNewUser(Integer.toString(farmid), list_farmid);
         Builder builder = new Builder();
         try {
             builder.tryPost(call);

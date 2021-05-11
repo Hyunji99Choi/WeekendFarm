@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,8 +48,8 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_memberlist);
 
-//        getfromserver();
-        recycler_test();
+        getfromserver();
+//        recycler_test();
         recyclerView.setHasFixedSize(true);
         mAdapter = new stringadapter(myDataset, 0);
 
@@ -62,11 +63,15 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
             public void onItemClick(View v, int pos) {
                 Log.v(TAG, "게시글 클릭 리스너 눌림 pos : " + pos);
                 Member s = myDataset.get(pos);
-                Intent intent = new Intent(getActivity(), show_each_member.class);
+                if (s != null) {
+                    Intent intent = new Intent(getActivity(), show_each_member.class);
 
-                intent.putExtra("id", s.getId_());
-                startActivityForResult(intent, 1);
-                Log.v(TAG, "intent 전송 완료");
+                    intent.putExtra("id", s.getId_());
+                    startActivityForResult(intent, 1);
+                    Log.v(TAG, "intent 전송 완료");
+                } else {
+                    Toast.makeText(getContext(), "통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;
@@ -75,14 +80,14 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
     @Override
     public void onResume() {
         super.onResume();
-        recycler_test();
-        // getfromserver(); //서버와 통신
+//        recycler_test();
+        getfromserver(); //서버와 통신
     }
 
     public void recycler_test() {
         ArrayList<Member> test = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            Member tmp = new Member(i,Integer.toString(i), "사람" + i);
+            Member tmp = new Member(i, Integer.toString(i), "사람" + i);
             test.add(tmp);
         }
         myDataset = test;
@@ -95,7 +100,7 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
         service.getAllUser(URL).enqueue(new Callback<List<GetAllMember>>() {
             @Override
-            public void onResponse(@EverythingIsNonNull Call<List<GetAllMember>> call,@EverythingIsNonNull  Response<List<GetAllMember>> response) { //서버와 통신하여 반응이 왔다면
+            public void onResponse(@EverythingIsNonNull Call<List<GetAllMember>> call, @EverythingIsNonNull Response<List<GetAllMember>> response) { //서버와 통신하여 반응이 왔다면
                 if (response.isSuccessful()) {
                     List<GetAllMember> datas = response.body();
                     Log.v(TAG, response.body().toString());
@@ -104,7 +109,7 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
                         for (int i = 0; i < datas.size(); i++) {
                             Log.v(TAG, "getMember" + datas.get(i).getId() + " " + datas.get(i).getUserid() + " " + datas.get(i).getUsername());
                             //받아온 데이터 Member 클래스에 저장
-                            Member m = new Member(datas.get(i).getId(),datas.get(i).getUserid(), datas.get(i).getUsername());
+                            Member m = new Member(datas.get(i).getId(), datas.get(i).getUserid(), datas.get(i).getUsername());
                             dataset.add(m); //저장한 Board 클래스 arraylist에 넣음.
                         }
                         Log.v(TAG, "getMember end================================");
@@ -118,7 +123,6 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
                     }
                 } else {
                     Log.v(TAG, "onResponse: 실패");
-                    recycler_test(); //테스트용 데이터 저장 - local
 
                     //adapter 설정
                     mAdapter.changeDataset(myDataset);
@@ -128,9 +132,8 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
             }
 
             @Override
-            public void onFailure(@EverythingIsNonNull Call<List<GetAllMember>> call,@EverythingIsNonNull  Throwable t) { //통신에 실패했을 경우
+            public void onFailure(@EverythingIsNonNull Call<List<GetAllMember>> call, @EverythingIsNonNull Throwable t) { //통신에 실패했을 경우
                 Log.v(TAG, "onFailure: " + t.getMessage());
-                recycler_test(); //테스트용 데이터 저장 - local
                 //adapter 설정
                 mAdapter.changeDataset(myDataset);
                 recyclerView.removeAllViewsInLayout();

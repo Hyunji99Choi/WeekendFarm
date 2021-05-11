@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.edrkr.a_Network.Builder;
 import com.example.edrkr.a_Network.Class.bulletin.PatchBoard;
 import com.example.edrkr.a_Network.Class.manager.GetAllFarm;
+import com.example.edrkr.a_Network.Class.manager.GetAllMember;
 import com.example.edrkr.a_Network.Class.manager.patchAddUser;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
@@ -43,20 +44,20 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
     private ArrayList<Member> myDataset = new ArrayList<>();
     private String URL = "manage/allFarmInfo/"; //서버 주소
     private String TAG = "areum/SelectArea";
-    int farmid;
+    int userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.managerpage_selectarea);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_selectArea);
-//        getfromserver();
-        recycler_test(); //테스트용 데이터 저장
+        getfromserver();
+//        recycler_test(); //테스트용 데이터 저장
         Log.v(TAG, "recyclerview id 연결");
 
         Intent intent = getIntent();
-        farmid = intent.getIntExtra("farmid",-1);
-        if(farmid <0){
+        userid = intent.getIntExtra("userid",-1);
+        if(userid <0){
             Toast.makeText(this,"통신 실패 - 나중에 다시 시도해주세요",Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -66,7 +67,6 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         Toolbar toolbar = findViewById(R.id.toolbar_selectarea);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
         actionBar.setTitle("소유밭 추가");
         actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
         actionBar.setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
@@ -74,9 +74,6 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
 
         recyclerView.setHasFixedSize(true);
         mAdapter = new stringadapter(myDataset, 0);
-
-        // layoutManager.setReverseLayout(true);
-        //  layoutManager.setStackFromEnd(true);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -114,7 +111,7 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         final ArrayList<Member> dataset = new ArrayList<>();
 
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-        service.getAllArea(URL).enqueue(new Callback<List<GetAllFarm>>() {
+        service.getListofAddFarm(Integer.toString(userid)).enqueue(new Callback<List<GetAllFarm>>() {
             @Override
             public void onResponse(@EverythingIsNonNull Call<List<GetAllFarm>> call, @EverythingIsNonNull Response<List<GetAllFarm>> response) { //서버와 통신하여 반응이 왔다면
                 if (response.isSuccessful()) {
@@ -139,7 +136,6 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
                     }
                 } else {
                     Log.v(TAG, "onResponse: 실패");
-                    recycler_test(); //테스트용 데이터 저장 - local
 
                     //adapter 설정
                     mAdapter.changeDataset(myDataset);
@@ -151,7 +147,6 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
             @Override
             public void onFailure(@EverythingIsNonNull Call<List<GetAllFarm>> call, @EverythingIsNonNull Throwable t) { //통신에 실패했을 경우
                 Log.v(TAG, "onFailure: " + t.getMessage());
-                recycler_test(); //테스트용 데이터 저장 - local
                 //adapter 설정
                 mAdapter.changeDataset(myDataset);
                 recyclerView.removeAllViewsInLayout();
@@ -164,10 +159,9 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
     public void puttoserver() {
         Log.v(TAG,"patchtoserver 진입완료");
         ArrayList<Integer> list_userid = patchtoserver();
-        patchAddUser post = new patchAddUser(list_userid);
         Log.v(TAG,"put 완료");
 
-        Call<patchAddUser> call = retrofitIdent.GetInstance().getService().patchAddEachFarmUser(Integer.toString(farmid), post);
+        Call<List<Integer>> call = retrofitIdent.GetInstance().getService().PostAddNewFarm(Integer.toString(userid), list_userid);
         Builder builder = new Builder();
         try {
             builder.tryPost(call);

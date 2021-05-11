@@ -3,7 +3,7 @@ package com.example.edrkr.a_Network.Class.manager;
 import com.google.gson.annotations.SerializedName;
 
 public class GetAllFarm {
-    @SerializedName("FarmId")
+    @SerializedName("FarmID")
     private int farmid;
 
     @SerializedName("FarmName")

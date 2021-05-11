@@ -56,15 +56,8 @@ public class show_each_member extends AppCompatActivity {
         SetListener(); //리스너 설정 함수
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // getfromserver();
-        testData();
-    }
 
     public void InitializeView(){
-        // write = (ImageButton)findViewById(R.id.fab_write);
         fab = (FloatingActionButton)findViewById(R.id.fab_show_each_member);
 
         fab.setOnClickListener(new View.OnClickListener(){
@@ -113,8 +106,8 @@ public class show_each_member extends AppCompatActivity {
             finish();
         }
 
-        //getfromserver();
-        testData();
+        getfromserver();
+        //testData();
 
         // specify an adapter (see also next example)
         mAdapter = new stringadapter(myDataset,2);
@@ -160,10 +153,11 @@ public class show_each_member extends AppCompatActivity {
             public void onResponse(@EverythingIsNonNull Call<GetUserEachFarm> call, @EverythingIsNonNull Response<GetUserEachFarm> response) { //서버와 통신하여 반응이 왔다면
                 if(response.isSuccessful()){
                     GetUserEachFarm datas = response.body();
+                    Log.v(TAG,"isSuccessful");
                     Log.v(TAG,response.body().toString());
                     if(datas != null){
                         name.setText(datas.getUsername());
-                        id.setText(datas.getUserid());
+                        id.setText(Integer.toString(datas.getUserid()));
                         phonenumber.setText(datas.getPhonenum());
                         Log.v(TAG, "getMember 받아오기 완료 datas.size = " +datas.getFarmid().size());
                         for(int i = 0;i<datas.getFarmid().size();i++){
@@ -183,7 +177,6 @@ public class show_each_member extends AppCompatActivity {
                     }
                 }else{
                     Log.v(TAG, "onResponse: 실패");
-                    testData(); //테스트용 데이터 저장 - local
 
                     //adapter 설정
                     mAdapter.changeDataset(myDataset);
@@ -194,7 +187,6 @@ public class show_each_member extends AppCompatActivity {
             @Override
             public void onFailure(@EverythingIsNonNull Call<GetUserEachFarm> call, @EverythingIsNonNull  Throwable t) { //통신에 실패했을 경우
                 Log.v(TAG, "onFailure: " + t.getMessage());
-                testData(); //테스트용 데이터 저장 - local
                 //adapter 설정
                 mAdapter.changeDataset(myDataset);
                 recyclerView.removeAllViewsInLayout();
