@@ -1,20 +1,36 @@
 package com.example.edrkr.bulletinPage;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+
 import com.example.edrkr.a_Network.Builder;
 import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
 import com.example.edrkr.a_Network.Class.bulletin.GetEachBoard;
@@ -24,6 +40,10 @@ import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,10 +55,16 @@ import retrofit2.Response;
 
 //확인 필요
 public class WritingActivity extends AppCompatActivity {
+    final static int TAKE_PICTURE = 1;
+    final static int GET_IMAGE = 2;
+    private int PERMISSION_REQUEST_CAMERA = 0;
 
     private EditText title;
     private EditText body;
     private ActionBar actionBar;
+    private ImageView image;
+    private ConstraintLayout f_image;
+    private ImageButton img_delete;
     private int type;
     private String TAG = "areum/Writingactivity"; //태그
     private int pos;
@@ -61,6 +87,15 @@ public class WritingActivity extends AppCompatActivity {
         type = intent.getIntExtra("type",0);
         title = (EditText) findViewById((R.id.title));
         body = (EditText) findViewById(R.id.body);
+        image = (ImageView)findViewById(R.id.imageviewImage);
+        f_image = (ConstraintLayout) findViewById(R.id.constraint_image);
+        img_delete = (ImageButton) findViewById(R.id.image_delete_button);
+        img_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                f_image.setVisibility(View.GONE);
+            }
+        });
 
         Toolbar toolbar = findViewById(R.id.toolbar_writing);
         setSupportActionBar(toolbar);
@@ -187,8 +222,91 @@ public class WritingActivity extends AppCompatActivity {
 
                 return true;
             }
+            case R.id.writing_image_button:
+                Log.v(TAG,"image select");
+                getImage();
+                break;
+            case R.id.writing_camera_button :
+                Log.v(TAG,"camera select");
+                showCameraPreview();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getImage(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent,GET_IMAGE);
+    }
+
+    //카메라 허락받기
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if(requestCode == PERMISSION_REQUEST_CAMERA){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED ) {
+                Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
+                startCamera();
+            }
+        }
+    }
+
+    private void showCameraPreview() {
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(getApplicationContext(),"권한 획득",Toast.LENGTH_SHORT).show();
+            startCamera();
+        }else{
+            requestCameraPermission();
+        }
+    }
+
+    private void requestCameraPermission() {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CAMERA)){
+            Toast.makeText(getApplicationContext(), "이 앱은 카메라 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
+        }else{
+            Toast.makeText(getApplicationContext(), "권한 획득 실패",Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
+        }
+    }
+
+    private void startCamera(){
+        Log.v(TAG,"startCamera()");
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePictureIntent, TAKE_PICTURE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+        Log.v(TAG,"onActivityResult");
+        super.onActivityResult(requestCode,resultCode,intent);
+        switch (requestCode){
+            case TAKE_PICTURE: //카메라 찍기
+                Log.v(TAG,"TAKE_PICTURE");
+                if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK) {
+                    Bundle extras = intent.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    image.setImageBitmap(imageBitmap);
+                    f_image.setVisibility(View.VISIBLE);
+                }
+                break;
+            case GET_IMAGE: //이미지 가져오기
+                Log.v(TAG,"GET_IMAGE");
+                if(resultCode == RESULT_OK){
+                    try{
+                        InputStream in = getContentResolver().openInputStream(intent.getData());
+                        Bitmap img = BitmapFactory.decodeStream(in);
+                        in.close();
+                        image.setImageBitmap(img);
+                        f_image.setVisibility(View.VISIBLE);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+        }
     }
 
     private void patchtoserver(Board b) {
