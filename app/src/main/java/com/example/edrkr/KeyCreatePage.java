@@ -1,7 +1,10 @@
 package com.example.edrkr;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,11 +42,16 @@ public class KeyCreatePage extends AppCompatActivity {
     TextView keyIndex;
     TextView keyValue;
 
-    int[] keyListArray;
-
     ListView listView;
-
     ArrayAdapter mAdapter;
+
+    AlertDialog.Builder emptyCkMessage;
+
+
+    boolean keyUser = false; //생성하는 키가 user면 true, 관리자이면 false.
+
+    String[] keyArrayName; //
+    int[] keyArrayId;
 
 
     @Override
@@ -67,7 +75,20 @@ public class KeyCreatePage extends AppCompatActivity {
         mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice,UserIdent.GetInstance().getFarmName());
         listView.setAdapter(mAdapter);
 
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        //listView.setItemsCanFocus(false); // ?
 
+        //listView.setOnClickListener();
+
+
+        emptyCkMessage = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog);
+        emptyCkMessage.setMessage("생성할 key 항목을 선택하세요")
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
 
 
     }
@@ -87,22 +108,60 @@ public class KeyCreatePage extends AppCompatActivity {
     public void keyCreate(View view){ //생성 버튼 클릭
 
         if(toggleGroup.getCheckedButtonId()==View.NO_ID){ //key 항목을 선택하지 않음
-            Toast.makeText(this,"생성할 key 항목을 선택하세요",Toast.LENGTH_LONG).show();
+            emptyCkMessage.show();
             return;
         }
 
         button.startAnimation();
 
+        //사용자 key라면
+        if(toggleGroup.getCheckedButtonId() == R.id.user){
 
-        boolean keyUser = false; //생성하는 키가 user면 true, 관리자이면 false.
+            keyUser = true;
 
+            SparseBooleanArray clickedItemPositions = listView.getCheckedItemPositions();
+            if(clickedItemPositions.size() == 0){ //아무것도 선택하지 않을때
+                emptyCkMessage.show();
+                return;
+            }else{ //사용자 key 진행
 
-        if(toggleGroup.getCheckedButtonId() == R.id.manager){
+                keyArrayName = new String[clickedItemPositions.size()];
+                keyArrayId = new int[clickedItemPositions.size()];
+
+                int i=0;
+                for(int index=0;index<clickedItemPositions.size();index++){
+                    // Get the checked status of the current item
+                    boolean checked = clickedItemPositions.valueAt(index);
+
+                    if(checked){
+                        // If the current item is checked
+                        int key = clickedItemPositions.keyAt(index);
+                        Log.w("clickedItemPositions",""+key);
+                        String item = (String) listView.getItemAtPosition(key);
+
+                        //선택한 밭 id 와 별명 저장.
+                        keyArrayId[i] = UserIdent.GetInstance().getFarmID(key);
+                        keyArrayName[i++]=item;
+                    }
+                }
+
+            }
+            Log.w("keyArray",keyArrayName[0]);
+            Log.w("keyArray",""+keyArrayId[0]);
+            //관리자 key
+        }else if(toggleGroup.getCheckedButtonId() == R.id.manager){
             keyUser = false;
 
-        }else if(toggleGroup.getCheckedButtonId() == R.id.user){
-            keyUser = true;
+            keyArrayId = new int[1];
+            keyArrayId[0] = -1;
         }
+
+
+
+        //이메일 물어보기
+
+
+
 
 
 
@@ -110,21 +169,34 @@ public class KeyCreatePage extends AppCompatActivity {
         
     }
 
-    private void keyNetwork(int[] id, String email){
-        Call<String> key = RetrofitClient.getApiService().registerkeyCreat(id,email); //api 콜
+    private void keyNetwork(String email){
+        Call<String> key = RetrofitClient.getApiService().registerkeyCreat(keyArrayId,email); //api 콜
         key.enqueue(new AutoRetryCallback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(!response.isSuccessful()){
                     Log.e("연결이 비정상적", "error code : " + response.code());
+                    Toast.makeText(getApplicationContext(),"알수 없는 오류로 key가 생성되지 않았습니다. 다시 시도해주세요",Toast.LENGTH_LONG).show();
                     button.revertAnimation();
                     return;
                 }
 
                 keyValue.setText(response.body());
-                keyIndex.setText("관리자 아니면 나열~");// 수정하기
-                button.setVisibility(View.GONE);
+                keyValue.setPadding(0,10,0,10);
 
+                if(keyUser == false){ //관리자
+                    keyIndex.setText("관리자 계정 key");
+                }else if(keyUser == true){
+
+                    keyIndex.setText("");
+                    for(int i=0;i<keyArrayName.length -1;i++){
+                        keyIndex.append(keyArrayName[i] + ", ");
+                    }
+                    keyIndex.append(keyArrayName[keyArrayName.length -1] + " 사용자 계정 key");
+                }
+
+                button.resetProgress();
+                button.setVisibility(View.GONE);
 
 
             }
@@ -132,6 +204,7 @@ public class KeyCreatePage extends AppCompatActivity {
             @Override
             public void onFinalFailure(Call<String> call, Throwable t) {
                 Log.e("key 통신 실패", t.getMessage());
+                Toast.makeText(getApplicationContext(),"알수 없는 오류로 key가 생성되지 않았습니다. 다시 시도해주세요",Toast.LENGTH_LONG).show();
                 button.revertAnimation();
             }
         });
