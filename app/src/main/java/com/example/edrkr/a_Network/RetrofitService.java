@@ -9,17 +9,26 @@ import com.example.edrkr.a_Network.Class.bulletin.PostBoard;
 import com.example.edrkr.a_Network.Class.manager.GetAllFarm;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
 import com.example.edrkr.a_Network.Class.manager.GetUserEachFarm;
+import com.example.edrkr.a_Network.Class.manager.InputFarm;
+import com.example.edrkr.a_Network.Class.manager.inputUser;
 import com.example.edrkr.a_Network.Class.manager.patchAddFarm;
 import com.example.edrkr.a_Network.Class.manager.patchAddUser;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -36,11 +45,16 @@ public interface RetrofitService {
     @GET("{post}") //각 게시글 보는 부분
     Call<GetEachBoard> getComment(@Path(value = "post", encoded = true) String post);
 
+    @Multipart
     @POST("{post}") //글쓰기 부분 call
     Call<PostBoard> postData(@Path(value="post",encoded = true) String post, @Body PostBoard param);
 
     @POST("{post}") //댓글 쓰기 부분 call
     Call<PostComment> postComment(@Path(value = "post",encoded = true) String post, @Body PostComment comment);
+
+    @Multipart
+    @POST("test")
+    Call<ResponseBody> request(@Part MultipartBody.Part image);
 
     @DELETE("{post}") //게시글 삭제 부분
     Call<Void> deleteBoard(@Path(value = "post",encoded = true)String post);
@@ -71,15 +85,20 @@ public interface RetrofitService {
     @GET("manage/notUsingFarm") //해당 사용자가 사용하지 않는 밭 리스트 - 추가시 보여지는 리스트
     Call<List<GetAllFarm>> getListofAddFarm(@Query("UserIdent") String keyword);
 
-    @GET("manage/notUsingUser") //해당 사용자가 사용하지 않는 밭 리스트 - 추가시 보여지는 리스트
+    @GET("manage/notUsingUser") //해당 사용자가 사용하지 않는 밭 유저 - 추가시 보여지는 리스트
     Call<List<GetAllMember>> getListofAddUser(@Query("FarmNum") String keyword);
 
+    @GET("/manage/resetPw") //해당 사용자가 사용하지 않는 밭 유저 - 추가시 보여지는 리스트
+    Call<Void> changeUserPW(@Query("UserIdent") String keyword);
+
     @POST("manage/eachFarm") //밭별 사용자추가
-    Call<List<Integer>> PostAddNewUser(@Query("FarmId") String post, @Body List<Integer> userid_list);
+    Call<List<inputUser>> PostAddNewUser(@Query("FarmId") String post, @Body List<inputUser> inputUser);
 
     @POST("manage/eachUser") //사용자별 밭 추가
-    Call<List<Integer>> PostAddNewFarm(@Query("UserIdent") String post, @Body List<Integer> farmid_list);
+    Call<List<InputFarm>> PostAddNewFarm(@Query("UserIdent") String post, @Body List<InputFarm> inputFarm);
 
+    @DELETE("manage/eachUser") //밭별 사용자 & 사용자별 밭 삭제
+    Call<Void> deletFarmUser(@Query("UserIdent") String post, @Query("inputFarm") String post2);
 }
 //https://futurestud.io/tutorials/retrofit-2-how-to-use-dynamic-urls-for-requests - url 여기참고
 //https://landroid.tistory.com/6

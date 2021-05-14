@@ -21,6 +21,7 @@ import com.example.edrkr.a_Network.Builder;
 import com.example.edrkr.a_Network.Class.bulletin.PatchBoard;
 import com.example.edrkr.a_Network.Class.manager.GetAllFarm;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
+import com.example.edrkr.a_Network.Class.manager.InputFarm;
 import com.example.edrkr.a_Network.Class.manager.patchAddUser;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
@@ -51,18 +52,19 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         super.onCreate(savedInstanceState);
         setContentView(R.layout.managerpage_selectarea);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_selectArea);
-        getfromserver();
 //        recycler_test(); //테스트용 데이터 저장
         Log.v(TAG, "recyclerview id 연결");
 
         Intent intent = getIntent();
         userid = intent.getIntExtra("userid",-1);
-        if(userid <0){
+        if(userid < 0){
             Toast.makeText(this,"통신 실패 - 나중에 다시 시도해주세요",Toast.LENGTH_SHORT).show();
             finish();
         }
+        Log.v(TAG,"first - userid : "+userid);
 
-        Log.v(TAG, "toolbar 세팅 시작");
+        getfromserver();
+        Log.v(TAG, " toolbar 세팅 시작");
         //toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar_selectarea);
         setSupportActionBar(toolbar);
@@ -73,7 +75,7 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         Log.v(TAG, "toolbar 완료");
 
         recyclerView.setHasFixedSize(true);
-        mAdapter = new stringadapter(myDataset, 0);
+        mAdapter = new stringadapter(getBaseContext(), myDataset, 1);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -81,7 +83,7 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         Log.v(TAG, "layout adapter 연결");
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new BulletinAdapter.OnItemClickListener() {
+        mAdapter.setItemClickListener(new stringadapter.ItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
                 Log.v(TAG, "게시글 클릭 리스너 눌림 pos : " + pos);
@@ -92,6 +94,10 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
                     myDataset.get(pos).setChecked_(false);
                     v.setBackgroundColor(Color.WHITE);
                 }
+            }
+            @Override
+            public void DeleteItem(int pos, int uid, int fid) {
+
             }
         });
     }
@@ -109,8 +115,8 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         Log.v(TAG, "getfromserver");
         myDataset = null;
         final ArrayList<Member> dataset = new ArrayList<>();
-
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
+        Log.v(TAG,"userid : "+userid);
         service.getListofAddFarm(Integer.toString(userid)).enqueue(new Callback<List<GetAllFarm>>() {
             @Override
             public void onResponse(@EverythingIsNonNull Call<List<GetAllFarm>> call, @EverythingIsNonNull Response<List<GetAllFarm>> response) { //서버와 통신하여 반응이 왔다면
@@ -158,10 +164,10 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
 
     public void puttoserver() {
         Log.v(TAG,"patchtoserver 진입완료");
-        ArrayList<Integer> list_userid = patchtoserver();
+        List<InputFarm> list_userid = patchtoserver();
         Log.v(TAG,"put 완료");
 
-        Call<List<Integer>> call = retrofitIdent.GetInstance().getService().PostAddNewFarm(Integer.toString(userid), list_userid);
+        Call<List<InputFarm>> call = retrofitIdent.GetInstance().getService().PostAddNewFarm(Integer.toString(userid), list_userid);
         Builder builder = new Builder();
         try {
             builder.tryPost(call);
@@ -171,11 +177,12 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         Log.v(TAG, "tryconnect 완료");
     }
 
-    private ArrayList<Integer> patchtoserver() {
-        ArrayList<Integer> list_userid = new ArrayList<>();
+    private ArrayList<InputFarm> patchtoserver() {
+        ArrayList<InputFarm> list_userid = new ArrayList<>();
         for(Member m : myDataset){
             if(m.getChecked_()){
-                list_userid.add(m.getId_());
+                InputFarm f = new InputFarm(m.getId_());
+                list_userid.add(f);
             }
         }
         return list_userid;
@@ -185,7 +192,7 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_writing, menu);
+        menuInflater.inflate(R.menu.menu_manager, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -1,5 +1,7 @@
 package com.example.edrkr.managerPage;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.edrkr.R;
-import com.example.edrkr.a_Network.Class.manager.GetAllFarm;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
+import com.example.edrkr.a_Network.Class.manager.InputFarm;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,10 +37,12 @@ public class show_each_areahas extends AppCompatActivity {
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
     private ActionBar actionBar;
+    private int num = -1;
     private LinearLayoutManager layoutManager;
     private ArrayList<Member> myDataset = new ArrayList<>();
     private String TAG = "areum/show_each_areahas";
     private int farmid;
+    private int userid = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +101,44 @@ public class show_each_areahas extends AppCompatActivity {
         //testData();
 
         // specify an adapter (see also next example)
-        mAdapter = new stringadapter(myDataset,3);
+        mAdapter = new stringadapter(getApplicationContext(), myDataset,3);
+        mAdapter.setFarmId(farmid);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(show_each_areahas.this);
+        alertDialogBuilder.setMessage("정말 삭제하시겠습니까?");
+        alertDialogBuilder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.v(TAG,"삭제");
+                if(num != -1){
+                    DeleteFarm(num);
+                }else{
+                    Toast.makeText(getApplicationContext(),"통신오류.",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        alertDialogBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.v(TAG,"최소");
+                Toast.makeText(getApplicationContext(),"취소되었습니다.",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        mAdapter.setItemClickListener(new stringadapter.ItemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+            }
+
+            @Override
+            public void DeleteItem(int pos, int uid, int fid) {
+                num = pos;
+                userid = uid;
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+
         recyclerView.setAdapter(mAdapter);
         Log.v(TAG,"adapter설정완료");
 
@@ -163,6 +204,36 @@ public class show_each_areahas extends AppCompatActivity {
         });
     }
 
+    public void DeleteFarm(int position){
+        Log.v(TAG,"pos : "+position+" delete클릭");
+        if(userid <= 0 && farmid <= 0){
+            Toast.makeText(getApplicationContext(),"통신오류 - 잠시후에 시도해주세요",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
+        service.deletFarmUser(Integer.toString(userid), Integer.toString(farmid)).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    //통신이 실패한 경우(응답코드 3xx,4xx 등)
+                    Log.d(TAG, "onResponse: 실패");
+                    Toast.makeText(getApplicationContext(),"삭제에 실패했습니다. 잠시후에 시도해주세요",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String content = "";
+                content += "code: " + response.code() + "\n";
+                content += "정상적으로 삭제되었습니다.";
+                getfromserver();
+                Toast.makeText(getApplicationContext(),"삭제되었습니다.",Toast.LENGTH_LONG).show();
+                Log.v(TAG, content);
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.v(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+        num = -1;
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){

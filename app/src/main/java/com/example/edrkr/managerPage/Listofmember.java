@@ -51,14 +51,14 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
         getfromserver();
 //        recycler_test();
         recyclerView.setHasFixedSize(true);
-        mAdapter = new stringadapter(myDataset, 0);
+        mAdapter = new stringadapter(getContext(), myDataset, 0);
 
         layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new BulletinAdapter.OnItemClickListener() {
+        mAdapter.setItemClickListener(new stringadapter.ItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
                 Log.v(TAG, "게시글 클릭 리스너 눌림 pos : " + pos);
@@ -67,21 +67,19 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
                     Intent intent = new Intent(getActivity(), show_each_member.class);
 
                     intent.putExtra("id", s.getId_());
+                    Log.v(TAG,"userid : "+s.getId_());
                     startActivityForResult(intent, 1);
                     Log.v(TAG, "intent 전송 완료");
                 } else {
                     Toast.makeText(getContext(), "통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
+            @Override
+            public void DeleteItem(int pos, int uid, int fid) {
+
+            }
         });
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        recycler_test();
-        getfromserver(); //서버와 통신
     }
 
     public void recycler_test() {

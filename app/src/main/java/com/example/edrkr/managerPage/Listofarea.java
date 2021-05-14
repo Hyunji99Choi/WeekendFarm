@@ -55,14 +55,14 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
         getfromserver(); //서버와 통신
 
         recyclerView.setHasFixedSize(true);
-        mAdapter = new stringadapter(myDataset,1);
+        mAdapter = new stringadapter(getContext(),myDataset,1);
 
         layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new BulletinAdapter.OnItemClickListener() {
+        mAdapter.setItemClickListener(new stringadapter.ItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) { //각 밭 클릭시 해당 밭의 사용자 보여주는 page로 이동하는 함수
                 Log.v(TAG,"게시글 클릭 리스너 눌림 pos : "+pos);
@@ -77,15 +77,13 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
                     Toast.makeText(getContext(),"통신이 원활하지 않습니다.",Toast.LENGTH_SHORT).show();
                 }
             }
+
+            @Override
+            public void DeleteItem(int pos, int uid, int fid) {
+
+            }
         });
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //recycler_test();
-        getfromserver(); //서버와 통신
     }
 
     public void recycler_test(){ //로컬로 데이터 넣는 함수

@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.edrkr.a_Network.Builder;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
+import com.example.edrkr.a_Network.Class.manager.InputFarm;
+import com.example.edrkr.a_Network.Class.manager.inputUser;
 import com.example.edrkr.a_Network.Class.manager.patchAddFarm;
 import com.example.edrkr.a_Network.Class.manager.patchAddUser;
 import com.example.edrkr.a_Network.RetrofitService;
@@ -73,7 +75,7 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
         Log.v("SelectMember","recyclerview id 연결");
 
         recyclerView.setHasFixedSize(true);
-        mAdapter = new stringadapter(myDataset,0);
+        mAdapter = new stringadapter(getBaseContext(), myDataset,0);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -81,7 +83,7 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
         Log.v("SelectMember","layout adapter 연결");
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener(new BulletinAdapter.OnItemClickListener() {
+        mAdapter.setItemClickListener(new stringadapter.ItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
                 Log.v("SelectMember","게시글 클릭 리스너 눌림 pos : "+pos);
@@ -92,6 +94,11 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
                     myDataset.get(pos).setChecked_(false);
                     v.setBackgroundColor(Color.WHITE);
                 }
+            }
+
+            @Override
+            public void DeleteItem(int pos, int uid, int fid) {
+
             }
         });
     }
@@ -156,10 +163,10 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
 
     public void puttoserver() {
         Log.v(TAG,"patchtoserver 진입완료");
-        ArrayList<Integer> list_farmid = patchtoserver();
+        ArrayList<inputUser> list_farmid = patchtoserver();
         Log.v(TAG,"put 완료");
 
-        Call<List<Integer>> call = retrofitIdent.GetInstance().getService().PostAddNewUser(Integer.toString(farmid), list_farmid);
+        Call<List<inputUser>> call = retrofitIdent.GetInstance().getService().PostAddNewUser(Integer.toString(farmid), list_farmid);
         Builder builder = new Builder();
         try {
             builder.tryPost(call);
@@ -169,11 +176,12 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
         Log.v(TAG, "tryconnect 완료");
     }
 
-    private ArrayList<Integer> patchtoserver() {
-        ArrayList<Integer> list_farmid = new ArrayList<>();
+    private ArrayList<inputUser> patchtoserver() {
+        ArrayList<inputUser> list_farmid = new ArrayList<>();
         for(Member m : myDataset){
             if(m.getChecked_()){
-                list_farmid.add(m.getId_());
+                inputUser i = new inputUser(m.getId_());
+                list_farmid.add(i);
             }
         }
         return list_farmid;
@@ -183,7 +191,7 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_writing,menu);
+        menuInflater.inflate(R.menu.menu_manager,menu);
         return super.onCreateOptionsMenu(menu);
     }
 

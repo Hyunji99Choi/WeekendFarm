@@ -1,6 +1,7 @@
 package com.example.edrkr.managerPage;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,27 +9,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.edrkr.a_Network.RetrofitService;
+import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.bulletinPage.BulletinAdapter;
 import com.example.edrkr.R;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHolder> {
     private String TAG = "areum/stringadapter";
+    private Context context;
 
-    public interface OnItemClickListener{
-        void onItemClick(View v, int pos);
-    }
-    private BulletinAdapter.OnItemClickListener mListener = null;
+    private ItemClickListener mListener = null;
     private ArrayList<Member> mDataset;
     int type; // 0 : member 1:area 2 :member_each_area_shape 3: memberhas
-
-    public void setOnItemClickListener(BulletinAdapter.OnItemClickListener listener){
-        this.mListener = listener;
-    }
+    int userid = -1, farmid = -1;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -72,10 +76,19 @@ public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHold
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public stringadapter(ArrayList<Member> myDataset, int type) {
+    public stringadapter(Context context,ArrayList<Member> myDataset, int type) {
+        this.context = context;
         this.type = type;
         mDataset = myDataset;
         TAG += type+" ";
+    }
+
+    public void setUserId(int userid){
+        this.userid = userid;
+    }
+
+    public void setFarmId(int farmid){
+        this.farmid = farmid;
     }
 
     // Create new views (invoked by the layout manager)
@@ -111,16 +124,26 @@ public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHold
     public void onBindViewHolder(final stringadapter.MyViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+
         if(mDataset.get(position).getChecked_()){
             holder.itemView.setBackgroundColor(Color.GREEN);
         }else{
             holder.itemView.setBackgroundColor(Color.WHITE);
         }
-        if(type >= 2){
+        if(type == 2){ //farm
             holder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
-                    DeleteItem(v,position);
+                    farmid = mDataset.get(position).getId_();
+                    mListener.DeleteItem(position,userid,farmid);
+                }
+            });
+        }else if(type == 3){ //user
+            holder.button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v){
+                    userid = mDataset.get(position).getId_();
+                    mListener.DeleteItem(position,userid,farmid);
                 }
             });
         }
@@ -142,9 +165,14 @@ public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHold
         return mDataset.size();
     }
 
-    public void DeleteItem(View v, int position){
-        Log.v(TAG,"pos : "+position+" delete클릭");
-        //delete 코드만들기
+    public interface ItemClickListener{
+        void onItemClick(View v, int pos);
+        void DeleteItem(int pos, int uid, int fid);
     }
+
+    public void setItemClickListener(ItemClickListener listener){
+        this.mListener = listener;
+    }
+
     public void changeDataset(ArrayList<Member> m){this.mDataset = m;}
 }
