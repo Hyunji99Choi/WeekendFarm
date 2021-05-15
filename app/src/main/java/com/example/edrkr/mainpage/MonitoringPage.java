@@ -21,20 +21,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.transition.Explode;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.edrkr.KeyCreatePage;
+import com.example.edrkr.subpage.KeyCreatePage;
 import com.example.edrkr.h_network.AutoRetryCallback;
 import com.example.edrkr.h_network.ResponseWeatherJson;
 import com.example.edrkr.h_network.RetrofitClient;

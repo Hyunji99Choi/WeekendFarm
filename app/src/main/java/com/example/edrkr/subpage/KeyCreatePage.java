@@ -1,4 +1,4 @@
-package com.example.edrkr;
+package com.example.edrkr.subpage;
 
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -28,6 +28,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.example.edrkr.R;
+import com.example.edrkr.UserIdent;
 import com.example.edrkr.h_network.AutoRetryCallback;
 import com.example.edrkr.h_network.RetrofitClient;
 import com.example.edrkr.mainpage.ControlMonitoring;
@@ -106,7 +108,7 @@ public class KeyCreatePage extends AppCompatActivity {
 
         listView = findViewById(R.id.listview);
 
-        mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice,UserIdent.GetInstance().getFarmName());
+        mAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, UserIdent.GetInstance().getFarmName());
         listView.setAdapter(mAdapter);
 
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
