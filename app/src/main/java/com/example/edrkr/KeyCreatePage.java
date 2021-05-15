@@ -5,28 +5,32 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.example.edrkr.h_network.AutoRetryCallback;
 import com.example.edrkr.h_network.RetrofitClient;
-import com.example.edrkr.managerPage.stringadapter;
+import com.example.edrkr.mainpage.ControlMonitoring;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputLayout;
@@ -34,8 +38,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import retrofit2.Call;
 import retrofit2.Response;
-
-import static java.sql.Types.NULL;
 
 public class KeyCreatePage extends AppCompatActivity {
 
@@ -63,19 +65,33 @@ public class KeyCreatePage extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(ControlMonitoring.GetInstance().getToolbarTheme());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.subpage_key_create_page);
+
+
+        //toolbar를 액션바로 대체
+        Toolbar toolbar = findViewById(R.id.toolbar_manager);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
+
 
         toggleGroup = findViewById(R.id.toggleGroup);
 
         managerSelectBtn = findViewById(R.id.manager);
         userSelectBtn = findViewById(R.id.user);
 
+
         keyIndex = findViewById(R.id.key_index);
         keyValue = findViewById(R.id.key);
         keyValue.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                Log.w("textview","롱클릭");
+                Toast.makeText(getApplicationContext(),"복사되었습니다.",Toast.LENGTH_SHORT).show();
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 cm.setPrimaryClip(ClipData.newPlainText("text", ((TextView) v).getText()));
                 return false;
@@ -86,7 +102,7 @@ public class KeyCreatePage extends AppCompatActivity {
 
 
         button = findViewById(R.id.creat_btn);
-
+        //button.setBackgroundColor(ControlMonitoring.GetInstance().getToolbarColor());
 
         listView = findViewById(R.id.listview);
 
@@ -99,52 +115,15 @@ public class KeyCreatePage extends AppCompatActivity {
         //listView.setOnClickListener();
 
 
-        emptyCkMessage = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog);
+        emptyCkMessage = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
         emptyCkMessage.setMessage("생성할 key 항목을 선택하세요")
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                .setPositiveButton(Html.fromHtml("<font color='#D81B60'>확인</font>"), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                     }
                 });
 
-
-
-        //email 디자인.... error
-
-        final EditText emil = new EditText(this);
-        TextInputLayout layout = new TextInputLayout(this);
-        //layout.topMargin =
-        emil.setHint("emil 주소를 입력해주세요.");
-        layout.addView(emil);
-
-        emilCkMessage = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Presentation);
-        emilCkMessage
-                .setMessage("생성된 key 번호를 emil로도 전송하시겠습니까?")//.setCancelable(false)
-                .setView(layout)
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                            //확인 버튼
-                        Log.w("다일로그","확인");
-                        if(emil.getText().toString().length() == 0){
-                            Toast.makeText(getApplicationContext(),"emil을 입력해주세요",Toast.LENGTH_SHORT).show();
-                            button.revertAnimation();
-                        }else {
-                            keyNetwork(emil.getText().toString());
-                        }
-
-                    }
-                }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //취소 버튼
-                Log.w("다일로그","취소");
-
-                //오류류
-               keyNetwork("FALSE");
-            }
-        });
 
 
     }
@@ -215,21 +194,56 @@ public class KeyCreatePage extends AppCompatActivity {
 
 
         //이메일 물어보기
+        final EditText emil = new EditText(this);
+        emil.setHint("emil 주소를 입력해주세요.");
+
+        emilCkMessage = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+        emilCkMessage
+                .setMessage("생성된 key 번호를 emil로도 전송하시겠습니까?").setCancelable(false)
+                .setView(emil)
+                .setPositiveButton(Html.fromHtml("<font color='#D81B60'>예</font>"), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //확인 버튼
+                        Log.w("다일로그","예");
+                        if(emil.getText().toString().length() == 0){
+                            Toast.makeText(getApplicationContext(),"emil을 입력해주세요",Toast.LENGTH_SHORT).show();
+                            button.revertAnimation();
+                            //dialogInterface.dismiss();
+                        }else {
+                            Toast.makeText(getApplicationContext(),"입력된 emil에 key번호를 전송합니다.",Toast.LENGTH_SHORT).show();
+
+                            keyNetwork(emil.getText().toString());
+                        }
+
+                    }
+                }).setNegativeButton(Html.fromHtml("<font color='#D81B60'>아니요</font>"), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //취소 버튼
+                Log.w("다일로그","아니요");
+
+                Toast.makeText(getApplicationContext(),"emil 전송을 하지 않습니다.",Toast.LENGTH_SHORT).show();
+                keyNetwork("FALSE");
+            }
+        });
         emilCkMessage.show();
 
+        //검토
+        //keyNetwork("FALSE");
 
         
     }
 
-    // error?
-    private void keyNetwork(String email){
 
+    private void keyNetwork(String email){
         Call<String> key;
 
         if(email.equals("FALSE")){
-            key = RetrofitClient.getApiService().registerkeyCreat(keyArrayId); //api 콜
+            key = RetrofitClient.getApiService().getKeyCreat(keyArrayId); //api 콜
         }else{
-            key = RetrofitClient.getApiService().registerkeyCreat(keyArrayId,email); //api 콜
+            Log.w("email",email);
+            key = RetrofitClient.getApiService().getKeyCreat(keyArrayId,email); //api 콜
         }
 
         key.enqueue(new AutoRetryCallback<String>() {
@@ -242,8 +256,11 @@ public class KeyCreatePage extends AppCompatActivity {
                     return;
                 }
 
+                Log.w("key",response.body());
+
                 keyValue.setText(response.body());
-                keyValue.setPadding(0,10,0,10);
+                keyValue.setPadding(0,80,0,80);
+                keyValue.setTextSize(22);
 
                 if(keyUser == false){ //관리자
                     keyIndex.setText("관리자 계정 key");
@@ -277,6 +294,17 @@ public class KeyCreatePage extends AppCompatActivity {
         super.onDestroy();
         button.dispose();
         System.gc(); // Garbage Collection 희망
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){ //optionitem 선택시
+        switch (item.getItemId()){
+            case android.R.id.home: //뒤로가기 버튼 클릭시
+                Log.w("Back","툴바 뒤로버튼");
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 
