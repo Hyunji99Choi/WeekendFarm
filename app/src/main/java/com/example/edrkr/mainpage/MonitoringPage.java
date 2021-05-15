@@ -303,6 +303,7 @@ public class MonitoringPage extends AppCompatActivity {
         //글쓰기 다이로그 열기
         writDialog = new Dialog(this); //그때그때 객체 생성 고민해보기
         writDialog.setContentView(R.layout.today_writting_custom_dialog);
+        writDialog.setCancelable(false); //취소 못함.
         settingDialog(writDialog);
         writDialog.show();
         writDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 투명 배경
