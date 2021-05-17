@@ -18,15 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.edrkr.a_Network.Builder;
-import com.example.edrkr.a_Network.Class.bulletin.PatchBoard;
 import com.example.edrkr.a_Network.Class.manager.GetAllFarm;
-import com.example.edrkr.a_Network.Class.manager.GetAllMember;
-import com.example.edrkr.a_Network.Class.manager.InputFarm;
-import com.example.edrkr.a_Network.Class.manager.patchAddUser;
+import com.example.edrkr.a_Network.Class.manager.inputFarm;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
-import com.example.edrkr.bulletinPage.Board;
-import com.example.edrkr.bulletinPage.BulletinAdapter;
 import com.example.edrkr.R;
 
 import java.util.ArrayList;
@@ -126,7 +121,7 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
                     if (datas != null) {
                         Log.v(TAG, "GetAllFarm 받아오기 완료 datas.size = " + datas.size());
                         for (int i = 0; i < datas.size(); i++) {
-                            Log.v(TAG, "GetAllFarm" + datas.get(i));
+                            Log.v(TAG, "GetAllFarm" + datas.get(i).getFarmname());
                             //받아온 데이터 Member 클래스에 저장
                             Member m = new Member(datas.get(i).getFarmid(), null, datas.get(i).getFarmname());
                             dataset.add(m); //저장한 Board 클래스 arraylist에 넣음.
@@ -163,29 +158,45 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
     }
 
     public void puttoserver() {
-        Log.v(TAG,"patchtoserver 진입완료");
-        List<InputFarm> list_userid = patchtoserver();
-        Log.v(TAG,"put 완료");
+        Log.v(TAG,"puttoserver 진입완료");
+        int[] list_userid = patchtoserver();
+        Log.v(TAG,"put 완료 size : "+list_userid.length);
 
-        Call<List<InputFarm>> call = retrofitIdent.GetInstance().getService().PostAddNewFarm(Integer.toString(userid), list_userid);
-        Builder builder = new Builder();
-        try {
-            builder.tryPost(call);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Call<String> call = retrofitIdent.GetInstance().getService().PostAddNewFarm(Integer.toString(userid), list_userid);
+        call.enqueue(new Callback<String>() { //비동기 작업
+            @Override
+            public void onResponse(@EverythingIsNonNull Call<String> call, @EverythingIsNonNull  Response<String> response) { //성공 - 메인 스레드에서 처리
+                if (response.isSuccessful()) {
+                    //정상적으로 통신이 성공한 경우
+                    Log.v(TAG, "onResponse: 성공, 결과\n" + response.body().toString());
+                } else {
+                    //통신이 실패한 경우(응답코드 3xx,4xx 등)
+                    Log.d(TAG,  "onResponse: 실패");
+                }
+            }
+
+            @Override
+            public void onFailure(@EverythingIsNonNull Call<String> call,@EverythingIsNonNull  Throwable t) { //실패 - 메인 스레드에서 처리
+                //통신 실패(인터넷 끊김, 예외 발생 등 시스템적인 이유)
+                Log.d(TAG, "onFailure: " +  t.getMessage());
+            }
+        });
         Log.v(TAG, "tryconnect 완료");
     }
 
-    private ArrayList<InputFarm> patchtoserver() {
-        ArrayList<InputFarm> list_userid = new ArrayList<>();
+    private int[] patchtoserver() {
+        ArrayList<Integer> list_userid = new ArrayList<>();
         for(Member m : myDataset){
             if(m.getChecked_()){
-                InputFarm f = new InputFarm(m.getId_());
-                list_userid.add(f);
+                list_userid.add(m.getId_());
+                Log.v(TAG,"선택 : "+m.getId_());
             }
         }
-        return list_userid;
+        int[] list_int = new int[list_userid.size()];
+        for(int i = 0; i < list_userid.size(); i++) {
+            list_int[i] = list_userid.get(i);
+        }
+        return list_int;
     }
 
 
@@ -208,6 +219,7 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
                 Log.v("selectMember", "선택완료버튼 눌림");
                 //patch 코드
                 puttoserver();
+                setResult(1);
                 finish();
         }
         return super.onOptionsItemSelected(item);

@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.edrkr.R;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
-import com.example.edrkr.a_Network.Class.manager.InputFarm;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -51,6 +50,15 @@ public class show_each_areahas extends AppCompatActivity {
         this.InitializeView(); //필요 요소 선언해주는 함수
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode == 1){
+            if(resultCode == 1){
+                getfromserver();
+            }
+        }
+    }
 
     public void InitializeView(){
         // write = (ImageButton)findViewById(R.id.fab_write);

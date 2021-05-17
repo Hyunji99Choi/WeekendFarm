@@ -18,15 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.edrkr.a_Network.Builder;
+import com.example.edrkr.a_Network.Class.Post;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
-import com.example.edrkr.a_Network.Class.manager.InputFarm;
 import com.example.edrkr.a_Network.Class.manager.inputUser;
-import com.example.edrkr.a_Network.Class.manager.patchAddFarm;
-import com.example.edrkr.a_Network.Class.manager.patchAddUser;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
-import com.example.edrkr.bulletinPage.BulletinAdapter;
 import com.example.edrkr.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +33,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class SelectMember extends AppCompatActivity { //맴버 선택해서 추가하는 코드
@@ -163,28 +164,43 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
 
     public void puttoserver() {
         Log.v(TAG,"patchtoserver 진입완료");
-        ArrayList<inputUser> list_farmid = patchtoserver();
+        int[] list_farmid = patchtoserver();
         Log.v(TAG,"put 완료");
 
-        Call<List<inputUser>> call = retrofitIdent.GetInstance().getService().PostAddNewUser(Integer.toString(farmid), list_farmid);
-        Builder builder = new Builder();
-        try {
-            builder.tryPost(call);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Call<String> call = retrofitIdent.GetInstance().getService().PostAddNewUser(Integer.toString(farmid), list_farmid);
+        call.enqueue(new Callback<String>() { //비동기 작업
+            @Override
+            public void onResponse(@EverythingIsNonNull Call<String> call, @EverythingIsNonNull  Response<String> response) { //성공 - 메인 스레드에서 처리
+                if (response.isSuccessful()) {
+                    //정상적으로 통신이 성공한 경우
+                    Log.v(TAG, "onResponse: 성공, 결과\n" + response.body().toString());
+                } else {
+                    //통신이 실패한 경우(응답코드 3xx,4xx 등)
+                    Log.d(TAG,  "onResponse: 실패");
+                }
+            }
+
+            @Override
+            public void onFailure(@EverythingIsNonNull Call<String> call,@EverythingIsNonNull  Throwable t) { //실패 - 메인 스레드에서 처리
+                //통신 실패(인터넷 끊김, 예외 발생 등 시스템적인 이유)
+                Log.d(TAG, "onFailure: " +  t.getMessage());
+            }
+        });
         Log.v(TAG, "tryconnect 완료");
     }
 
-    private ArrayList<inputUser> patchtoserver() {
-        ArrayList<inputUser> list_farmid = new ArrayList<>();
+    private  int[] patchtoserver() {
+        ArrayList<Integer> list_farmid = new ArrayList<>();
         for(Member m : myDataset){
             if(m.getChecked_()){
-                inputUser i = new inputUser(m.getId_());
-                list_farmid.add(i);
+                list_farmid.add(m.getId_());
             }
         }
-        return list_farmid;
+        int[] list_int = new int[list_farmid.size()];
+        for(int i = 0;i<list_farmid.size();i++){
+            list_int[i] = list_farmid.get(i);
+        }
+        return list_int;
     }
 
 
@@ -201,6 +217,7 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
             case android.R.id.home:
                 Log.v("selectmember","home");
                 Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
+                setResult(1);
                 finish();
                 break;
 

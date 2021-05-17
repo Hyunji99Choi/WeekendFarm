@@ -299,13 +299,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
             }
         }
         if (type == 1) { //이전 달 호출
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    recyclerView.scrollToPosition(snapPosition + 33);
-                }
-            }, 200);
-            //   recyclerView.scrollToPosition(snapPosition+33); //스크롤 할 떄의 중앙자리로 이동
+            recyclerView.scrollToPosition(snapPosition+33); //스크롤 할 떄의 중앙자리로 이동
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
@@ -359,13 +353,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
 
         if (type == 1) {
             Log.v(log, "snapposition : " + snapPosition);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    recyclerView.scrollToPosition(snapPosition + 12);
-                }
-            }, 200);
-            //  recyclerView.scrollToPosition(snapPosition+12);
+            recyclerView.scrollToPosition(snapPosition+12);
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
@@ -418,13 +406,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
         }
 
         if (type == 1) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    recyclerView.scrollToPosition(snapPosition + 13);
-                }
-            }, 200);
-            //           recyclerView.scrollToPosition(snapPosition+13);
+            recyclerView.scrollToPosition(snapPosition+13);
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
@@ -503,13 +485,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
             }
         }
         if (type == 1) { //이전달
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    recyclerView.scrollToPosition(snapPosition+3);
-                }
-            }, 200);
-            //recyclerView.scrollToPosition(snapPosition + weekofmonth + 3);
+            recyclerView.scrollToPosition(snapPosition + weekofmonth + 3);
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);

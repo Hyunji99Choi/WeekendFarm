@@ -1,16 +1,37 @@
 package com.example.edrkr.dailyMemo;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import androidx.annotation.RequiresApi;
 
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class myCalendarData {
     Calendar calendar;
     int startday, currentmonth, currentyear, dayofweek, weekofmonth;
     private String tag ="areum/myCalendarDate";
     String stringdayofweek;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("E");
+
+    //새로운 방법
+//    LocalDate startDate = LocalDate.now();
+//    LocalDate endDate = startDate.plusMonths(2);
+//
+//    long numOfDays = ChronoUnit.DAYS.between(startDate,endDate);
+//
+//    ArrayList<LocalDate> listOfDates = (ArrayList) Stream.iterate(startDate, date -> date.plusDays(1))
+//            .limit(numOfDays).collect(Collectors.toList());
 
     public myCalendarData(int start){
         this.calendar = Calendar.getInstance();

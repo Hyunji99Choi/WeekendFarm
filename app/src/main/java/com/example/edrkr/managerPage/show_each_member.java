@@ -19,15 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.edrkr.R;
-import com.example.edrkr.a_Network.Class.manager.GetAllMember;
 import com.example.edrkr.a_Network.Class.manager.GetUserEachFarm;
-import com.example.edrkr.a_Network.Class.manager.InputFarm;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,6 +56,16 @@ public class show_each_member extends AppCompatActivity {
         setContentView(R.layout.managerpage_each_member);
         this.InitializeView(); //필요 요소 선언해주는 함수
         SetListener(); //리스너 설정 함수
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode == 1){
+            if(resultCode == 1){
+                getfromserver();
+            }
+        }
     }
 
 
@@ -256,7 +263,7 @@ public class show_each_member extends AppCompatActivity {
                     return;
                 }
                 String content = "";
-                content += "code: " + response.code() + "\n";
+                content += "code: " + response.code();
                 content += "정상적으로 삭제되었습니다.";
                 getfromserver();
                 Toast.makeText(getApplicationContext(),"삭제되었습니다.",Toast.LENGTH_LONG).show();
