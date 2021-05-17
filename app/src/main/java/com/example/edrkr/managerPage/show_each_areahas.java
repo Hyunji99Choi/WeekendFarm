@@ -53,8 +53,10 @@ public class show_each_areahas extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
-        if(requestCode == 1){
+        Log.v(TAG,"request : "+requestCode+" result : "+resultCode);
+        if(requestCode == 0){
             if(resultCode == 1){
+                Log.v(TAG,"getfromserver");
                 getfromserver();
             }
         }

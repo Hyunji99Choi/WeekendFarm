@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.edrkr.a_Network.Builder;
 import com.example.edrkr.a_Network.Class.manager.GetAllFarm;
 import com.example.edrkr.a_Network.Class.manager.inputFarm;
+import com.example.edrkr.a_Network.Class.manager.inputUser;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
@@ -159,8 +160,9 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
 
     public void puttoserver() {
         Log.v(TAG,"puttoserver 진입완료");
-        int[] list_userid = patchtoserver();
-        Log.v(TAG,"put 완료 size : "+list_userid.length);
+        inputFarm list_userid = patchtoserver();
+       // Log.v(TAG,"put 완료 size : ");
+        Log.v(TAG, "size : "+list_userid.getInputfarm().length);
 
         Call<String> call = retrofitIdent.GetInstance().getService().PostAddNewFarm(Integer.toString(userid), list_userid);
         call.enqueue(new Callback<String>() { //비동기 작업
@@ -169,6 +171,8 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
                 if (response.isSuccessful()) {
                     //정상적으로 통신이 성공한 경우
                     Log.v(TAG, "onResponse: 성공, 결과\n" + response.body().toString());
+                    setResult(1);
+                    finish();
                 } else {
                     //통신이 실패한 경우(응답코드 3xx,4xx 등)
                     Log.d(TAG,  "onResponse: 실패");
@@ -184,7 +188,7 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         Log.v(TAG, "tryconnect 완료");
     }
 
-    private int[] patchtoserver() {
+    private inputFarm patchtoserver() {
         ArrayList<Integer> list_userid = new ArrayList<>();
         for(Member m : myDataset){
             if(m.getChecked_()){
@@ -196,7 +200,8 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         for(int i = 0; i < list_userid.size(); i++) {
             list_int[i] = list_userid.get(i);
         }
-        return list_int;
+        inputFarm tmp = new inputFarm(list_int);
+        return tmp;
     }
 
 
@@ -219,8 +224,6 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
                 Log.v("selectMember", "선택완료버튼 눌림");
                 //patch 코드
                 puttoserver();
-                setResult(1);
-                finish();
         }
         return super.onOptionsItemSelected(item);
     }

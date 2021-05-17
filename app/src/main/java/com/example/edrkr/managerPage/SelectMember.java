@@ -164,8 +164,8 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
 
     public void puttoserver() {
         Log.v(TAG,"patchtoserver 진입완료");
-        int[] list_farmid = patchtoserver();
-        Log.v(TAG,"put 완료");
+        inputUser list_farmid = patchtoserver();
+        Log.v(TAG, "size : "+list_farmid.getInputUser().length);
 
         Call<String> call = retrofitIdent.GetInstance().getService().PostAddNewUser(Integer.toString(farmid), list_farmid);
         call.enqueue(new Callback<String>() { //비동기 작업
@@ -174,6 +174,8 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
                 if (response.isSuccessful()) {
                     //정상적으로 통신이 성공한 경우
                     Log.v(TAG, "onResponse: 성공, 결과\n" + response.body().toString());
+                    setResult(1);
+                    finish();
                 } else {
                     //통신이 실패한 경우(응답코드 3xx,4xx 등)
                     Log.d(TAG,  "onResponse: 실패");
@@ -189,18 +191,20 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
         Log.v(TAG, "tryconnect 완료");
     }
 
-    private  int[] patchtoserver() {
+    private inputUser patchtoserver() {
         ArrayList<Integer> list_farmid = new ArrayList<>();
         for(Member m : myDataset){
             if(m.getChecked_()){
                 list_farmid.add(m.getId_());
+                Log.v(TAG,"선택 : "+m.getId_());
             }
         }
         int[] list_int = new int[list_farmid.size()];
         for(int i = 0;i<list_farmid.size();i++){
             list_int[i] = list_farmid.get(i);
         }
-        return list_int;
+        inputUser tmp = new inputUser(list_int);
+        return tmp;
     }
 
 
@@ -217,15 +221,12 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
             case android.R.id.home:
                 Log.v("selectmember","home");
                 Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
-                setResult(1);
-                finish();
                 break;
 
             case R.id.writing_next_button:
                 Log.v("selectMember","선택완료버튼 눌림");
                 //patch 코드
                 puttoserver();
-                finish();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -88,18 +88,14 @@ public interface RetrofitService {
     @GET("/manage/resetPw") //pw 변경 0000으로
     Call<Void> changeUserPW(@Query("UserIdent") String keyword);
 
-    @FormUrlEncoded
     @POST("manage/eachFarm") //밭별 사용자추가
-    Call<String> PostAddNewUser(@Query("FarmId") String post,
-                                @Field("inputUser") int[] inputuser);
+    Call<String> PostAddNewUser(@Query("FarmId") String post, @Body inputUser inputUser);
 
-    @FormUrlEncoded
     @POST("manage/eachUser") //사용자별 밭 추가
-    Call<String> PostAddNewFarm(@Query("UserIdent") String post,
-                                @Field("inputUser") int[] inputfarm);
+    Call<String> PostAddNewFarm(@Query("UserIdent") String post, @Body inputFarm inputFarm);
 
     @DELETE("manage/eachUser") //밭별 사용자 & 사용자별 밭 삭제
-    Call<Void> deletFarmUser(@Query("UserIdent") String post, @Query("inputFarm") String post2);
+    Call<Void> deletFarmUser(@Query("UserIdent") String post, @Query("InputFarm") String post2);
 }
 //https://futurestud.io/tutorials/retrofit-2-how-to-use-dynamic-urls-for-requests - url 여기참고
 //https://landroid.tistory.com/6
