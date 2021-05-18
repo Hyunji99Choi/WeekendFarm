@@ -4,6 +4,8 @@ package com.example.edrkr.mainpage;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
+
 import com.example.edrkr.R;
 import com.example.edrkr.h_network.ResponseCCTVJson;
 import com.example.edrkr.h_network.ResponseSensorJson;
@@ -176,22 +178,28 @@ public class ControlMonitoring {
         int color;
 
         if (light>300){//매우 밝음
-            color=contex.getResources().getColor(R.color.sunny_very_bright);
+            //color=contex.getResources().getColor(R.color.sunny_very_bright);
+            color= ContextCompat.getColor(contex,R.color.sunny_very_bright);
             return color;
         }else if (light>250){ //밝음
-            color=contex.getResources().getColor(R.color.sunny_bright);
+            //color=contex.getResources().getColor(R.color.sunny_bright);
+            color= ContextCompat.getColor(contex,R.color.sunny_bright);
             return color;
         }else if (light>150){ //약간 밝음
-            color=contex.getResources().getColor(R.color.sunny_some_bright);
+            //color=contex.getResources().getColor(R.color.sunny_some_bright);
+            color= ContextCompat.getColor(contex,R.color.sunny_some_bright);
             return color;
         }else if (light>100){ //약간 어두움
-            color=contex.getResources().getColor(R.color.sunny_some_dack);
+            //color=contex.getResources().getColor(R.color.sunny_some_dack);
+            color= ContextCompat.getColor(contex,R.color.sunny_some_dack);
             return color;
         }else if (light>90){ //어두움
-            color=contex.getResources().getColor(R.color.sunny_dack);
+            //color=contex.getResources().getColor(R.color.sunny_dack);
+            color= ContextCompat.getColor(contex,R.color.sunny_dack);
             return color;
         }else{ //매우 어두움
-            color = contex.getResources().getColor(R.color.sunny_very_dack);
+            //color = contex.getResources().getColor(R.color.sunny_very_dack);
+            color= ContextCompat.getColor(contex,R.color.sunny_very_dack);
             return color;
         }
 
@@ -202,22 +210,28 @@ public class ControlMonitoring {
         int color;
 
         if (temp>30){//매우 더움
-            color=contex.getResources().getColor(R.color.hot_very_hot);
+            //color=contex.getResources().getColor(R.color.hot_very_hot);
+            color= ContextCompat.getColor(contex,R.color.hot_very_hot);
             return color;
         }else if (temp>25){ //더움
-            color=contex.getResources().getColor(R.color.hot_hot);
+            //color=contex.getResources().getColor(R.color.hot_hot);
+            color= ContextCompat.getColor(contex,R.color.hot_hot);
             return color;
         }else if (temp>20){ //조금 더움(20~25 적당함)
-            color=contex.getResources().getColor(R.color.hot_some_hot);
+            //color=contex.getResources().getColor(R.color.hot_some_hot);
+            color= ContextCompat.getColor(contex,R.color.hot_some_hot);
             return color;
         }else if (temp>10){ //약간 추움
-            color=contex.getResources().getColor(R.color.hot_some_cold);
+            //color=contex.getResources().getColor(R.color.hot_some_cold);
+            color= ContextCompat.getColor(contex,R.color.hot_some_cold);
             return color;
         }else if (temp>0){ //추움
-            color=contex.getResources().getColor(R.color.hot_cold);
+            //color=contex.getResources().getColor(R.color.hot_cold);
+            color= ContextCompat.getColor(contex,R.color.hot_cold);
             return color;
         }else{ //매우 추움
-            color = contex.getResources().getColor(R.color.hot_very_cold);
+            //color = contex.getResources().getColor(R.color.hot_very_cold);
+            color= ContextCompat.getColor(contex,R.color.hot_very_cold);
             return color;
         }
 
