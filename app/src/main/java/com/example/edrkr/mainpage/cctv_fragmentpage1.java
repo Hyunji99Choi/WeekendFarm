@@ -38,6 +38,7 @@ public class cctv_fragmentpage1 extends Fragment {
     public void cctvURLSetting(String URL1){
         webView1.loadUrl(URL1); //첫번째 cctv 화면 적용
 
+        //ControlMonitoring.GetInstance().endPageSetting();
 
     }
 }

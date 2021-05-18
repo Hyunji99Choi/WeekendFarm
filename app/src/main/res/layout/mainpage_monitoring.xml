@@ -8,11 +8,6 @@
     android:id="@+id/dl_main_drawer_root"
     tools:context=".mainpage.MonitoringPage">
 
-
-
-
-
-
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -191,5 +186,10 @@
             app:headerLayout="@layout/mainpage_navi_header"
             app:menu="@menu/drawer"
             />
+
+    <include
+        android:id="@+id/llProgressBar"
+        android:visibility="gone"
+        layout="@layout/loading_layout_progress_bar_with_text"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

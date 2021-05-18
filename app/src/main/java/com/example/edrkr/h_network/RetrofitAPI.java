@@ -6,6 +6,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -69,6 +70,37 @@ public interface RetrofitAPI {
     //일주일 그래프 통신
     @GET("sensor/soilavg{farmID}")
     Call<List<ResponseGraphJson>> getGraph(@Path("farmID") String farmID);
+
+
+    //일지 관련 통신
+
+    //일지 작성
+    @FormUrlEncoded
+    @POST("diary")
+    Call<String> setDiary(
+            @Field("userIdent") int userIdent,
+            @Field("content") String content
+    );
+
+    //일지 수정
+    @PATCH("diary") //게시글 수정부분
+    Call<String> updateDiary(
+            @Query("id") int id,
+            @Body String content
+    );
+    //일지 삭제
+    @DELETE("diary")
+    Call<String> deleteDiary(
+            @Query("id") int id
+    );
+
+    //일별 일지
+
+    //주별 일지
+
+    //월별 일지
+
+    //년별 일지
 
 
 

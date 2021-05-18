@@ -240,7 +240,7 @@ public class KeyCreatePage extends AppCompatActivity {
 
     private void keyNetwork(String email){
         Call<String> key;
-
+        Log.w("keyarrayid",""+keyArrayId[0]);
         if(email.equals("FALSE")){
             key = RetrofitClient.getApiService().getKeyCreat(keyArrayId); //api 콜
         }else{

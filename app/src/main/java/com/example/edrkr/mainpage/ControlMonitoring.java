@@ -32,7 +32,10 @@ public class ControlMonitoring {
     public int getToolbarTheme() { return toolbarTheme; }
     public void setToolbarTheme(int toolbarTheme) { this.toolbarTheme = toolbarTheme; }
 
-
+    private MonitoringPage monitoringPageThis;
+    public void setMonitoringPageThis(MonitoringPage monitoringPageThis){
+        this.monitoringPageThis = monitoringPageThis;
+    }
 
     private Context contex; //이거 사용안하는것 같음...
     private sub_page1 page1;
@@ -52,6 +55,12 @@ public class ControlMonitoring {
     public void setFragmentPage1(cctv_fragmentpage1 s1){ this.cctv1=s1; }
     public void setFragmentPage2(cctv_fragmentpage2 s2){ this.cctv2=s2; }
     public void setFragmentPage3(cctv_fragmentpage3 s3){ this.cctv3=s3; }
+
+    //cctv 3번째 페이지까지 세팅 완료
+    public void endPageSetting(){
+        monitoringPageThis.endLoading();
+    }
+
 
     //그래프 통신
     public void NetworkkGraphCall(){
