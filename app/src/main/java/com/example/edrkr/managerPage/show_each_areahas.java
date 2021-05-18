@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +20,7 @@ import com.example.edrkr.R;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
+import com.example.edrkr.mainpage.ControlMonitoring;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class show_each_areahas extends AppCompatActivity {
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
-    private ActionBar actionBar;
+    private Toolbar toolbar;
     private int num = -1;
     private LinearLayoutManager layoutManager;
     private ArrayList<Member> myDataset = new ArrayList<>();
@@ -79,12 +80,12 @@ public class show_each_areahas extends AppCompatActivity {
         Log.v(TAG,"toolbar 세팅 시작");
         //toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar_eachareahas);
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, ControlMonitoring.GetInstance().getToolbarColor()));
         setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
-        actionBar.setTitle("소유자 목록");
-        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
+        getSupportActionBar().setTitle("소유자 목록");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
         Log.v(TAG,"toolbar 완료");
 
         recyclerView =(RecyclerView) findViewById(R.id.recycler_areahaslist);

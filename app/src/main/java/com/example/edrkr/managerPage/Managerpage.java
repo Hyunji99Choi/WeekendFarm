@@ -10,19 +10,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.edrkr.R;
+import com.example.edrkr.mainpage.ControlMonitoring;
 import com.google.android.material.tabs.TabLayout;
 
 public class Managerpage extends AppCompatActivity { //메니저 페이지 - 2개의 프레그먼트가 올려져있음.
     PagerAdapter adapter; //adapter 변수 선언 - pageadapter
     ViewPager viewPager; //viewPager 선언
     private TabLayout tabLayout;
-    private ActionBar actionBar; //엑션바
+    private Toolbar toolbar; //엑션바
     private Context mContext;
     private String TAG ="areum/Managerpage";
 
@@ -34,11 +35,11 @@ public class Managerpage extends AppCompatActivity { //메니저 페이지 - 2�
 
         //toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar_manager);
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, ControlMonitoring.GetInstance().getToolbarColor()));
         setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
 
 
         //tablayout 참조, tab 추가

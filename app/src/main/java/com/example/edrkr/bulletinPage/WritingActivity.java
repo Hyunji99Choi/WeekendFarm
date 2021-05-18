@@ -7,9 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.nfc.Tag;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -19,17 +16,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.edrkr.a_Network.Builder;
 import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
@@ -40,9 +36,8 @@ import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
+import com.example.edrkr.mainpage.ControlMonitoring;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,7 +56,7 @@ public class WritingActivity extends AppCompatActivity {
 
     private EditText title;
     private EditText body;
-    private ActionBar actionBar;
+    private Toolbar toolbar;
     private ImageView image;
     private ConstraintLayout f_image;
     private ImageButton img_delete;
@@ -98,11 +93,11 @@ public class WritingActivity extends AppCompatActivity {
         });
 
         Toolbar toolbar = findViewById(R.id.toolbar_writing);
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, ControlMonitoring.GetInstance().getToolbarColor()));
         setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false); //기존 타이틀 지우기
-        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
+        getSupportActionBar().setDisplayShowTitleEnabled(false); //기존 타이틀 지우기
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
 
         if(type == 1){
             pos = intent.getIntExtra("pos",-1);

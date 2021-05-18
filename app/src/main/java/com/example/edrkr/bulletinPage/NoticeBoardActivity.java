@@ -12,10 +12,10 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +27,7 @@ import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
+import com.example.edrkr.mainpage.ControlMonitoring;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -37,13 +38,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.edrkr.mainpage.ControlMonitoring.GetInstance;
+
 public class NoticeBoardActivity extends AppCompatActivity implements LifecycleObserver {
     //private ImageButton write;
     private FloatingActionButton fab;
     private RecyclerView recyclerView;
     private BulletinAdapter mAdapter;
     private LinearLayoutManager layoutManager;
-    private ActionBar actionBar;
+    private Toolbar toolbar;
     private int num = -1;
     private SwipeRefreshLayout refreshLayout;
     private String usernickname;
@@ -174,11 +177,11 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         Log.v(TAG, "toolbar 세팅 시작");
         //toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar_noticeboard);
+        toolbar.setBackgroundColor(ContextCompat.getColor(this,ControlMonitoring.GetInstance().getToolbarColor()));
         setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
         Log.v(TAG, "toolbar 완료");
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);

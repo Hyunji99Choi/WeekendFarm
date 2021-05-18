@@ -11,19 +11,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.edrkr.a_Network.Builder;
 import com.example.edrkr.a_Network.Class.manager.GetAllFarm;
 import com.example.edrkr.a_Network.Class.manager.inputFarm;
-import com.example.edrkr.a_Network.Class.manager.inputUser;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
+import com.example.edrkr.mainpage.ControlMonitoring;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
-    private ActionBar actionBar;
+    private Toolbar toolbar;
     private ArrayList<Member> myDataset = new ArrayList<>();
     private String URL = "manage/allFarmInfo/"; //서버 주소
     private String TAG = "areum/SelectArea";
@@ -63,11 +62,12 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         Log.v(TAG, " toolbar 세팅 시작");
         //toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar_selectarea);
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, ControlMonitoring.GetInstance().getToolbarColor()));
         setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
-        actionBar.setTitle("소유밭 추가");
-        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
+
+        getSupportActionBar().setTitle("소유밭 추가");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
         Log.v(TAG, "toolbar 완료");
 
         recyclerView.setHasFixedSize(true);

@@ -11,21 +11,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.edrkr.a_Network.Builder;
-import com.example.edrkr.a_Network.Class.Post;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
 import com.example.edrkr.a_Network.Class.manager.inputUser;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.example.edrkr.mainpage.ControlMonitoring;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,15 +30,13 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class SelectMember extends AppCompatActivity { //맴버 선택해서 추가하는 코드
     private RecyclerView recyclerView;
     private stringadapter mAdapter;
     private LinearLayoutManager layoutManager;
-    private ActionBar actionBar;
+    private Toolbar toolbar;
     private ArrayList<Member> myDataset = new ArrayList<>();
     private String URL = "manage/allMemberInfo/"; //서버 주소
     private String TAG = "areum/SelectMember";
@@ -65,10 +60,11 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
         //toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar_selectmember);
         setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
-        actionBar.setTitle("소유자 추가");
-        actionBar.setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, ControlMonitoring.GetInstance().getToolbarColor()));
+
+        getSupportActionBar().setTitle("소유자 추가");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_goout); //뒤로가기 버튼 이미지
         Log.v("selctmember","toolbar 완료");
 
         getfromserver();
