@@ -2,12 +2,16 @@ package com.example.edrkr.bulletinPage;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +32,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.edrkr.a_Network.Builder;
+import com.example.edrkr.a_Network.Class.Post;
 import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
 import com.example.edrkr.a_Network.Class.bulletin.GetEachBoard;
 import com.example.edrkr.a_Network.Class.bulletin.PatchBoard;
@@ -38,15 +43,23 @@ import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
 import com.example.edrkr.mainpage.ControlMonitoring;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
 
 //확인 필요
 public class WritingActivity extends AppCompatActivity {
@@ -61,6 +74,7 @@ public class WritingActivity extends AppCompatActivity {
     private ConstraintLayout f_image;
     private ImageButton img_delete;
     private int type;
+    private Bitmap bitmapimage;
     private String TAG = "areum/Writingactivity"; //태그
     private int pos;
     private String URL = "forum/";
@@ -88,11 +102,12 @@ public class WritingActivity extends AppCompatActivity {
         img_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bitmapimage = null;
                 f_image.setVisibility(View.GONE);
             }
         });
 
-        Toolbar toolbar = findViewById(R.id.toolbar_writing);
+        toolbar = findViewById(R.id.toolbar_writing);
         toolbar.setBackgroundColor(ContextCompat.getColor(this, ControlMonitoring.GetInstance().getToolbarColor()));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false); //기존 타이틀 지우기
@@ -140,23 +155,96 @@ public class WritingActivity extends AppCompatActivity {
     }
 
 
-    public void posttoserver(Board b){ //retrofit2를 사용하여 서버로 보내는 코드
-        Log.v(TAG,"posttoserver 진입완료");
-        PostBoard post = new PostBoard();
-        post.setNickname(b.getName());
-        post.setTitle(b.getTitle());
-        post.setContent(b.getBody());
-        post.setUserIdent(UserIdent.GetInstance().getUserIdent());
-        Log.v(TAG,"put 완료");
+    public void posttoserver(Board b) { //retrofit2를 사용하여 서버로 보내는 코드
+//        Log.v(TAG, "posttoserver 진입완료");
+//        PostBoard post = new PostBoard();
+//        post.setNickname(b.getName());
+//        post.setTitle(b.getTitle());
+//        post.setContent(b.getBody());
+//        post.setUserIdent(UserIdent.GetInstance().getUserIdent());
+//        Log.v(TAG, "put 완료");
+//
+//        Call<PostBoard> call = retrofitIdent.GetInstance().getService().postData("forum/", post);
+//        Builder builder = new Builder();
+//        try {
+//            builder.tryPost(call);
 
-        Call<PostBoard> call = retrofitIdent.GetInstance().getService().postData("forum/", post);
-        Builder builder = new Builder();
-        try {
-            builder.tryPost(call);
-        }catch (Exception e){
+//                setResult(1);
+//                finish();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Log.v(TAG, "tryconnect 완료");
+        if(bitmapimage == null){
+            Log.v(TAG,"이미지 없음");
+        }else{
+            testimage();
+            Log.v(TAG, "testimage 완료");
+        }
+    }
+
+    private void testimage(){
+        Log.v(TAG, "test 시작");
+        File f = savebitmap(bitmapimage);
+        RequestBody filebody = RequestBody.create(MediaType.parse("image/*"), f);
+        Log.v(TAG, "filebody 생성");
+        MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("image", f.getName(), filebody);
+        Log.v(TAG, "multipartBody 생성");
+
+        Call<String> call = retrofitIdent.GetInstance().getService().request(b.getName(),UserIdent.GetInstance().getUserIdent(),b.getTitle(),b.getBody(),multipartBody);
+        Log.v(TAG, "call 생성");
+        call.enqueue(new Callback<String>() { //비동기 작업
+            @Override
+            public void onResponse(@EverythingIsNonNull Call<String> call, @EverythingIsNonNull  Response<String> response) { //성공 - 메인 스레드에서 처리
+                if (response.isSuccessful()) {
+                    //정상적으로 통신이 성공한 경우
+                    Log.v(TAG, "onResponse: 성공, 결과\n" + response.body().toString());
+                    setResult(1);
+                    finish();
+                } else {
+                    //통신이 실패한 경우(응답코드 3xx,4xx 등)
+                    Log.d(TAG,  "onResponse: 실패");
+                }
+            }
+
+            @Override
+            public void onFailure(@EverythingIsNonNull Call<String> call,@EverythingIsNonNull  Throwable t) { //실패 - 메인 스레드에서 처리
+                //통신 실패(인터넷 끊김, 예외 발생 등 시스템적인 이유)
+                Log.d(TAG, "onFailure: " +  t.getMessage());
+            }
+        });
+    }
+
+    private File savebitmap(Bitmap bmp){
+        try{
+            Log.v(TAG, "savebitmap 생성");
+            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            File file = new File(directory,"temp.png");
+            Log.v(TAG, "file 생성");
+            if (file.exists()) { //기존에 파일이 존재한다면
+                file.delete();
+                Log.v(TAG, "file delete");
+                file = new File(directory,"temp.png");
+            }
+            try {
+                Log.v(TAG, "file 생성");
+                FileOutputStream fos = null;
+                fos = new FileOutputStream(file);
+                bitmapimage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                Log.v(TAG, "bmp.compres");
+                fos.flush();
+                Log.v(TAG, "outStream.flush();");
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+            return file;
+        }catch(Exception e){
             e.printStackTrace();
         }
-        Log.v(TAG,"tryconnect 완료");
+        return null;
     }
 
     public void localsend(Board b){ //로컬로 데이터셋 지정
@@ -208,13 +296,7 @@ public class WritingActivity extends AppCompatActivity {
                 }else if(type == 1){
                     patchtoserver(b);
                 }
-
-                Intent intent = getIntent();
-
-                // localsend(b);
-                setResult(1, intent);
-                finish();
-
+//                 localsend(b);
                 return true;
             }
             case R.id.writing_image_button:
@@ -293,6 +375,7 @@ public class WritingActivity extends AppCompatActivity {
                     try{
                         InputStream in = getContentResolver().openInputStream(intent.getData());
                         Bitmap img = BitmapFactory.decodeStream(in);
+                        bitmapimage = img;
                         in.close();
                         image.setImageBitmap(img);
                         f_image.setVisibility(View.VISIBLE);

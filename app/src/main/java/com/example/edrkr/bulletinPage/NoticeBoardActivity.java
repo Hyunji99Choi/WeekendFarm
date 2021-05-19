@@ -12,6 +12,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -58,8 +59,13 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) { //다른 intent 갔다가 돌아왔을 경우 실행하는 함수
         super.onActivityResult(requestCode, resultCode, data);
-        Log.v(TAG, "onactivity 함수 실행 resultcode : " + resultCode);
-        refresh();
+        Log.v(TAG, "onactivity 함수 실행"+" requestcode : "+requestCode+ " resultcode : " + resultCode);
+        if(requestCode == 1){
+            if(resultCode == 1){
+                Log.v(TAG,"refresh");
+                refresh();
+            }
+        }
     }
 
     @Override
@@ -176,12 +182,19 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
 
         Log.v(TAG, "toolbar 세팅 시작");
         //toolbar를 액션바로 대체
-        Toolbar toolbar = findViewById(R.id.toolbar_noticeboard);
+        toolbar = findViewById(R.id.toolbar_noticeboard);
         toolbar.setBackgroundColor(ContextCompat.getColor(this,ControlMonitoring.GetInstance().getToolbarColor()));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
+
+//        Toolbar toolbar = findViewById(R.id.toolbar_noticeboard);
+////        toolbar.setBackgroundColor(ContextCompat.getColor(this,ControlMonitoring.GetInstance().getToolbarColor()));
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 만들기
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_button); //뒤로가기 버튼 이미지
         Log.v(TAG, "toolbar 완료");
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);

@@ -42,7 +42,6 @@ public interface RetrofitService {
     @GET("{post}") //각 게시글 보는 부분
     Call<GetEachBoard> getComment(@Path(value = "post", encoded = true) String post);
 
-    @Multipart
     @POST("{post}") //글쓰기 부분 call
     Call<PostBoard> postData(@Path(value="post",encoded = true) String post, @Body PostBoard param);
 
@@ -50,8 +49,13 @@ public interface RetrofitService {
     Call<PostComment> postComment(@Path(value = "post",encoded = true) String post, @Body PostComment comment);
 
     @Multipart
-    @POST("test")
-    Call<ResponseBody> request(@Part MultipartBody.Part image);
+    @POST("image") //이미지 통신 시도해볼 녀석 <--------------------------------------------
+//    Call<String> request(@Part MultipartBody.Part image);
+    Call<String> request(@Part("nickname") String post,
+                         @Part("userIdent") int userIdent,
+                         @Part("title") String title,
+                         @Part("content") String content,
+                         @Part MultipartBody.Part image);
 
     @DELETE("{post}") //게시글 삭제 부분
     Call<Void> deleteBoard(@Path(value = "post",encoded = true)String post);
