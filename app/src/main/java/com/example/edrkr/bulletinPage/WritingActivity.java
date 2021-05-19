@@ -156,27 +156,25 @@ public class WritingActivity extends AppCompatActivity {
 
 
     public void posttoserver(Board b) { //retrofit2를 사용하여 서버로 보내는 코드
-//        Log.v(TAG, "posttoserver 진입완료");
-//        PostBoard post = new PostBoard();
-//        post.setNickname(b.getName());
-//        post.setTitle(b.getTitle());
-//        post.setContent(b.getBody());
-//        post.setUserIdent(UserIdent.GetInstance().getUserIdent());
-//        Log.v(TAG, "put 완료");
-//
-//        Call<PostBoard> call = retrofitIdent.GetInstance().getService().postData("forum/", post);
-//        Builder builder = new Builder();
-//        try {
-//            builder.tryPost(call);
-
-//                setResult(1);
-//                finish();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        Log.v(TAG, "tryconnect 완료");
         if(bitmapimage == null){
             Log.v(TAG,"이미지 없음");
+            PostBoard post = new PostBoard();
+            post.setNickname(b.getName());
+            post.setTitle(b.getTitle());
+            post.setContent(b.getBody());
+            post.setUserIdent(UserIdent.GetInstance().getUserIdent());
+            Log.v(TAG, "put 완료");
+
+            Call<PostBoard> call = retrofitIdent.GetInstance().getService().postData("forum/", post);
+            Builder builder = new Builder();
+            try {
+                builder.tryPost(call);
+                setResult(1);
+                finish();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Log.v(TAG, "tryconnect 완료");
         }else{
             testimage();
             Log.v(TAG, "testimage 완료");
@@ -190,8 +188,11 @@ public class WritingActivity extends AppCompatActivity {
         Log.v(TAG, "filebody 생성");
         MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("image", f.getName(), filebody);
         Log.v(TAG, "multipartBody 생성");
+        RequestBody Nickname = RequestBody.create(MediaType.parse("text/plain"),b.getName());
+        RequestBody title = RequestBody.create(MediaType.parse("text/plain"),b.getTitle());
+        RequestBody content = RequestBody.create(MediaType.parse("text/plain"),b.getBody());
 
-        Call<String> call = retrofitIdent.GetInstance().getService().request(b.getName(),UserIdent.GetInstance().getUserIdent(),b.getTitle(),b.getBody(),multipartBody);
+        Call<String> call = retrofitIdent.GetInstance().getService().request(Nickname,UserIdent.GetInstance().getUserIdent(),title,content,multipartBody);
         Log.v(TAG, "call 생성");
         call.enqueue(new Callback<String>() { //비동기 작업
             @Override
@@ -365,6 +366,7 @@ public class WritingActivity extends AppCompatActivity {
                 if (requestCode == TAKE_PICTURE && resultCode == RESULT_OK) {
                     Bundle extras = intent.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    bitmapimage = imageBitmap;
                     image.setImageBitmap(imageBitmap);
                     f_image.setVisibility(View.VISIBLE);
                 }

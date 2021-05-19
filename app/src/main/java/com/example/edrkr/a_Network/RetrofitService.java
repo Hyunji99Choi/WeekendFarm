@@ -15,6 +15,7 @@ import com.example.edrkr.a_Network.Class.manager.inputUser;
 import java.util.List;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -51,10 +52,10 @@ public interface RetrofitService {
     @Multipart
     @POST("image") //이미지 통신 시도해볼 녀석 <--------------------------------------------
 //    Call<String> request(@Part MultipartBody.Part image);
-    Call<String> request(@Part("nickname") String post,
+    Call<String> request(@Part("nickname") RequestBody post,
                          @Part("userIdent") int userIdent,
-                         @Part("title") String title,
-                         @Part("content") String content,
+                         @Part("title") RequestBody title,
+                         @Part("content") RequestBody content,
                          @Part MultipartBody.Part image);
 
     @DELETE("{post}") //게시글 삭제 부분
