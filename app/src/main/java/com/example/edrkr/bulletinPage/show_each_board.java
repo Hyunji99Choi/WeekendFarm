@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import com.example.edrkr.a_Network.Builder;
 import com.example.edrkr.a_Network.Class.bulletin.GetComment;
 import com.example.edrkr.a_Network.Class.bulletin.GetEachBoard;
 import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
+import com.example.edrkr.a_Network.Class.bulletin.GetImage;
 import com.example.edrkr.a_Network.Class.bulletin.PatchComment;
 import com.example.edrkr.a_Network.Class.bulletin.PostComment;
 import com.example.edrkr.a_Network.RetrofitService;
@@ -35,6 +37,7 @@ import com.example.edrkr.a_Network.retrofitIdent;
 import com.example.edrkr.R;
 import com.example.edrkr.UserIdent;
 import com.example.edrkr.mainpage.ControlMonitoring;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +54,7 @@ public class show_each_board extends AppCompatActivity {
     private TextView show_saycount;
     private RecyclerView show_recyclerview;
     private EditText show_EditText;
-    private Button show_addbutton;
+    private ImageView imageView;   //이미지 뷰
     private Toolbar toolbar;
     private CommentAdapter mAdapter;
     private LinearLayoutManager layoutManager;
@@ -83,8 +86,8 @@ public class show_each_board extends AppCompatActivity {
         show_saycount = (TextView)findViewById(R.id.show_saycount);
         show_recyclerview = (RecyclerView)findViewById(R.id.show_recyclerview);
         show_EditText = (EditText)findViewById(R.id.show_edittext_write_comment);
-        show_addbutton = (Button)findViewById(R.id.show_button_add_comment);
         manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        imageView = findViewById(R.id.imageviewImage);  //이미지 뷰
 
         intent = getIntent();
         usernickname = UserIdent.GetInstance().getNkname();
@@ -104,7 +107,7 @@ public class show_each_board extends AppCompatActivity {
 
         Log.v(TAG,"toolbar 세팅 시작");
         //toolbar를 액션바로 대체
-        Toolbar toolbar = findViewById(R.id.toolbar_eachboard);
+        toolbar = findViewById(R.id.toolbar_eachboard);
         toolbar.setBackgroundColor(ContextCompat.getColor(this, ControlMonitoring.GetInstance().getToolbarColor()));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -146,7 +149,6 @@ public class show_each_board extends AppCompatActivity {
 
         Log.v(TAG,"getBoardData 진입완료");
 
-        //레트로핏 통신 기다리게 바꾸기
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
         service.getComment(URL).enqueue(new Callback<GetEachBoard>() {
             @Override
@@ -178,6 +180,7 @@ public class show_each_board extends AppCompatActivity {
                         Log.v(TAG,"recyclerview 적용");
                         myDataset = dataset;
                     }
+                    getImage();     //image 서버에서 가져오기
                 }else{ //통신은 성공 but, 내부에서 실패
                     Log.v(TAG, "onResponse: 실패");
                 }
@@ -187,6 +190,36 @@ public class show_each_board extends AppCompatActivity {
                 Log.v(TAG, "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    public void getImage(){ //image를 서버에서 가져오는 함수
+        try{
+            RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
+            service.getBulImage().enqueue(new Callback<GetImage>() {
+                @Override
+                public void onResponse(Call<GetImage> call, Response<GetImage> response) { //통신 성공시
+                    if(response.isSuccessful()){
+                        Log.v(TAG, "image 통신 성공");
+                        GetImage datas = response.body();
+                        if(datas.getImageUrl() != null && datas.getImageUrl().length() > 0) {
+                            Log.v(TAG, "유의미한 image 받아오기 성공");
+                            imageView.setVisibility(View.VISIBLE);
+                            Picasso.get().load(datas.getImageUrl()).placeholder(R.drawable.bplaceholder).into(imageView);
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Empty Image URL",Toast.LENGTH_SHORT).show();
+                        }
+                    }else{ //통신은 성공 but, 내부에서 실패
+                        Log.v(TAG, "onResponse: 실패");
+                    }
+                }
+                @Override
+                public void onFailure(Call<GetImage> call, Throwable t) { //통신 아예 실패
+                    Log.v(TAG, "onFailure: " + t.getMessage());
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void setView(Board b){   //게시판을 화면에 보이게 하는 함수

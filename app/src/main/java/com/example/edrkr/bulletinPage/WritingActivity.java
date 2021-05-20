@@ -177,7 +177,7 @@ public class WritingActivity extends AppCompatActivity {
             Log.v(TAG, "tryconnect 완료");
         }else{
             testimage();
-            Log.v(TAG, "testimage 완료");
+            Log.v(TAG, "이미지 전송 완료");
         }
     }
 

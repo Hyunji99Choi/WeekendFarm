@@ -2,6 +2,7 @@ package com.example.edrkr.a_Network;
 
 import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
 import com.example.edrkr.a_Network.Class.bulletin.GetEachBoard;
+import com.example.edrkr.a_Network.Class.bulletin.GetImage;
 import com.example.edrkr.a_Network.Class.bulletin.PatchBoard;
 import com.example.edrkr.a_Network.Class.bulletin.PatchComment;
 import com.example.edrkr.a_Network.Class.bulletin.PostComment;
@@ -42,6 +43,9 @@ public interface RetrofitService {
 
     @GET("{post}") //각 게시글 보는 부분
     Call<GetEachBoard> getComment(@Path(value = "post", encoded = true) String post);
+
+    @GET("image") //게시글 별 이미지 가져오기
+    Call<GetImage> getBulImage();
 
     @POST("{post}") //글쓰기 부분 call
     Call<PostBoard> postData(@Path(value="post",encoded = true) String post, @Body PostBoard param);
