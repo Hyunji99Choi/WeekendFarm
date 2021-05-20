@@ -1,7 +1,5 @@
 package com.example.edrkr.h_network;
 
-import com.example.edrkr.a_Network.Class.bulletin.PatchBoard;
-
 import java.util.List;
 
 import retrofit2.Call;
@@ -95,19 +93,40 @@ public interface RetrofitAPI {
     );
 
     //일별 일지
+    @GET("diary") //오류???
+    Call<List<ResponseDailyMemoJson>> getTodayDailyMemo(
+            @Query("userIdent") int userIdent,
+            @Query("startDate") String startDate,
+            @Query("endDate") String endDate
+    );
 
     //주별 일지
+    @GET("diary")
+    Call<List<ResponseDailyMemoJson>> getWeekDailyMemo(
+            @Query("userIdent") int userIdent,
+            @Query("startDate") String startDate,
+            @Query("endDate") String endDate
+    );
 
     //월별 일지
+    @GET("diary/month")
+    Call<List<ResponseDailyMemoJson>> getMonthDailyMemo(
+            @Query("userIdent") int userIdent,
+            @Query("month") String month
+    );
 
     //년별 일지
-
+    @GET("diary/year")
+    Call<List<ResponseDailyMemoJson>> getYearDailyMemo(
+            @Query("userIdent") int userIdent,
+            @Query("year") String year
+    );
 
 
     //서브 페이지
 
     //회원정보 수정
-    @PATCH("users/info") //게시글 수정부분
+    @PATCH("users/info")
     Call<String> updateUserIdent(
             @Query("UserIdent") String UserIdent,
             @Body RequestUpdateUser requestUpdateUser

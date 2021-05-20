@@ -428,12 +428,14 @@ public class MonitoringPage extends AppCompatActivity {
             @Override
             public void onFinalFailure(Call<ResponseWeatherJson> call, Throwable t) {
                 Log.e("날씨 정보 연결실패", t.getMessage());
+                endLoading(); //로딩 끝
             }
 
             @Override
             public void onResponse(Call<ResponseWeatherJson> call, Response<ResponseWeatherJson> response) {
                 if(!response.isSuccessful()){
                     Log.e("연결이 비정상적", "error code : " + response.code());
+                    endLoading(); //로딩 끝
                     return;
                 }
 
