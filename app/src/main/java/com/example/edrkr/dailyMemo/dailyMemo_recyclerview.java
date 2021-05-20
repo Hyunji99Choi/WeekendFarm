@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.edrkr.R;
 
+import java.nio.channels.ScatteringByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +43,9 @@ public class dailyMemo_recyclerview extends LinearLayout {
     private View snapView;
     private int snapPosition = 0;
     private boolean init = true; //동시에 진입하지 않도록 하는 key
-    private int two_count; //빠르게 넘어가는거 방지 - n번 당겨야 새로 데이터 가져옴
+//    private int two_count; //빠르게 넘어가는거 방지 - n번 당겨야 새로 데이터 가져옴
     private int init_count = 3;
+    private boolean timer = true;
     private TimerThread thread = null;
 
     private int mode = 0; // 0 : 일간/ 1 : 년간 / 2 : 월간 / 3 : 주간
@@ -83,7 +85,8 @@ public class dailyMemo_recyclerview extends LinearLayout {
         recyclerView.setLayoutManager(mLayoutManager);
         snapView = snapHelper.findSnapView(mLayoutManager);
 
-        two_count = init_count;
+//        two_count = init_count;
+        timer = true;
         init = true;
     }
 
@@ -113,7 +116,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
         lastData = new myCalendarData(0);
         nextData = new myCalendarData(0);
 
-        two_count = init_count;
+ //       two_count = init_count;
         setRecyclerView();
     }
 
@@ -163,7 +166,8 @@ public class dailyMemo_recyclerview extends LinearLayout {
                 }
                 try {
                     Log.v(log,"thread 시작");
-                    threadStart(); //타이머 시작
+                    thread = new TimerThread(); //타이머 스레드 생성
+                    threadStart(thread); //타이머 시작
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -172,8 +176,8 @@ public class dailyMemo_recyclerview extends LinearLayout {
             //스크롤시 끝에 닿은 지 확인하는 함수
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (two_count == 0 && init) {
-                    init = false;
+                if (init && timer) {
+                    timer = false;
                     if (!recyclerView.canScrollHorizontally(-1)) { //리스트의 앞
                         Log.v(log + "onScrollstate", "start");
                         checkModetoprpare(1);
@@ -181,10 +185,14 @@ public class dailyMemo_recyclerview extends LinearLayout {
                         Log.v(log + "onScrollstate", "end");
                         checkModetoprpare(2);
                     }
-                    two_count = init_count;
-                    init = true;
+ //                   two_count = init_count;
+
+                    //여기 타이머 넣기
+                    Timer timer = new Timer();
+                    threadStart(timer);
+                    Log.v(log, "timer 넣음");
                 } else {
-                    two_count--;
+ //                   two_count--;
                 }
             }
         });
@@ -226,7 +234,8 @@ public class dailyMemo_recyclerview extends LinearLayout {
 
         checkModetoprpare(0); //type을 보고 함수를 지정해주는 함수
 
-        threadStart();
+        thread = new TimerThread(); //타이머 스레드 생성
+        threadStart(thread); //타이머 시작
 
     }
 
@@ -327,7 +336,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
             }
         }
         if (type == 1) { //이전 달 호출
-            recyclerView.scrollToPosition(snapPosition + 33); //스크롤 할 떄의 중앙자리로 이동
+            recyclerView.scrollToPosition(snapPosition + 31); //스크롤 할 떄의 중앙자리로 이동
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
@@ -357,8 +366,8 @@ public class dailyMemo_recyclerview extends LinearLayout {
         myCalendarData m_calendar = null;
 
         if (type == 1) { //이전 년 호출
-            lastData.getNextYear(-10);
             m_calendar = lastData;
+            m_calendar.getNextYear(-10);
             Log.v(log, "year : " + m_calendar.getYear());
         } else if (type == 2) { //이후 달 호출
             m_calendar = nextData;
@@ -379,7 +388,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
 
         if (type == 1) {
             Log.v(log, "snapposition : " + snapPosition);
-            recyclerView.scrollToPosition(snapPosition + 12);
+            recyclerView.scrollToPosition(snapPosition + 10);
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
@@ -430,7 +439,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
         }
 
         if (type == 1) {
-            recyclerView.scrollToPosition(snapPosition + 13);
+            recyclerView.scrollToPosition(snapPosition + 10);
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
@@ -507,7 +516,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
             }
         }
         if (type == 1) { //이전달
-            recyclerView.scrollToPosition(snapPosition + weekofmonth + 3);
+            recyclerView.scrollToPosition(snapPosition + weekofmonth);
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
@@ -521,10 +530,9 @@ public class dailyMemo_recyclerview extends LinearLayout {
         Log.v(log, "prepareCalendarMonth 끝");
     }
 
-    private void threadStart(){
-        thread = new TimerThread(); //타이머 스레드 생성
-        thread.setDaemon(true); //main 스레드 종료되면 같이 종료한게 하는 코드
-        thread.start(); //타이머 시작
+    private void threadStart(Thread t){
+        t.setDaemon(true); //main 스레드 종료되면 같이 종료한게 하는 코드
+        t.start(); //타이머 시작
     }
 
     //스크롤 하지 않고 정지된 시간 구하는 thread
@@ -533,7 +541,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
          //   Log.v(log, "TimerThread");
             try {
                 for (int i = 0; i < 3; i++) { //3초동안 기다림
-                    Log.v(log, "Thread 초세기 : " + (i + 1) + " 초");
+//                    Log.v(log, "Thread 초세기 : " + (i + 1) + " 초");
                     Thread.sleep(1000);
                 }
                 Log.v(log, "Thread 초세기 완료");
@@ -570,6 +578,18 @@ public class dailyMemo_recyclerview extends LinearLayout {
                 break;
         }
         Log.v(log,"start : "+start+" endday : "+end);
+    }
+
+    class Timer extends Thread{
+        public void run() {
+            try {
+                Thread.sleep(2000);
+                timer = true;
+                Log.v(log, "Timer 초세기 완료 "+ timer);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 //https://github.com/atanudasgupta/myHorizontalCalendar/blob/master/app/src/main/java/com/emerald/mycalendar/MainActivity.java
