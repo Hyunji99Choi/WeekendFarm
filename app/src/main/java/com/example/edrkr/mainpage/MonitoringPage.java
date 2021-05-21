@@ -218,6 +218,7 @@ public class MonitoringPage extends AppCompatActivity {
 
     //네비게이션뷰에 아이템선택 리스너 추가
     void drawerMenuSetting(){
+
         if(UserIdent.GetInstance().getAdmin()!=1){ //관리자가 아니면 안보이게.
             Log.w("user","no amdin");
             MenuItem adminMenu = navigationView.getMenu().findItem(R.id.admin_menu);

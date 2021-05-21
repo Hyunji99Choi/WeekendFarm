@@ -93,7 +93,7 @@ public interface RetrofitAPI {
     );
 
     //일별 일지
-    @GET("diary") //오류???
+    @GET("diary")
     Call<List<ResponseDailyMemoJson>> getTodayDailyMemo(
             @Query("userIdent") int userIdent,
             @Query("startDate") String startDate,

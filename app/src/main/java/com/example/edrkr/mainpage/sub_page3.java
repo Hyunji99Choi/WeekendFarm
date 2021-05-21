@@ -106,7 +106,7 @@ public class sub_page3 extends Fragment implements View.OnClickListener {
                 //제거
             case R.id.test:
                 Log.w("버튼클릭","클릭");
-                ControlDailyMomo.GetInstance().getTodatDaily("2021-05-21");
+                ControlDailyMomo.GetInstance().getYearDaily("2021");
                 break;
 
         }
