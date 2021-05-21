@@ -1,6 +1,8 @@
 package com.example.edrkr.mainpage;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +30,10 @@ public class ControlDailyMomo {
     ArrayList<String> day; //날짜
     ArrayList<String> contents; //내용
 
+    public Context getContext() { return context; }
+    public void setContext(Context context) { this.context = context; }
+
+    private Context context;
     private RecyclerView recyclerView;
     private DailymemoAdapter adapter;
 
@@ -39,10 +45,62 @@ public class ControlDailyMomo {
 
 
     //수정 통신
+    public void updateDaily(int id, int position, String ctx){
+        Call<String> update = RetrofitClient.getApiService().updateDiary(id,ctx); //api 콜
+        update.enqueue(new AutoRetryCallback<String>() {
+            @Override
+            public void onFinalFailure(Call<String> call, Throwable t) {
+                Log.e("일지수정 통신 연결실패", t.getMessage());
+            }
 
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(!response.isSuccessful()){
+                    Log.e("연결이 비정상적", "error code : " + response.code());
+                    return;
+                }
+
+                if(response.body().equals("수정성공")){
+                    Log.d("일지수정 통신 성공적", response.body());
+                    adapter.change(position, ctx);
+
+                }else{
+                    Log.d("일지수정 통신 실패", response.body());
+                    Toast.makeText(context,"수정 실패",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+    }
 
     //삭제 통신
+    public void deleteDaily(int id, int position){
+        Call<String> delete = RetrofitClient.getApiService().deleteDiary(id); //api 콜
+        delete.enqueue(new AutoRetryCallback<String>() {
+            @Override
+            public void onFinalFailure(Call<String> call, Throwable t) {
+                Log.e("일지삭제 통신 연결실패", t.getMessage());
+            }
 
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(!response.isSuccessful()){
+                    Log.e("연결이 비정상적", "error code : " + response.code());
+                    return;
+                }
+
+                if(response.body().equals("삭제성공")){
+                    Log.d("일지삭제 통신 성공적", response.body());
+                    adapter.delete(position);
+
+                }else{
+                    Log.d("일지삭제 통신 실패", response.body());
+                    Toast.makeText(context,"삭제 실패",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+    }
 
 
 

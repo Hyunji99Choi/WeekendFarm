@@ -64,9 +64,11 @@ public class sub_page3 extends Fragment implements View.OnClickListener {
         ControlDailyMomo.GetInstance().setRecyclerView(contents_recyclerView); // 컨트롤 싱글톤에 전달.
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-        DailymemoAdapter adapter = new DailymemoAdapter(id,day, contents);
+        DailymemoAdapter adapter = new DailymemoAdapter(id,day, contents, getContext());
         ControlDailyMomo.GetInstance().setAdapter(adapter); // 컨트롤 싱글톤에 전달.
         contents_recyclerView.setAdapter(adapter);
+
+        ControlDailyMomo.GetInstance().setContext(getContext());
 
 
         //test
