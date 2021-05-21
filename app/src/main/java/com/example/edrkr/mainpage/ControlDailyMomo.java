@@ -2,12 +2,15 @@ package com.example.edrkr.mainpage;
 
 import android.util.Log;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.edrkr.UserIdent;
 import com.example.edrkr.h_network.AutoRetryCallback;
 import com.example.edrkr.h_network.ResponseDailyMemoJson;
 import com.example.edrkr.h_network.ResponseGraphJson;
 import com.example.edrkr.h_network.RetrofitClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,11 +24,30 @@ public class ControlDailyMomo {
     }
     private ControlDailyMomo(){} //생성자 제한
 
+    ArrayList<Integer> id;
+    ArrayList<String> day; //날짜
+    ArrayList<String> contents; //내용
 
-    //통신
-    public void getTodatDaily(){
+    private RecyclerView recyclerView;
+    private DailymemoAdapter adapter;
+
+    public RecyclerView getRecyclerView() { return recyclerView; }
+    public void setRecyclerView(RecyclerView recyclerView) { this.recyclerView = recyclerView; }
+    public DailymemoAdapter getAdapter() { return adapter; }
+    public void setAdapter(DailymemoAdapter adapter) { this.adapter = adapter; }
+
+    //수정 통신
+
+
+    //삭제 통신
+
+
+
+
+    //일별 통신
+    public void getTodatDaily(String today){
         Call<List<ResponseDailyMemoJson>> wheather = RetrofitClient.getApiService().getTodayDailyMemo(
-                UserIdent.GetInstance().getUserIdent(),"시작날짜","종료날짜"); //api 콜
+                UserIdent.GetInstance().getUserIdent(),today,today); //api 콜
         wheather.enqueue(new AutoRetryCallback<List<ResponseDailyMemoJson>>() {
             @Override
             public void onFinalFailure(Call<List<ResponseDailyMemoJson>> call, Throwable t) {
@@ -39,16 +61,29 @@ public class ControlDailyMomo {
                     return;
                 }
 
-
                 Log.d("일별 통신 성공적", response.body().toString());
-                List<ResponseDailyMemoJson> DailyMemoJson = response.body(); //통신 결과 받기
+                if(response.body().isEmpty()){ //일지 내용이 없는 경우
+                    adapter.clear();
+                } else {
+                    List<ResponseDailyMemoJson> DailyMemoJson = response.body(); //통신 결과 받기
 
-                //일별 정보 확인
-                Log.d("id", ""+DailyMemoJson.get(0).getDiaryId());
-                Log.d("날짜", DailyMemoJson.get(0).getDate());
-                Log.d("내용", DailyMemoJson.get(0).getContent());
+                    //일별 정보 확인
+                    Log.d("id", ""+DailyMemoJson.get(0).getDiaryId());
+                    Log.d("날짜", DailyMemoJson.get(0).getDate());
+                    Log.d("내용", DailyMemoJson.get(0).getContent());
 
+                    id = null;  day = null; contents = null;
+                    id = new ArrayList<>(); day = new ArrayList<>();    contents = new ArrayList<>();
+                    for(int i = 0 ; i< DailyMemoJson.size() ; i++){
+                        id.add(DailyMemoJson.get(i).getDiaryId());
+                        day.add(DailyMemoJson.get(i).getDate());
+                        contents.add(DailyMemoJson.get(i).getContent());
+                    }
 
+                    adapter.updateData(id,day,contents);
+                }
+
+                /*
                 //수정하기
                 //문자열 자르기
                 String[] oneWeek = new String[7];
@@ -64,13 +99,14 @@ public class ControlDailyMomo {
                     //day_textView[i].setText(oneWeek[i]);
                     //value_textView[i].setText(graphJsons.get(i).getSoilavg());
                 }
-
-
-
-
+                */
 
             }
         });
     }
+
+    //주별 통신
+
+
 
 }

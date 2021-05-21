@@ -1,9 +1,11 @@
 package com.example.edrkr.mainpage;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
@@ -54,13 +56,22 @@ public class sub_page3 extends Fragment implements View.OnClickListener {
         getDailyContents();
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
         contents_recyclerView = view.findViewById(R.id.daily_contents);
-        contents_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // 역순
+        LinearLayoutManager mLayoutManger = new LinearLayoutManager(getContext());
+        mLayoutManger.setReverseLayout(true);
+        mLayoutManger.setStackFromEnd(true);
+        contents_recyclerView.setLayoutManager(mLayoutManger);
+        ControlDailyMomo.GetInstance().setRecyclerView(contents_recyclerView); // 컨트롤 싱글톤에 전달.
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
         DailymemoAdapter adapter = new DailymemoAdapter(id,day, contents);
+        ControlDailyMomo.GetInstance().setAdapter(adapter); // 컨트롤 싱글톤에 전달.
         contents_recyclerView.setAdapter(adapter);
 
 
+        //test
+        MaterialButton test = view.findViewById(R.id.test);
+        test.setOnClickListener(this);
 
         return view;
 
@@ -70,11 +81,6 @@ public class sub_page3 extends Fragment implements View.OnClickListener {
         contents = new ArrayList<>();
         day = new ArrayList<>();
         id = new ArrayList<>();
-        for (int i=0; i<100; i++) {
-            contents.add(String.format("일기 내용 TEXT %d", i));
-            day.add(String.format("오늘 날짜 %d", i));
-            id.add(i);
-        }
     }
 
 
@@ -95,6 +101,12 @@ public class sub_page3 extends Fragment implements View.OnClickListener {
                 break;
             case R.id.week:
                 calendar.changeMode(3);
+                break;
+
+                //제거
+            case R.id.test:
+                Log.w("버튼클릭","클릭");
+                ControlDailyMomo.GetInstance().getTodatDaily("2021-05-21");
                 break;
 
         }

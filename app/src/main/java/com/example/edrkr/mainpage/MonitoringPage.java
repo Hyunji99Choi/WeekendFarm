@@ -311,6 +311,8 @@ public class MonitoringPage extends AppCompatActivity {
     }
 
     public void dialogOnClick(View view){
+        Log.w("일지 내용 ",editText.toString());
+
         switch (view.getId()){
             case R.id.back: // x 버튼 (닫기)
 
@@ -327,7 +329,7 @@ public class MonitoringPage extends AppCompatActivity {
                 if(editText.length()==0){
                    Toast.makeText(this,"내용을 입력해주세요.",Toast.LENGTH_LONG).show();
                 }else{
-                    okDialog();
+                    okDialog(editText.getText().toString());
                 }
 
 
@@ -355,7 +357,7 @@ public class MonitoringPage extends AppCompatActivity {
         }).show();
     }
     //일지 v버튼 눌렀을때 질문
-    private void okDialog(){
+    private void okDialog(String edittext){
         // 저장 할지 묻기
         AlertDialog.Builder close = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog);
         close.setMessage("일지를 저장하시겠습니까?")
@@ -365,7 +367,7 @@ public class MonitoringPage extends AppCompatActivity {
                         writDialog.dismiss(); //닫기
                         fab.setImageResource(R.drawable.ic_main_fab_button);
                         //통신
-                        setDiaryWrite();
+                        setDiaryWrite(edittext);
                         //!!!!!!!!!!!
                     }
                 }).setNegativeButton(Html.fromHtml("<font color='#D81B60'>아니요</font>"), new DialogInterface.OnClickListener() {
@@ -379,9 +381,10 @@ public class MonitoringPage extends AppCompatActivity {
     }
 
     //일지 작성 통신
-    private void setDiaryWrite(){
+    private void setDiaryWrite(String text){
         Call<String> diary = RetrofitClient.getApiService().setDiary(UserIdent.GetInstance().getUserIdent(),
-                editText.toString()); //api 콜;
+                text); //api 콜;
+        Log.w("일지 통신 내용",text);
 
         diary.enqueue(new AutoRetryCallback<String>() {
             @Override

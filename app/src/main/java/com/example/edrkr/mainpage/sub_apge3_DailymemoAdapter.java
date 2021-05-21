@@ -1,5 +1,6 @@
 package com.example.edrkr.mainpage;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,11 @@ import com.example.edrkr.R;
 
 import java.util.ArrayList;
 
-public class DailymemoAdapter extends RecyclerView.Adapter<DailymemoAdapter.ViewHolder> {
+class DailymemoAdapter extends RecyclerView.Adapter<DailymemoAdapter.ViewHolder> {
 
-    private ArrayList<Integer> mId = null;
-    private ArrayList<String> mDay = null;
-    private ArrayList<String> mData = null ;
+    private ArrayList<Integer> mId;
+    private ArrayList<String> mDay;
+    private ArrayList<String> mData;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView contents;
@@ -26,6 +27,16 @@ public class DailymemoAdapter extends RecyclerView.Adapter<DailymemoAdapter.View
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            // 아이템 클릭 이벤트 처리.
+            /*
+            itemView.setLongClickable(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View v) {
+
+                    return false;
+                }
+            });
+            */
             // 뷰 객체에 대한 참조. (hold strong reference)
             contents = itemView.findViewById(R.id.textViewDailyText) ;
             day = itemView.findViewById(R.id.textViewDailyDate);
@@ -45,9 +56,9 @@ public class DailymemoAdapter extends RecyclerView.Adapter<DailymemoAdapter.View
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
 
         View view = inflater.inflate(R.layout.view_dailymemo, parent, false);
-        DailymemoAdapter.ViewHolder vh = new DailymemoAdapter.ViewHolder(view);
+        //DailymemoAdapter.ViewHolder vh = new DailymemoAdapter.ViewHolder(view);
 
-        return vh;
+        return new DailymemoAdapter.ViewHolder(view);
     }
 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
@@ -64,6 +75,19 @@ public class DailymemoAdapter extends RecyclerView.Adapter<DailymemoAdapter.View
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+
+    //리사이클러뷰 페이지 전환 관련들
+    public void updateData(ArrayList<Integer> id,ArrayList<String> d, ArrayList<String> ctx){
+        mId.clear();    mDay.clear();   mData.clear();
+        mId.addAll(id); mDay.addAll(d) ;    mData.addAll(ctx);
+        notifyDataSetChanged();
+    }
+    public void clear(){
+        int size = mId.size();
+        mId.clear();    mDay.clear();   mData.clear();
+        notifyItemRangeRemoved(0,size);
     }
 
 }
