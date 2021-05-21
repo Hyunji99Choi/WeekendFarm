@@ -16,13 +16,6 @@ public class retrofitIdent {
         return service1;
     }
 
-    public void setTmp(String str){
-        tmp = str;
-    }
-    public String getTmp(){
-        String str = tmp;
-        return str;
-    }
     private Gson gson = new GsonBuilder()
             .setLenient()
             .create();
@@ -33,7 +26,4 @@ public class retrofitIdent {
             .build();
 
     private RetrofitService service1 = retrofit.create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-//    private RetrofitService[] service2 = retrofit.create(RetrofitService[].class); //레트로핏 인스턴스로 인터페이스 객체 구현
-
-    private String tmp = null;
 }

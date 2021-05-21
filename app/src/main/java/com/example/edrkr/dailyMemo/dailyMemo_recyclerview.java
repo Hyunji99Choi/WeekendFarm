@@ -43,8 +43,6 @@ public class dailyMemo_recyclerview extends LinearLayout {
     private View snapView;
     private int snapPosition = 0;
     private boolean init = true; //동시에 진입하지 않도록 하는 key
-//    private int two_count; //빠르게 넘어가는거 방지 - n번 당겨야 새로 데이터 가져옴
-    private int init_count = 3;
     private boolean timer = true;
     private TimerThread thread = null;
 
@@ -138,7 +136,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
 
                 //시간 세는 thread 정지
                 try {
-                    Log.v(log,"thread 정지");
+//                    Log.v(log,"thread 정지");
                     thread.interrupt();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -165,7 +163,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
 
                 }
                 try {
-                    Log.v(log,"thread 시작");
+//                    Log.v(log,"thread 시작");
                     thread = new TimerThread(); //타이머 스레드 생성
                     threadStart(thread); //타이머 시작
                 } catch (Exception e) {
@@ -190,7 +188,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
                     //여기 타이머 넣기
                     Timer timer = new Timer();
                     threadStart(timer);
-                    Log.v(log, "timer 넣음");
+//                    Log.v(log, "timer 넣음");
                 } else {
  //                   two_count--;
                 }
@@ -516,7 +514,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
             }
         }
         if (type == 1) { //이전달
-            recyclerView.scrollToPosition(snapPosition + weekofmonth);
+            recyclerView.scrollToPosition(snapPosition + weekofmonth+3);
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
@@ -574,7 +572,20 @@ public class dailyMemo_recyclerview extends LinearLayout {
        //         Log.v(log, "requestServer 월간");
                 break;
             case 3: //주간
-        //        Log.v(log, "requestServer 주간");
+//                Log.v(log, "requestServer 주간");
+                myCalendarData tmp = new myCalendarData(0);
+                tmp.setAll(Integer.parseInt(calendar.getYear()),calendar.getImonth(),Integer.parseInt(calendar.getDate()));
+//                Log.v(log,"set 완료");
+                int num = calendar.getWeekFirstDay();
+                if(num == -1){
+                    Log.v(log,"error");
+                    break;
+                }
+                tmp.getNextWeekDay(-1*(num));
+//                Log.v(log,"start 완료");
+                start = tmp.getYear()+"."+(tmp.getMonth()+1)+"."+tmp.getDay();
+                tmp.getNextWeekDay(6);
+                end = tmp.getYear()+"."+(tmp.getMonth()+1)+"."+tmp.getDay();
                 break;
         }
         Log.v(log,"start : "+start+" endday : "+end);

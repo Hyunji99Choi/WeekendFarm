@@ -1,11 +1,17 @@
 package com.example.edrkr.dailyMemo;
 
+import android.graphics.Camera;
+import android.util.Log;
+
+import java.sql.Struct;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class MyCalendar {
     private String day;
     private String date, month, year, week;
+
+    private int imonth;
     private int pos;
     private String tag = "areum/Mycalendar";
 
@@ -14,8 +20,8 @@ public class MyCalendar {
 
     public MyCalendar(String day, String date, String week, String month, String year, int i) {
 //        Log.v(tag,"생성자");
-        this.day = day;
-        this.date = date;
+        this.day = day;  //요일
+        this.date = date;   //날짜
         this.week = week+"째주";
         this.month = getMonthStr(month);
         this.year = year;
@@ -26,14 +32,30 @@ public class MyCalendar {
 //        Log.v(tag,"getmonthstr");
 
         Calendar cal = Calendar.getInstance();
-
-        SimpleDateFormat month_date = new SimpleDateFormat("MMM");
         int monthnum = Integer.parseInt(month);
         cal.set(Calendar.MONTH,monthnum);
+        imonth = monthnum;
+
+        SimpleDateFormat month_date = new SimpleDateFormat("MMM");
         String month_name = month_date.format(cal.getTime());
         return month_name;
 
     }
+
+    public int getWeekFirstDay(){
+       String[] DayOfWeek = {"일","월","화","수","목","금","토"};
+       int i;
+       for(i = 0;i<DayOfWeek.length;i++){
+           if(day.compareTo(DayOfWeek[i]) == 0) break;
+       }
+       if(i == DayOfWeek.length) return -1;
+       return i;
+    }
+
+    public int getImonth() {
+        return imonth;
+    }
+
     public int getPos() {
         return pos;
     }

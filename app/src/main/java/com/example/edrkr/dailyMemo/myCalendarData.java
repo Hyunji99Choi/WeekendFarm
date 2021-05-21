@@ -24,15 +24,6 @@ public class myCalendarData {
     String stringdayofweek;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("E");
 
-    //새로운 방법
-//    LocalDate startDate = LocalDate.now();
-//    LocalDate endDate = startDate.plusMonths(2);
-//
-//    long numOfDays = ChronoUnit.DAYS.between(startDate,endDate);
-//
-//    ArrayList<LocalDate> listOfDates = (ArrayList) Stream.iterate(startDate, date -> date.plusDays(1))
-//            .limit(numOfDays).collect(Collectors.toList());
-
     public myCalendarData(int start){
         this.calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, start);
@@ -47,6 +38,13 @@ public class myCalendarData {
         this.stringdayofweek = dateFormat.format(calendar.getTime()); //월화수목금토일
         this.weekofmonth = calendar.get(Calendar.WEEK_OF_MONTH); //몇주인지
         Log.v(tag,currentyear+","+(currentmonth+1)+","+startday+","+stringdayofweek+","+weekofmonth+"째주");
+    }
+
+    public void setAll(int year, int month, int date){
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.MONTH,month);
+        calendar.set(Calendar.DATE,date);
+        setThis();
     }
 
     public void getNextWeekDay(int nxt){ //다음날 +n, 이전날 -n 로변경
@@ -69,6 +67,26 @@ public class myCalendarData {
     public void getNextYear(int nxt){ //다음년 +n, 이전년 -n 로변경
         calendar.add(Calendar.YEAR,nxt);
         setThis();
+    }
+
+    public myCalendarData getWeekFirstDay(myCalendarData data){
+        while(data.getDayofweek() != 1){
+            data.getNextWeekDay(-1);
+        }
+        Log.v("areum/mycalendar","date : "+data.getDay()+" 요일 : "+ data.getStringdayofweek());
+        return data;
+    }
+
+    public String getStringdayofweek() {
+        return stringdayofweek;
+    }
+
+    public int getDayofweek() {
+        return dayofweek;
+    }
+
+    public void setDayofweek(int dayofweek) {
+        this.dayofweek = dayofweek;
     }
 
 
@@ -95,4 +113,16 @@ public class myCalendarData {
     }
 
 }
+
+
+//새로운 방법
+//    LocalDate startDate = LocalDate.now();
+//    LocalDate endDate = startDate.plusMonths(2);
+//
+//    long numOfDays = ChronoUnit.DAYS.between(startDate,endDate);
+//
+//    ArrayList<LocalDate> listOfDates = (ArrayList) Stream.iterate(startDate, date -> date.plusDays(1))
+//            .limit(numOfDays).collect(Collectors.toList());
+
+
 //https://atanudasgupta.medium.com/creating-a-horizontal-scrolling-calendar-using-android-sdk-95914288b8c3
