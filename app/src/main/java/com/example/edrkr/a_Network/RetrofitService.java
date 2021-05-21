@@ -2,7 +2,6 @@ package com.example.edrkr.a_Network;
 
 import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
 import com.example.edrkr.a_Network.Class.bulletin.GetEachBoard;
-import com.example.edrkr.a_Network.Class.bulletin.GetImage;
 import com.example.edrkr.a_Network.Class.bulletin.PatchBoard;
 import com.example.edrkr.a_Network.Class.bulletin.PatchComment;
 import com.example.edrkr.a_Network.Class.bulletin.PostComment;
@@ -17,12 +16,9 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
@@ -44,9 +40,6 @@ public interface RetrofitService {
     @GET("{post}") //각 게시글 보는 부분
     Call<GetEachBoard> getComment(@Path(value = "post", encoded = true) String post);
 
-    @GET("image") //게시글 별 이미지 가져오기
-    Call<GetImage> getBulImage();
-
     @POST("{post}") //글쓰기 부분 call
     Call<PostBoard> postData(@Path(value="post",encoded = true) String post, @Body PostBoard param);
 
@@ -56,7 +49,7 @@ public interface RetrofitService {
     @Multipart
     @POST("image") //이미지 통신 시도해볼 녀석 <--------------------------------------------
 //    Call<String> request(@Part MultipartBody.Part image);
-    Call<String> request(@Part("nickname") RequestBody post,
+    Call<Void> request(@Part("nickname") RequestBody post,
                          @Part("userIdent") int userIdent,
                          @Part("title") RequestBody title,
                          @Part("content") RequestBody content,

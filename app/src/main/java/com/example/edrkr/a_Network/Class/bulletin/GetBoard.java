@@ -26,6 +26,9 @@ public class GetBoard implements Post { //Board를 가져오는 클래스
     @SerializedName("date")
     private final String date;
 
+    @SerializedName("ImageName")
+    private String imageurl;
+
     public GetBoard(int id, String title, String name, String body, int commentNum, String time) {
         this.id = id;
         this.UserNickName = name;
@@ -60,6 +63,13 @@ public class GetBoard implements Post { //Board를 가져오는 클래스
         return date;
     }
 
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
 
     //toString()을 Override 해주지 않으면 객체 주소값을 출력함.
     @Override

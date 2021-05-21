@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,7 +28,6 @@ import com.example.edrkr.a_Network.Builder;
 import com.example.edrkr.a_Network.Class.bulletin.GetComment;
 import com.example.edrkr.a_Network.Class.bulletin.GetEachBoard;
 import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
-import com.example.edrkr.a_Network.Class.bulletin.GetImage;
 import com.example.edrkr.a_Network.Class.bulletin.PatchComment;
 import com.example.edrkr.a_Network.Class.bulletin.PostComment;
 import com.example.edrkr.a_Network.RetrofitService;
@@ -180,43 +178,34 @@ public class show_each_board extends AppCompatActivity {
                         Log.v(TAG,"recyclerview 적용");
                         myDataset = dataset;
                     }
-                    getImage();     //image 서버에서 가져오기
+                    if(datas.getPost().get(0).getImageurl() != null) {
+                        Log.v(TAG, "image 있음");
+                        getImage(datas.getPost().get(0).getImageurl());     //image 서버에서 가져오기
+                    }else{
+                        Log.v(TAG, "image x");
+                    }
                 }else{ //통신은 성공 but, 내부에서 실패
                     Log.v(TAG, "onResponse: 실패");
                 }
             }
             @Override
             public void onFailure(Call<GetEachBoard> call, Throwable t) { //통신 아예 실패
-                Log.v(TAG, "onFailure: " + t.getMessage());
+                Log.v(TAG, "getBoardData - onFailure: " + t.getMessage());
             }
         });
     }
 
-    public void getImage(){ //image를 서버에서 가져오는 함수
+    public void getImage(String url){ //image를 서버에서 가져오는 함수
         try{
-            RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
-            service.getBulImage().enqueue(new Callback<GetImage>() {
-                @Override
-                public void onResponse(Call<GetImage> call, Response<GetImage> response) { //통신 성공시
-                    if(response.isSuccessful()){
-                        Log.v(TAG, "image 통신 성공");
-                        GetImage datas = response.body();
-                        if(datas.getImageUrl() != null && datas.getImageUrl().length() > 0) {
-                            Log.v(TAG, "유의미한 image 받아오기 성공");
-                            imageView.setVisibility(View.VISIBLE);
-                            Picasso.get().load(datas.getImageUrl()).placeholder(R.drawable.bplaceholder).into(imageView);
-                        }else{
-                            Toast.makeText(getApplicationContext(),"Empty Image URL",Toast.LENGTH_SHORT).show();
-                        }
-                    }else{ //통신은 성공 but, 내부에서 실패
-                        Log.v(TAG, "onResponse: 실패");
-                    }
-                }
-                @Override
-                public void onFailure(Call<GetImage> call, Throwable t) { //통신 아예 실패
-                    Log.v(TAG, "onFailure: " + t.getMessage());
-                }
-            });
+            Log.v(TAG, "getimage");
+            if(url != null && url.length() > 0) {
+                String URL = retrofitIdent.GetInstance().getURL()+"image/"+url;
+                Log.v(TAG, "유의미한 image 받아오기 성공 url : "+URL);
+                imageView.setVisibility(View.VISIBLE);
+                Picasso.get().load(URL).placeholder(R.drawable.bplaceholder).into(imageView);
+            }else{
+                Toast.makeText(getApplicationContext(),"Empty Image URL",Toast.LENGTH_SHORT).show();
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

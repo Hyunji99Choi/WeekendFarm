@@ -177,41 +177,42 @@ public class WritingActivity extends AppCompatActivity {
             Log.v(TAG, "tryconnect 완료");
         }else{
             testimage();
-            Log.v(TAG, "이미지 전송 완료");
         }
     }
 
     private void testimage(){
-        Log.v(TAG, "test 시작");
+        Log.v(TAG, "image 전송 시작");
         File f = savebitmap(bitmapimage);
         RequestBody filebody = RequestBody.create(MediaType.parse("image/*"), f);
         Log.v(TAG, "filebody 생성");
         MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("image", f.getName(), filebody);
-        Log.v(TAG, "multipartBody 생성");
+        Log.v(TAG, "multipartBody 생성 filename : "+f.getName());
         RequestBody Nickname = RequestBody.create(MediaType.parse("text/plain"),b.getName());
         RequestBody title = RequestBody.create(MediaType.parse("text/plain"),b.getTitle());
         RequestBody content = RequestBody.create(MediaType.parse("text/plain"),b.getBody());
 
-        Call<String> call = retrofitIdent.GetInstance().getService().request(Nickname,UserIdent.GetInstance().getUserIdent(),title,content,multipartBody);
+        Call<Void> call = retrofitIdent.GetInstance().getService().request(Nickname,UserIdent.GetInstance().getUserIdent(),title,content,multipartBody);
         Log.v(TAG, "call 생성");
-        call.enqueue(new Callback<String>() { //비동기 작업
+        call.enqueue(new Callback<Void>() { //비동기 작업
             @Override
-            public void onResponse(@EverythingIsNonNull Call<String> call, @EverythingIsNonNull  Response<String> response) { //성공 - 메인 스레드에서 처리
+            public void onResponse(@EverythingIsNonNull Call<Void> call, @EverythingIsNonNull  Response<Void> response) { //성공 - 메인 스레드에서 처리
                 if (response.isSuccessful()) {
                     //정상적으로 통신이 성공한 경우
-                    Log.v(TAG, "onResponse: 성공, 결과\n" + response.body().toString());
+                    Log.v(TAG, "onResponse: 성공, 결과\n" + response.body());
                     setResult(1);
                     finish();
                 } else {
                     //통신이 실패한 경우(응답코드 3xx,4xx 등)
-                    Log.d(TAG,  "onResponse: 실패");
+                    Log.d(TAG,  "image - onResponse: 실패");
+                    Toast.makeText(getApplicationContext(),"서버와 연결이 불안정합니다.",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(@EverythingIsNonNull Call<String> call,@EverythingIsNonNull  Throwable t) { //실패 - 메인 스레드에서 처리
+            public void onFailure(@EverythingIsNonNull Call<Void> call,@EverythingIsNonNull  Throwable t) { //실패 - 메인 스레드에서 처리
                 //통신 실패(인터넷 끊김, 예외 발생 등 시스템적인 이유)
-                Log.d(TAG, "onFailure: " +  t.getMessage());
+                Log.d(TAG, "image - onFailure: " +  t.getMessage());
+                Toast.makeText(getApplicationContext(),"서버와 연결이 불안정합니다.",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -221,18 +222,21 @@ public class WritingActivity extends AppCompatActivity {
             Log.v(TAG, "savebitmap 생성");
             ContextWrapper cw = new ContextWrapper(getApplicationContext());
             File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-            File file = new File(directory,"temp.png");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("-yyyy-MM-dd-hh-mm-ss");
+            Date mDate = new Date(System.currentTimeMillis());
+            String getTime = simpleDateFormat.format(mDate);
+            File file = new File(directory,UserIdent.GetInstance().getNkname()+getTime+".png");
             Log.v(TAG, "file 생성");
             if (file.exists()) { //기존에 파일이 존재한다면
                 file.delete();
                 Log.v(TAG, "file delete");
-                file = new File(directory,"temp.png");
+                file = new File(directory,UserIdent.GetInstance().getNkname()+getTime+".png");
             }
             try {
                 Log.v(TAG, "file 생성");
                 FileOutputStream fos = null;
                 fos = new FileOutputStream(file);
-                bitmapimage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
                 Log.v(TAG, "bmp.compres");
                 fos.flush();
                 Log.v(TAG, "outStream.flush();");
