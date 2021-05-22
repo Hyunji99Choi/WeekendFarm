@@ -36,12 +36,13 @@
             android:text="주 별"/>
 
         <!--제거-->
+        <!--
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="test"
             android:id="@+id/test"/>
-
+           -->
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
 

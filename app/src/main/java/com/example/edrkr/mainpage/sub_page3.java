@@ -72,8 +72,8 @@ public class sub_page3 extends Fragment implements View.OnClickListener {
 
 
         //test
-        MaterialButton test = view.findViewById(R.id.test);
-        test.setOnClickListener(this);
+        //MaterialButton test = view.findViewById(R.id.test);
+        //test.setOnClickListener(this);
 
         return view;
 
