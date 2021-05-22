@@ -37,7 +37,7 @@ class DailymemoAdapter extends RecyclerView.Adapter<DailymemoAdapter.ViewHolder>
     private ArrayList<String> mData;
 
     private Context context;
-    Dialog writDialog;
+    Dialog updateDialog;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
         TextView contents;
@@ -74,13 +74,13 @@ class DailymemoAdapter extends RecyclerView.Adapter<DailymemoAdapter.ViewHolder>
                     case 1001: // 수정 항목 선택시
 
                         //다이어그램
-                        writDialog = new Dialog(context);
-                        writDialog.setContentView(R.layout.today_writting_custom_dialog);
-                        writDialog.setCancelable(false); //취소 못함.
-                        settingDialog(writDialog);
-                        FrameLayout ok = writDialog.findViewById(R.id.check);
-                        FrameLayout no = writDialog.findViewById(R.id.back);
-                        EditText editText = writDialog.findViewById(R.id.body);
+                        updateDialog = new Dialog(context);
+                        updateDialog.setContentView(R.layout.today_writting_custom_dialog);
+                        updateDialog.setCancelable(false); //취소 못함.
+                        settingDialog(updateDialog);
+                        FrameLayout ok = updateDialog.findViewById(R.id.check);
+                        FrameLayout no = updateDialog.findViewById(R.id.back);
+                        EditText editText = updateDialog.findViewById(R.id.body);
                         editText.setText(mData.get(getAdapterPosition()));
                         int editLength = editText.length();
                         Log.w("일지 내용 ", editText.toString());
@@ -98,7 +98,7 @@ class DailymemoAdapter extends RecyclerView.Adapter<DailymemoAdapter.ViewHolder>
                             @Override
                             public void onClick(View v) {
                                 if(editLength == editText.length()){
-                                    writDialog.dismiss();
+                                    updateDialog.dismiss();
                                 }else { //변경함.
                                     closeDialog();
                                 }
@@ -106,8 +106,8 @@ class DailymemoAdapter extends RecyclerView.Adapter<DailymemoAdapter.ViewHolder>
                             }
                         });
 
-                        writDialog.show();
-                        writDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 투명 배경
+                        updateDialog.show();
+                        updateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 투명 배경
 
                         break;
                     case 1002: // 삭제 항목 선택시
@@ -205,7 +205,7 @@ class DailymemoAdapter extends RecyclerView.Adapter<DailymemoAdapter.ViewHolder>
                 .setPositiveButton(Html.fromHtml("<font color='#D81B60'>예</font>"), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        writDialog.dismiss(); //닫기
+                        updateDialog.dismiss(); //닫기
                     }
                 }).setNegativeButton(Html.fromHtml("<font color='#D81B60'>아니요</font>"), new DialogInterface.OnClickListener() {
             @Override
@@ -223,7 +223,7 @@ class DailymemoAdapter extends RecyclerView.Adapter<DailymemoAdapter.ViewHolder>
                 .setPositiveButton(Html.fromHtml("<font color='#D81B60'>예</font>"), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        writDialog.dismiss(); //닫기
+                        updateDialog.dismiss(); //닫기
 
                         //통신
                         ControlDailyMomo.GetInstance().updateDaily(id, position, edittext);
