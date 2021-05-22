@@ -33,10 +33,13 @@
 
 
 <!--게시판 색깔-->
-    <!-- 아이콘 -->
-    <color name="black">#000000</color> //추가한 검은색
+    <!-- 아이콘 추가한 검은색 -->
+    <color name="black">#000000</color>
 
-    <!-- view 선(구분 선) -->
-    <color name="gray">#969696</color> //추가한 회색
+    <!-- view 선(구분 선) 추가한 회색-->
+    <color name="gray">#969696</color>
+
+    <!-- 게시판 댓글  -->
+    <color name="whiteyellow">#FAF9F4</color>
 
 </resources>
