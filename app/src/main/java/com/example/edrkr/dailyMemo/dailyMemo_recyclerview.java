@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.edrkr.R;
+import com.example.edrkr.mainpage.ControlDailyMomo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -543,9 +544,9 @@ public class dailyMemo_recyclerview extends LinearLayout {
         public void run() {
          //   Log.v(log, "TimerThread");
             try {
-                for (int i = 0; i < 3; i++) { //3초동안 기다림
+                for (int i = 0; i < 1; i++) { //3초동안 기다림
 //                    Log.v(log, "Thread 초세기 : " + (i + 1) + " 초");
-                    Thread.sleep(1000);
+                    Thread.sleep(1500);
                 }
                 Log.v(log, "Thread 초세기 완료");
                 requestServer();
@@ -556,41 +557,59 @@ public class dailyMemo_recyclerview extends LinearLayout {
     }
 
     public void requestServer() {
-     //   Log.v(log, "requestServer");
+        Log.v(log, "requestServer");
         String start = null; //일지를 가져올 기간 설정 ex) 23일 하루 - start : 23, end : 23
         String end = null;
-
+        String str_month;
+        String str_date;
         MyCalendar calendar = calendarList.get(snapPosition);
         Log.v(log,"snapPosition : "+snapPosition);
 
+        myCalendarData mydata = new myCalendarData(0);
+        mydata.setAll(Integer.parseInt(calendar.getYear()),calendar.getImonth(),Integer.parseInt(calendar.getDate()));
+        Log.v(log,"set 완료");
+
+        str_month = String.format("%02d", (mydata.getMonth()+1));
+//        Log.v(log,"month : "+str_month);
+        str_date = String.format("%02d", mydata.getDay());
+//        Log.v(log," date : "+str_date);
         switch (mode) {
             case 0: //일간
-                end = start = calendar.getYear()+"."+calendar.getMonth()+"."+calendar.getDate();
-        //        Log.v(log, "requestServer 일간");
+                end = start = calendar.getYear()+"-"+str_month+"-"+str_date;
+                ControlDailyMomo.GetInstance().getTodayDaily(start);
+                Log.v(log, "requestServer 일간");
                 break;
             case 1: //년간
                 end = start = calendar.getYear();
-      //          Log.v(log, "requestServer 년간");
+                ControlDailyMomo.GetInstance().getYearDaily(start);
+                Log.v(log, "requestServer 년간");
                 break;
             case 2: //월간
-                end = start = calendar.getYear()+"."+calendar.getMonth();
-       //         Log.v(log, "requestServer 월간");
+                end = start = calendar.getYear()+"-"+str_month;
+                ControlDailyMomo.GetInstance().getMonthDaily(start);
+                Log.v(log, "requestServer 월간");
                 break;
             case 3: //주간
-//                Log.v(log, "requestServer 주간");
+                Log.v(log, "requestServer 주간");
                 myCalendarData tmp = new myCalendarData(0);
                 tmp.setAll(Integer.parseInt(calendar.getYear()),calendar.getImonth(),Integer.parseInt(calendar.getDate()));
-//                Log.v(log,"set 완료");
+                Log.v(log,"set 완료");
                 int num = calendar.getWeekFirstDay();
                 if(num == -1){
                     Log.v(log,"error");
                     break;
                 }
                 tmp.getNextWeekDay(-1*(num));
-//                Log.v(log,"start 완료");
-                start = tmp.getYear()+"."+(tmp.getMonth()+1)+"."+tmp.getDay();
+                                Log.v(log,"start 완료");
+                str_month = String.format("%02d",(tmp.getMonth()+1));
+                str_date = String.format("%02d",tmp.getDay());
+                start = tmp.getYear()+"-"+str_month+"-"+str_date;
                 tmp.getNextWeekDay(6);
-                end = tmp.getYear()+"."+(tmp.getMonth()+1)+"."+tmp.getDay();
+
+                str_month = String.format("%02d",(tmp.getMonth()+1));
+                str_date = String.format("%02d",tmp.getDay());
+                end = tmp.getYear()+"-"+str_month+"-"+str_date;
+                ControlDailyMomo.GetInstance().getWeekDaily(start,end);
                 break;
         }
         Log.v(log,"start : "+start+" endday : "+end);
