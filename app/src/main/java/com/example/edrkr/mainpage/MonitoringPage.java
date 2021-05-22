@@ -219,13 +219,6 @@ public class MonitoringPage extends AppCompatActivity {
     //네비게이션뷰에 아이템선택 리스너 추가
     void drawerMenuSetting(){
 
-        if(UserIdent.GetInstance().getAdmin()!=1){ //관리자가 아니면 안보이게.
-            Log.w("user","no amdin");
-            MenuItem adminMenu = navigationView.getMenu().findItem(R.id.admin_menu);
-            adminMenu.setVisible(false);
-            this.invalidateOptionsMenu();
-        }
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -267,6 +260,13 @@ public class MonitoringPage extends AppCompatActivity {
                 return false;
             }
         });
+
+        if(UserIdent.GetInstance().getAdmin()!=1){ //관리자가 아니면 안보이게.
+            Log.w("user","no amdin");
+            MenuItem adminMenu = navigationView.getMenu().findItem(R.id.admin_menu);
+            adminMenu.setVisible(false);
+            this.invalidateOptionsMenu();
+        }
     }
 
     //헤더 클릭 이벤트
