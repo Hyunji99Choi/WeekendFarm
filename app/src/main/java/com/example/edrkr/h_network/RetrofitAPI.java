@@ -81,10 +81,11 @@ public interface RetrofitAPI {
     );
 
     //일지 수정
+    @FormUrlEncoded
     @PATCH("diary") //게시글 수정부분
     Call<String> updateDiary(
             @Query("id") int id,
-            @Body String content
+            @Field("content") String content
     );
     //일지 삭제
     @DELETE("diary")
