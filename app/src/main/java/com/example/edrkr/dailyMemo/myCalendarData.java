@@ -26,8 +26,8 @@ public class myCalendarData {
 
     public myCalendarData(int start){
         this.calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, start);
-        setThis();
+        calendar.add(Calendar.DATE, start); //오늘 날짜로 새팅해주는 역할
+        setThis(); // 받은 날짜를 클래스에 정보 저장
     }
 
     private void setThis(){ //데이터 저장
@@ -59,13 +59,13 @@ public class myCalendarData {
         setThis();
     }
 
-    public void getFstDayOfMonth(){ //해당 달의 1일로 변경
-        calendar.set(Calendar.DATE,1);
+    public void getNextYear(int nxt){ //다음년 +n, 이전년 -n 로변경
+        calendar.add(Calendar.YEAR,nxt);
         setThis();
     }
 
-    public void getNextYear(int nxt){ //다음년 +n, 이전년 -n 로변경
-        calendar.add(Calendar.YEAR,nxt);
+    public void getFstDayOfMonth(){ //해당 달의 1일로 변경
+        calendar.set(Calendar.DATE,1);
         setThis();
     }
 
@@ -90,7 +90,9 @@ public class myCalendarData {
     }
 
 
-    public int getWeekofmonth() {
+
+
+    public int getWeekofmonth() { // 주차 정보 가져오기
         return weekofmonth;
     }
 
@@ -98,19 +100,19 @@ public class myCalendarData {
         this.weekofmonth = weekofmonth;
     }
 
+
     public String getWeekDay (){
         return this.stringdayofweek;
-    }
-
+    } // 객체 요일
     public int getYear(){
         return this.currentyear;
-    }
+    } //객체 년도
     public int getMonth(){
         return this.currentmonth;
-    }
+    } //객체 달
     public int getDay(){
         return this.startday;
-    }
+    } // 객체 날짜
 
 }
 

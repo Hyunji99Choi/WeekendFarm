@@ -65,7 +65,7 @@ public class UserIdent {
 
         //권한 여부, -1일 경우 관리자
         farmCount =  Integer.parseInt(userIdent.getFarmNum()) ; //밭 개수
-
+        Log.w("관리자 여부 값",""+farmCount);
         if(farmCount==-1){ //관리자 일 경우
             admin=1;
             farmCount=userIdent.getFarmID().size();

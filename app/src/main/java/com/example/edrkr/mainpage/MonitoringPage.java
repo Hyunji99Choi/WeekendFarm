@@ -11,6 +11,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Layout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,20 +23,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.transition.Explode;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.edrkr.KeyCreatePage;
+import com.example.edrkr.subpage.KeyCreatePage;
 import com.example.edrkr.h_network.AutoRetryCallback;
 import com.example.edrkr.h_network.ResponseWeatherJson;
 import com.example.edrkr.h_network.RetrofitClient;
@@ -86,6 +84,11 @@ public class MonitoringPage extends AppCompatActivity {
     ImageView weatherToolbarImg; //툴바 날시 배경 이미지
     CollapsingToolbarLayout collapsingToolbarLayout;
 
+    View llProgressBar;
+
+    //회원정보 수정 intent
+    int USERPATCHUPDATE = 12;
+
     private DrawerLayout mDrawerLayout;
     private Context context = this;
     @Override
@@ -116,6 +119,10 @@ public class MonitoringPage extends AppCompatActivity {
 
     // 기본 요소들 세팅
     void initValueSetting(){
+        //로딩 화면을 위한 밑작업
+        ControlMonitoring.GetInstance().setMonitoringPageThis(this);
+        llProgressBar = findViewById(R.id.llProgressBar);
+        llProgressBar.setVisibility(View.VISIBLE);
 
         //Toolbar를 액션바로 대체
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -165,34 +172,6 @@ public class MonitoringPage extends AppCompatActivity {
 
     }
 
-    /*
-    //하단 베너 세팅 및 연결
-    void initWeatherSetting(){
-
-        //Viewpager2
-        mPager_b = findViewById(R.id.baner);
-        //Adapter
-        pagerAdapter_b = new baner_Adapter(this,num_page_b);
-        mPager_b.setAdapter(pagerAdapter_b);
-        //viewpager setting
-        mPager_b.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        mPager_b.setCurrentItem(1000);
-        mPager_b.setOffscreenPageLimit(2);
-
-        mPager_b.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
-
-        mPager_b.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                if (positionOffsetPixels==0){
-                    mPager_b.setCurrentItem(position);
-                }
-            }
-
-        });
-    }
-    */
 
 
     //타이틀 클릭 이벤트
@@ -239,6 +218,7 @@ public class MonitoringPage extends AppCompatActivity {
 
     //네비게이션뷰에 아이템선택 리스너 추가
     void drawerMenuSetting(){
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -280,13 +260,21 @@ public class MonitoringPage extends AppCompatActivity {
                 return false;
             }
         });
+
+        if(UserIdent.GetInstance().getAdmin()!=1){ //관리자가 아니면 안보이게.
+            Log.w("user","no amdin");
+            MenuItem adminMenu = navigationView.getMenu().findItem(R.id.admin_menu);
+            adminMenu.setVisible(false);
+            this.invalidateOptionsMenu();
+        }
     }
 
     //헤더 클릭 이벤트
     public void onClickHeader(View view){ //메뉴 헤더 클릭시
 
         Intent userChange = new Intent(MonitoringPage.this, subpage_userIdnetChange.class);
-        startActivity(userChange);
+        //startActivity(userChange);
+        startActivityForResult(userChange,USERPATCHUPDATE);
 
         Toast.makeText(this,"헤더 클릭",Toast.LENGTH_SHORT).show();
 
@@ -303,6 +291,7 @@ public class MonitoringPage extends AppCompatActivity {
         //글쓰기 다이로그 열기
         writDialog = new Dialog(this); //그때그때 객체 생성 고민해보기
         writDialog.setContentView(R.layout.today_writting_custom_dialog);
+        writDialog.setCancelable(false); //취소 못함.
         settingDialog(writDialog);
         writDialog.show();
         writDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 투명 배경
@@ -311,42 +300,146 @@ public class MonitoringPage extends AppCompatActivity {
     }
 
     //글쓰기 다이로그 세팅
-    private void settingDialog(final Dialog writDialog){ //닫힘 방지 만들기
+    TextInputEditText editText; // 일지 글쓰기
+    private void settingDialog(final Dialog writDialog){
 
         //세팅
         TextInputLayout inputLayout = writDialog.findViewById(R.id.inputlayout);
         inputLayout.setCounterEnabled(true);
         inputLayout.setCounterMaxLength(140);
-        TextInputEditText editText = writDialog.findViewById(R.id.body);
+        editText = writDialog.findViewById(R.id.body);
 
     }
 
     public void dialogOnClick(View view){
+        Log.w("일지 내용 ",editText.toString());
+
         switch (view.getId()){
             case R.id.back: // x 버튼 (닫기)
-                writDialog.dismiss();
-                fab.setImageResource(R.drawable.ic_main_fab_button);
+
+                if(editText.length()==0){
+                    writDialog.dismiss();
+                }else{
+                    //닫을지 닫지 말지
+                    closeDialog();
+                }
+
                 break;
             case R.id.check:
                 //일지 서버에 전송
-                writDialog.dismiss();
-                fab.setImageResource(R.drawable.ic_main_fab_button);
+                if(editText.length()==0){
+                   Toast.makeText(this,"내용을 입력해주세요.",Toast.LENGTH_LONG).show();
+                }else{
+                    okDialog(editText.getText().toString());
+                }
+
+
                 break;
         }
     }
 
+    //일지 x버튼 눌렀을때 질문
+    private void closeDialog(){
+        //닫을지 묻기
+        AlertDialog.Builder close = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog);
+        close.setMessage("일지 작성을 취소하시겠습니까?")
+                .setPositiveButton(Html.fromHtml("<font color='#D81B60'>예</font>"), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        writDialog.dismiss(); //닫기
+                        fab.setImageResource(R.drawable.ic_main_fab_button);
+                    }
+                }).setNegativeButton(Html.fromHtml("<font color='#D81B60'>아니요</font>"), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //취소 버튼
+                Log.w("다일로그","아니요");
+            }
+        }).show();
+    }
+    //일지 v버튼 눌렀을때 질문
+    private void okDialog(String edittext){
+        // 저장 할지 묻기
+        AlertDialog.Builder close = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog);
+        close.setMessage("일지를 저장하시겠습니까?")
+                .setPositiveButton(Html.fromHtml("<font color='#D81B60'>예</font>"), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        writDialog.dismiss(); //닫기
+                        fab.setImageResource(R.drawable.ic_main_fab_button);
+                        //통신
+                        setDiaryWrite(edittext);
+                        //!!!!!!!!!!!
+                    }
+                }).setNegativeButton(Html.fromHtml("<font color='#D81B60'>아니요</font>"), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //취소 버튼
+                Log.w("다일로그","아니요");
+
+            }
+        }).show();
+    }
+
+    //일지 작성 통신
+    private void setDiaryWrite(String text){
+        Call<String> diary = RetrofitClient.getApiService().setDiary(UserIdent.GetInstance().getUserIdent(),
+                text); //api 콜;
+        Log.w("일지 통신 내용",text);
+
+        diary.enqueue(new AutoRetryCallback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(!response.isSuccessful()){
+                    Log.e("연결이 비정상적", "error code : " + response.code());
+                    Toast.makeText(getApplicationContext(),"알수 없는 오류로 일지가 저장되지 않았습니다. " +
+                            "다시 시도해주세요.",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Log.w("diary",response.body());
+                if(response.body().equals("성공")){
+                    Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_LONG).show();
+
+                    // 다일로그 닫기
+                    writDialog.dismiss();
+                }else{
+                    Toast.makeText(getApplicationContext(), "오류로 인해 일지가 저장되지 않았습니다. " +
+                            "다시 시도해주세요.",Toast.LENGTH_LONG).show();
+                }
+
+
+
+
+
+            }
+
+            @Override
+            public void onFinalFailure(Call<String> call, Throwable t) {
+                Log.e("key 통신 실패", t.getMessage());
+                Toast.makeText(getApplicationContext(),"알수 없는 오류로 일지가 저장되지 않았습니다. 다시 시도해주세요.",Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+
+
+    //날씨 통신
     private void getWheaterData(){
         Call<ResponseWeatherJson> wheather = RetrofitClient.getApiService().getWheather(); //api 콜
         wheather.enqueue(new AutoRetryCallback<ResponseWeatherJson>() {
             @Override
             public void onFinalFailure(Call<ResponseWeatherJson> call, Throwable t) {
                 Log.e("날씨 정보 연결실패", t.getMessage());
+                endLoading(); //로딩 끝
             }
 
             @Override
             public void onResponse(Call<ResponseWeatherJson> call, Response<ResponseWeatherJson> response) {
                 if(!response.isSuccessful()){
                     Log.e("연결이 비정상적", "error code : " + response.code());
+                    endLoading(); //로딩 끝
                     return;
                 }
 
@@ -357,8 +450,9 @@ public class MonitoringPage extends AppCompatActivity {
                 Log.d("날씨", weatherJson.getWeather());
                 Log.d("날씨", weatherJson.getWeather_imgurl());
 
-                weatherText.setText(weatherJson.getWeather());
+                weatherText.setText(" "+weatherJson.getWeather());
                 setToolberImg(weatherJson.getWeather());
+                //endLoading(); //로딩 끝
 
                 // 비트맵 세팅
                 new Thread(new Runnable() {
@@ -372,6 +466,7 @@ public class MonitoringPage extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         weaterImg.setImageBitmap(bitmapImg);
+                                        endLoading(); //로딩 끝
                                     }
                                 });
                             }
@@ -453,4 +548,26 @@ public class MonitoringPage extends AppCompatActivity {
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this,ControlMonitoring.GetInstance().getToolbarColor()));
     }
 
+    public void updateHeaderUser(){
+        Log.w("헤더 세팅","변경");
+        naviHeaderName.setText(UserIdent.GetInstance().getNkname());
+        naviHeaderEmail.setText(UserIdent.GetInstance().getEmail());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == USERPATCHUPDATE){
+            if(resultCode == 1){
+                updateHeaderUser();
+            }
+        }
+
+
+    }
+
+    public void endLoading(){
+        //로딩 페이지 끝
+        llProgressBar.setVisibility(View.GONE);
+    }
 }
