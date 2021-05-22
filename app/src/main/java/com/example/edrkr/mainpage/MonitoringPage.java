@@ -319,6 +319,7 @@ public class MonitoringPage extends AppCompatActivity {
 
                 if(editText.length()==0){
                     writDialog.dismiss();
+                    fab.setImageResource(R.drawable.ic_main_fab_button);
                 }else{
                     //닫을지 닫지 말지
                     closeDialog();
