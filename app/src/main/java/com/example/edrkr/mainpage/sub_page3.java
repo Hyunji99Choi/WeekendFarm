@@ -106,11 +106,12 @@ public class sub_page3 extends Fragment implements View.OnClickListener {
                 break;
 
                 //제거
+            /*
             case R.id.test:
                 Log.w("버튼클릭","클릭");
                 ControlDailyMomo.GetInstance().getYearDaily("2021");
                 break;
-
+               */
         }
     }
 }
