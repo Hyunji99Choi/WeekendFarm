@@ -59,6 +59,8 @@ public class login_SingUpPage extends AppCompatActivity {
         switch (view.getId()){
             case R.id.sign_iddubButton:
                 //id 중복 확인
+                idError.setHelperTextColor(ColorStateList.valueOf(Color.BLUE));
+
                 if (sing_id.getText (). toString (). isEmpty ()) {
                     idError.setError(getResources().getString(R.string.id_not_useing));
                     id_double_ck = false;
@@ -70,6 +72,8 @@ public class login_SingUpPage extends AppCompatActivity {
 
             case R.id.sign_nkdubButton:
                 //닉네임 중복 확인
+                nknameError.setHelperTextColor(ColorStateList.valueOf(Color.BLUE));
+
                 if (sing_nkname.getText (). toString (). isEmpty ()) {
                     nknameError.setError(getResources().getString(R.string.nickname_not_useing));
                     nk_double_ck = false;
@@ -252,8 +256,8 @@ public class login_SingUpPage extends AppCompatActivity {
         keyError=findViewById(R.id.keyError);
 
 
-        idError.setHelperTextColor(ColorStateList.valueOf(Color.BLUE));
-        nknameError.setHelperTextColor(ColorStateList.valueOf(Color.BLUE));
+        //idError.setHelperTextColor(ColorStateList.valueOf(Color.BLUE));
+        //nknameError.setHelperTextColor(ColorStateList.valueOf(Color.BLUE));
 
         emptyCkMessage = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog);
         emptyCkMessage.setMessage("입력되지 않은 값이 존재합니다. 모든 값을 입력해주세요.")
@@ -303,6 +307,10 @@ public class login_SingUpPage extends AppCompatActivity {
                 idError.setErrorEnabled(false);
                 idError.setHelperTextEnabled(false);
                 id_double_ck=false;
+
+                // 기본 헬퍼
+                idError.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
+                idError.setHelperText(getResources().getString(R.string.signup_no_change));
             }
         });
 
@@ -324,6 +332,10 @@ public class login_SingUpPage extends AppCompatActivity {
                 nknameError.setErrorEnabled(false);
                 nknameError.setHelperTextEnabled(false);
                 nk_double_ck=false;
+
+                // 기본 헬퍼
+                nknameError.setHelperTextColor(ColorStateList.valueOf(Color.GRAY));
+                nknameError.setHelperText(getResources().getString(R.string.signup_no_change));
             }
         });
 
