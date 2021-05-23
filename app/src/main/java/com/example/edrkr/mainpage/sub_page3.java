@@ -1,5 +1,7 @@
 package com.example.edrkr.mainpage;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +33,7 @@ public class sub_page3 extends Fragment implements View.OnClickListener {
 
     //메모 내용 리사잌클러뷰
     RecyclerView contents_recyclerView;
+    DailymemoAdapter adapter;
     ArrayList<Integer> id;
     ArrayList<String> day;
     ArrayList<String> contents;
@@ -64,7 +68,7 @@ public class sub_page3 extends Fragment implements View.OnClickListener {
         ControlDailyMomo.GetInstance().setRecyclerView(contents_recyclerView); // 컨트롤 싱글톤에 전달.
 
         // 리사이클러뷰에 SimpleTextAdapter 객체 지정.
-        DailymemoAdapter adapter = new DailymemoAdapter(id,day, contents, getContext());
+        adapter = new DailymemoAdapter(id,day, contents, getContext());
         ControlDailyMomo.GetInstance().setAdapter(adapter); // 컨트롤 싱글톤에 전달.
         contents_recyclerView.setAdapter(adapter);
 
@@ -86,23 +90,29 @@ public class sub_page3 extends Fragment implements View.OnClickListener {
     }
 
 
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
         //전부 선택 해제
         if(toggleGroup.getCheckedButtonId()==View.NO_ID){
             calendar.changeMode(0);
+            adapter.clear();
             return;
         }
 
         switch (v.getId()){
             case R.id.year:
                 calendar.changeMode(1);
+                adapter.clear();
                 break;
             case R.id.month:
                 calendar.changeMode(2);
+                adapter.clear();
                 break;
             case R.id.week:
                 calendar.changeMode(3);
+                adapter.clear();
                 break;
 
                 //제거
