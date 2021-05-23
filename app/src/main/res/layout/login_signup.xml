@@ -1,252 +1,266 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
 
+    android:background="@drawable/hyun_first_backgroud"
     android:scrollbarThumbVertical="@null"
     tools:context=".firstpage.login_SingUpPage">
 
-
-
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="20dp"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="5dp">
+        android:layout_height="match_parent"
+        android:background="#4D000000">
 
-
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:orientation="vertical">
+            android:layout_margin="26dp"
+            android:padding="20dp"
+            app:cardBackgroundColor="#F5FFFFFF"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="5dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:fontFamily="cursive"
-                android:paddingVertical="10dp"
-                android:layout_margin="10dp"
-                android:text="Register"
-                android:textAlignment="center"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/black"
-                android:textSize="60sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:fontFamily="cursive"
+                    android:paddingVertical="10dp"
+                    android:textStyle="bold"
+                    android:text="Register"
+                    android:textAlignment="center"
+                    android:background="@drawable/signup_green_image"
+                    android:textColor="@color/black"
+                    android:textSize="60sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="45dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/idError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:helperText="@string/signup_no_change"
+                        android:layout_weight="8">
+
+                        <EditText
+                            android:id="@+id/sign_idInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:hint="아이디"
+                            android:maxLines="1"
+                            android:paddingStart="5dp"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/sign_iddubButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginTop="10dp"
+                        android:onClick="onClickdbCkButton"
+                        android:text="중복 확인" />
+
+                </LinearLayout>
+
+
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/idError"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/passError"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    app:helperText="@string/signup_no_change"
-                    android:layout_weight="8">
+                    app:passwordToggleEnabled="true"
+                    android:layout_marginTop="5dp">
 
                     <EditText
-                        android:id="@+id/sign_idInput"
+                        android:id="@+id/sign_passwordInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:hint="아이디"
+                        android:hint="비밀번호"
+                        android:inputType="textPassword"
                         android:maxLines="1"
                         android:paddingStart="5dp"
-                        android:singleLine="true" />
+                        android:singleLine="true"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passCheckError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:passwordToggleEnabled="true"
+                    android:layout_marginTop="5dp">
+
+                    <EditText
+                        android:id="@+id/sign_passwordInputCheck"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="비밀번호 확인"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:paddingStart="5dp"
+                        android:singleLine="true"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nameError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp">
+
+                    <EditText
+                        android:id="@+id/sign_nameInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="이름"
+                        android:inputType="textNoSuggestions"
+                        android:maxLines="1"
+                        android:paddingStart="5dp"
+                        android:singleLine="true"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nknameError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        app:helperText="@string/signup_no_change"
+                        android:layout_weight="8">
+
+                        <EditText
+                            android:id="@+id/sign_nknameInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:hint="닉네임"
+                            android:inputType="textNoSuggestions"
+                            android:maxLines="1"
+                            android:paddingStart="5dp"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/sign_nkdubButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:onClick="onClickdbCkButton"
+                        android:text="중복 확인" />
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp">
+
+                    <EditText
+                        android:id="@+id/sign_emailInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="e-mail"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:paddingStart="5dp"
+                        android:singleLine="true"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/phoneError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                    <EditText
+                        android:id="@+id/sign_phonnumInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="phon number"
+                        android:maxLength="12"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:paddingStart="5dp"
+                        android:singleLine="true"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/keyError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
+                    android:layout_marginTop="50dp">
+
+                    <EditText
+                        android:id="@+id/sign_keyInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="발급받은 key"
+                        android:maxLength="12"
+                        android:maxLines="1"
+                        android:paddingStart="5dp"
+                        android:singleLine="true"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
                 <Button
-                    android:id="@+id/sign_iddubButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginTop="10dp"
-                    android:onClick="onClickdbCkButton"
-                    android:text="중복 확인" />
+                    android:id="@+id/loginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_margin="20dp"
+                    android:textSize="16sp"
+                    android:onClick="onClickLoginButton"
+                    android:text="회원가입"/>
+
+                <!-- 여백 -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:visibility="invisible"/>
+
 
             </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
 
+    </RelativeLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passError"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:passwordToggleEnabled="true"
-                android:layout_marginTop="5dp">
-
-                <EditText
-                    android:id="@+id/sign_passwordInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:hint="비밀번호"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:paddingStart="5dp"
-                    android:singleLine="true"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passCheckError"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:passwordToggleEnabled="true"
-                android:layout_marginTop="5dp">
-
-                <EditText
-                    android:id="@+id/sign_passwordInputCheck"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:hint="비밀번호 확인"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:paddingStart="5dp"
-                    android:singleLine="true"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/nameError"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp">
-
-            <EditText
-                android:id="@+id/sign_nameInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="이름"
-                android:inputType="textNoSuggestions"
-                android:maxLines="1"
-                android:paddingStart="5dp"
-                android:singleLine="true"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/nknameError"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:helperText="@string/signup_no_change"
-                android:layout_weight="8">
-
-                <EditText
-                    android:id="@+id/sign_nknameInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:hint="닉네임"
-                    android:inputType="textNoSuggestions"
-                    android:maxLines="1"
-                    android:paddingStart="5dp"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:id="@+id/sign_nkdubButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:onClick="onClickdbCkButton"
-                android:text="중복 확인" />
-        </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emailError"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp">
-
-                <EditText
-                    android:id="@+id/sign_emailInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:hint="e-mail"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:paddingStart="5dp"
-                    android:singleLine="true"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phoneError"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
-
-                <EditText
-                    android:id="@+id/sign_phonnumInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:hint="phon number"
-                    android:maxLength="12"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:paddingStart="5dp"
-                    android:singleLine="true"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/keyError"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
-                android:layout_marginTop="50dp">
-
-                <EditText
-                    android:id="@+id/sign_keyInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:hint="발급받은 key"
-                    android:maxLength="12"
-                    android:maxLines="1"
-                    android:paddingStart="5dp"
-                    android:singleLine="true"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-            <Button
-                android:id="@+id/loginButton"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_margin="20dp"
-                android:textSize="16sp"
-                android:onClick="onClickLoginButton"
-                android:text="회원가입"/>
-
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
 </ScrollView>
