@@ -61,18 +61,11 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
         super.onActivityResult(requestCode, resultCode, data);
         Log.v(TAG, "onactivity 함수 실행"+" requestcode : "+requestCode+ " resultcode : " + resultCode);
         if(requestCode == 1){
-            if(resultCode == 1){
+            if(resultCode == 1 || resultCode == 0){
                 Log.v(TAG,"refresh");
                 refresh();
             }
         }
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-        Log.v(TAG, "onStart 진입");
-
     }
 
     @Override
@@ -282,7 +275,8 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
             public void onResponse(Call<List<GetBoard>> call, Response<List<GetBoard>> response) { //서버와 통신하여 반응이 왔다면
                 if (response.isSuccessful()) {
                     List<GetBoard> datas = response.body();
-                    Log.v(TAG, response.body().toString());
+                    if(response.body() != null)
+                        Log.v(TAG, response.body().toString());
                     if (datas != null) {
                         Log.v(TAG, "datas 받아오기 완료 datas.size = " + datas.size());
                         for (int i = 0; i < datas.size(); i++) {

@@ -28,6 +28,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--  progress bar   -->
+<!--        <include-->
+<!--            android:id="@+id/progressBar"-->
+<!--            android:visibility="gone"-->
+<!--            layout="@layout/loading_layout"/>-->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -55,9 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@color/black"
-                    android:maxHeight="250dp"
-                    android:minHeight="150dp"
+                    android:src="@drawable/bplaceholder"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -84,6 +88,11 @@
                 android:maxLines="50" />
         </LinearLayout>
     </ScrollView>
+
+    <include
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        layout="@layout/loading_layout"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
