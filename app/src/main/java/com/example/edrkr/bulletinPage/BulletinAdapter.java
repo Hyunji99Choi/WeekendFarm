@@ -160,7 +160,7 @@ public class BulletinAdapter extends RecyclerView.Adapter<BulletinAdapter.MyView
             date.setText(board.getDate());
             chat_count.setText(Integer.toString(board.getChat_count()));
             String nickname = UserIdent.GetInstance().getNkname();
-            if(board.getName().compareTo(nickname)!=0){
+            if(board.getName()!= null && board.getName().compareTo(nickname)!=0){
                 swipeRevealLayout.setLockDrag(true);
                 Log.v("arum.boardadapter","name : "+board.getName());
             }

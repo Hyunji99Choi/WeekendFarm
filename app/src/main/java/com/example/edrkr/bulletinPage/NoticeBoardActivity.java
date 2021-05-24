@@ -69,6 +69,13 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
     }
 
     @Override
+    public void onStart(){
+        super.onStart();
+        Log.v(TAG, "onStart 진입");
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.v(TAG, "oncreate진입");
         super.onCreate(savedInstanceState);
@@ -151,7 +158,6 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
             }
         });
     }
-
 
     public void InitializeView() { //버튼 등 view 연결해주는 함수
         fab = (FloatingActionButton) findViewById(R.id.fab_write);
