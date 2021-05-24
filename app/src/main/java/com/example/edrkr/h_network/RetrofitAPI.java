@@ -152,4 +152,14 @@ public interface RetrofitAPI {
 
 
 
+
+
+    //싱싱정보통 병합
+    //이민영
+    @GET("api/variety") //싱싱정보통 요청
+    Call<String> getInfo();//String으로 오더라....
+    // Call<List<ResponseShingShingInfo>> getInfo();
+
+
+
 }

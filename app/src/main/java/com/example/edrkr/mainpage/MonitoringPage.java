@@ -32,6 +32,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.edrkr.shingshing_info;
 import com.example.edrkr.subpage.KeyCreatePage;
 import com.example.edrkr.h_network.AutoRetryCallback;
 import com.example.edrkr.h_network.ResponseWeatherJson;
@@ -225,7 +226,10 @@ public class MonitoringPage extends AppCompatActivity {
 
                 switch (menuItem.getItemId()){
                     case R.id.today:
-                        //다음학기
+                        //싱싱정보통 병합
+                        Intent in=new Intent(getApplicationContext(), shingshing_info.class);
+                        startActivity(in);
+
                         Toast.makeText(MonitoringPage.this,"today",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.community:

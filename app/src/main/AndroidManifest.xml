@@ -61,6 +61,15 @@
         <activity android:name=".bulletinPage.WritingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+
+        <!-- 싱싱정보통 병합 -->
+        <activity android:name="shingshing_info"
+            android:label="shingshing_info">
+
+        </activity>
+
+
+
     </application>
 
 </manifest>

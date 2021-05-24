@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/roundshpe"
+    android:layout_margin="5dp">
+
+    <ImageView
+        android:id="@+id/listCropImg"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        />
+
+    <TextView
+        android:id="@+id/listCropRank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2등"
+        android:layout_margin="10dp"
+        android:textSize="25dp"
+        />
+
+    <TextView
+        android:id="@+id/listCropName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:text="감자"
+        />
+
+
+
+
+</LinearLayout>
