@@ -23,6 +23,7 @@ import com.example.edrkr.mainpage.ControlDailyMomo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class dailyMemo_recyclerview extends LinearLayout {
@@ -115,6 +116,11 @@ public class dailyMemo_recyclerview extends LinearLayout {
 
     public void changeMode(int mode) { //모드 변경 함수
         Log.v(log, "changmode");
+        try {
+            thread.interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.mode = mode;
         setModeinitialize(); //초기화
         setRecyclerView();
