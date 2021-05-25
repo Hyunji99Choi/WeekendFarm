@@ -69,6 +69,8 @@ public class UserIdent {
         if(farmCount==-1){ //관리자 일 경우
             admin=1;
             farmCount=userIdent.getFarmID().size();
+        }else{
+            admin=0;
         }
         //JSONArray farm;
 
