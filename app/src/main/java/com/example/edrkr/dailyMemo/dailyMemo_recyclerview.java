@@ -321,7 +321,9 @@ public class dailyMemo_recyclerview extends LinearLayout {
             m_calendar = nextData;
             Log.v(log, "month : " + (lastData.getMonth() + 1) + "date : " + m_calendar.getDay());
         } else if (type == 0) { //초기화
-            m_calendar = new myCalendarData(0);
+            myCalendarData tmp = new myCalendarData(-3);
+            lastData = tmp;
+            m_calendar = new myCalendarData(-3);
         }
         for (int i = 0; i < 31; i++) {
             MyCalendar calendar = new MyCalendar(m_calendar.getWeekDay(), String.valueOf(m_calendar.getDay()), String.valueOf(m_calendar.getWeekofmonth()), String.valueOf(m_calendar.getMonth()), String.valueOf(m_calendar.getYear()), i);
@@ -333,7 +335,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
             }
         }
         if (type == 1) { //이전 달 호출
-            recyclerView.scrollToPosition(snapPosition + 31); //스크롤 할 떄의 중앙자리로 이동
+            recyclerView.scrollToPosition(snapPosition + 34); //스크롤 할 떄의 중앙자리로 이동
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
@@ -372,7 +374,11 @@ public class dailyMemo_recyclerview extends LinearLayout {
             m_calendar = nextData;
             Log.v(log, "year : " + m_calendar.getYear());
         } else if (type == 0) { //초기화
+            myCalendarData tmp = new myCalendarData(0);
+            tmp.getNextYear(-2);
+            lastData = tmp;
             m_calendar = new myCalendarData(0);
+            m_calendar.getNextYear(-2);
         }
 
         for (int i = 0; i < 10; i++) {
@@ -387,7 +393,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
 
         if (type == 1) {
             Log.v(log, "snapposition : " + snapPosition);
-            recyclerView.scrollToPosition(snapPosition + 10);
+            recyclerView.scrollToPosition(snapPosition + 12);
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
@@ -426,7 +432,11 @@ public class dailyMemo_recyclerview extends LinearLayout {
             m_calendar = nextData;
             Log.v(log, "month : " + (m_calendar.getMonth() + 1));
         } else if (type == 0) { //초기화
+            myCalendarData tmp = new myCalendarData(0);
+            tmp.getNextMonth(-2);
+            lastData = tmp;
             m_calendar = new myCalendarData(0);
+            m_calendar.getNextMonth(-2);
         }
 
         for (int i = 0; i < 10; i++) {
@@ -440,7 +450,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
         }
 
         if (type == 1) {
-            recyclerView.scrollToPosition(snapPosition + 10);
+            recyclerView.scrollToPosition(snapPosition + 12);
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
