@@ -15,17 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.edrkr.a_Network.Class.manager.GetAllMember;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
-import com.example.edrkr.bulletinPage.BulletinAdapter;
-import com.example.edrkr.NetworkTask;
 import com.example.edrkr.R;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,9 +58,9 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
                 Member s = myDataset.get(pos);
                 if (s != null) {
                     Intent intent = new Intent(getActivity(), show_each_member.class);
-
-                    intent.putExtra("id", s.getId_());
-                    Log.v(TAG,"userid : "+s.getId_());
+                    intent.putExtra("ident", s.getIdent_());
+                    intent.putExtra("id", s.getUserid_());
+                    Log.v(TAG,"userid : "+s.getIdent_());
                     startActivityForResult(intent, 1);
                     Log.v(TAG, "intent 전송 완료");
                 } else {
@@ -105,9 +98,9 @@ public class Listofmember extends Fragment { //사용자별 밭 보여주는 fra
                     if (datas != null) {
                         Log.v(TAG, "getMember 받아오기 완료 datas.size = " + datas.size());
                         for (int i = 0; i < datas.size(); i++) {
-                            Log.v(TAG, "getMember" + datas.get(i).getId() + " " + datas.get(i).getUserid() + " " + datas.get(i).getUsername());
+                            Log.v(TAG, "getMember" + datas.get(i).getIdent() + " " + datas.get(i).getUserid() + " " + datas.get(i).getUsername());
                             //받아온 데이터 Member 클래스에 저장
-                            Member m = new Member(datas.get(i).getId(), datas.get(i).getUserid(), datas.get(i).getUsername());
+                            Member m = new Member(datas.get(i).getIdent(), datas.get(i).getUserid(), datas.get(i).getUsername());
                             dataset.add(m); //저장한 Board 클래스 arraylist에 넣음.
                         }
                         Log.v(TAG, "getMember end================================");

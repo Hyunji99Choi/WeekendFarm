@@ -1,7 +1,6 @@
 package com.example.edrkr.managerPage;
 
 import android.content.Intent;
-import android.database.MergeCursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,23 +12,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.edrkr.a_Network.Class.bulletin.GetBoard;
 import com.example.edrkr.a_Network.Class.manager.GetAllFarm;
-import com.example.edrkr.a_Network.Class.manager.GetAllMember;
 import com.example.edrkr.a_Network.RetrofitService;
 import com.example.edrkr.a_Network.retrofitIdent;
-import com.example.edrkr.bulletinPage.Board;
-import com.example.edrkr.bulletinPage.BulletinAdapter;
-import com.example.edrkr.NetworkTask;
 import com.example.edrkr.R;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,7 +60,7 @@ public class Listofarea extends Fragment { //밭별 사용자 fragment
                     Intent intent = new Intent(getActivity(), show_each_areahas.class);
 
                     intent.putExtra("name", s.getName_());
-                    intent.putExtra("id", s.getId_());
+                    intent.putExtra("id", s.getIdent_());
                     startActivityForResult(intent, 1);
                 }else{
                     Toast.makeText(getContext(),"통신이 원활하지 않습니다.",Toast.LENGTH_SHORT).show();

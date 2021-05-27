@@ -183,7 +183,7 @@ public class show_each_areahas extends AppCompatActivity {
                         for(int i = 0;i<datas.size();i++){
                             Log.v(TAG,"getMember" + datas.get(i));
                             //받아온 데이터 Member 클래스에 저장
-                            Member m = new Member(datas.get(i).getId(),datas.get(i).getUserid(),datas.get(i).getUsername());
+                            Member m = new Member(datas.get(i).getIdent(),datas.get(i).getUserid(),datas.get(i).getUsername());
                             dataset.add(m); //저장한 Board 클래스 arraylist에 넣음.
                         }
                         Log.v(TAG,"getMember end================================");

@@ -44,7 +44,7 @@ public interface RetrofitService {
     Call<PostBoard> postData(@Path(value="post",encoded = true) String post, @Body PostBoard param);
 
     @POST("{post}") //댓글 쓰기 부분 call
-    Call<PostComment> postComment(@Path(value = "post",encoded = true) String post, @Body PostComment comment);
+    Call<Void> postComment(@Path(value = "post",encoded = true) String post, @Body PostComment comment);
 
     @Multipart
     @POST("image") //이미지 통신 시도해볼 녀석 <--------------------------------------------

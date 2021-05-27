@@ -49,6 +49,7 @@ public class show_each_member extends AppCompatActivity {
     private String TAG = "areum/show_each_member";
     private int userid = -1;
     private int farmid = -1;
+    private String str_id = "";
 
 
     @Override
@@ -115,9 +116,10 @@ public class show_each_member extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         Intent intent = getIntent();
-        userid = intent.getIntExtra("id", -1);
+        userid = intent.getIntExtra("ident", -1);
+        str_id = intent.getStringExtra("id");
 
-        if (userid < 0) {
+        if (userid < 0 || str_id.compareTo("") == 0) {
             Toast.makeText(this, "통신 실패 - 나중에 다시 시도해주세요", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -222,7 +224,7 @@ public class show_each_member extends AppCompatActivity {
                     Log.v(TAG, response.body().toString());
                     if (datas != null) {
                         name.setText(datas.getUsername());
-                        id.setText(Integer.toString(datas.getUserid()));
+                        id.setText(str_id);
                         phonenumber.setText(datas.getPhonenum());
                         Log.v(TAG, "getMember 받아오기 완료 datas.size = " + datas.getFarmid().size());
                         for (int i = 0; i < datas.getFarmid().size(); i++) {

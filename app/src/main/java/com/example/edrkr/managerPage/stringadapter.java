@@ -1,7 +1,6 @@
 package com.example.edrkr.managerPage;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,21 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.edrkr.a_Network.RetrofitService;
-import com.example.edrkr.a_Network.retrofitIdent;
-import com.example.edrkr.bulletinPage.BulletinAdapter;
 import com.example.edrkr.R;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHolder> {
     private String TAG = "areum/stringadapter";
@@ -134,7 +124,7 @@ public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHold
             holder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
-                    farmid = mDataset.get(position).getId_();
+                    farmid = mDataset.get(position).getIdent_();
                     mListener.DeleteItem(position,userid,farmid);
                 }
             });
@@ -142,7 +132,7 @@ public class stringadapter extends RecyclerView.Adapter<stringadapter.MyViewHold
             holder.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v){
-                    userid = mDataset.get(position).getId_();
+                    userid = mDataset.get(position).getIdent_();
                     mListener.DeleteItem(position,userid,farmid);
                 }
             });

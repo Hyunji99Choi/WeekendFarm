@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class GetAllMember implements Post {
     @SerializedName("UserIdent")
-    private int id;
+    private int ident;
 
     @SerializedName("UserId")
     private String userid;
@@ -14,17 +14,17 @@ public class GetAllMember implements Post {
     private String username;
 
     GetAllMember(int id, String userid, String username){
-        this.id = id;
+        this.ident = id;
         this.userid = userid;
         this.username = username;
     }
 
-    public int getId() {
-        return id;
+    public int getIdent() {
+        return ident;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdent(int id) {
+        this.ident = id;
     }
 
     public String getUserid() {
@@ -47,7 +47,7 @@ public class GetAllMember implements Post {
     @Override
     public String toString(){
         return "PostResult{"+
-                "Id="+ id+
+                "Id="+ ident+
                 ", userid="+ userid+
                 ", username='" +username+'\''+
                 '}';

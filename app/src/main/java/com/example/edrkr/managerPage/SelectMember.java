@@ -123,9 +123,9 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
                     if (datas != null) {
                         Log.v(TAG, "getMember 받아오기 완료 datas.size = " + datas.size());
                         for (int i = 0; i < datas.size(); i++) {
-                            Log.v(TAG, "getMember" + datas.get(i).getId() + " " + datas.get(i).getUserid() + " " + datas.get(i).getUsername());
+                            Log.v(TAG, "getMember" + datas.get(i).getIdent() + " " + datas.get(i).getUserid() + " " + datas.get(i).getUsername());
                             //받아온 데이터 Member 클래스에 저장
-                            Member m = new Member(datas.get(i).getId(),datas.get(i).getUserid(), datas.get(i).getUsername());
+                            Member m = new Member(datas.get(i).getIdent(),datas.get(i).getUserid(), datas.get(i).getUsername());
                             dataset.add(m); //저장한 Board 클래스 arraylist에 넣음.
                         }
                         Log.v(TAG, "getMember end================================");
@@ -191,8 +191,8 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
         ArrayList<Integer> list_farmid = new ArrayList<>();
         for(Member m : myDataset){
             if(m.getChecked_()){
-                list_farmid.add(m.getId_());
-                Log.v(TAG,"선택 : "+m.getId_());
+                list_farmid.add(m.getIdent_());
+                Log.v(TAG,"선택 : "+m.getIdent_());
             }
         }
         int[] list_int = new int[list_farmid.size()];

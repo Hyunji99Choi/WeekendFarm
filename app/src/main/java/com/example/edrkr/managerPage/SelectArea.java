@@ -192,8 +192,8 @@ public class SelectArea extends AppCompatActivity { //밭 선택해서 추가하
         ArrayList<Integer> list_userid = new ArrayList<>();
         for(Member m : myDataset){
             if(m.getChecked_()){
-                list_userid.add(m.getId_());
-                Log.v(TAG,"선택 : "+m.getId_());
+                list_userid.add(m.getIdent_());
+                Log.v(TAG,"선택 : "+m.getIdent_());
             }
         }
         int[] list_int = new int[list_userid.size()];

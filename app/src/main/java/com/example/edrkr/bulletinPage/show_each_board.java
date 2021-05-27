@@ -385,13 +385,23 @@ public class show_each_board extends AppCompatActivity {
         comment.setUserIdent(UserIdent.GetInstance().getUserIdent());
         Log.v(TAG,"put 완료");
 
-        Call<PostComment> call = retrofitIdent.GetInstance().getService().postComment(URL, comment);
-        Builder builder = new Builder();
-        try {
-            builder.tryPost(call);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
+        service.postComment(URL, comment).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    //통신이 실패한 경우(응답코드 3xx,4xx 등)
+                    Log.d(TAG, "onResponse: 실패");
+                    Toast.makeText(getApplicationContext(),"삭제에 실패했습니다. 잠시후에 시도해주세요",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                getBoardData();
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.v(TAG, "onFailure: " + t.getMessage());
+            }
+        });
         Log.v(TAG,"tryconnect 완료");
     }
 
@@ -401,8 +411,6 @@ public class show_each_board extends AppCompatActivity {
 
         //server 통신 성공시 - 서버로 보내는 코드
         posttoserver();
-        //server에서 받아오는 코드
-        getBoardData();
         //myDataset = b.getComments();
 
         Log.v(TAG+tag,"mydataset 수정완료");

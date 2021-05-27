@@ -1,24 +1,24 @@
 package com.example.edrkr.managerPage;
 
 public class Member { //사용자 클래스
-    private int id_;
+    private int ident_;
     private String userid_;
     private String name_;
     private boolean checked_;
 
     Member(int id, String userid, String name){
-        this.id_ = id;
+        this.ident_ = id;
         userid_ = userid;
         name_ = name;
         checked_ = false;
     }
 
-    public int getId_() {
-        return id_;
+    public int getIdent_() {
+        return ident_;
     }
 
-    public void setId_(int id_) {
-        this.id_ = id_;
+    public void setIdent_(int ident_) {
+        this.ident_ = ident_;
     }
 
     public String getUserid_() {
