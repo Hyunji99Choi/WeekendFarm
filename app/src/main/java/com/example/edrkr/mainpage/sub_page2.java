@@ -109,7 +109,7 @@ public class sub_page2 extends Fragment {
 
                     //표에 데이터 입력
                     day_textView[i].setText(oneWeek[i]);
-                    value_textView[i].setText(graphJsons.get(i).getSoilavg());
+                    value_textView[i].setText(String.format("%.2f",Float.parseFloat(graphJsons.get(i).getSoilavg())));
                 }
 
 
