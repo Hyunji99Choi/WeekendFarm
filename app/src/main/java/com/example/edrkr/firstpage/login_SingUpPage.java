@@ -278,7 +278,7 @@ public class login_SingUpPage extends AppCompatActivity {
                 });
 
         okRegisterMessage = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog);
-        okRegisterMessage.setMessage("회원가입이 완료되었습니다.")
+        okRegisterMessage.setMessage("회원가입이 완료되었습니다.").setCancelable(false)
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
