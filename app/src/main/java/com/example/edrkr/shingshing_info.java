@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -69,6 +71,8 @@ public class shingshing_info extends YouTubeBaseActivity {
         String YoutubeKey= "12342532445756785676435";
         YouTubePlayer.OnInitializedListener listener;
         YouTubePlayer player;
+        //영상 스레드
+        Thread thYou;
 
         //세팅에 필요한 변수들
         //-다운로드
@@ -97,6 +101,7 @@ public class shingshing_info extends YouTubeBaseActivity {
         //-로딩
         View progressBar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -121,6 +126,7 @@ public class shingshing_info extends YouTubeBaseActivity {
         insectAImg = (ImageView)findViewById(R.id.insAIMG);
         cookCropName = (TextView)findViewById(R.id.cookName);
         downloadDate = (TextView)findViewById(R.id.downDate);
+        youTubePlayerView=findViewById(R.id.youtubeView);
 
         cal = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
@@ -129,19 +135,26 @@ public class shingshing_info extends YouTubeBaseActivity {
     }
 
     public void YoutubeSet(String Pid){
-        youTubePlayerView=findViewById(R.id.youtubeView);
-
-        listener=new YouTubePlayer.OnInitializedListener() {
+        //youtube 재생용 스레드
+        new Thread(new Runnable(){
             @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.loadVideo(Pid);
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener=new YouTubePlayer.OnInitializedListener() {
+                            @Override
+                            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                                youTubePlayer.loadVideo(Pid);
+                            }
+                            @Override
+                            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) { }
+                        };
+                        youTubePlayerView.initialize(YoutubeKey,listener);
+                    }
+                });
             }
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) { }
-        };
-        youTubePlayerView.initialize(YoutubeKey,listener);
-        //player.cueVideo(youTubePid);
-
+        }).start();
     }
     //싱싱정보통 통신
     public void getShingInfoData(){
