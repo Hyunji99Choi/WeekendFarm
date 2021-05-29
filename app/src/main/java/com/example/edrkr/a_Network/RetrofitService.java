@@ -48,7 +48,6 @@ public interface RetrofitService {
 
     @Multipart
     @POST("image") //이미지 통신 시도해볼 녀석 <--------------------------------------------
-//    Call<String> request(@Part MultipartBody.Part image);
     Call<Void> request(@Part("nickname") RequestBody post,
                          @Part("userIdent") int userIdent,
                          @Part("title") RequestBody title,
@@ -60,6 +59,14 @@ public interface RetrofitService {
 
     @PATCH("{post}") //게시글 수정부분
     Call<Void> patchBoard(@Path(value = "post",encoded = true)String post, @Body PatchBoard patch);
+
+    @Multipart
+    @PATCH("{post}") //이미지 통신하는 게시글 수정 <--------------------------------------------
+    Call<Void> patchBoardWithImage(@Path(value = "post",encoded = true)String id,
+                                   @Part MultipartBody.Part image,
+                       @Part("title") RequestBody title,
+                       @Part("content") RequestBody content);
+
 
     @DELETE("{post}") //댓글 삭제 부분
     Call<Void> deleteComment(@Path(value = "post",encoded = true)String post);

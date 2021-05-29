@@ -2,6 +2,7 @@ package com.example.edrkr.bulletinPage;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -154,7 +155,9 @@ public class NoticeBoardActivity extends AppCompatActivity implements LifecycleO
 
     public void InitializeView() { //버튼 등 view 연결해주는 함수
         fab = (FloatingActionButton) findViewById(R.id.fab_write);
-
+        //fab 버튼의 색깔을 toolbar 색과 같도록 만드는 코드
+        ColorStateList colorStateList = ContextCompat.getColorStateList(this, ControlMonitoring.GetInstance().getToolbarColor());
+        fab.setBackgroundTintList(colorStateList);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { //+ 버튼 클릭시 실행

@@ -80,6 +80,7 @@ public class WritingActivity extends AppCompatActivity {
     private int pos;
     private final String URL = "forum/";
     private Board b;
+    private String imgurl;
 
 
     @Override
@@ -134,7 +135,7 @@ public class WritingActivity extends AppCompatActivity {
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
         service.getComment(URL + pos).enqueue(new Callback<GetEachBoard>() {
             @Override
-            public void onResponse(@EverythingIsNonNull Call<GetEachBoard> call,@EverythingIsNonNull Response<GetEachBoard> response) { //통신 성공시
+            public void onResponse(@EverythingIsNonNull Call<GetEachBoard> call, @EverythingIsNonNull Response<GetEachBoard> response) { //통신 성공시
                 if (response.isSuccessful()) {
                     Log.v(TAG, response.body().toString());
                     GetEachBoard datas = response.body();
@@ -143,9 +144,9 @@ public class WritingActivity extends AppCompatActivity {
                         Log.v(TAG, "board가 null이 아님");
                         title.setText(board.get(0).getTitle());
                         body.setText(board.get(0).getBody());
-                        String imageurl = board.get(0).getImageurl();
-                        getImage(imageurl);
-                        Log.v(TAG, "title : " + board.get(0).getTitle() + " body : " + board.get(0).getBody()+"image visible : "+image.getVisibility());
+                        imgurl = board.get(0).getImageurl();
+                        getImage(imgurl);
+                        Log.v(TAG, "title : " + board.get(0).getTitle() + " body : " + board.get(0).getBody() + "image visible : " + image.getVisibility());
                     } else {
                         Log.v(TAG, "board size 0");
                     }
@@ -155,26 +156,26 @@ public class WritingActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(@EverythingIsNonNull Call<GetEachBoard> call,@EverythingIsNonNull Throwable t) { //통신 아예 실패
+            public void onFailure(@EverythingIsNonNull Call<GetEachBoard> call, @EverythingIsNonNull Throwable t) { //통신 아예 실패
                 Log.v(TAG, "onFailure: " + t.getMessage());
             }
         });
     }
 
     //image를 서버에서 가져오는 함수
-    public void getImage(String url){
-        try{
+    public void getImage(String url) {
+        try {
             Log.v(TAG, "getimage");
-            if(url != null && url.length() > 0) {
-                String URL = retrofitIdent.GetInstance().getURL()+"image/"+url;
-                Log.v(TAG, "유의미한 image 받아오기 성공 url : "+URL);
+            if (url != null && url.length() > 0) {
+                String URL = retrofitIdent.GetInstance().getURL() + "image/" + url;
+                Log.v(TAG, "유의미한 image 받아오기 성공 url : " + URL);
                 f_image.setVisibility(View.VISIBLE);
                 Picasso.get().load(URL).placeholder(R.drawable.bplaceholder).into(image);
                 Log.v(TAG, "이미지 적용 성공");
-            }else{
-                Toast.makeText(getApplicationContext(),"Empty Image URL",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Empty Image URL", Toast.LENGTH_SHORT).show();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -211,7 +212,7 @@ public class WritingActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("-yyyy-MM-dd-hh-mm-ss");
         Date mDate = new Date(System.currentTimeMillis());
         String getTime = simpleDateFormat.format(mDate);
-        File f = savebitmap(bitmapimage,getTime);
+        File f = savebitmap(bitmapimage, getTime);
         RequestBody filebody = RequestBody.create(MediaType.parse("image/*"), f);
 //        Log.v(TAG, "filebody 생성");
         MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("image", f.getName(), filebody);
@@ -279,38 +280,75 @@ public class WritingActivity extends AppCompatActivity {
     }
 
     private void patchtoserver(Board b) {
+        String url = "forum/" + pos;
         Log.v(TAG, "patchtoserver 진입완료");
         progress.setVisibility(View.VISIBLE);
-        PatchBoard post = new PatchBoard();
-        post.setTitle(b.getTitle());
-        post.setContent(b.getBody());
-        Log.v(TAG, "put 완료");
+        if (bitmapimage != null) {
+            if (pos != -1 && imgurl != null) {
+                Log.v(TAG, "이미지 있는 patch");
+                File f = savebitmap(bitmapimage, imgurl);
+                RequestBody filebody = RequestBody.create(MediaType.parse("image/*"), f);
+                MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("image", f.getName(), filebody);
 
-        if (pos != -1) {
-            Call<Void> call = retrofitIdent.GetInstance().getService().patchBoard("forum/" + pos, post);
-            call.enqueue(new Callback<Void>() { //비동기 작업
-                @Override
-                public void onResponse(@EverythingIsNonNull Call<Void> call, @EverythingIsNonNull Response<Void> response) { //성공 - 메인 스레드에서 처리
-                    if (response.isSuccessful()) {
-                        //정상적으로 통신이 성공한 경우
-                        Log.v(TAG, "onResponse: 성공, 결과\n" + response.body());
-                        progress.setVisibility(View.GONE);
-                        setResult(1);
-                        finish();
-                    } else {
-                        //통신이 실패한 경우(응답코드 3xx,4xx 등)
-                        Log.d(TAG, "image - onResponse: 실패");
+                RequestBody title = RequestBody.create(MediaType.parse("text/plain"), b.getTitle());
+                RequestBody content = RequestBody.create(MediaType.parse("text/plain"), b.getBody());
+
+                Call<Void> call = retrofitIdent.GetInstance().getService().patchBoardWithImage(url,multipartBody, title, content);
+                call.enqueue(new Callback<Void>() { //비동기 작업
+                    @Override
+                    public void onResponse(@EverythingIsNonNull Call<Void> call, @EverythingIsNonNull Response<Void> response) { //성공 - 메인 스레드에서 처리
+                        if (response.isSuccessful()) {
+                            //정상적으로 통신이 성공한 경우
+                            Log.v(TAG, "onResponse: 성공, 결과\n" + response.body());
+                            progress.setVisibility(View.GONE);
+                            setResult(1);
+                            finish();
+                        } else {
+                            //통신이 실패한 경우(응답코드 3xx,4xx 등)
+                            Log.d(TAG, "image - onResponse: 실패");
+                            Toast.makeText(getApplicationContext(), "서버와 연결이 불안정합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@EverythingIsNonNull Call<Void> call, @EverythingIsNonNull Throwable t) { //실패 - 메인 스레드에서 처리
+                        //통신 실패(인터넷 끊김, 예외 발생 등 시스템적인 이유)
+                        Log.d(TAG, "image - onFailure: " + t.getMessage());
                         Toast.makeText(getApplicationContext(), "서버와 연결이 불안정합니다.", Toast.LENGTH_SHORT).show();
                     }
-                }
+                });
+            }
+        } else {
+            PatchBoard post = new PatchBoard();
+            post.setTitle(b.getTitle());
+            post.setContent(b.getBody());
+            Log.v(TAG, "이미지 x patch");
+            if (pos != -1) {
+                Call<Void> call = retrofitIdent.GetInstance().getService().patchBoard(url, post);
+                call.enqueue(new Callback<Void>() { //비동기 작업
+                    @Override
+                    public void onResponse(@EverythingIsNonNull Call<Void> call, @EverythingIsNonNull Response<Void> response) { //성공 - 메인 스레드에서 처리
+                        if (response.isSuccessful()) {
+                            //정상적으로 통신이 성공한 경우
+                            Log.v(TAG, "onResponse: 성공, 결과\n" + response.body());
+                            progress.setVisibility(View.GONE);
+                            setResult(1);
+                            finish();
+                        } else {
+                            //통신이 실패한 경우(응답코드 3xx,4xx 등)
+                            Log.d(TAG, "image - onResponse: 실패");
+                            Toast.makeText(getApplicationContext(), "서버와 연결이 불안정합니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
-                @Override
-                public void onFailure(@EverythingIsNonNull Call<Void> call, @EverythingIsNonNull Throwable t) { //실패 - 메인 스레드에서 처리
-                    //통신 실패(인터넷 끊김, 예외 발생 등 시스템적인 이유)
-                    Log.d(TAG, "image - onFailure: " + t.getMessage());
-                    Toast.makeText(getApplicationContext(), "서버와 연결이 불안정합니다.", Toast.LENGTH_SHORT).show();
-                }
-            });
+                    @Override
+                    public void onFailure(@EverythingIsNonNull Call<Void> call, @EverythingIsNonNull Throwable t) { //실패 - 메인 스레드에서 처리
+                        //통신 실패(인터넷 끊김, 예외 발생 등 시스템적인 이유)
+                        Log.d(TAG, "image - onFailure: " + t.getMessage());
+                        Toast.makeText(getApplicationContext(), "서버와 연결이 불안정합니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }
     }
 
@@ -453,7 +491,7 @@ public class WritingActivity extends AppCompatActivity {
                         Bundle extras = intent.getExtras();
                         Bitmap imageBitmap = (Bitmap) extras.get("data");
                         bitmapimage = imageBitmap;
-                        Log.v(TAG,"image 가져옴");
+                        Log.v(TAG, "image 가져옴");
                         progress.setVisibility(View.VISIBLE);
                         imageThread.start();
                     } catch (Exception e) {
@@ -467,7 +505,7 @@ public class WritingActivity extends AppCompatActivity {
                         Bitmap img = BitmapFactory.decodeStream(in);
                         bitmapimage = img;
                         in.close();
-                        Log.v(TAG,"image 가져옴");
+                        Log.v(TAG, "image 가져옴");
                         progress.setVisibility(View.VISIBLE);
                         imageThread.start();
                     } catch (Exception e) {
@@ -491,7 +529,7 @@ public class WritingActivity extends AppCompatActivity {
     //이미지 크기조정하는 background thread
     public class ImageThread extends Thread {
         public void run() {
-            Log.v(TAG,"ImageThread");
+            Log.v(TAG, "ImageThread");
             try {
                 bitmapimage = getResizedBitmap(bitmapimage, 700);
                 image.post(new Runnable() {
@@ -515,7 +553,7 @@ public class WritingActivity extends AppCompatActivity {
 
     //이미지 크기 조정 함수
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
-        Log.v(TAG,"getResizedBitmap");
+        Log.v(TAG, "getResizedBitmap");
         int width = image.getWidth();
         int height = image.getHeight();
         float bitmapRatio = (float) width / (float) height;

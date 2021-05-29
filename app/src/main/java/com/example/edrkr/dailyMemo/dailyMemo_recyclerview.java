@@ -327,9 +327,9 @@ public class dailyMemo_recyclerview extends LinearLayout {
             m_calendar = nextData;
             Log.v(log, "month : " + (lastData.getMonth() + 1) + "date : " + m_calendar.getDay());
         } else if (type == 0) { //초기화
-            myCalendarData tmp = new myCalendarData(-3);
+            myCalendarData tmp = new myCalendarData(-4);
             lastData = tmp;
-            m_calendar = new myCalendarData(-3);
+            m_calendar = new myCalendarData(-4);
         }
         for (int i = 0; i < 31; i++) {
             MyCalendar calendar = new MyCalendar(m_calendar.getWeekDay(), String.valueOf(m_calendar.getDay()), String.valueOf(m_calendar.getWeekofmonth()), String.valueOf(m_calendar.getMonth()), String.valueOf(m_calendar.getYear()), i);
@@ -381,10 +381,10 @@ public class dailyMemo_recyclerview extends LinearLayout {
             Log.v(log, "year : " + m_calendar.getYear());
         } else if (type == 0) { //초기화
             myCalendarData tmp = new myCalendarData(0);
-            tmp.getNextYear(-2);
+            tmp.getNextYear(-3);
             lastData = tmp;
             m_calendar = new myCalendarData(0);
-            m_calendar.getNextYear(-2);
+            m_calendar.getNextYear(-3);
         }
 
         for (int i = 0; i < 10; i++) {
@@ -439,10 +439,10 @@ public class dailyMemo_recyclerview extends LinearLayout {
             Log.v(log, "month : " + (m_calendar.getMonth() + 1));
         } else if (type == 0) { //초기화
             myCalendarData tmp = new myCalendarData(0);
-            tmp.getNextMonth(-2);
+            tmp.getNextMonth(-3);
             lastData = tmp;
             m_calendar = new myCalendarData(0);
-            m_calendar.getNextMonth(-2);
+            m_calendar.getNextMonth(-3);
         }
 
         for (int i = 0; i < 10; i++) {
