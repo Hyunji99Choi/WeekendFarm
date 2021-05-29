@@ -15,32 +15,50 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="statusBarBackground">@color/colorPrimary</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
     <!-- 모티러링 페이지 밀리터리 날씨별 -->
     <style name="AppTheme.NoActionBar.Material.Clear" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/weather_clear</item>
         <item name="colorPrimaryDark">#5E6717</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="statusBarBackground">@color/colorPrimary</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
     <style name="AppTheme.NoActionBar.Material.Clode" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/weather_clode</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="statusBarBackground">@color/colorPrimary</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
     <style name="AppTheme.NoActionBar.Material.Rain" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/weather_rain</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="statusBarBackground">@color/colorPrimary</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
     <style name="AppTheme.NoActionBar.Material.Mist" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/weather_mist</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="statusBarBackground">@color/colorPrimary</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
     <style name="AppTheme.NoActionBar.Material.Snow" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/weather_snow</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="statusBarBackground">@color/colorPrimary</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
 
