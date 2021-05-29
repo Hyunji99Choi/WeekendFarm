@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="60sp"
+        android:textSize="50sp"
         android:layout_margin="10dp"
         android:gravity="center"
         android:background="@drawable/roundshpe"
@@ -33,7 +33,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="170dp"
                 android:orientation="horizontal"
                 android:background="@drawable/roundshpe"
                 >
@@ -47,7 +47,8 @@
                     <ImageView
                         android:id="@+id/first_image"
                         android:layout_width="160dp"
-                        android:layout_height="200dp" />
+                        android:layout_height="200dp"
+                        android:scaleType="centerInside"/>
 
                 </LinearLayout>
                 <LinearLayout
@@ -70,7 +71,8 @@
                             android:layout_height="80dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="20dp"
-                            android:src="@drawable/first"/>
+                            android:src="@drawable/first"
+                            android:scaleType="centerInside"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -92,7 +94,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="-"
-                            android:textSize="40sp"/>
+                            android:textSize="35sp"/>
 
                     </LinearLayout>
 
@@ -122,6 +124,7 @@
                         android:layout_height="60dp"
                         android:src="@drawable/second"
                         android:layout_marginLeft="20dp"
+                        android:scaleType="centerInside"
                         />
 
                     <TextView
@@ -156,6 +159,7 @@
                         android:layout_height="60dp"
                         android:src="@drawable/third"
                         android:layout_marginLeft="20dp"
+                        android:scaleType="centerInside"
                         />
 
                     <TextView
@@ -239,16 +243,66 @@
 
                     <ImageView
                         android:id="@+id/insImg"
-                        android:layout_width="120dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_gravity="center"/>
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"/>
 
                     <TextView
                         android:id="@+id/insInfo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="해충 내용"
+                        android:layout_margin="20dp"
+                        android:textSize="18sp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/insDamage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="해충 피해 정보"
+                    android:textSize="25sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/insDamageInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="피해 내용"
+                        android:layout_margin="20dp"
+                        android:textSize="18sp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/insPrevent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="해충 방제 방법"
+                    android:textSize="25sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/insPreventInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="방제 내용"
                         android:layout_margin="20dp"
                         android:textSize="18sp"/>
 
@@ -273,10 +327,12 @@
 
                 <ImageView
                     android:id="@+id/insAIMG"
-                    android:layout_width="300dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitCenter"/>
 
             </LinearLayout>
 
@@ -328,13 +384,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20dp">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:orientation="vertical"
+                        android:layout_marginLeft="30dp"
                         android:layout_marginTop="10dp">
 
                         <TextView
@@ -363,18 +420,21 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        android:layout_gravity="bottom"
                         >
 
                         <ImageButton
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:layout_gravity="center_vertical"
                             android:src="@drawable/download"
                             android:background="#eeeee0"
                             android:onClick="downloadClick"
+                            android:scaleType="fitCenter"
                             />
 
                     </LinearLayout>
