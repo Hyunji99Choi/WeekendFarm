@@ -260,7 +260,8 @@ public class MonitoringPage extends AppCompatActivity {
                         break;
 
                     case R.id.setting:
-                        Toast.makeText(MonitoringPage.this,"setting",Toast.LENGTH_SHORT).show();
+                        finish();
+                        Toast.makeText(MonitoringPage.this,"로그아웃 되었습니다.",Toast.LENGTH_SHORT).show();
                         break;
 
                 }

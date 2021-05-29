@@ -197,11 +197,11 @@ public class KeyCreatePage extends AppCompatActivity {
 
         //이메일 물어보기
         final EditText emil = new EditText(this);
-        emil.setHint("emil 주소를 입력해주세요.");
+        emil.setHint("email 주소를 입력해주세요.");
 
         emilCkMessage = new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert);
         emilCkMessage
-                .setMessage("생성된 key 번호를 emil로도 전송하시겠습니까?").setCancelable(false)
+                .setMessage("생성된 key 번호를 email로도 전송하시겠습니까?").setCancelable(false)
                 .setView(emil)
                 .setPositiveButton(Html.fromHtml("<font color='#D81B60'>예</font>"), new DialogInterface.OnClickListener() {
                     @Override
@@ -209,11 +209,11 @@ public class KeyCreatePage extends AppCompatActivity {
                         //확인 버튼
                         Log.w("다일로그","예");
                         if(emil.getText().toString().length() == 0){
-                            Toast.makeText(getApplicationContext(),"emil을 입력해주세요",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"email을 입력해주세요",Toast.LENGTH_SHORT).show();
                             button.revertAnimation();
                             //dialogInterface.dismiss();
                         }else {
-                            Toast.makeText(getApplicationContext(),"입력된 emil에 key번호를 전송합니다.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"입력된 email에 key번호를 전송합니다.",Toast.LENGTH_SHORT).show();
 
                             keyNetwork(emil.getText().toString());
                         }
@@ -225,7 +225,7 @@ public class KeyCreatePage extends AppCompatActivity {
                 //취소 버튼
                 Log.w("다일로그","아니요");
 
-                Toast.makeText(getApplicationContext(),"emil 전송을 하지 않습니다.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"email 전송을 하지 않습니다.",Toast.LENGTH_SHORT).show();
                 keyNetwork("FALSE");
             }
         });

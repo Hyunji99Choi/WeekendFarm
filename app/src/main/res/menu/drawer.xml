@@ -21,8 +21,13 @@
         </menu>
     </item>
 
-    <item android:id="@+id/setting"
-        android:title="설정"
-        android:icon="@android:drawable/ic_menu_help"/>
+    <group
+        android:id="@+id/menu_logout"
+        android:checkableBehavior="single">
+        <item android:id="@+id/setting"
+            android:title="로그아웃"
+            android:icon="@android:drawable/ic_lock_power_off"/>
+    </group>
+
 
 </menu>
