@@ -31,7 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="30dp"
-        android:backgroundTint="@color/black"
         android:clickable="true"
         app:fabCustomSize="65dp"
         app:maxImageSize="46dp"

@@ -174,7 +174,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_marginEnd="24dp"
-            android:backgroundTint="#527CFA"
             app:fabCustomSize="50dp"
             app:layout_constraintBottom_toBottomOf="@+id/textView8"
             app:layout_constraintEnd_toEndOf="parent"

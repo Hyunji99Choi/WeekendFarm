@@ -3,6 +3,7 @@ package com.example.edrkr.managerPage;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -75,6 +76,10 @@ public class show_each_member extends AppCompatActivity {
 
     public void InitializeView() {
         fab = (FloatingActionButton) findViewById(R.id.fab_show_each_member);
+
+        //fab 버튼의 색깔을 toolbar 색과 같도록 만드는 코드 - 작동안함
+        ColorStateList colorStateList = ContextCompat.getColorStateList(this, ControlMonitoring.GetInstance().getToolbarColor());
+        fab.setBackgroundTintList(colorStateList);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

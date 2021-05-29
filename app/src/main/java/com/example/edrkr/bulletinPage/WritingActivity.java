@@ -212,7 +212,7 @@ public class WritingActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("-yyyy-MM-dd-hh-mm-ss");
         Date mDate = new Date(System.currentTimeMillis());
         String getTime = simpleDateFormat.format(mDate);
-        File f = savebitmap(bitmapimage, getTime);
+        File f = savebitmap(bitmapimage,UserIdent.GetInstance().getNkname() + getTime + ".png");
         RequestBody filebody = RequestBody.create(MediaType.parse("image/*"), f);
 //        Log.v(TAG, "filebody 생성");
         MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("image", f.getName(), filebody);
@@ -253,11 +253,12 @@ public class WritingActivity extends AppCompatActivity {
             Log.v(TAG, "savebitmap 생성");
             ContextWrapper cw = new ContextWrapper(getApplicationContext());
             File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-            File file = new File(directory, UserIdent.GetInstance().getNkname() + name + ".png");
+            File file = new File(directory, name);
             Log.v(TAG, "file 생성");
             if (file.exists()) { //기존에 파일이 존재한다면
+                file.delete();
                 Log.v(TAG, "file delete");
-                file = new File(directory, UserIdent.GetInstance().getNkname() + name + ".png");
+                file = new File(directory, name);
             }
             try {
                 Log.v(TAG, "file 생성");
@@ -280,13 +281,21 @@ public class WritingActivity extends AppCompatActivity {
     }
 
     private void patchtoserver(Board b) {
-        String url = "forum/" + pos;
+        String url = "image/" + pos;
         Log.v(TAG, "patchtoserver 진입완료");
         progress.setVisibility(View.VISIBLE);
+        Log.v(TAG, "VISIBLE");
         if (bitmapimage != null) {
-            if (pos != -1 && imgurl != null) {
+            Log.v(TAG, "not null");
+            if (pos != -1) {
                 Log.v(TAG, "이미지 있는 patch");
-                File f = savebitmap(bitmapimage, imgurl);
+                if(imgurl == null){
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("-yyyy-MM-dd-hh-mm-ss");
+                    Date mDate = new Date(System.currentTimeMillis());
+                    String getTime = simpleDateFormat.format(mDate);
+                    imgurl = UserIdent.GetInstance().getNkname() + getTime + ".png";
+                }
+                File f = savebitmap(bitmapimage, "1"+imgurl);
                 RequestBody filebody = RequestBody.create(MediaType.parse("image/*"), f);
                 MultipartBody.Part multipartBody = MultipartBody.Part.createFormData("image", f.getName(), filebody);
 
@@ -319,6 +328,7 @@ public class WritingActivity extends AppCompatActivity {
                 });
             }
         } else {
+            url = "forum/" + pos;
             PatchBoard post = new PatchBoard();
             post.setTitle(b.getTitle());
             post.setContent(b.getBody());
@@ -336,7 +346,7 @@ public class WritingActivity extends AppCompatActivity {
                             finish();
                         } else {
                             //통신이 실패한 경우(응답코드 3xx,4xx 등)
-                            Log.d(TAG, "image - onResponse: 실패");
+                            Log.d(TAG, "image x onResponse: 실패");
                             Toast.makeText(getApplicationContext(), "서버와 연결이 불안정합니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -344,7 +354,7 @@ public class WritingActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@EverythingIsNonNull Call<Void> call, @EverythingIsNonNull Throwable t) { //실패 - 메인 스레드에서 처리
                         //통신 실패(인터넷 끊김, 예외 발생 등 시스템적인 이유)
-                        Log.d(TAG, "image - onFailure: " + t.getMessage());
+                        Log.d(TAG, "image x onFailure: " + t.getMessage());
                         Toast.makeText(getApplicationContext(), "서버와 연결이 불안정합니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
