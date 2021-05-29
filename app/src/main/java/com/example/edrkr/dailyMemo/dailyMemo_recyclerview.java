@@ -244,15 +244,10 @@ public class dailyMemo_recyclerview extends LinearLayout {
         //Log.v(log,"maybeNofitySnapPositionChange");
         View snapView = snapHelper.findSnapView(mLayoutManager);
         int snapPosition = mLayoutManager.getPosition(snapView);
-        ImageView center;
 
         boolean snapPositionChanged = this.snapPosition != snapPosition;
         if (snapPositionChanged) { // 중앙의 포지션이 바뀌었을 경우
             // Log.v(log,"snapPositionChanged");
-            if (this.snapView != null && mode < 4) { //원 지우기
-                center = (ImageView) this.snapView.findViewById(R.id.imageViewCenter);
-                center.setVisibility(INVISIBLE);
-            }
             this.snapPosition = snapPosition;
             this.snapView = snapView;
             MyCalendar calendar = calendarList.get(snapPosition);
@@ -260,8 +255,6 @@ public class dailyMemo_recyclerview extends LinearLayout {
             if (mode < 4) {
                 //중앙의 원 보이도록 함.
                 snapView = snapHelper.findSnapView(mLayoutManager);
-                center = snapView.findViewById(R.id.imageViewCenter);
-                center.setVisibility(VISIBLE);
             }
 
             switch (mode) { //위의 텍스트를 지정해줌, 한줄짜리 textview(지금 날짜는~)
@@ -327,9 +320,9 @@ public class dailyMemo_recyclerview extends LinearLayout {
             m_calendar = nextData;
             Log.v(log, "month : " + (lastData.getMonth() + 1) + "date : " + m_calendar.getDay());
         } else if (type == 0) { //초기화
-            myCalendarData tmp = new myCalendarData(-4);
+            myCalendarData tmp = new myCalendarData(-3);
             lastData = tmp;
-            m_calendar = new myCalendarData(-4);
+            m_calendar = new myCalendarData(-3);
         }
         for (int i = 0; i < 31; i++) {
             MyCalendar calendar = new MyCalendar(m_calendar.getWeekDay(), String.valueOf(m_calendar.getDay()), String.valueOf(m_calendar.getWeekofmonth()), String.valueOf(m_calendar.getMonth()), String.valueOf(m_calendar.getYear()), i);
@@ -381,10 +374,10 @@ public class dailyMemo_recyclerview extends LinearLayout {
             Log.v(log, "year : " + m_calendar.getYear());
         } else if (type == 0) { //초기화
             myCalendarData tmp = new myCalendarData(0);
-            tmp.getNextYear(-3);
+            tmp.getNextYear(-2);
             lastData = tmp;
             m_calendar = new myCalendarData(0);
-            m_calendar.getNextYear(-3);
+            m_calendar.getNextYear(-2);
         }
 
         for (int i = 0; i < 10; i++) {
@@ -439,10 +432,10 @@ public class dailyMemo_recyclerview extends LinearLayout {
             Log.v(log, "month : " + (m_calendar.getMonth() + 1));
         } else if (type == 0) { //초기화
             myCalendarData tmp = new myCalendarData(0);
-            tmp.getNextMonth(-3);
+            tmp.getNextMonth(-2);
             lastData = tmp;
             m_calendar = new myCalendarData(0);
-            m_calendar.getNextMonth(-3);
+            m_calendar.getNextMonth(-2);
         }
 
         for (int i = 0; i < 10; i++) {

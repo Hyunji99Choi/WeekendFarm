@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/imageViewCenter"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/hot_circle"
+        app:layout_constraintBottom_toBottomOf="@+id/holi_recyclerview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/holi_recyclerview" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/holi_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:fadingEdge="vertical"
         android:descendantFocusability="blocksDescendants"
-        android:scrollbars="vertical" />
+        android:fadingEdge="vertical"
+        android:scrollbars="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <TextView
         android:id="@+id/daily_scrolldate"
@@ -22,12 +36,16 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:text="2021.05.06" />
+        android:text="2021.05.06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/holi_recyclerview" />
 
     <View
         android:id="@+id/daily_line"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/gray" />
+        android:background="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
