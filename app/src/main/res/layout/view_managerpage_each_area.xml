@@ -12,20 +12,20 @@
         android:layout_gravity="center"
         android:text="n번 밭"
         android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/shape_member_deleteButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/shape_member_deleteButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/shape_member_deleteButton" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/shape_member_deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="50dp"
         android:text="삭제"
-        android:textSize="25sp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

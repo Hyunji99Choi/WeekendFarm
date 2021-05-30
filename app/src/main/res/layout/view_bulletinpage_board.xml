@@ -77,11 +77,12 @@
                     android:paddingTop="8dp"
                     android:singleLine="true"
                     android:text="TextView"
-                    android:textSize="25dp" />
+                    android:textSize="21dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:gravity="bottom">
 
                     <TextView
@@ -91,15 +92,16 @@
                         android:layout_weight="1"
                         android:paddingLeft="10dp"
                         android:text="닉네임"
-                        android:textSize="13dp" />
+                        android:textSize="11dp" />
 
                     <TextView
                         android:id="@+id/board_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="249dp"
+                        android:layout_height="18dp"
                         android:layout_weight="4"
+                        android:paddingLeft="20dp"
                         android:text="2020-10-03  21:09"
-                        android:textSize="11dp" />
+                        android:textSize="8dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -114,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingTop="18dp"
+                    android:paddingTop="13dp"
                     android:text="3" />
 
                 <TextView
@@ -122,7 +124,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingBottom="15dp"
+                    android:textSize="13sp"
+                    android:paddingBottom="13dp"
                     android:text="댓글" />
             </LinearLayout>
         </LinearLayout>

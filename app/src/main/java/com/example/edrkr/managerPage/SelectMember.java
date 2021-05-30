@@ -217,6 +217,7 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
             case android.R.id.home:
                 Log.v("selectmember","home");
                 Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
+                finish();
                 break;
 
             case R.id.writing_next_button:

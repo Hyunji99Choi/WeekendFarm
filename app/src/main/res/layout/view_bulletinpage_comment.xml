@@ -22,11 +22,11 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_basic_profile"
             app:civ_border_color="@color/black"
-            app:civ_border_width="2dp"
+            app:civ_border_width="0.8dp"
             app:civ_circle_background_color="@color/white" />
 
         <LinearLayout

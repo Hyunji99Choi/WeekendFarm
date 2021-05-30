@@ -8,8 +8,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/Imageview_member_profile"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -28,12 +28,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginStart="270dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="9dp"
         android:text="1234"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/Imageview_member_profile"
-        app:layout_constraintEnd_toStartOf="@+id/Textview_memberName"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/Imageview_member_profile"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/Imageview_member_profile" />
 
     <TextView
@@ -41,20 +42,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="9dp"
         android:text="홍길동"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_memberID"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView_memberID"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView_memberID" />
 
     <View
         android:id="@+id/view3"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="0.7dp"
         android:background="@color/gray"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="10dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
