@@ -26,6 +26,8 @@ public class MyCalendar {
         this.month = getMonthStr(month);
         this.year = year;
         this.pos = i;
+//        Log.v(tag,day+","+date+","+week+","+month+","+year);
+//        Log.v(tag,this.day+","+this.date+","+this.week+","+this.month+","+this.year);
 
     }
     private String getMonthStr(String month){
@@ -33,13 +35,15 @@ public class MyCalendar {
 
         Calendar cal = Calendar.getInstance();
         int monthnum = Integer.parseInt(month);
-        cal.set(Calendar.MONTH,monthnum);
-        imonth = monthnum;
-
-        SimpleDateFormat month_date = new SimpleDateFormat("MMM");
-        String month_name = month_date.format(cal.getTime());
+//        Log.v(tag,"monthnum : "+monthnum);
+        String month_name = (monthnum + 1)+"월";
+//        cal.set(Calendar.MONTH,monthnum);
+//        imonth = monthnum;
+//
+//        SimpleDateFormat month_date = new SimpleDateFormat("MMM");
+//        String month_name = month_date.format(cal.getTime());
+//        Log.v(tag,"month_name : "+month_name);
         return month_name;
-
     }
 
     public int getWeekFirstDay(){
