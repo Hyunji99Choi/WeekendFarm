@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -158,7 +160,7 @@ public class show_each_board extends AppCompatActivity {
                     List<GetComment> comment = datas.getComment(); //댓글 부분
                     if(board != null) { //게시글 부분 가져오는 코드
                         Log.v(TAG,"board가 null");
-                        Board b = new Board(board.get(0).getId(), board.get(0).getName(), board.get(0).getTitle(), board.get(0).getBody(), board.get(0).getCommentNum(), board.get(0).getTime());
+                        b = new Board(board.get(0).getId(), board.get(0).getName(), board.get(0).getTitle(), board.get(0).getBody(), board.get(0).getCommentNum(), board.get(0).getTime());
                         setView(b);
                     }
                     if(comment != null){ //댓글 가져오는 코드
@@ -276,7 +278,7 @@ public class show_each_board extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Log.v(TAG,"삭제");
                 if(num != -1) {
-                    setDelete(myDataset.get(num).getId());
+                    setCommentDelete(myDataset.get(num).getId());
                     Log.v(TAG, myDataset.get(num).getId()+" onDeleteclick 삭제완료");
                     num = -1;
                 }else{
@@ -351,7 +353,7 @@ public class show_each_board extends AppCompatActivity {
         }
     }
 
-    public void setDelete(int pos) {
+    public void setCommentDelete(int pos) {
         RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
         service.deleteComment("forum/com/"+pos+"/").enqueue(new Callback<Void>() {
             @Override
@@ -376,6 +378,31 @@ public class show_each_board extends AppCompatActivity {
         });
     }
 
+    public void setDelete(int pos) {
+        RetrofitService service = retrofitIdent.GetInstance().getRetrofit().create(RetrofitService.class); //레트로핏 인스턴스로 인터페이스 객체 구현
+        service.deleteBoard("forum/" + pos + "/").enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    //통신이 실패한 경우(응답코드 3xx,4xx 등)
+                    Log.d(TAG, "onResponse: 실패");
+                    Toast.makeText(getApplicationContext(), "삭제에 실패했습니다. 잠시후에 시도해주세요", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String content = "";
+                content += "code: " + response.code() + "\n";
+                content += "정상적으로 삭제되었습니다.";
+                finish();
+                Toast.makeText(getApplicationContext(), "삭제되었습니다.", Toast.LENGTH_LONG).show();
+                Log.v(TAG, content);
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.v(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+    }
 
     public void posttoserver(){ //retrofit2를 사용하여 댓글을 서버로 보내는 코드
         Log.v(TAG,"posttoserver 진입완료");
@@ -424,6 +451,13 @@ public class show_each_board extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) { //optionmenu 생성코드
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.comment_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
         switch (item.getItemId()){  //뒤로가기 메뉴 클릭시
             case android.R.id.home:
@@ -431,7 +465,70 @@ public class show_each_board extends AppCompatActivity {
                 Toast.makeText(this,"home onclick",Toast.LENGTH_SHORT).show();
                 finish();
                 break;
+            case R.id.edit_comment:
+                onEdit();
+                break;
+            case R.id.delete_comment:
+                onDeleteClick();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onDeleteClick() {
+        Log.v(TAG, b.getName() + ", " + usernickname);
+        if (b.getName() == null || usernickname == null) {
+            Log.v(TAG, "null 확인");
+            return;
+        }
+        if (b.getName().compareTo(usernickname) == 0) {
+            Log.v(TAG, "onDelete 클릭 pos " + b.getPos());
+            num = b.getPos();
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage("정말 삭제하시겠습니까?");
+            alertDialogBuilder.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.v(TAG, "삭제");
+                    if (num != -1) {
+                        setDelete(b.getPos());
+                        Log.v(TAG, b.getPos() + " onDeleteclick 삭제완료");
+                        num = -1;
+                    } else {
+                        Log.v(TAG, "통신오류");
+                    }
+                }
+            });
+            alertDialogBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Log.v(TAG, "최소");
+                    Toast.makeText(getApplication(), "취소되었습니다.", Toast.LENGTH_LONG).show();
+                }
+            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        } else {
+            Toast.makeText(getApplication(), "삭제할 권한이 없습니다.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void onEdit() {
+        Log.v(TAG, b.getName() + ", " + usernickname);
+        if (b.getName() == null || usernickname == null) {
+            Log.v(TAG, "null 확인");
+            return;
+        }
+        if (b.getName().compareTo(usernickname) == 0) {
+            Log.v(TAG, "onEdit 클릭 pos " + b.getPos());
+            Intent intent = new Intent(this, WritingActivity.class);
+            intent.putExtra("type", 1);
+            intent.putExtra("board", b);
+            intent.putExtra("pos", b.getPos());
+            startActivityForResult(intent, 1); //writing activity에서 값을 다시 받아오기 위해서 사용
+            finish(); //동작안할거 같긴한데 일단 두자
+        } else {
+            Toast.makeText(getApplication(), "수정할 권한이 없습니다.", Toast.LENGTH_LONG).show();
+        }
     }
 }
