@@ -42,4 +42,16 @@
     <!-- 게시판 댓글  -->
     <color name="whiteyellow">#FAF9F4</color>
 
+    <!-- 게시판 수정 삭제 색-->
+    <color name="editColor">#58ACFA</color>
+    <color name="editColor2">#81DAF5</color>
+    <color name="editColor3">#A9D0F5</color>
+
+    <color name="deleteColor">#F78181</color>
+    <color name="deleteColor2">#F6CECE</color>
+    <color name="deleteColor3">#F5BCA9</color>
+
+    <!-- 관리자 추가 - 선택 색깔 -->
+    <color name="chooseColor">#F5F6CE</color>
+
 </resources>
