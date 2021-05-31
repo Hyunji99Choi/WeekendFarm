@@ -24,7 +24,7 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="#d2691e"
+                android:background="@color/editColor"
                 android:gravity="center_vertical|center_horizontal"
                 android:padding="20dp"
                 android:src="@drawable/ic_edit" />
@@ -39,7 +39,7 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:background="#d269"
+                android:background="@color/deleteColor"
                 android:gravity="center_vertical|center_horizontal"
                 android:padding="20dp"
                 android:src="@drawable/ic_delete" />
@@ -89,7 +89,6 @@
                         android:id="@+id/board_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:paddingLeft="10dp"
                         android:text="닉네임"
                         android:textSize="11dp" />
@@ -98,7 +97,6 @@
                         android:id="@+id/board_date"
                         android:layout_width="249dp"
                         android:layout_height="18dp"
-                        android:layout_weight="4"
                         android:paddingLeft="20dp"
                         android:text="2020-10-03  21:09"
                         android:textSize="8dp" />

@@ -33,12 +33,12 @@ public class MyCalendar {
     private String getMonthStr(String month){
 //        Log.v(tag,"getmonthstr");
 
-        Calendar cal = Calendar.getInstance();
+//        Calendar cal = Calendar.getInstance();
         int monthnum = Integer.parseInt(month);
 //        Log.v(tag,"monthnum : "+monthnum);
         String month_name = (monthnum + 1)+"월";
 //        cal.set(Calendar.MONTH,monthnum);
-//        imonth = monthnum;
+        imonth = monthnum;
 //
 //        SimpleDateFormat month_date = new SimpleDateFormat("MMM");
 //        String month_name = month_date.format(cal.getTime());

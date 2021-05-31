@@ -489,12 +489,12 @@ public class dailyMemo_recyclerview extends LinearLayout {
             }else {
                 m_calendar.getFstDayOfMonth(); //캘린더를 1일로 하는 코드
             }
-            Log.v(log, "last month : " + (m_calendar.getMonth() + 1) + "week :" + m_calendar.getWeekofmonth() + "째주");
+//            Log.v(log, "last month : " + (m_calendar.getMonth() + 1) + "week :" + m_calendar.getWeekofmonth() + "째주");
         } else if (type == 2) { //이후 주 호출
             nextData.getNextMonth(1);
             nextData.getFstDayOfMonth(); //캘린더를 1일로 하는 코드
             m_calendar = nextData;
-            Log.v(log, "after month : " + (m_calendar.getMonth() + 1) + "week :" + m_calendar.getWeekofmonth() + "째주");
+//            Log.v(log, "after month : " + (m_calendar.getMonth() + 1) + "week :" + m_calendar.getWeekofmonth() + "째주");
         } else if (type == 0) { //초기화
             m_calendar = new myCalendarData(-14);
             lastData = new myCalendarData(-14);
@@ -519,12 +519,12 @@ public class dailyMemo_recyclerview extends LinearLayout {
                 i++;
             }
         }else if(type == 1){ // 이전달
-            Log.v(log,"weekofmonth : "+lastData.getWeekofmonth()+" month : "+lastData.getMonth());
+//            Log.v(log,"weekofmonth : "+lastData.getWeekofmonth()+" month : "+lastData.getMonth());
 
             while (true) { //같은 달의 주간 추가
                 if(m_calendar.getWeekofmonth() >= lastData.getWeekofmonth() && m_calendar.getMonth() >= lastData.getMonth() && m_calendar.getYear() >= lastData.getYear()){
-                    Log.v(log,"now - weekofmonth : "+m_calendar.getWeekofmonth()+" month : "+ (m_calendar.getMonth()+1));
-                    Log.v(log,"weekofmonth : "+lastData.getWeekofmonth()+" month : "+(lastData.getMonth()+1));
+//                    Log.v(log,"now - weekofmonth : "+m_calendar.getWeekofmonth()+" month : "+ (m_calendar.getMonth()+1));
+//                    Log.v(log,"weekofmonth : "+lastData.getWeekofmonth()+" month : "+(lastData.getMonth()+1));
 //                    if(m_calendar.getWeekofmonth()==lastData.getWeekofmonth() && m_calendar.getMonth() == lastData.getMonth()) {
 //                        month = m_calendar.getMonth();
 //                        weekofmonth = m_calendar.getWeekofmonth(); //주차 저장
@@ -535,7 +535,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
 
                 Log.v(log,calendar.getMonth()+calendar.getDate());
                 calendarList.add(i, calendar);
-                Log.v(log,"next i : "+i);
+//                Log.v(log,"next i : "+i);
 
                 month = m_calendar.getMonth();
                 weekofmonth = m_calendar.getWeekofmonth(); //주차 저장
@@ -546,14 +546,14 @@ public class dailyMemo_recyclerview extends LinearLayout {
         }else{ //초기화
             for(i = 0;i<7;i++){
                 if(month != m_calendar.getMonth()){
-                    Log.v(log,"month != month");
+//                    Log.v(log,"month != month");
                     int count = 0;
                     while (m_calendar.getMonth() != month) { //마지막 주차 찾기
                         m_calendar.getNextWeekDay(-1);
                         count++;
                     }
                     if (m_calendar.getWeekofmonth() != weekofmonth && month == m_calendar.getMonth()) {  //마지막 주차 추가
-                        Log.v(log,"week and month");
+//                        Log.v(log,"week and month");
                         MyCalendar calendar = new MyCalendar(m_calendar.getWeekDay(), String.valueOf(m_calendar.getDay()), String.valueOf(m_calendar.getWeekofmonth()), String.valueOf(m_calendar.getMonth()), String.valueOf(m_calendar.getYear()), i);
 
                         weekofmonth = m_calendar.getWeekofmonth();
@@ -566,13 +566,13 @@ public class dailyMemo_recyclerview extends LinearLayout {
                     }
                     m_calendar.getNextWeekDay(count);
                 }
-                Log.v(log, "m_calendar : "+m_calendar.getWeekofmonth()+" weekofmonth : "+weekofmonth);
+//                Log.v(log, "m_calendar : "+m_calendar.getWeekofmonth()+" weekofmonth : "+weekofmonth);
                 int num = (m_calendar.getWeekofmonth() >= weekofmonth)?(m_calendar.getWeekofmonth()-weekofmonth):m_calendar.getWeekofmonth();
-                Log.v(log,"num : "+num);
+//                Log.v(log,"num : "+num);
                 if(num > 1){
-                    Log.v(log,"1 이상");
+//                    Log.v(log,"1 이상");
                     while(num > 1){
-                        Log.v(log,"weekofmonth : "+m_calendar.getWeekofmonth());
+//                        Log.v(log,"weekofmonth : "+m_calendar.getWeekofmonth());
                         m_calendar.getNextWeekDay(-1);
                         num = (m_calendar.getWeekofmonth() >= weekofmonth)?(m_calendar.getWeekofmonth()-weekofmonth):m_calendar.getWeekofmonth();
                     }
@@ -593,7 +593,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
             count++;
         }
         if (m_calendar.getWeekofmonth() != weekofmonth && weekcount == false) {  //마지막 주차 추가
-            Log.v(log,"add getWeekofmonth : " + m_calendar.getWeekofmonth()+" weekofmonth : "+weekofmonth);
+//            Log.v(log,"add getWeekofmonth : " + m_calendar.getWeekofmonth()+" weekofmonth : "+weekofmonth);
             MyCalendar calendar = new MyCalendar(m_calendar.getWeekDay(), String.valueOf(m_calendar.getDay()), String.valueOf(m_calendar.getWeekofmonth()), String.valueOf(m_calendar.getMonth()), String.valueOf(m_calendar.getYear()), i);
             weekofmonth = m_calendar.getWeekofmonth();
             if (type == 1) {
@@ -607,22 +607,22 @@ public class dailyMemo_recyclerview extends LinearLayout {
             View snapView = snapHelper.findSnapView(mLayoutManager);
             if (snapView != null) {
                 this.snapPosition = mLayoutManager.getPosition(snapView);
-                Log.v(log, "snapposition changed position : " + this.snapPosition);
+//                Log.v(log, "snapposition changed position : " + this.snapPosition);
             }
             m_calendar.getNextWeekDay(count);
             if(weekcount){ //가장 처음 이전 달을 하는 경우
-                Log.v(log, "weekcount");
+//                Log.v(log, "weekcount");
                 m_calendar.getFstDayOfMonth(); //캘린더를 1일로 하는 코드
                 weekcount = false;
             }else {
                 if (lastData.getMonth() == m_calendar.getMonth()) {
-                    Log.v(log, "minus");
+//                    Log.v(log, "minus");
                     m_calendar.getNextMonth(-1);
                 }
                 m_calendar.getFstDayOfMonth(); //캘린더를 1일로 하는 코드
             }
             lastData = m_calendar;
-            Log.v(log, "2save_lastmonth : " + (lastData.getMonth() + 1) + lastData.getWeekofmonth() + "째주");
+//            Log.v(log, "2save_lastmonth : " + (lastData.getMonth() + 1) + lastData.getWeekofmonth() + "째주");
         } else { //이후달, 초기화
             nextData = m_calendar;
         }
@@ -643,7 +643,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
 //                    Log.v(log, "Thread 초세기 : " + (i + 1) + " 초");
                     Thread.sleep(1500);
                 }
-                Log.v(log, "Thread 초세기 완료");
+                Log.v(log, "스크롤 Thread 초세기 완료");
                 requestServer();
             } catch (Exception e) {
                 //e.printStackTrace();
@@ -662,7 +662,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
 
         myCalendarData mydata = new myCalendarData(0);
         mydata.setAll(Integer.parseInt(calendar.getYear()),calendar.getImonth(),Integer.parseInt(calendar.getDate()));
-        Log.v(log,"set 완료");
+//        Log.v(log,"set 완료");
 
         str_month = String.format("%02d", (mydata.getMonth()+1));
 //        Log.v(log,"month : "+str_month);
@@ -672,30 +672,30 @@ public class dailyMemo_recyclerview extends LinearLayout {
             case 0: //일간
                 end = start = calendar.getYear()+"-"+str_month+"-"+str_date;
                 ControlDailyMomo.GetInstance().getTodayDaily(start);
-                Log.v(log, "requestServer 일간");
+//                Log.v(log, "requestServer 일간");
                 break;
             case 1: //년간
                 end = start = calendar.getYear();
                 ControlDailyMomo.GetInstance().getYearDaily(start);
-                Log.v(log, "requestServer 년간");
+//                Log.v(log, "requestServer 년간");
                 break;
             case 2: //월간
                 end = start = calendar.getYear()+"-"+str_month;
                 ControlDailyMomo.GetInstance().getMonthDaily(start);
-                Log.v(log, "requestServer 월간");
+//                Log.v(log, "requestServer 월간");
                 break;
             case 3: //주간
-                Log.v(log, "requestServer 주간");
+//                Log.v(log, "requestServer 주간");
                 myCalendarData tmp = new myCalendarData(0);
                 tmp.setAll(Integer.parseInt(calendar.getYear()),calendar.getImonth(),Integer.parseInt(calendar.getDate()));
-                Log.v(log,"set 완료");
+//                Log.v(log,"set 완료");
                 int num = calendar.getWeekFirstDay();
                 if(num == -1){
                     Log.v(log,"error");
                     break;
                 }
                 tmp.getNextWeekDay(-1*(num));
-                                Log.v(log,"start 완료");
+//                                Log.v(log,"start 완료");
                 str_month = String.format("%02d",(tmp.getMonth()+1));
                 str_date = String.format("%02d",tmp.getDay());
                 start = tmp.getYear()+"-"+str_month+"-"+str_date;
@@ -715,7 +715,7 @@ public class dailyMemo_recyclerview extends LinearLayout {
             try {
                 Thread.sleep(2000);
                 timer = true;
-                Log.v(log, "Timer 초세기 완료 "+ timer);
+                Log.v(log, "통신 시작(타이머 종료) "+ timer);
             } catch (Exception e) {
                 e.printStackTrace();
             }

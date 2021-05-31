@@ -86,7 +86,8 @@ public class SelectMember extends AppCompatActivity { //맴버 선택해서 추�
                 Log.v("SelectMember","게시글 클릭 리스너 눌림 pos : "+pos);
                 if(!myDataset.get(pos).getChecked_()){
                     myDataset.get(pos).setChecked_(true);
-                    v.setBackgroundColor(Color.GREEN);
+                    int color = ContextCompat.getColor(getApplicationContext(), R.color.chooseColor);
+                    v.setBackgroundColor(color);
                 }else{
                     myDataset.get(pos).setChecked_(false);
                     v.setBackgroundColor(Color.WHITE);
