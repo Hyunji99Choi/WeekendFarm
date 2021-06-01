@@ -177,7 +177,7 @@ public class shingshing_info extends YouTubeBaseActivity {
                     return;
                 }
                 //Log.d("싱싱정보통 통신 성공적",response.body().toString());
-                String value=response.body().replace("[\"","\"").replace("\"]","").replace("<br/>","\n\n").replace("\\r\\n","\n\n");
+                String value=response.body().replace("[\"","\"").replace("\"]","").replace("<br/>","\n\n").replace("\\r","\n").replace("\\n","\n");
                 String[] splitvalue=value.split(",\"");
 
 
